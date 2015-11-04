@@ -13,26 +13,28 @@ function testCorrectSignals(nbrOfTests) {
 function testUncorrectSignals(generator, nbrOfTests) {
    var result = false;
    var signals = "";
-   var pool = "[<à$]!?)(\>.:@,-_*+'/&%2345678" + charSet;
+   var pool = "[<à$]!?)(\>.:@,-_*+'/&2345%6789" + charSet;
+   String.prototype.replaceAt = function(index, character) {
+      return this.substr(0, index) + character + this.substr(index + character.length);
+   }
    for (var i = 0; i < nbrOfTests; i++) {
       signals = BooleanSignalGenerator.generateBooleanSignals();
 
-      var nb = generator.integer(1, signals.length);
-      for(var j = 0; j < nb; ++j) {
-         var idx = generator.integer(0, signals.length - 1);
-         signals = signals.replace(signals.charAt(idx), generator.string(1, pool));
+      if (generator.bool()) {
+         signals += generator.string(10, pool);
+      } else {
+         var min = generator.integer(0, signals.length / 2);
+         signals = signals.replace(signals.substring(min, min + 11), generator.string(10, pool));
       }
-      var r = BooleanSignalSyntaxDiagram.isValid(signals);
-      if(r) {
-         console.log(signals);
-      }
-      result = r || result;
+
+      result = BooleanSignalSyntaxDiagram.isValid(signals) || result;
    }
+   String.prototype.replaceAt = null;
    return result;
 }
 
 describe('testing BooleanSignalSyntaxDiagram constructor', function() {
-   
+
    var nbrOfTest = 1000;
    var r = new Random();
 
@@ -49,8 +51,7 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
       result = BooleanSignalSyntaxDiagram.isValid(">=/;") || result;
       result = BooleanSignalSyntaxDiagram.isValid(">=10101/0101;") || result;
 
-      result = testUncorrectSignals(r, nbrOfTest)
-                  || result;
+      result = testUncorrectSignals(r, nbrOfTest) || result;
 
       expect(result).toBe(false);
    });

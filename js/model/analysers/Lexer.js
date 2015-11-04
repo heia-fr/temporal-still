@@ -61,5 +61,8 @@ Lexer.prototype = {
    },
    isClosingBracket: function() {
       return this.currentToken === ")";
+   },
+   isEmptyToken: function() {
+      return this.currentToken === "";
    }
 };

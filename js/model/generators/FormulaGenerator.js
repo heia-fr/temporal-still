@@ -5,7 +5,10 @@ var FormulaGenerator = function() {
 
    function Singleton() {
 
+      var maxNbTerms = 5; 
+      var maxNbFactors = 5;
       var level = 3;
+      
       var generator = new Random();
       var charSet = "abcdefghijklmnopqrstuwxyz"; // 'v' is omitted
       var operator = {
@@ -90,7 +93,7 @@ var FormulaGenerator = function() {
       }
 
       return {
-         generateFormula: function(maxNbTerms, maxNbFactors) {
+         generateFormula: function() {
             return generateFormula(level, maxNbTerms, maxNbFactors);
          }
       };

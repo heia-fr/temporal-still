@@ -1,18 +1,17 @@
-function generateCorrectFormulas(maxNbTerms, maxNbFactors, nbOfFormulas) {
+function generateCorrectFormulas(nbOfFormulas) {
    var formulas = [];
    for (var i = 1; i <= nbOfFormulas; i++) {
-      formulas.push(FormulaGenerator.generateFormula(maxNbTerms, maxNbFactors));
+      formulas.push(FormulaGenerator.generateFormula());
    }
    return formulas;
 }
 
-function testCorrectFormulas(generator, maxNbTerms, maxNbFactors,
-            maxNbFormulas, nbrOfTests) {
+function testCorrectFormulas(generator, maxNbFormulas, nbrOfTests) {
    var result = true;
    var formulas;
    var nbOfFormulas = generator.integer(1, maxNbFormulas);
    for (var i = 0; i < nbrOfTests; i++) {
-      formulas = generateCorrectFormulas(maxNbTerms, maxNbFactors, nbOfFormulas);
+      formulas = generateCorrectFormulas(nbOfFormulas);
       for (formula in formulas) {
          result = TemporalFormulaSyntaxDiagram.isValid(formula) && result;
       }
@@ -20,14 +19,13 @@ function testCorrectFormulas(generator, maxNbTerms, maxNbFactors,
    return result;
 }
 
-function testUncorrectFormulas(generator, maxNbTerms, maxNbFactors,
-            maxNbFormulas, nbrOfTests) {
+function testUncorrectFormulas(generator, maxNbFormulas, nbrOfTests) {
    var result = false;
    var nbOfFormulas = generator.integer(1, maxNbFormulas);
    var formulas;
    var len, fLen;
    for (var i = 0; i < nbrOfTests; i++) {
-      formulas = generateCorrectFormulas(maxNbTerms, maxNbFactors, nbOfFormulas);
+      formulas = generateCorrectFormulas(nbOfFormulas);
 
       for (formula in formulas) {
          fLen = formula.length;
@@ -46,14 +44,11 @@ function testUncorrectFormulas(generator, maxNbTerms, maxNbFactors,
 describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
 
    var maxNbFormulas = 10;
-   var maxNbTerms = 5;
-   var maxNbFactors = 3;
    var nbrOfTests = 10;
    var r = new Random();
 
    it('Correct formulas are expected to be accepted', function() {
-      var result = testCorrectFormulas(r, maxNbTerms, maxNbFactors,
-                  maxNbFormulas, nbrOfTests);
+      var result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests);
       expect(result).toBe(true);
    });
 
@@ -65,9 +60,7 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
       result = TemporalFormulaSyntaxDiagram.isValid("[]r(<>b + <o") || result;
       result = TemporalFormulaSyntaxDiagram.isValid("x=j[e<>t") || result;
 
-      result = testUncorrectFormulas(r, maxNbTerms, maxNbFactors,
-                  maxNbFormulas, nbrOfTests)
-                  || result;
+      result = testUncorrectFormulas(r, maxNbFormulas, nbrOfTests) || result;
 
       expect(result).toBe(false);
    });

@@ -9,36 +9,29 @@ var BooleanSignalSyntaxDiagram = function() {
       var lexer;
 
       function parseSignal() {
-         if (!lexer.isVarName())
-            throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          lexer.goToNextToken();
 
-         if (!lexer.isEqualSign())
-            throw new SyntaxError("Expected equal sign");
+         if (!lexer.isEqualSign()) throw new SyntaxError("Expected equal sign");
          lexer.goToNextToken();
 
-         parseSignalBody();
-      }
-
-      function parseSignalBody() {
          parseDigits();
+
          if (!lexer.isSlash()) throw new SyntaxError("Expected slash sign");
          lexer.goToNextToken();
+
          parseDigits();
 
-         while (lexer.isSemiColon()) {
+         if (lexer.isSemiColon()) {
             lexer.goToNextToken();
-            if (lexer.hasNoMoreChars()) return;
             parseSignal();
          }
 
-         if (!lexer.hasNoMoreChars())
-            throw new SyntaxError("Expected end of signal");
+         if (!lexer.isEmptyToken()) throw new SyntaxError("Expected end of signals");
       }
 
       function parseDigits() {
-         if (!(lexer.isZero() || lexer.isOne()))
-            throw new SyntaxError("Expected 0 or 1");
+         if (!(lexer.isZero() || lexer.isOne())) throw new SyntaxError("Expected 0 or 1");
          lexer.goToNextToken();
 
          while (lexer.isZero() || lexer.isOne()) {
