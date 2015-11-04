@@ -1,0 +1,24 @@
+{
+  "name": "alambic-temporel",
+  "description": "Verification and validation of temporal formulas based on boolean signals",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "latest",
+    "bootstrap-css-only": "latest",
+    "lodash": "latest",
+    "d3": "latest",
+    "random": "latest",
+    "jasmine-core": "latest"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "install" : {
+    "path" : "bower_components/"
+  },
+  "private": true
+}

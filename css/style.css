@@ -1,0 +1,165 @@
+@CHARSET "ISO-8859-1";
+@font-face {
+	font-family: "Latin Modern Math";
+	src: url("fonts/lmroman10-regular.otf") format("opentype");
+}
+
+* {
+	font-family: Latin Modern Math, sans-serif;
+}
+
+body {
+	background: url(../images/blue_bg.gif);
+	margin: 0;
+	text-align: center;
+}
+
+#wrapper {
+	height: 800px;
+	background: url(../images/stripe_bg.gif) repeat-x;
+}
+
+#wrapper .content {
+	display: inline-block;
+	width: 900px; /* 713 */
+	height: 768px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	padding: 20px 10px 15px 17px;
+	position: relative;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 9px 1px rgba(50, 54, 50, 0.75);
+	-moz-box-shadow: 0px 0px 9px 1px rgba(50, 54, 50, 0.75);
+	box-shadow: 0px 0px 9px 1px rgba(50, 54, 50, 0.75);
+	background: #f1f1f1;
+	border: 1px none black;
+	box-sizing: border-box;
+	border-radius: 5px
+}
+
+footer {
+	background: url(../images/footer_bg.png) repeat-x;
+	text-align: center;
+	width: 847px;
+	height: 20px;
+	color: #5f9bb2;
+	font-size: 12px;
+	margin: auto;
+	padding: 0 10px 0 10px;
+	line-height: 20px;
+	position: absolute;
+	bottom: 5px;
+	height: 20px;
+	padding: 0 10px 0 10px;
+}
+
+/* Fixes for placeholder attribute in other browsers */
+#search:-webkit-input-placeholder {
+	color: #9c9c9c;
+	font-style: italic;
+}
+
+#search:-moz-placeholder {
+	color: #9c9c9c;
+	font-style: italic;
+}
+
+#search:-ms-placeholder {
+	color: #9c9c9c;
+	font-style: italic;
+}
+
+/*++++++++++++++++++++++++++++++++++++++++ Flex searchBox ++++++++++++++++++++++++++++++++++++++*/
+/***********************
+ * Essential Structure *
+ ***********************/
+.flexsearch--wrapper {
+	height: auto;
+	width: auto;
+	max-width: 85%;
+	overflow: hidden;
+	background: transparent;
+	margin: auto;
+	position: static;
+}
+
+.flexsearch--form {
+	overflow: hidden;
+	position: relative;
+}
+
+.flexsearch--input-wrapper {
+	padding: 0 66px 0 0; /* Right padding for submit button width */
+	overflow: hidden;
+}
+
+.flexsearch--input {
+	width: 100%;
+}
+
+/***********************
+ * Configurable Styles *
+ ***********************/
+/* .flexsearch { */
+/* 	padding: 0 25px 0 200px; Padding for other horizontal elements */
+/* } */
+.flexsearch--input {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	height: 40px;
+	padding: 0 46px 0 10px;
+	border-color: #5a5d63; /*#888*/
+	border-radius: 35px; /* (height/2) + border-width */
+	border-style: solid;
+	border-width: 5px;
+	margin-top: 15px;
+	color: #333;
+	font-family: 'Segoe UI', sans-serif;
+	font-size: 22px;
+	vertical-align: 5px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.flexsearch--submit {
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: block;
+	width: 50px;
+	height: 50px;
+	padding: 0;
+	border: none;
+	margin-top: 10px; /* margin-top + border-width */
+	margin-right: 3px; /* border-width */
+	background: transparent;
+	color: #5a5d63; /*#888*/
+	font-family: 'Helvetica', sans-serif;
+	font-size: 40px;
+	line-height: 60px;
+	outline: none;
+}
+
+.flexsearch--input:focus {
+	outline: none;
+	border-color: #486ca8; /*#333*/
+}
+
+.flexsearch--submit:focus, .flexsearch--submit:hover, .flexsearch--input:focus.flexsearch--submit
+	{
+	color: #486ca8; /*#333*/
+}
+
+.flexsearch--submit:hover {
+	cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+	color: #888;
+}
+
+input:-moz-placeholder {
+	color: #888
+}
