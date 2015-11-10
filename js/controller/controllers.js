@@ -5,38 +5,40 @@
 
    app.controller('Controller', function($scope) {
 
-      $scope.signalData = [];
+      var colors = ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70",
+               "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#F012BE", "#B10DC9", "#111111",
+               "#AAAAAA", "#3F5D7D", "#279B61", "#008AB8", "#993333", "#CC3333"];
 
-      $scope.n = 10;
+      $scope.signalsData = [];
+      $scope.signals = "";
       $scope.w = 1000;
 
-      $scope.randomize = function() {
-         $scope.signalData = [{
-                  "key": "Signal 1",
-                  "values": []
-         }];
-
-         var x = 0;
-         var nextX = 1;
-         var oldZ = _.random(0, 1);
-         var z;
-
-         $scope.signalData[0].values.push([x, oldZ]);
-         $scope.signalData[0].values.push([nextX, oldZ]);
-
-         _.times($scope.n - 2, function(i) {
-            x = i + 1;
-            nextX = i + 2;
-            z = _.random(0, 1);
-            if (z != oldZ) {
-               $scope.signalData[0].values.push([x, z]);
-            }
-            $scope.signalData[0].values.push([nextX, z]);
-            oldZ = z;
+      $scope.process = function() {
+         $scope.signalsData = [];
+         var signalsArray = $scope.signals.split(";");
+         signalsArray.forEach(function(signal) {
+            var bs = new BooleanSignal(signal);
+            $scope.signalsData.push([{
+                     "key": "Signal " + bs.getId(),
+                     "values": bs.getData(),
+                     color: colors[_.random(0, colors.length - 1)]
+            }]);
          });
-      
-         $scope.w = $scope.n * 100;
       };
    });
 
-}(angular));
+   // Defining a validation directive
+   app.directive('validateSignals', function() {
+      return {
+               require: 'ngModel',
+               link: function(scope, elem, attr, ngModel) {
+                  ngModel.$parsers.unshift(function(value) {
+                     ngModel.$setValidity('validateSignals', BooleanSignalSyntaxDiagram
+                              .isValid(value));
+                     return value;
+                  });
+               }
+      };
+   });
+
+}(angular, _));

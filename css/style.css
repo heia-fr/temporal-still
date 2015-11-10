@@ -1,4 +1,5 @@
 @CHARSET "ISO-8859-1";
+
 @font-face {
 	font-family: "Latin Modern Math";
 	src: url("fonts/lmroman10-regular.otf") format("opentype");
@@ -21,8 +22,8 @@ body {
 
 #wrapper .content {
 	display: inline-block;
-	width: 900px; /* 713 */
-	height: 768px;
+	width: 1000px; /* 713 */
+	min-height: 768px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 10px;
@@ -35,13 +36,18 @@ body {
 	background: #f1f1f1;
 	border: 1px none black;
 	box-sizing: border-box;
-	border-radius: 5px
+	border-radius: 5px;
+	text-align: left;
+}
+
+header {
+	text-align: center;
 }
 
 footer {
 	background: url(../images/footer_bg.png) repeat-x;
 	text-align: center;
-	width: 847px;
+	width: 940px;
 	height: 20px;
 	color: #5f9bb2;
 	font-size: 12px;
@@ -77,10 +83,12 @@ footer {
 .flexsearch--wrapper {
 	height: auto;
 	width: auto;
-	max-width: 85%;
+	max-width: 90%;
 	overflow: hidden;
 	background: transparent;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
 	position: static;
 }
 
@@ -102,13 +110,13 @@ footer {
  * Configurable Styles *
  ***********************/
 /* .flexsearch { */
-/* 	padding: 0 25px 0 200px; Padding for other horizontal elements */
+/* 	padding: 0; Padding for other horizontal elements */
 /* } */
 .flexsearch--input {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	height: 40px;
+	height: 39px;
 	padding: 0 46px 0 10px;
 	border-color: #5a5d63; /*#888*/
 	border-radius: 35px; /* (height/2) + border-width */
@@ -147,6 +155,16 @@ footer {
 	border-color: #486ca8; /*#333*/
 }
 
+input[name='inputSignals'].ng-dirty.ng-invalid {
+   color: #c7254e;
+   border-color: #c7254e;
+}
+
+input[name='inputSignals'].ng-dirty.ng-valid {
+   color: #333;
+   border-color: #5a5d63;
+}
+
 .flexsearch--submit:focus, .flexsearch--submit:hover, .flexsearch--input:focus.flexsearch--submit
 	{
 	color: #486ca8; /*#333*/
@@ -156,10 +174,25 @@ footer {
 	cursor: pointer;
 }
 
+.flexsearch--submit:disabled {
+	color: #c0c0c0;
+}
+
 ::-webkit-input-placeholder {
 	color: #888;
 }
 
 input:-moz-placeholder {
 	color: #888
+}
+
+.flexsearch--input-label {
+	margin-left: 10px;
+}
+
+.chart--wrapper {
+	max-width: 100%;
+	height: 130px;
+	margin-left: auto;
+	margin-right: auto;
 }

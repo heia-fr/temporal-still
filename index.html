@@ -1,34 +1,53 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app='alambic'>
 <head>
-<meta charset="ISO-8859-1">
-<title>Alambic</title>
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<meta charset="UTF-8">
+<title>Alambic II</title>
+<link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
+
 <body>
    <div id="wrapper">
       <section class="content" id="content-center">
          <header>
             <img alt="Alambic II" src="images/logo_blue.png">
          </header>
-         <div class="flexsearch">
+         <div class="flexsearch" ng-controller="Controller">
             <div class="flexsearch--wrapper">
-               <form class="flexsearch--form" action="">
+               <form name="flexForm" role="form" ng-submit="process()" class="flexsearch--form"
+                  novalidate>
                   <div class="flexsearch--input-wrapper">
-                     <input class="flexsearch--input" type="search"
-                        placeholder="Enter your temporal formula" ng-model="formula" />
+                     <input class="flexsearch--input" type="search" name="inputSignals"
+                        placeholder="ex. a = 11001/11;b = 101/1" ng-model="signals" validate-signals required />
                   </div>
-                  <input class="flexsearch--submit" type="submit" value="&#10140;" />
+                  <input class="flexsearch--submit" type="submit" value="&#10140;"
+                     ng-disabled="flexForm.$invalid" />
                </form>
-               <p>
-                  <label for="in">Input: </label>
-                  <span id="in">{{formula}}</span>
-               </p>
+            </div>
+
+            <div class="chart--wrapper" ng-repeat="signalData in signalsData">
+               <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true" tooltips="true"
+                  interactive="false" width="{{w}}" showlegend="true"> </nvd3-line-chart>
             </div>
          </div>
          <footer>&copy;copyright</footer>
       </section>
    </div>
+
+   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+   <script type="text/javascript"
+      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+
+   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/Extend.js"></script>
+   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
+
+   <script type="text/javascript" src="js/controller/controllers.js"></script>
 </body>
 </html>

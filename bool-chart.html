@@ -8,7 +8,7 @@
 
 </head>
 <body ng-app='alambic'>
-   <div class="container" ng-controller="Controller">
+   <div ng-controller="Controller">
       <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true" tooltips="true"
          interactive="false" width="{{w}}"> </nvd3-line-chart>
       <form role="form" ng-submit="randomize()" ng-init="randomize()">
@@ -27,6 +27,7 @@
       src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
    <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
+   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
    <script type="text/javascript" src="js/controller/controllers.js"></script>
 </body>
 </html>
