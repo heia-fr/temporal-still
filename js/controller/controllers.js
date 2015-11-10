@@ -1,34 +1,42 @@
-var app = angular.module("alambic", ['nvd3ChartDirectives']);
+(function(angular) {
+   "use strict";
 
-app.controller('Controller', function($scope) {
+   var app = angular.module("alambic", ['nvd3ChartDirectives']);
 
-   $scope.exampleData = [];
+   app.controller('Controller', function($scope) {
 
-   $scope.n = 10;
+      $scope.signalData = [];
 
-   $scope.randomize = function() {
-      $scope.exampleData = [{
-               "key": "Signal 1",
-               "values": []
-      }];
+      $scope.n = 10;
+      $scope.w = 1000;
 
-      var x = 0;
-      var nextX = 1;
-      var oldZ = _.random(0, 1);
-      var z;
+      $scope.randomize = function() {
+         $scope.signalData = [{
+                  "key": "Signal 1",
+                  "values": []
+         }];
 
-      $scope.exampleData[0].values.push([x, oldZ]);
-      $scope.exampleData[0].values.push([nextX, oldZ]);
+         var x = 0;
+         var nextX = 1;
+         var oldZ = _.random(0, 1);
+         var z;
 
-      _.times($scope.n - 2, function(i) {
-         x = i + 1;
-         nextX = i + 2;
-         z = _.random(0, 1);
-         if (z != oldZ) {
-            $scope.exampleData[0].values.push([x, z]);
-         }
-         $scope.exampleData[0].values.push([nextX, z]);
-         oldZ = z;
-      });
-   };
-});
+         $scope.signalData[0].values.push([x, oldZ]);
+         $scope.signalData[0].values.push([nextX, oldZ]);
+
+         _.times($scope.n - 2, function(i) {
+            x = i + 1;
+            nextX = i + 2;
+            z = _.random(0, 1);
+            if (z != oldZ) {
+               $scope.signalData[0].values.push([x, z]);
+            }
+            $scope.signalData[0].values.push([nextX, z]);
+            oldZ = z;
+         });
+      
+         $scope.w = $scope.n * 100;
+      };
+   });
+
+}(angular));

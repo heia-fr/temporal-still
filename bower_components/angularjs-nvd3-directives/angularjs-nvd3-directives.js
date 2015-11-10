@@ -889,9 +889,9 @@
           scope.$watch( 'data', function ( data ) {
             if ( data ) {
               //if the chart exists on the scope, do not call addGraph again, update data and call the chart.
-              if ( scope.chart ) {
+              /*if ( scope.chart ) {  ********** TODO MODIFIED BY EL MERCHICHI MOUAD **********
                 return scope.d3Call( data, scope.chart );
-              }
+              }*/
               nv.addGraph( {
                 generate: function () {
                   initializeMargin( scope, attrs );
