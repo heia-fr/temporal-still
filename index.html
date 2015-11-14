@@ -19,16 +19,21 @@
                   novalidate>
                   <div class="flexsearch--input-wrapper">
                      <input class="flexsearch--input" type="search" name="inputSignals"
-                        placeholder="ex. a = 11001/11;b = 101/1" ng-model="signals" validate-signals required />
+                        placeholder="ex. a = 11001/11;b = 101/1" ng-model="signals" validate-signals
+                        required />
                   </div>
                   <input class="flexsearch--submit" type="submit" value="&#10140;"
                      ng-disabled="flexForm.$invalid" />
                </form>
             </div>
 
-            <div class="chart--wrapper" ng-repeat="signalData in signalsData">
-               <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true" tooltips="true"
-                  interactive="false" width="{{w}}" showlegend="true"> </nvd3-line-chart>
+            <div class="{{chartWrapperClass}}">
+               <div ng-repeat="signalData in signalsData">
+                  <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true"
+                     tooltips="true" interactive="false" showlegend="true" width="900" height="115"
+                     useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
+                  </nvd3-line-chart>
+               </div>
             </div>
          </div>
          <footer>&copy;copyright</footer>

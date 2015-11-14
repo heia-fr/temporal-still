@@ -31,11 +31,11 @@ TemporalFormulaLexer.prototype.isClosingSquareBracket = function() {
    return this.getCurrentToken() === "]";
 };
 
-TemporalFormulaLexer.prototype.isOpeningLessThanSign = function() {
+TemporalFormulaLexer.prototype.isLessThanSign = function() {
    return this.getCurrentToken() === "<";
 };
 
-TemporalFormulaLexer.prototype.isClosingGreaterThanSign = function() {
+TemporalFormulaLexer.prototype.isGreaterThanSign = function() {
    return this.getCurrentToken() === ">";
 };
 

@@ -1150,8 +1150,18 @@ nv.utils.optionsFunc = function(args) {
               .attr('text-anchor', 'middle')
               .attr('y', xLabelMargin)
               .attr('x', w/2);
+          // ****************** MODIFIED BY MOUAD EL MERCHICHI *****************************
+          var lastIdx;
+          xTicks.attr('transform', function(d,i) { 
+                lastIdx = i;
+                return 'translate(' + -scale(d)/(2*i) + ', 0)';
+          });
+          // ********************************************************************************
           if (showMaxMin) {
           //if (showMaxMin && !isOrdinal) {
+            // ****************** MODIFIED BY MOUAD EL MERCHICHI ****************************
+            lastIdx++;
+            // ******************************************************************************
             var axisMaxMin = wrap.selectAll('g.nv-axisMaxMin')
                            //.data(scale.domain())
                            .data([scale.domain()[0], scale.domain()[scale.domain().length - 1]]);
@@ -1162,9 +1172,12 @@ nv.utils.optionsFunc = function(args) {
                   return 'translate(' + (scale(d) + (isOrdinal ? scale.rangeBand() / 2 : 0)) + ',0)'
                 })
               .select('text')
-                .attr('dy', '.71em')
+                .attr('dy', '.71em') 
                 .attr('y', axis.tickPadding())
-                .attr('transform', function(d,i,j) { return 'rotate(' + rotateLabels + ' 0,0)' })
+                // ****************** MODIFIED BY MOUAD EL MERCHICHI ************************
+                //.attr('transform', function(d,i,j) { return 'rotate(' + rotateLabels + ' 0,0)' })
+                .attr('transform', function(d,i) { return 'translate(' + -scale(d)/(2*lastIdx) + ', 0)'; })
+                // **************************************************************************
                 .style('text-anchor', rotateLabels ? (rotateLabels%360 > 0 ? 'start' : 'end') : 'middle')
                 .text(function(d,i) {
                   var v = fmt(d);
@@ -5532,8 +5545,10 @@ nv.models.lineChart = function() {
       gEnter.append('g').attr('class', 'nv-interactive');
 
       g.select("rect")
-        .attr("width",availableWidth)
+        .attr("width",availableWidth) 
         .attr("height",(availableHeight > 0) ? availableHeight : 0);
+      
+
       //------------------------------------------------------------
       // Legend
 
@@ -5606,7 +5621,8 @@ nv.models.lineChart = function() {
           .tickSize(-availableHeight, 0);
 
         g.select('.nv-x.nv-axis')
-            .attr('transform', 'translate(0,' + y.range()[0] + ')');
+            .attr('transform', 'translate(0,' + y.range()[0] + ')');  
+        
         g.select('.nv-x.nv-axis')
             .transition()
             .call(xAxis);

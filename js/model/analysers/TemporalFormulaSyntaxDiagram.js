@@ -54,9 +54,9 @@ var TemporalFormulaSyntaxDiagram = function() {
             lexer.goToNextToken();
             parseAtom();
 
-         } else if (lexer.isOpeningLessThanSign()) {
+         } else if (lexer.isLessThanSign()) {
             lexer.goToNextToken();
-            if (lexer.isClosingGreaterThanSign())
+            if (lexer.isGreaterThanSign())
                throw new SyntaxError("Expected '>'");
             lexer.goToNextToken();
             parseAtom();
