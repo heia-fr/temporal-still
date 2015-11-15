@@ -19,15 +19,19 @@
       $scope.chartWrapperClass = '';
 
       $scope.process = function() {
+         var universe = new Universe();
          $scope.signalsData = [];
          var signalsArray = $scope.signals.split(";");
-         signalsArray.forEach(function(signal) {
-            var bs = new BooleanSignal(signal);
+         var bs;
+         signalsArray.forEach(function(signalStr) {
+            universe.addSignal(bs = new BooleanSignal(signalStr));
+            bs.calculateChartValues();
             $scope.signalsData.push([{
                      "key": "Signal " + bs.getId(),
-                     "values": bs.getData(),
-                     color: colors[_.random(0, colors.length - 1)]
+                     "values": bs.getChartData(),
+                     "color": colors[_.random(0, colors.length - 1)]
             }]);
+            console.log(bs.getChartData());
          });
          $scope.chartWrapperClass = 'chart--wrapper';
       };

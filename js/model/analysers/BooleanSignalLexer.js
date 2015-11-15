@@ -1,8 +1,8 @@
 /*******************************************************************************
  * Inheriting "Lexer" using Parasitic Combination Inheritance Pattern. Parasitic
  * combination inheritance is considered the most efficient way to implement
- * type-based inheritance since the "Lexer" constructor is being called only
- * one time, avoiding having unnecessary and unused properties on
+ * type-based inheritance since the "Lexer" constructor is being called only one
+ * time, avoiding having unnecessary and unused properties on
  * BooleanSignalLexer.prototype
  ******************************************************************************/
 function BooleanSignalLexer(formula) {
