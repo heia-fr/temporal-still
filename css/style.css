@@ -5,7 +5,7 @@
 /* 	src: url("fonts/lmroman10-regular.otf") format("opentype"); */
 /* } */
 * {
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Helvetica', 'Verdana', sans-serif;
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 
 #wrapper .content {
 	display: inline-block;
-	width: 1000px; /* 713 */
+	width: 1124px; /* 713 */
 	min-height: 768px;
 	margin-left: auto;
 	margin-right: auto;
@@ -46,7 +46,7 @@ header {
 footer {
 	background: url(../images/footer_bg.png) repeat-x;
 	text-align: center;
-	width: 945px;
+	width: 95.8%;
 	height: 20px;
 	color: #5f9bb2;
 	font-size: 12px;
@@ -81,19 +81,31 @@ footer {
  ***********************/
 .flexsearch--wrapper {
 	height: auto;
-	width: auto;
-	max-width: 90%;
 	overflow: hidden;
 	background: transparent;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	position: static;
 }
 
 .flexsearch--form {
 	overflow: hidden;
 	position: relative;
+}
+
+.flex--signal, .flex--formula {
+	position: relative;
+	width: 49%;
+	margin-bottom: 10px;
+}
+
+.flex--signal {
+	float: left;
+	margin-right: 5px;
+}
+
+.flex--formula {
+	right: 0;
+	float: right;
 }
 
 .flexsearch--input-wrapper {
@@ -154,12 +166,12 @@ footer {
 	border-color: #486ca8; /*#333*/
 }
 
-input[name='inputSignals'].ng-dirty.ng-invalid {
+input[name='inputData'].ng-dirty.ng-invalid {
 	color: #c7254e;
 	border-color: #c7254e;
 }
 
-input[name='inputSignals'].ng-dirty.ng-valid {
+input[name='inputData'].ng-dirty.ng-valid {
 	color: #333;
 	border-color: #5a5d63;
 }
@@ -189,14 +201,78 @@ input:-moz-placeholder {
 	margin-left: 10px;
 }
 
-.chart--wrapper {
-	max-width: 95%;
-	min-height: 450px;
-	max-height: 450px;
-	margin-left: 5px;
-	margin-right: 5px;
+/************************************* Listings ****************************************/
+.flex--list {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-left: 2px;
+	padding: 0;
+	width: 99%;
+	height: 140px;
 	overflow: auto;
-	border: 1px solid #666;
+}
+
+.flex--list ul.ul--signals {
+	position: relative;
+	width: 97%;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 24px;
+	color: #555555;
+	list-style-type: none;
+	-webkit-padding-start: 5px !important;
+	-webkit-margin-before: 2px !important;
+	-webkit-margin-after: 1px !important;
+}
+
+.flex--list ul li a {
+	text-decoration: none;
+	color: #333;
+}
+
+.flex--list ul:focus {
+	outline: none;
+}
+
+.flex--list ul li {
+	padding: 7px 0 7px 2px;
+	border-bottom: 1px solid #ccc;
+}
+
+.flex--list ul li:last-child {
+	border-bottom: 0;
+}
+
+.flex--list ul li:hover {
+	background-color: #DFE2DB;
+}
+
+.flex--list ul li a.delete--signal {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background-image: url('../images/delete16.png') !important;
+	margin-right: 2px;
+	margin-top: 2px;
+	float: right;
+	position: relative;
+	right: 0px;
+	float: right;
+}
+
+.flex--list ul li a.delete--signal:hover {
+	background-image: url('../images/delete-blue16.png') !important;
+}
+
+/***************************************************************************************/
+.chart--wrapper {
+	max-width: 99%;
+	min-height: 330px;
+	max-height: 330px;
+	margin-left: 2px;
+	overflow: auto;
+	border: 1px solid #ccc;
 	border-radius: 3px;
-	padding: 8px;
+	padding: 6px;
 }

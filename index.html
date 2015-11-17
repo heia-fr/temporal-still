@@ -11,26 +11,57 @@
    <div id="wrapper">
       <section class="content" id="content-center">
          <header>
-            <img alt="Alambic II" src="images/logo_blue.png">
+            <img alt="Alambic II" src="images/logo_blue.png" width="128" height="128">
          </header>
          <div class="flexsearch" ng-controller="Controller">
             <div class="flexsearch--wrapper">
-               <form name="flexForm" role="form" ng-submit="process()" class="flexsearch--form"
-                  novalidate>
-                  <div class="flexsearch--input-wrapper">
-                     <input class="flexsearch--input" type="search" name="inputSignals"
-                        placeholder="ex. a = 11001/11;b = 101/1" ng-model="signals" validate-signals
-                        required />
-                  </div>
-                  <input class="flexsearch--submit" type="submit" value="&#10140;"
-                     ng-disabled="flexForm.$invalid" />
-               </form>
+               <div class="flex--signal">
+                  <form name="flexSignalsForm" role="form" class="flexsearch--form" novalidate>
+                     <div class="flexsearch--input-wrapper">
+                        <input class="flexsearch--input" type="search"
+                           name="inputData" placeholder="ex. a = 11001/11;b = 101/1"
+                           ng-model="signalsString" validate-signals required />
+                     </div>
+                     <input class="flexsearch--submit" type="submit" value="&#10140;"
+                        ng-disabled="flexSignalsForm.$invalid" ng-click="addSignals()" />
+
+                     <div class="flex--list">
+                        <ul class="ul--signals">
+                           <li ng-repeat="signal in signals.bs.data" id="signal{{signal.id}}">
+                              <a ng-bind-html='signal.content | signalFormatter'></a>
+                              <a class="delete--signal" ng-click="deleteSignal($index)"></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </form>
+               </div>
+
+               <div class="flex--formula">
+                  <form name="flexFormulaForm" role="form" class="flexsearch--form" novalidate>
+                     <div class="flexsearch--input-wrapper">
+                        <input class="flexsearch--input" type="search"
+                           name="inputData" placeholder="ex. f = []a | b" 
+                           ng-model="formulaString" validate-formulas required />
+                     </div>
+                     <input class="flexsearch--submit" type="submit" value="&#10140;"
+                        ng-disabled="flexFormulaForm.$invalid" ng-click="addFormula()" />
+
+                     <div class="flex--list">
+                        <ul class="ul--signals">
+                           <li ng-repeat="formula in signals.tf.data" id="formula{{formula.id}}">
+                              <a ng-bind-html='formula.content | formulaFormatter'></a>
+                              <a class="delete--signal" ng-click="deleteFormula($index)"></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </form>
+               </div>
             </div>
 
-            <div class="{{chartWrapperClass}}">
-               <div ng-repeat="signalData in signalsData">
+            <div class="chart--wrapper">
+               <div ng-repeat="signalData in signals.bs.signalsChartData">
                   <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true"
-                     tooltips="true" interactive="false" showlegend="true" width="900" height="115"
+                     tooltips="true" interactive="false" showlegend="true" width="1050" height="115"
                      useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
                   </nvd3-line-chart>
                </div>
@@ -50,7 +81,9 @@
    <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
    <script type="text/javascript" src="js/model/analysers/Extend.js"></script>
    <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
    <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
    <script type="text/javascript" src="js/model/entities/Universe.js"></script>
    <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
 

@@ -4,6 +4,8 @@ function BooleanSignal(expressionString) {
    this.body = "";
    this.period = "";
    this.periodStartIndex = 0;
+   this.fixedPartNewLength;
+   this.periodicPartNewLength;
    this.values = [];
 
    var parts = expressionString.trim().split("=");
@@ -25,35 +27,47 @@ BooleanSignal.prototype = {
          getPeriodicPartLength: function() {
             return this.period.length;
          },
-         updateFixedPart: function(len) {
+         setFixedPartNewLength: function(len) {
+            this.fixedPartNewLength = len; 
+         },
+         setPeriodicPartNewLength: function(len) {
+            this.periodicPartNewLength = len; 
+         },
+         calculateUpdatedFixedPart: function() {
             var i;
-            for (i = 0; i < len - this.getFixedPartLength(); ++i) {
-               this.body += this.period.charAt(i % this.period.length);
+            var newBody = this.body;
+            for (i = 0; i < this.fixedPartNewLength; ++i) {
+               newBody += this.period.charAt(i % this.period.length);
             }
             this.periodStartIndex = i % this.period.length;
+            return newBody;
          },
-         updatePeriodicPart: function(len) {
+         calculateUpdatedPeriodicPart: function() {
             var i;
             var newPeriod = "";
-            for (i = 0, j = this.periodStartIndex; i < len; ++i, ++j) {
+            for (i = 0, j = this.periodStartIndex; i < this.periodicPartNewLength; ++i, ++j) {
                newPeriod += this.period.charAt(j % this.period.length);
             }
-            this.period = newPeriod;
+            return newPeriod;
          },
          calculateChartValues: function(/* TODO: parameters here */) {
+            
+            var newBody = this.calculateUpdatedFixedPart();
+            var newPeriod = this.calculateUpdatedPeriodicPart();
+            
             var x = 0;
             var nextX = 1;
-            var oldZ = parseInt(this.body.charAt(0));
+            var oldZ = parseInt(newBody.charAt(0));
             var z;
 
             this.values.push([x, oldZ]);
             this.values.push([nextX, oldZ]);
 
             var that = this;
-            _.times(that.body.length - 1, function(i) {
+            _.times(newBody.length - 1, function(i) {
                x = i + 1;
                nextX = i + 2;
-               z = parseInt(that.body.charAt(i + 1));
+               z = parseInt(newBody.charAt(i + 1));
                if (z != oldZ) {
                   that.values.push([x, z]);
                }
@@ -62,10 +76,10 @@ BooleanSignal.prototype = {
             });
 
             // TODO: to be modified
-            _.times(that.period.length, function(i) {
-               x = that.body.length + i;
-               nextX = that.body.length + i + 1;
-               z = parseInt(that.period.charAt(i));
+            _.times(newPeriod.length, function(i) {
+               x = newBody.length + i;
+               nextX = newBody.length + i + 1;
+               z = parseInt(newPeriod.charAt(i));
                if (z != oldZ) {
                   that.values.push([x, z]);
                }

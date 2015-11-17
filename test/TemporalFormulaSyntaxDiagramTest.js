@@ -48,7 +48,10 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
    var r = new Random();
 
    it('Correct formulas are expected to be accepted', function() {
-      var result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests);
+      var result = true;
+      result = TemporalFormulaSyntaxDiagram.isValid("f = []a | b") && result;
+      result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests) && result;
+      
       expect(result).toBe(true);
    });
 
