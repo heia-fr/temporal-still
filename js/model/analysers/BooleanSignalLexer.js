@@ -11,10 +11,6 @@ function BooleanSignalLexer(formula) {
 inheritPrototype(BooleanSignalLexer, Lexer);
 
 // adding specific methods to BooleanSignalLexer prototype
-BooleanSignalLexer.prototype.isEqualSign = function() {
-   return this.getCurrentToken() === "=";
-};
-
 BooleanSignalLexer.prototype.isZero = function() {
    return this.getCurrentToken() === "0";
 };

@@ -248,7 +248,8 @@ input:-moz-placeholder {
 	background-color: #DFE2DB;
 }
 
-.flex--list ul li a.delete--signal {
+.flex--list ul li a.delete--signal, .flex--list ul li a.edit--signal,
+	.flex--list ul li a.cancel--signal {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -262,7 +263,24 @@ input:-moz-placeholder {
 }
 
 .flex--list ul li a.delete--signal:hover {
-	background-image: url('../images/delete-blue16.png') !important;
+	background-image: url('../images/delete-blue.png') !important;
+}
+
+.flex--list ul li a.edit--signal {
+   background-image: url('../images/edit16.png') !important;
+}
+
+.flex--list ul li a.edit--signal:hover {
+   background-image: url('../images/edit-blue16.png') !important;
+}
+
+.flex--list ul li a.cancel--signal {
+   background-image: url('../images/back16.png') !important;
+   
+}
+
+.flex--list ul li a.cancel--signal:hover {
+   background-image: url('../images/back-blue16.png') !important;
 }
 
 /***************************************************************************************/

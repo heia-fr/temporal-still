@@ -1,12 +1,12 @@
 function BooleanSignal(expressionString) {
    if (typeof expressionString != "string") throw new TypeError("Expected 'String' object");
-   this.id = "";
-   this.body = "";
-   this.period = "";
-   this.periodStartIndex = 0;
-   this.fixedPartNewLength;
-   this.periodicPartNewLength;
-   this.values = [];
+   this.id = ""; // the signal's name
+   this.body = ""; // the fixed part of the signal
+   this.period = ""; // the periodic part of the signal
+   this.periodStartIndex = 0; // holds the the start of the periodic part after extending the fixed part
+   this.fixedPartNewLength; // the extended fixed part length
+   this.periodicPartNewLength; // the updated length of the periodic part
+   this.values = []; // holds the data to be displayed (ex. [[0, 1], [1, 1], [1, 0], [2, 0], [3, 0]])
 
    var parts = expressionString.trim().split("=");
    this.id = parts[0].trim();
@@ -68,9 +68,9 @@ BooleanSignal.prototype = {
                x = i + 1;
                nextX = i + 2;
                z = parseInt(newBody.charAt(i + 1));
-               if (z != oldZ) {
+//               if (z != oldZ) {
                   that.values.push([x, z]);
-               }
+//               }
                that.values.push([nextX, z]);
                oldZ = z;
             });
@@ -80,9 +80,9 @@ BooleanSignal.prototype = {
                x = newBody.length + i;
                nextX = newBody.length + i + 1;
                z = parseInt(newPeriod.charAt(i));
-               if (z != oldZ) {
+//               if (z != oldZ) {
                   that.values.push([x, z]);
-               }
+//               }
                that.values.push([nextX, z]);
                oldZ = z;
             });

@@ -55,6 +55,9 @@ Lexer.prototype = {
          isVarName: function() {
             return /[a-z]+/.test(this.currentToken);
          },
+         isEqualSign: function() {
+            return this.getCurrentToken() === "=";
+         },
          isOpeningBracket: function() {
             return this.currentToken === "(";
          },

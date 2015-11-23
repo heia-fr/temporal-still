@@ -39,6 +39,7 @@
 
       $scope.signalsString = "";
       $scope.formulaString = "";
+      $scope.editableSignal = "";
 
       /**
        * ************* Signals management operations ********************
@@ -49,24 +50,53 @@
          signalsArray.forEach(function(signalStr) {
             signals.bs.data.push({
                      id: $scope.signals.bs.data.length + 1,
-                     content: signalStr
+                     content: signalStr,
+                     editorEnabled: false
             });
             universe.addSignal(bs = new BooleanSignal(signalStr));
             bs.calculateChartValues();
             signals.bs.signalsChartData.push([{
+                     "id": $scope.signals.bs.data.length + 1,
                      "key": "Signal " + bs.getId(),
                      "values": bs.getChartData(),
                      "color": signals.colors[_.random(0, signals.colors.length - 1)]
             }]);
          });
+         console.log(universe.getSignals());
          $scope.signalsString = "";
-      }
+      };
+
+      $scope.enableEditor = function(index) {
+         signals.bs.data.forEach(function(d) {
+            d.editorEnabled = false;
+         });
+         signals.bs.data[index].editorEnabled = true;
+         $scope.editableSignal = signals.bs.data[index].content;
+      };
+
+      $scope.disableEditor = function(index) {
+         signals.bs.data[index].editorEnabled = false;
+      };
+
+      $scope.updateSignal = function(index) {
+         if (signals.bs.data[index].content.trim() === $scope.editableSignal.trim()) {
+            $scope.disableEditor(index);
+         }
+
+         var bs;
+         universe.updateSignal(index, bs = new BooleanSignal(signals.bs.data[index].content));
+         bs.calculateChartValues();
+         signals.bs.signalsChartData[index][0].key = "Signal " + bs.getId();
+         signals.bs.signalsChartData[index][0].values = bs.getChartData();
+         $scope.disableEditor(index);
+         console.log(universe.getSignals());
+      };
 
       $scope.deleteSignal = function(index) {
          signals.bs.data.splice(index, 1);
          signals.bs.signalsChartData.splice(index, 1);
          universe.removeSignal(index);
-      }
+      };
 
       /**
        * ******************** Formulas management ************************
@@ -88,7 +118,39 @@
    });
 
    /**
-    * ******************** Defining a validation directives ********************
+    * ******************** Defining custom keypress directives ***************
+    */
+   app.directive('gainFocus', function($timeout, $parse) {
+      return {
+         link: function(scope, element, attrs) {
+            var model = $parse(attrs.gainFocus);
+            scope.$watch(model, function(value) {
+               if (value === true) {
+                  element[0].focus();
+                  scope[model] = false;
+               }
+            });
+         }
+      };
+   });
+
+   app.directive('onEsc', function() {
+      return function(scope, element, attrs) {
+         element.bind("keypress keydown keyup", function(event) {
+            var key = typeof event.which === "undefined" ? event.keyCode : event.which;
+            if (key === 27) { // esc keycode is 27
+               scope.$apply(function() {
+                  scope.$eval(attrs.onEsc);
+               });
+
+               event.preventDefault();
+            }
+         });
+      };
+   });
+
+   /**
+    * ******************** Defining validation directives ********************
     */
    app.directive('validateSignals', function() {
       return {
@@ -108,9 +170,8 @@
                require: 'ngModel',
                link: function(scope, elem, attr, ngModel) {
                   ngModel.$parsers.unshift(function(value) {
-                     // var b = !TemporalFormulaSyntaxDiagram.isValid(value);
-                     // TODO
-                     ngModel.$setValidity('validateFormulas', true);
+                     var b = TemporalFormulaSyntaxDiagram.isValid(value);
+                     ngModel.$setValidity('validateFormulas', b);
                      return value;
                   });
                }
@@ -129,10 +190,10 @@
          if (signal === '') {
             return signal;
          } else {
-            var parts = signal.split("/");
-            console.log(parts[0] + " " + parts[1]);
-            transformedSignal = parts[0] + "<span style='text-decoration: overline;'>" + parts[1]
-                     + "</span>";
+            var parts = signal.split("=");
+            var bodyParts = parts[1].split("/");
+            transformedSignal = parts[0] + " = " + bodyParts[0]
+                     + "<span style='text-decoration: overline;'>" + bodyParts[1] + "</span>";
 
             return $sce.trustAsHtml(transformedSignal);
          }
@@ -171,7 +232,7 @@
                lexer.goToNextToken();
             }
             transformedFormula += " " + lexer.getCurrentToken() + " ";
-            
+
             return $sce.trustAsHtml(transformedFormula);
          }
       }

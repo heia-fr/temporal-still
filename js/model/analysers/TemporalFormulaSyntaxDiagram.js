@@ -7,6 +7,16 @@ var TemporalFormulaSyntaxDiagram = function() {
    function Singleton() {
 
       var lexer;
+      
+      function parseFormulaExpr() {
+         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         lexer.goToNextToken();
+
+         if (!lexer.isEqualSign()) throw new SyntaxError("Expected equal sign");
+         lexer.goToNextToken();
+         
+         parseFormula();
+      }
 
       function parseFormula() {
          parseTerm();
@@ -39,7 +49,7 @@ var TemporalFormulaSyntaxDiagram = function() {
          if (lexer.isOpeningBracket()) {
             lexer.goToNextToken();
             parseFormula();
-            if (lexer.isClosingBracket())
+            if (!lexer.isClosingBracket())
                throw new SyntaxError("Expected ')'");
             lexer.goToNextToken();
 
@@ -49,14 +59,14 @@ var TemporalFormulaSyntaxDiagram = function() {
 
          } else if (lexer.isOpeningSquareBracket()) {
             lexer.goToNextToken();
-            if (lexer.isClosingSquareBracket())
+            if (!lexer.isClosingSquareBracket())
                throw new SyntaxError("Expected ']'");
             lexer.goToNextToken();
             parseAtom();
 
          } else if (lexer.isLessThanSign()) {
             lexer.goToNextToken();
-            if (lexer.isGreaterThanSign())
+            if (!lexer.isGreaterThanSign())
                throw new SyntaxError("Expected '>'");
             lexer.goToNextToken();
             parseAtom();
@@ -67,19 +77,22 @@ var TemporalFormulaSyntaxDiagram = function() {
       }
 
       function parseProp() {
-         if (lexer.isVarName())
+         if (!lexer.isVarName())
             throw new SyntaxError("Expected valid variable name");
          lexer.goToNextToken();
       }
 
       return {
          isValid: function(expression) {
-            if (expression === "") return false;
+            if (expression === "") { 
+               return false;
+            }
             try {
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
-               parseFormula();
+               parseFormulaExpr();
             } catch (ex) {
+               console.log(ex.message + " -> " + expression);
                return false;
             }
             return lexer.hasNoMoreChars();

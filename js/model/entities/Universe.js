@@ -8,7 +8,7 @@ Universe.prototype = {
          getLength: function() {
             return this.length;
          },
-         getSignalsSet: function() {
+         getSignals: function() {
             return this.dataStore;
          },
          addSignal: function(signal) {
@@ -28,8 +28,24 @@ Universe.prototype = {
                s.setPeriodicPartNewLength(that.length[1]);
             });
          },
-         removeSignal: function(index) {
+         updateSignal: function(index, newSignal) {
+            if (!(newSignal instanceof BooleanSignal))
+               throw new TypeError("Expected 'BooleanSignal' object");
 
+            this.dataStore[index] = newSignal;
+            if (newSignal.getFixedPartLength() > this.length[0]) {
+               this.length[0] = newSignal.getFixedPartLength();
+            }
+            this.length[1] = (newSignal.getPeriodicPartLength() * this.length[1])
+                     / this.pgcd(newSignal.getPeriodicPartLength(), this.length[1]);
+
+            var that = this;
+            this.dataStore.forEach(function(s) {
+               s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
+               s.setPeriodicPartNewLength(that.length[1]);
+            });
+         },
+         removeSignal: function(index) {
             var signal = this.dataStore.splice(index, 1);
             this.length = [0, 1];
             var that = this;
@@ -40,7 +56,7 @@ Universe.prototype = {
                that.length[1] = (s.getPeriodicPartLength() * that.length[1])
                         / that.pgcd(s.getPeriodicPartLength(), that.length[1]);
             });
-            
+
             this.dataStore.forEach(function(s) {
                s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                s.setPeriodicPartNewLength(that.length[1]);

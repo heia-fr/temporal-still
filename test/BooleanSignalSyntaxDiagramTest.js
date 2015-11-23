@@ -1,4 +1,4 @@
-var charSet = "abcdefghijklmnopqrstuwxyz"; // 'v' is omitted
+var charSet = "abcdefghijklmnopqrstuvwxyz";
 
 function testCorrectSignals(nbrOfTests) {
    var result = true;

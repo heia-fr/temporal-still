@@ -1078,7 +1078,7 @@ nv.utils.optionsFunc = function(args) {
         axis.ticks(ticks);
       else if (axis.orient() == 'top' || axis.orient() == 'bottom')
         axis.ticks(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
-
+//      console.log(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
 
       //TODO: consider calculating width/height based on whether or not label is added, for reference in charts using this component
 
@@ -1151,9 +1151,10 @@ nv.utils.optionsFunc = function(args) {
               .attr('y', xLabelMargin)
               .attr('x', w/2);
           // ****************** MODIFIED BY MOUAD EL MERCHICHI *****************************
-          var lastIdx;
+          var lastIdx = 0;
           xTicks.attr('transform', function(d,i) { 
                 lastIdx = i;
+                if(i == 0) i = 1;
                 return 'translate(' + -scale(d)/(2*i) + ', 0)';
           });
           // ********************************************************************************

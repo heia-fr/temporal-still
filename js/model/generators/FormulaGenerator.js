@@ -10,7 +10,7 @@ var FormulaGenerator = function() {
       var level = 3;
       
       var generator = new Random();
-      var charSet = "abcdefghijklmnopqrstuwxyz"; // 'v' is omitted
+      var charSet = "abcdefghijklmnopqrstuvwxyz";
       var operator = {
          openingBraket: "(",
          closingBraket: ")",
@@ -23,7 +23,7 @@ var FormulaGenerator = function() {
       };
 
       function generateProp() {
-         var i = generator.integer(0, charSet.length - 1);
+         var i = generator.integer(0, charSet.length - 1); // TODO
          return charSet.charAt(i);
       }
 

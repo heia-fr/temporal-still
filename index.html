@@ -18,18 +18,30 @@
                <div class="flex--signal">
                   <form name="flexSignalsForm" role="form" class="flexsearch--form" novalidate>
                      <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search"
-                           name="inputData" placeholder="ex. a = 11001/11;b = 101/1"
-                           ng-model="signalsString" validate-signals required />
+                        <input class="flexsearch--input" type="search" name="inputData"
+                           placeholder="ex. a = 11001/11;b = 101/1" ng-model="signalsString"
+                           validate-signals required />
                      </div>
                      <input class="flexsearch--submit" type="submit" value="&#10140;"
                         ng-disabled="flexSignalsForm.$invalid" ng-click="addSignals()" />
 
                      <div class="flex--list">
                         <ul class="ul--signals">
-                           <li ng-repeat="signal in signals.bs.data" id="signal{{signal.id}}">
-                              <a ng-bind-html='signal.content | signalFormatter'></a>
-                              <a class="delete--signal" ng-click="deleteSignal($index)"></a>
+                           <li ng-repeat="sig in signals.bs.data track by sig.id"
+                              id="signal{{sig.id}}">
+                              <a ng-hide="sig.editorEnabled"
+                                 ng-bind-html="sig.content | signalFormatter"
+                                 ng-click="enableEditor($index)"></a>
+                              <input type="text" ng-show="sig.editorEnabled"
+                                 ng-model="sig.content" ng-show="sig.editorEnabled"
+                                 on-esc="disableEditor($index)" gain-focus="sig.editorEnabled" />
+
+                              <a class="cancel--signal" ng-show="sig.editorEnabled"
+                                 ng-click="disableEditor($index)"></a>
+                              <a class="edit--signal" ng-show="sig.editorEnabled"
+                                 ng-click="updateSignal($index)"></a>
+                              <a class="delete--signal" ng-hide="sig.editorEnabled"
+                                 ng-click="deleteSignal($index)"></a>
                            </li>
                         </ul>
                      </div>
@@ -39,9 +51,9 @@
                <div class="flex--formula">
                   <form name="flexFormulaForm" role="form" class="flexsearch--form" novalidate>
                      <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search"
-                           name="inputData" placeholder="ex. f = []a | b" 
-                           ng-model="formulaString" validate-formulas required />
+                        <input class="flexsearch--input" type="search" name="inputData"
+                           placeholder="ex. f = []a | b" ng-model="formulaString" validate-formulas
+                           required />
                      </div>
                      <input class="flexsearch--submit" type="submit" value="&#10140;"
                         ng-disabled="flexFormulaForm.$invalid" ng-click="addFormula()" />
@@ -59,9 +71,9 @@
             </div>
 
             <div class="chart--wrapper">
-               <div ng-repeat="signalData in signals.bs.signalsChartData">
+               <div ng-repeat="signalData in signals.bs.signalsChartData track by signalData.id">
                   <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true"
-                     tooltips="true" interactive="false" showlegend="true" width="1050" height="115"
+                     tooltips="false" interactive="true" showlegend="true" width="1050" height="115"
                      useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
                   </nvd3-line-chart>
                </div>
