@@ -11,6 +11,9 @@ Universe.prototype = {
          getSignals: function() {
             return this.dataStore;
          },
+         signalAt: function(index) {
+            return this.dataStore[index];
+         },
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))
                throw new TypeError("Expected 'BooleanSignal' object");

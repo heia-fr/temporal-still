@@ -1,12 +1,15 @@
 function BooleanSignal(expressionString) {
    if (typeof expressionString != "string") throw new TypeError("Expected 'String' object");
    this.id = ""; // the signal's name
+   this.content = expressionString;
+   this.editorEnabled = false;
    this.body = ""; // the fixed part of the signal
    this.period = ""; // the periodic part of the signal
-   this.periodStartIndex = 0; // holds the the start of the periodic part after extending the fixed part
+   this.periodStartIndex = 0; // holds the the start of the periodic part after
+   // extending the fixed part
    this.fixedPartNewLength; // the extended fixed part length
    this.periodicPartNewLength; // the updated length of the periodic part
-   this.values = []; // holds the data to be displayed (ex. [[0, 1], [1, 1], [1, 0], [2, 0], [3, 0]])
+   this.signalChartData;
 
    var parts = expressionString.trim().split("=");
    this.id = parts[0].trim();
@@ -21,6 +24,15 @@ BooleanSignal.prototype = {
          getId: function() {
             return this.id;
          },
+         getContent: function() {
+            return this.content;
+         },
+         isEditorEnabled: function() {
+            return this.editorEnabled;
+         },
+         setEditorEnabled: function(enabled) {
+            this.editorEnabled = enabled;
+         },
          getFixedPartLength: function() {
             return this.body.length;
          },
@@ -28,10 +40,10 @@ BooleanSignal.prototype = {
             return this.period.length;
          },
          setFixedPartNewLength: function(len) {
-            this.fixedPartNewLength = len; 
+            this.fixedPartNewLength = len;
          },
          setPeriodicPartNewLength: function(len) {
-            this.periodicPartNewLength = len; 
+            this.periodicPartNewLength = len;
          },
          calculateUpdatedFixedPart: function() {
             var i;
@@ -51,27 +63,27 @@ BooleanSignal.prototype = {
             return newPeriod;
          },
          calculateChartValues: function(/* TODO: parameters here */) {
-            
+
             var newBody = this.calculateUpdatedFixedPart();
             var newPeriod = this.calculateUpdatedPeriodicPart();
-            
+
+            var values = [];
             var x = 0;
             var nextX = 1;
             var oldZ = parseInt(newBody.charAt(0));
             var z;
 
-            this.values.push([x, oldZ]);
-            this.values.push([nextX, oldZ]);
+            values.push([x, oldZ]);
+            values.push([nextX, oldZ]);
 
-            var that = this;
             _.times(newBody.length - 1, function(i) {
                x = i + 1;
                nextX = i + 2;
                z = parseInt(newBody.charAt(i + 1));
-//               if (z != oldZ) {
-                  that.values.push([x, z]);
-//               }
-               that.values.push([nextX, z]);
+               // if (z != oldZ) {
+               values.push([x, z]);
+               // }
+               values.push([nextX, z]);
                oldZ = z;
             });
 
@@ -80,14 +92,28 @@ BooleanSignal.prototype = {
                x = newBody.length + i;
                nextX = newBody.length + i + 1;
                z = parseInt(newPeriod.charAt(i));
-//               if (z != oldZ) {
-                  that.values.push([x, z]);
-//               }
-               that.values.push([nextX, z]);
+               // if (z != oldZ) {
+               values.push([x, z]);
+               // }
+               values.push([nextX, z]);
                oldZ = z;
             });
+
+            this.signalChartData = [{
+                     "key": "Signal " + this.getId(),
+                     "values": values,
+                     "color": this.colors[_.random(0, this.colors.length - 1)]
+            }];
          },
          getChartData: function() {
-            return this.values;
-         }
+            return this.signalChartData;
+         },
+         colors: ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70",
+                  "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#5B3822", "#F012BE", "#B10DC9",
+                  "#2B0F0E", "#111111", "#AAAAAA", "#3F5D7D", "#927054", "#279B61", "#008AB8",
+                  "#993333", "#CC3333", "#006495", "#004C70", "#0093D1", "#F2635F", "#F4D00C",
+                  "#E0A025", "#462066", "#FFB85F", "#FF7A5A", "#00AAA0", "#5D4C46", "#7B8D8E",
+                  "#632528", "#3F2518", "#333333", "#FFCC00", "#669966", "#993366", "#F14C38",
+                  "#144955", "#6633CC", "#EF34A2", "#FD9308", "#462D44", "#3399FF", "#99D21B",
+                  "#B08749", "#FFA3D6", "#00D9FF", "#000000", "#0000FF", "#FF0000", "#00FF00"]
 };

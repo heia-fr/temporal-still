@@ -267,20 +267,35 @@ input:-moz-placeholder {
 }
 
 .flex--list ul li a.edit--signal {
-   background-image: url('../images/edit16.png') !important;
+	background-image: url('../images/edit16.png') !important;
 }
 
 .flex--list ul li a.edit--signal:hover {
-   background-image: url('../images/edit-blue16.png') !important;
+	background-image: url('../images/edit-blue16.png') !important;
 }
 
 .flex--list ul li a.cancel--signal {
-   background-image: url('../images/back16.png') !important;
-   
+	background-image: url('../images/back16.png') !important;
 }
 
 .flex--list ul li a.cancel--signal:hover {
-   background-image: url('../images/back-blue16.png') !important;
+	background-image: url('../images/back-blue16.png') !important;
+}
+
+.flex--list ul li input.flex--editorField {
+	width: 200px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 0 10px 0 10px;
+	border-color: #5a5d63; /*#888*/
+	border-radius: 35px; /* (height/2) + border-width */
+	border-style: solid;
+	border-width: 2px;
+	color: #333;
+	font-family: 'Helvetica', sans-serif;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
 /***************************************************************************************/

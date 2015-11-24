@@ -13,7 +13,7 @@
          <header>
             <img alt="Alambic II" src="images/logo_blue.png" width="128" height="128">
          </header>
-         <div class="flexsearch" ng-controller="Controller">
+         <div class="flexsearch" ng-app="app">
             <div class="flexsearch--wrapper">
                <div class="flex--signal">
                   <form name="flexSignalsForm" role="form" class="flexsearch--form" novalidate>
@@ -27,14 +27,15 @@
 
                      <div class="flex--list">
                         <ul class="ul--signals">
-                           <li ng-repeat="sig in signals.bs.data track by sig.id"
+                           <li ng-repeat="sig in signals.bs.universe.dataStore track by sig.id"
                               id="signal{{sig.id}}">
                               <a ng-hide="sig.editorEnabled"
                                  ng-bind-html="sig.content | signalFormatter"
                                  ng-click="enableEditor($index)"></a>
-                              <input type="text" ng-show="sig.editorEnabled"
-                                 ng-model="sig.content" ng-show="sig.editorEnabled"
-                                 on-esc="disableEditor($index)" gain-focus="sig.editorEnabled" />
+                              <input type="text" class="flex--editorField"
+                                 ng-show="sig.editorEnabled" ng-model="sig.content"
+                                 ng-show="sig.editorEnabled" on-esc="disableEditor($index)"
+                                 on-enter="updateSignal($index)" gain-focus="sig.editorEnabled" />
 
                               <a class="cancel--signal" ng-show="sig.editorEnabled"
                                  ng-click="disableEditor($index)"></a>
@@ -71,8 +72,8 @@
             </div>
 
             <div class="chart--wrapper">
-               <div ng-repeat="signalData in signals.bs.signalsChartData track by signalData.id">
-                  <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true"
+               <div ng-repeat="signal in signals.bs.universe.dataStore track by signal.id">
+                  <nvd3-line-chart data="signal.signalChartData" showXAxis="true" showYAxis="true"
                      tooltips="false" interactive="true" showlegend="true" width="1050" height="115"
                      useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
                   </nvd3-line-chart>
@@ -99,6 +100,11 @@
    <script type="text/javascript" src="js/model/entities/Universe.js"></script>
    <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
 
-   <script type="text/javascript" src="js/controller/controllers.js"></script>
+   <script type="text/javascript" src="js/app/app.js"></script>
+   <script type="text/javascript" src="js/app/controllers.js"></script>
+   <script type="text/javascript" src="js/app/services/services.js"></script>
+   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
+   <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
+   <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
 </body>
 </html>
