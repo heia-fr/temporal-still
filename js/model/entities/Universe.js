@@ -1,6 +1,17 @@
-function Universe() {
-   this.dataStore = [];
-   this.length = [0, 1];
+function Universe(other) {
+   if (typeof (other) === 'undefined') {
+      this.dataStoreMap = new Map();
+      this.length = [0, 1];
+   } else {
+      if (other.dataStoreMap.__type === 'Map') {
+         this.dataStoreMap = new Map(other.dataStoreMap);
+      } else {
+         this.dataStoreMap = new Map();
+      }
+      this.length = other.length;
+   }
+
+   this.__type = 'Universe';
 }
 
 Universe.prototype = {
@@ -9,16 +20,17 @@ Universe.prototype = {
             return this.length;
          },
          getSignals: function() {
-            return this.dataStore;
+            return this.dataStoreMap.values();
          },
-         signalAt: function(index) {
-            return this.dataStore[index];
+         signalById: function(id) {
+            return this.dataStoreMap.get(id);
          },
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))
                throw new TypeError("Expected 'BooleanSignal' object");
 
-            this.dataStore.push(signal);
+            // Update an element if it already exists in the map
+            this.dataStoreMap.put(signal.getId(), signal);
             if (signal.getFixedPartLength() > this.length[0]) {
                this.length[0] = signal.getFixedPartLength();
             }
@@ -26,16 +38,16 @@ Universe.prototype = {
                      / this.pgcd(signal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
-            this.dataStore.forEach(function(s) {
+            this.dataStoreMap.forEach(function(key, s, i) {
                s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                s.setPeriodicPartNewLength(that.length[1]);
             });
          },
-         updateSignal: function(index, newSignal) {
+         updateSignal: function(id, newSignal) {
             if (!(newSignal instanceof BooleanSignal))
                throw new TypeError("Expected 'BooleanSignal' object");
 
-            this.dataStore[index] = newSignal;
+            this.dataStoreMap.put(id, newSignal);
             if (newSignal.getFixedPartLength() > this.length[0]) {
                this.length[0] = newSignal.getFixedPartLength();
             }
@@ -43,27 +55,29 @@ Universe.prototype = {
                      / this.pgcd(newSignal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
-            this.dataStore.forEach(function(s) {
+            this.dataStoreMap.forEach(function(key, s, i) {
                s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                s.setPeriodicPartNewLength(that.length[1]);
             });
          },
-         removeSignal: function(index) {
-            var signal = this.dataStore.splice(index, 1);
-            this.length = [0, 1];
-            var that = this;
-            this.dataStore.forEach(function(s) {
-               if (s.getFixedPartLength() > that.length[0]) {
-                  that.length[0] = s.getFixedPartLength();
-               }
-               that.length[1] = (s.getPeriodicPartLength() * that.length[1])
-                        / that.pgcd(s.getPeriodicPartLength(), that.length[1]);
-            });
+         removeSignal: function(id) {
+            var removed = this.dataStoreMap.remove(id);
+            if (removed) {
+               this.length = [0, 1];
+               var that = this;
+               this.dataStoreMap.forEach(function(key, s, i) {
+                  if (s.getFixedPartLength() > that.length[0]) {
+                     that.length[0] = s.getFixedPartLength();
+                  }
+                  that.length[1] = (s.getPeriodicPartLength() * that.length[1])
+                           / that.pgcd(s.getPeriodicPartLength(), that.length[1]);
+               });
 
-            this.dataStore.forEach(function(s) {
-               s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
-               s.setPeriodicPartNewLength(that.length[1]);
-            });
+               this.dataStoreMap.forEach(function(key, s, i) {
+                  s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
+                  s.setPeriodicPartNewLength(that.length[1]);
+               });
+            }
          },
          pgcd: function(p, q) {
             var r;

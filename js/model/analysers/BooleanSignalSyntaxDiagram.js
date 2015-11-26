@@ -24,6 +24,7 @@ var BooleanSignalSyntaxDiagram = function() {
 
          if (lexer.isSemiColon()) {
             lexer.goToNextToken();
+            if(lexer.isEmptyToken()) return;
             parseSignal();
          }
 
@@ -41,7 +42,7 @@ var BooleanSignalSyntaxDiagram = function() {
 
       return {
          isValid: function(expression) {
-            if (expression === "") return false;
+            if (expression === "") return true; // permit empty string (that's to be validated in the view)
             try {
                lexer = new BooleanSignalLexer(expression);
                lexer.goToNextToken();

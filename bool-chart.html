@@ -1,95 +1,19 @@
 <!DOCTYPE html>
-<html ng-app='alambic'>
+<html ng-app>
 <head>
 <meta charset="UTF-8">
 <title>Alambic II</title>
-<link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
-   <div id="wrapper">
-      <section class="content" id="content-center">
-         <header>
-            <img alt="Alambic II" src="images/logo_blue.png" width="128" height="128">
-         </header>
-         <div class="flexsearch" ng-controller="Controller">
-            <div class="flexsearch--wrapper">
-               <form name="flexForm" role="form" ng-submit="process()" class="flexsearch--form"
-                  novalidate>
-                  <div class="flex--signal">
-                     <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search" name="inputSignals"
-                           placeholder="ex. a = 11001/11;b = 101/1" ng-model="signals"
-                           validate-signals required />
-                     </div>
-                     <input class="flexsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="flexForm.$invalid" />
 
-                     <div class="flex--list">
-                        <select multiple="multiple" size="5">
-                           <option value="Cheese">Cheese</option>
-                           <option value="Olives">Olives</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                        </select>
-                     </div>
-                  </div>
-                  <div class="flex--formula">
-                     <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search" name="inputFormulas"
-                           placeholder="ex. f = []a | b" ng-model="signals" validate-signals
-                           required />
-                     </div>
-                     <input class="flexsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="flexForm.$invalid" />
 
-                     <div class="flex--list">
-                        <select multiple="multiple" size="5">
-                           <option value="Cheese">Cheese</option>
-                           <option value="Olives">Olives</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                           <option value="Pepperoni">Pepperoni</option>
-                        </select>
-                     </div>
-                  </div>
-
-                  <div style="clear: both;"></div>
-               </form>
-            </div>
-
-            <div class="{{chartWrapperClass}}">
-               <div ng-repeat="signalData in signalsData">
-                  <nvd3-line-chart data="signalData" showXAxis="true" showYAxis="true"
-                     tooltips="true" interactive="false" showlegend="true" width="900" height="115"
-                     useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
-                  </nvd3-line-chart>
-               </div>
-            </div>
-         </div>
-         <footer>&copy;copyright</footer>
-      </section>
-   </div>
 
    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
-   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-   <script type="text/javascript"
-      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
-   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
-
-   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/Extend.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
+   <script type="text/javascript" src="js/model/entities/Map.js"></script>
    <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
+   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
 
-   <script type="text/javascript" src="js/controller/controllers.js"></script>
+   <script type="text/javascript" src="js/app/Junk.js"></script>
 </body>
 </html>

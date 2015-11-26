@@ -1,9 +1,14 @@
 @CHARSET "ISO-8859-1";
 
-/* @font-face { */
-/* 	font-family: "Latin Modern Math"; */
-/* 	src: url("fonts/lmroman10-regular.otf") format("opentype"); */
-/* } */
+@font-face {
+	font-family: "Steinem";
+	src: url("fonts/STEINEM_.eot?") format("eot"),
+		url("fonts/STEINEM_.woff") format("woff"), url("fonts/STEINEM_.ttf")
+		format("truetype"), url("fonts/STEINEM_.svg#Steinem") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
 * {
 	font-family: 'Helvetica', 'Verdana', sans-serif;
 }
@@ -40,7 +45,28 @@ body {
 }
 
 header {
-	text-align: center;
+	position: relative;
+	/* 	text-align: center; */
+}
+
+header img {
+	/* 	margin-left: auto; */
+	/* 	margin-right: auto; */
+	display: block;
+	float: left;
+	margin-left: 10px;
+}
+
+header span {
+	display: block;
+	float: left;
+	line-height: 85px;
+	font-family: 'Steinem';
+	text-decoration: none;
+	color: #486ca8;
+	font-size: 34px;
+	text-decoration: none;
+	color: #486ca8;
 }
 
 footer {
@@ -75,11 +101,11 @@ footer {
 	font-style: italic;
 }
 
-/*++++++++++++++++++++++++++++++++++++++++ Flex searchBox ++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++ alambic searchBox ++++++++++++++++++++++++++++++++++++++*/
 /***********************
  * Essential Structure *
  ***********************/
-.flexsearch--wrapper {
+.alambicsearch--wrapper {
 	height: auto;
 	overflow: hidden;
 	background: transparent;
@@ -87,43 +113,43 @@ footer {
 	position: static;
 }
 
-.flexsearch--form {
+.alambicsearch--form {
 	overflow: hidden;
 	position: relative;
 }
 
-.flex--signal, .flex--formula {
+.alambic--signal, .alambic--formula {
 	position: relative;
 	width: 49%;
 	margin-bottom: 10px;
 }
 
-.flex--signal {
+.alambic--signal {
 	float: left;
 	margin-right: 5px;
 }
 
-.flex--formula {
+.alambic--formula {
 	right: 0;
 	float: right;
 }
 
-.flexsearch--input-wrapper {
+.alambicsearch--input-wrapper {
 	padding: 0 66px 0 0; /* Right padding for submit button width */
 	overflow: hidden;
 }
 
-.flexsearch--input {
+.alambicsearch--input {
 	width: 100%;
 }
 
 /***********************
  * Configurable Styles *
  ***********************/
-/* .flexsearch { */
+/* .alambicsearch { */
 /* 	padding: 0; Padding for other horizontal elements */
 /* } */
-.flexsearch--input {
+.alambicsearch--input {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
@@ -142,12 +168,12 @@ footer {
 	-moz-appearance: none;
 }
 
-.flexsearch--submit {
+.alambicsearch--submit {
 	position: absolute;
 	right: 0;
 	top: 0;
 	display: block;
-	width: 60px; /* 50 */
+	width: 50px; /* 50 */
 	height: 60px;
 	padding: 0;
 	border: none;
@@ -161,7 +187,7 @@ footer {
 	outline: none;
 }
 
-.flexsearch--input:focus {
+.alambicsearch--input:focus {
 	outline: none;
 	border-color: #486ca8; /*#333*/
 }
@@ -176,33 +202,33 @@ input[name='inputData'].ng-dirty.ng-valid {
 	border-color: #5a5d63;
 }
 
-.flexsearch--submit:focus, .flexsearch--submit:hover, .flexsearch--input:focus.flexsearch--submit
-	{
+.alambicsearch--submit:focus, .alambicsearch--submit:hover,
+	.alambicsearch--input:focus.alambicsearch--submit {
 	color: #486ca8; /*#333*/
 }
 
-.flexsearch--submit:hover {
+.alambicsearch--submit:hover {
 	cursor: pointer;
 }
 
-.flexsearch--submit:disabled {
+.alambicsearch--submit:disabled {
 	color: #c0c0c0;
 }
 
 ::-webkit-input-placeholder {
-	color: #888;
+	color: #C8C8C8;
 }
 
 input:-moz-placeholder {
-	color: #888
+	color: #C8C8C8;
 }
 
-.flexsearch--input-label {
+.alambicsearch--input-label {
 	margin-left: 10px;
 }
 
 /************************************* Listings ****************************************/
-.flex--list {
+.alambic--list {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	margin-top: 10px;
@@ -213,7 +239,7 @@ input:-moz-placeholder {
 	overflow: auto;
 }
 
-.flex--list ul.ul--signals {
+.alambic--list ul.ul--signals {
 	position: relative;
 	width: 97%;
 	font-size: 16px;
@@ -226,63 +252,72 @@ input:-moz-placeholder {
 	-webkit-margin-after: 1px !important;
 }
 
-.flex--list ul li a {
+.alambic--list ul li a {
 	text-decoration: none;
 	color: #333;
 }
 
-.flex--list ul:focus {
+.alambic--list ul:focus {
 	outline: none;
 }
 
-.flex--list ul li {
+.alambic--list ul li {
 	padding: 7px 0 7px 2px;
 	border-bottom: 1px solid #ccc;
 }
 
-.flex--list ul li:last-child {
+.alambic--list ul li:last-child {
 	border-bottom: 0;
 }
 
-.flex--list ul li:hover {
+.alambic--list ul li:hover {
 	background-color: #DFE2DB;
 }
 
-.flex--list ul li a.delete--signal, .flex--list ul li a.edit--signal,
-	.flex--list ul li a.cancel--signal {
+.alambic--list ul li a.delete--signal, .alambic--list ul li button.edit--signal,
+	.alambic--list ul li a.cancel--signal {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	background-image: url('../images/delete16.png') !important;
 	margin-right: 2px;
-	margin-top: 2px;
+	margin-top: 4px;
 	float: right;
 	position: relative;
 	right: 0px;
 	float: right;
 }
 
-.flex--list ul li a.delete--signal:hover {
+.alambic--list ul li a.delete--signal:hover {
 	background-image: url('../images/delete-blue.png') !important;
 }
 
-.flex--list ul li a.edit--signal {
+.alambic--list ul li button.edit--signal {
 	background-image: url('../images/edit16.png') !important;
+	background-color: transparent !important;
+	border: none;
+	outline: none;
+	padding: 0 !important;
+	outline-offset: 0;
 }
 
-.flex--list ul li a.edit--signal:hover {
+.alambic--list ul li button.edit--signal:disabled {
+	background-image: url('../images/edit-disabled16.png') !important;
+}
+
+.alambic--list ul li button.edit--signal:hover:enabled {
 	background-image: url('../images/edit-blue16.png') !important;
 }
 
-.flex--list ul li a.cancel--signal {
+.alambic--list ul li a.cancel--signal {
 	background-image: url('../images/back16.png') !important;
 }
 
-.flex--list ul li a.cancel--signal:hover {
+.alambic--list ul li a.cancel--signal:hover {
 	background-image: url('../images/back-blue16.png') !important;
 }
 
-.flex--list ul li input.flex--editorField {
+.alambic--list ul li input.alambic--editorField {
 	width: 200px;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
@@ -294,8 +329,19 @@ input:-moz-placeholder {
 	border-width: 2px;
 	color: #333;
 	font-family: 'Helvetica', sans-serif;
+	outline: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
+}
+
+input[name='inputEditor'].ng-dirty.ng-invalid {
+	color: #c7254e;
+	border-color: #c7254e;
+}
+
+input[name='inputEditor'].ng-dirty.ng-valid {
+	color: #333;
+	border-color: #5a5d63;
 }
 
 /***************************************************************************************/

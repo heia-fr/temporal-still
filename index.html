@@ -3,63 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <title>Alambic II</title>
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-local-storage/angular-local-storage.js"></script>
+<script type="text/javascript" src="bower_components/d3/d3.js"></script>
+<script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+<script type="text/javascript"
+   src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+<script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+
+<script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
+<script type="text/javascript" src="js/model/analysers/Extend.js"></script>
+<script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
+<script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
+<script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
+<script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
+<script type="text/javascript" src="js/model/entities/Map.js"></script>
+<script type="text/javascript" src="js/model/entities/Universe.js"></script>
+<script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
+
+<script type="text/javascript" src="js/app/app.js"></script>
+<script type="text/javascript" src="js/app/controllers.js"></script>
+<script type="text/javascript" src="js/app/services/services.js"></script>
+<script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
+<script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
+<script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
+
+<link rel="shortcut icon" sizes="16x15" href="images/alambicon.ico">
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/menuStyle.css" />
 </head>
 
 <body>
    <div id="wrapper">
       <section class="content" id="content-center">
          <header>
-            <img alt="Alambic II" src="images/logo_blue.png" width="128" height="128">
+            <a href="index.html">
+               <img title="Alambic &agrave; formules temporelles II" alt="Alambic II"
+                  src="images/logo_alamb.png" width="91" height="85" />
+               <span>ALAMBIC &Agrave; FORMULES TEMPORELLES II</span>
+            </a>
+            <ul id="nav">
+               <li class="current">
+                  <a href="#">Home</a>
+               </li>
+               <li>
+                  <a href="#">About</a>
+               </li>
+            </ul>
+            </nav>
          </header>
-         <div class="flexsearch" ng-app="app">
-            <div class="flexsearch--wrapper">
-               <div class="flex--signal">
-                  <form name="flexSignalsForm" role="form" class="flexsearch--form" novalidate>
-                     <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search" name="inputData"
-                           placeholder="ex. a = 11001/11;b = 101/1" ng-model="signalsString"
-                           validate-signals required />
+         <div class="alambicsearch" ng-controller="Controller">
+            <div class="alambicsearch--wrapper">
+               <div class="alambic--signal">
+                  <form name="alambicSignalsForm" role="form" class="alambicsearch--form" novalidate>
+                     <div class="alambicsearch--input-wrapper">
+                        <input class="alambicsearch--input" type="search" name="inputData"
+                           placeholder="e.g. a = 11001/11;b = 101/1" ng-model="signalsString"
+                           validate-signals />
                      </div>
-                     <input class="flexsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="flexSignalsForm.$invalid" ng-click="addSignals()" />
+                     <input class="alambicsearch--submit" type="submit" value="&#10140;"
+                        ng-disabled="alambicSignalsForm.$invalid || !signalsString.length"
+                        ng-click="addSignals()" />
 
-                     <div class="flex--list">
+                     <div class="alambic--list">
                         <ul class="ul--signals">
-                           <li ng-repeat="sig in signals.bs.universe.dataStore track by sig.id"
+                           <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.id"
                               id="signal{{sig.id}}">
                               <a ng-hide="sig.editorEnabled"
                                  ng-bind-html="sig.content | signalFormatter"
-                                 ng-click="enableEditor($index)"></a>
-                              <input type="text" class="flex--editorField"
-                                 ng-show="sig.editorEnabled" ng-model="sig.content"
-                                 ng-show="sig.editorEnabled" on-esc="disableEditor($index)"
-                                 on-enter="updateSignal($index)" gain-focus="sig.editorEnabled" />
+                                 ng-click="enableEditor(sig.id, $event)"></a>
+                              <input type="text" name="inputEditor" class="alambic--editorField"
+                                 ng-show="sig.editorEnabled" ng-model="editableSignal.text"
+                                 on-esc="disableEditor(sig.id)" on-enter="updateSignal(sig.id)"
+                                 gain-focus="sig.editorEnabled" validate-editable-signal />
 
                               <a class="cancel--signal" ng-show="sig.editorEnabled"
-                                 ng-click="disableEditor($index)"></a>
-                              <a class="edit--signal" ng-show="sig.editorEnabled"
-                                 ng-click="updateSignal($index)"></a>
+                                 ng-click="disableEditor(sig.id)"></a>
+                              <button class="edit--signal" ng-disabled="alambicSignalsForm.$invalid"
+                                 ng-show="sig.editorEnabled" ng-click="updateSignal(sig.id)"></button>
                               <a class="delete--signal" ng-hide="sig.editorEnabled"
-                                 ng-click="deleteSignal($index)"></a>
+                                 ng-click="deleteSignal(sig.id)"></a>
                            </li>
                         </ul>
                      </div>
                   </form>
                </div>
 
-               <div class="flex--formula">
-                  <form name="flexFormulaForm" role="form" class="flexsearch--form" novalidate>
-                     <div class="flexsearch--input-wrapper">
-                        <input class="flexsearch--input" type="search" name="inputData"
+               <div class="alambic--formula">
+                  <form name="alambicFormulaForm" role="form" class="alambicsearch--form" novalidate>
+                     <div class="alambicsearch--input-wrapper">
+                        <input class="alambicsearch--input" type="search" name="inputData"
                            placeholder="ex. f = []a | b" ng-model="formulaString" validate-formulas
                            required />
                      </div>
-                     <input class="flexsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="flexFormulaForm.$invalid" ng-click="addFormula()" />
+                     <input class="alambicsearch--submit" type="submit" value="&#10140;"
+                        ng-disabled="alambicFormulaForm.$invalid" ng-click="addFormula()" />
 
-                     <div class="flex--list">
+                     <div class="alambic--list">
                         <ul class="ul--signals">
                            <li ng-repeat="formula in signals.tf.data" id="formula{{formula.id}}">
                               <a ng-bind-html='formula.content | formulaFormatter'></a>
@@ -72,7 +113,7 @@
             </div>
 
             <div class="chart--wrapper">
-               <div ng-repeat="signal in signals.bs.universe.dataStore track by signal.id">
+               <div ng-repeat="signal in signals.bs.universe.getSignals() track by signal.id">
                   <nvd3-line-chart data="signal.signalChartData" showXAxis="true" showYAxis="true"
                      tooltips="false" interactive="true" showlegend="true" width="1050" height="115"
                      useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
@@ -80,31 +121,8 @@
                </div>
             </div>
          </div>
-         <footer>&copy;copyright</footer>
+         <footer>HEIA-FR</footer>
       </section>
    </div>
-
-   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
-   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-   <script type="text/javascript"
-      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
-   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
-
-   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/Extend.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
-   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
-
-   <script type="text/javascript" src="js/app/app.js"></script>
-   <script type="text/javascript" src="js/app/controllers.js"></script>
-   <script type="text/javascript" src="js/app/services/services.js"></script>
-   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
-   <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
-   <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
 </body>
 </html>

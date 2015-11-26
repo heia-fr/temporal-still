@@ -1,22 +1,39 @@
-function BooleanSignal(expressionString) {
-   if (typeof expressionString != "string") throw new TypeError("Expected 'String' object");
-   this.id = ""; // the signal's name
-   this.content = expressionString;
-   this.editorEnabled = false;
-   this.body = ""; // the fixed part of the signal
-   this.period = ""; // the periodic part of the signal
-   this.periodStartIndex = 0; // holds the the start of the periodic part after
-   // extending the fixed part
-   this.fixedPartNewLength; // the extended fixed part length
-   this.periodicPartNewLength; // the updated length of the periodic part
-   this.signalChartData;
+function BooleanSignal(expressionString, other) {
 
-   var parts = expressionString.trim().split("=");
-   this.id = parts[0].trim();
+   if (typeof (other) === 'undefined') {
+      if (typeof expressionString != "string") throw new TypeError("Expected 'String' object");
 
-   var signal = parts[1].split("/");
-   this.body = signal[0].trim();
-   this.period = signal[1].trim();
+      this.id = ""; // the signal's name
+      this.content = expressionString;
+      this.editorEnabled = false;
+      this.body = ""; // the fixed part of the signal
+      this.period = ""; // the periodic part of the signal
+      this.periodStartIndex = 0; // holds the the start of the periodic part
+      // after
+      // extending the fixed part
+      this.fixedPartNewLength; // the extended fixed part length
+      this.periodicPartNewLength; // the updated length of the periodic part
+      this.signalChartData;
+
+      var parts = expressionString.trim().split("=");
+      this.id = parts[0].trim();
+
+      var signal = parts[1].split("/");
+      this.body = signal[0].trim();
+      this.period = signal[1].trim();
+   } else {
+      this.id = other.id;
+      this.content = other.content;
+      this.editorEnabled = other.editorEnabled;
+      this.body = other.body; 
+      this.period = other.period; 
+      this.periodStartIndex = other.periodStartIndex; 
+      this.fixedPartNewLength = other.fixedPartNewLength; 
+      this.periodicPartNewLength = other.periodicPartNewLength; 
+      this.signalChartData = other.signalChartData;
+   }
+   
+   this.__type = 'BooleanSignal';
 }
 
 BooleanSignal.prototype = {
