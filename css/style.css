@@ -20,14 +20,14 @@ body {
 }
 
 #wrapper {
-	height: 800px;
+	height: 830px;
 	background: url(../images/stripe_bg.gif) repeat-x;
 }
 
 #wrapper .content {
 	display: inline-block;
 	width: 1124px; /* 713 */
-	min-height: 768px;
+	min-height: 774px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 10px;
@@ -105,7 +105,7 @@ footer {
 /***********************
  * Essential Structure *
  ***********************/
-.alambicsearch--wrapper {
+.alambic--wrapper {
 	height: auto;
 	overflow: hidden;
 	background: transparent;
@@ -113,7 +113,7 @@ footer {
 	position: static;
 }
 
-.alambicsearch--form {
+.alambic--form {
 	overflow: hidden;
 	position: relative;
 }
@@ -134,29 +134,28 @@ footer {
 	float: right;
 }
 
-.alambicsearch--input-wrapper {
+.alambic--input-wrapper {
 	padding: 0 66px 0 0; /* Right padding for submit button width */
 	overflow: hidden;
 }
 
-.alambicsearch--input {
+.alambic--input {
 	width: 100%;
 }
 
 /***********************
  * Configurable Styles *
  ***********************/
-/* .alambicsearch { */
+/* .alambic--container { */
 /* 	padding: 0; Padding for other horizontal elements */
 /* } */
-.alambicsearch--input {
+.alambic--input {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 	height: 41px; /* 39*/
 	padding: 0 46px 0 10px;
 	border-color: #5a5d63; /*#888*/
-	border-radius: 35px; /* (height/2) + border-width */
 	border-style: solid;
 	border-width: 4px;
 	margin-top: 15px;
@@ -164,21 +163,24 @@ footer {
 	font-family: 'Helvetica', sans-serif;
 	font-size: 22px;
 	vertical-align: 5px;
+	border-radius: 35px; /* (height/2) + border-width */
+	-webkit-border-radius: 35px;
+	-moz-border-radius: 35px;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }
 
-.alambicsearch--submit {
+.alambic--submit {
 	position: absolute;
 	right: 0;
 	top: 0;
 	display: block;
 	width: 50px; /* 50 */
-	height: 60px;
+	height: 50px;
 	padding: 0;
 	border: none;
-	margin-top: 10px; /* margin-top + border-width */
-	margin-right: 3px; /* border-width */
+	margin-top: 8px; /* margin-top + border-width */
+	margin-right: 4px; /* border-width */
 	background: transparent;
 	color: #5a5d63; /*#888*/
 	font-family: 'Helvetica', sans-serif;
@@ -187,7 +189,14 @@ footer {
 	outline: none;
 }
 
-.alambicsearch--input:focus {
+/*css declaration only for Chrome/Safari*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.alambic--submit {
+		margin-top: 10px; /* margin-top + border-width */
+	}
+}
+
+.alambic--input:focus {
 	outline: none;
 	border-color: #486ca8; /*#333*/
 }
@@ -202,16 +211,16 @@ input[name='inputData'].ng-dirty.ng-valid {
 	border-color: #5a5d63;
 }
 
-.alambicsearch--submit:focus, .alambicsearch--submit:hover,
-	.alambicsearch--input:focus.alambicsearch--submit {
+.alambic--submit:focus, .alambic--submit:hover,
+	.alambic--input:focus.alambic--submit {
 	color: #486ca8; /*#333*/
 }
 
-.alambicsearch--submit:hover {
+.alambic--submit:hover {
 	cursor: pointer;
 }
 
-.alambicsearch--submit:disabled {
+.alambic--submit:disabled {
 	color: #c0c0c0;
 }
 
@@ -223,7 +232,7 @@ input:-moz-placeholder {
 	color: #C8C8C8;
 }
 
-.alambicsearch--input-label {
+.alambic--input-label {
 	margin-left: 10px;
 }
 
@@ -237,6 +246,7 @@ input:-moz-placeholder {
 	width: 99%;
 	height: 140px;
 	overflow: auto;
+	-moz-padding-start: 5px !important;
 }
 
 .alambic--list ul.ul--signals {
@@ -250,6 +260,10 @@ input:-moz-placeholder {
 	-webkit-padding-start: 5px !important;
 	-webkit-margin-before: 2px !important;
 	-webkit-margin-after: 1px !important;
+	-moz-padding-start: 5px !important;
+	-moz-margin-before: 2px !important;
+	-moz-margin-after: 1px !important;
+	font-size: 16px;
 }
 
 .alambic--list ul li a {
@@ -262,7 +276,7 @@ input:-moz-placeholder {
 }
 
 .alambic--list ul li {
-	padding: 7px 0 7px 2px;
+	padding: 7px 0 7px 3px;
 	border-bottom: 1px solid #ccc;
 }
 
@@ -345,7 +359,7 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 }
 
 /***************************************************************************************/
-.chart--wrapper {
+.chart--wrapper, .about--content {
 	max-width: 99%;
 	min-height: 330px;
 	max-height: 330px;
@@ -354,4 +368,16 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	padding: 6px;
+}
+
+.about--wrapper h1 {
+	margin-bottom: 10px;
+	margin-top: 5px;
+	margin-left: 3px;
+}
+
+.about--content {
+	min-height: 518px;
+	max-height: 518px;
+	margin-top: 0;
 }

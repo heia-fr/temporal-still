@@ -31,13 +31,16 @@ Map.prototype = {
                this.keys.push(key);
             }
             this.data[key] = value;
+            return this;
          },
          remove: function(key) {
             var i = this.keys.indexOf(key);
             if (i != -1) {
                this.keys.splice(i, 1);
                delete this.data[key];
+               return true;
             }
+            return false;
          },
          entries: function() {
             var len = this.keys.length;
@@ -76,6 +79,7 @@ Map.prototype = {
                var k = this.keys[i];
                func(k, this.data[k], i);
             }
+            return this;
          },
          equals: function(other) {
             if (!other) return false;

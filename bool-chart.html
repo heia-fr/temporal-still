@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html ng-app>
-<head>
-<meta charset="UTF-8">
-<title>Alambic II</title>
-</head>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<title>AngularJS Routing</title>
+<script>
+   document.write('<base href="' + document.location + '" />');
+</script>
 
+<script type="text/javascript"
+   src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript"
+   src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8//angular-route.min.js"></script>
+
+<script type="text/javascript" src="main.js"></script>
+</head>
 <body>
 
-
-
-   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-   <script type="text/javascript" src="js/model/entities/Map.js"></script>
-   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
-   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
-
-   <script type="text/javascript" src="js/app/Junk.js"></script>
+   <div ng-app="mainApp">
+      <ng-view></ng-view>
+   </div>
 </body>
 </html>

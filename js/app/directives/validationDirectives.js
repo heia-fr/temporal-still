@@ -36,11 +36,8 @@
                                        if (b) {
                                           var i = value.indexOf("=");
                                           var sId = value.substring(0, i).trim();
-                                          var c = (typeof signalsService.bs.universe
-                                                   .signalById(sId) === 'undefined')
-                                                   || (sId === scope.editableSignal.id);
 
-                                          b = b && c;
+                                          b = b && (sId === scope.editableSignal.id);
                                        }
                                        ngModel.$setValidity('validateEditableSignal', b);
                                        return value;

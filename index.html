@@ -4,29 +4,14 @@
 <meta charset="UTF-8">
 <title>Alambic II</title>
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-<script type="text/javascript" src="bower_components/angular-local-storage/angular-local-storage.js"></script>
+<script type="text/javascript"
+   src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="bower_components/d3/d3.js"></script>
 <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
 <script type="text/javascript"
    src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
 <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
-
-<script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
-<script type="text/javascript" src="js/model/analysers/Extend.js"></script>
-<script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
-<script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
-<script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
-<script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-<script type="text/javascript" src="js/model/entities/Map.js"></script>
-<script type="text/javascript" src="js/model/entities/Universe.js"></script>
-<script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
-
-<script type="text/javascript" src="js/app/app.js"></script>
-<script type="text/javascript" src="js/app/controllers.js"></script>
-<script type="text/javascript" src="js/app/services/services.js"></script>
-<script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
-<script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
-<script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
 
 <link rel="shortcut icon" sizes="16x15" href="images/alambicon.ico">
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
@@ -43,86 +28,30 @@
                   src="images/logo_alamb.png" width="91" height="85" />
                <span>ALAMBIC &Agrave; FORMULES TEMPORELLES II</span>
             </a>
-            <ul id="nav">
-               <li class="current">
-                  <a href="#">Home</a>
-               </li>
-               <li>
-                  <a href="#">About</a>
-               </li>
-            </ul>
-            </nav>
          </header>
-         <div class="alambicsearch" ng-controller="Controller">
-            <div class="alambicsearch--wrapper">
-               <div class="alambic--signal">
-                  <form name="alambicSignalsForm" role="form" class="alambicsearch--form" novalidate>
-                     <div class="alambicsearch--input-wrapper">
-                        <input class="alambicsearch--input" type="search" name="inputData"
-                           placeholder="e.g. a = 11001/11;b = 101/1" ng-model="signalsString"
-                           validate-signals />
-                     </div>
-                     <input class="alambicsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="alambicSignalsForm.$invalid || !signalsString.length"
-                        ng-click="addSignals()" />
 
-                     <div class="alambic--list">
-                        <ul class="ul--signals">
-                           <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.id"
-                              id="signal{{sig.id}}">
-                              <a ng-hide="sig.editorEnabled"
-                                 ng-bind-html="sig.content | signalFormatter"
-                                 ng-click="enableEditor(sig.id, $event)"></a>
-                              <input type="text" name="inputEditor" class="alambic--editorField"
-                                 ng-show="sig.editorEnabled" ng-model="editableSignal.text"
-                                 on-esc="disableEditor(sig.id)" on-enter="updateSignal(sig.id)"
-                                 gain-focus="sig.editorEnabled" validate-editable-signal />
+         <ng-view></ng-view>
 
-                              <a class="cancel--signal" ng-show="sig.editorEnabled"
-                                 ng-click="disableEditor(sig.id)"></a>
-                              <button class="edit--signal" ng-disabled="alambicSignalsForm.$invalid"
-                                 ng-show="sig.editorEnabled" ng-click="updateSignal(sig.id)"></button>
-                              <a class="delete--signal" ng-hide="sig.editorEnabled"
-                                 ng-click="deleteSignal(sig.id)"></a>
-                           </li>
-                        </ul>
-                     </div>
-                  </form>
-               </div>
-
-               <div class="alambic--formula">
-                  <form name="alambicFormulaForm" role="form" class="alambicsearch--form" novalidate>
-                     <div class="alambicsearch--input-wrapper">
-                        <input class="alambicsearch--input" type="search" name="inputData"
-                           placeholder="ex. f = []a | b" ng-model="formulaString" validate-formulas
-                           required />
-                     </div>
-                     <input class="alambicsearch--submit" type="submit" value="&#10140;"
-                        ng-disabled="alambicFormulaForm.$invalid" ng-click="addFormula()" />
-
-                     <div class="alambic--list">
-                        <ul class="ul--signals">
-                           <li ng-repeat="formula in signals.tf.data" id="formula{{formula.id}}">
-                              <a ng-bind-html='formula.content | formulaFormatter'></a>
-                              <a class="delete--signal" ng-click="deleteFormula($index)"></a>
-                           </li>
-                        </ul>
-                     </div>
-                  </form>
-               </div>
-            </div>
-
-            <div class="chart--wrapper">
-               <div ng-repeat="signal in signals.bs.universe.getSignals() track by signal.id">
-                  <nvd3-line-chart data="signal.signalChartData" showXAxis="true" showYAxis="true"
-                     tooltips="false" interactive="true" showlegend="true" width="1050" height="115"
-                     useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
-                  </nvd3-line-chart>
-               </div>
-            </div>
-         </div>
          <footer>HEIA-FR</footer>
       </section>
    </div>
+
+   <script type="text/javascript" src="js/app/app.js"></script>
+   <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
+   <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
+   <script type="text/javascript" src="js/app/services/services.js"></script>
+   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
+   <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
+   <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
+
+   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/Extend.js"></script>
+   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
+   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/model/entities/Map.js"></script>
+   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
+   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
 </body>
 </html>

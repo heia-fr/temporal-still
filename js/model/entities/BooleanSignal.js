@@ -116,6 +116,8 @@ BooleanSignal.prototype = {
                oldZ = z;
             });
 
+            console.log(values);
+            
             this.signalChartData = [{
                      "key": "Signal " + this.getId(),
                      "values": values,

@@ -7,7 +7,7 @@
 
    var app = angular.module('alambic.controllers');
 
-   app.controller('Controller', [
+   app.controller('MainController', [
             '$scope',
             '$window',
             'localStorageService',
@@ -15,9 +15,6 @@
             function($scope, $window, localStorageService, signals) {
 
                $scope.$window = $window;
-
-               // $scope.signals = {};
-               // $scope.signals.bs = {};
 
                var universeAsJson = localStorageService.get('universe');
                var universeFromJson;
@@ -39,6 +36,12 @@
                   localStorageService.set('universe', angular.toJson($scope.signals.bs.universe));
                }
 
+               $scope.updateCharts = function() {
+                  $scope.signals.bs.universe.getSignals().forEach(function(s) {
+                     s.calculateChartValues();
+                  });
+               };
+
                /**
                 * ************* Signals management operations *************
                 */
@@ -53,7 +56,7 @@
                   var s = $scope.signals.bs.universe.signalById(id);
                   s.setEditorEnabled(true);
                   $scope.editableSignal.text = s.getContent();
-                  $scope.editableSignal.id = s.getId();
+                  $scope.editableSignal.id = id;
                   event.stopPropagation();
                };
 
@@ -65,8 +68,7 @@
                };
 
                // hook a event handle to the window object so when the user
-               // clicks
-               // outside the update text field, it will be hidden
+               // clicks outside the update text field, it will be hidden
                $scope.$window.onclick = function(event) {
                   var editor = event.target;
                   if (!editor || editor.classList.contains("alambic--editorField")) return;
@@ -85,11 +87,10 @@
                   if (signalsArray[signalsArray.length - 1] === "") {
                      signalsArray.splice(signalsArray.length - 1, 1);
                   }
-                  var bs;
                   signalsArray.forEach(function(signalStr) {
-                     $scope.signals.bs.universe.addSignal(bs = new BooleanSignal(signalStr));
-                     bs.calculateChartValues();
+                     $scope.signals.bs.universe.addSignal(new BooleanSignal(signalStr));
                   });
+                  $scope.updateCharts();
                   $scope.saveState();
                   $scope.signalsString = "";
                };
@@ -101,22 +102,21 @@
                      return;
                   }
 
-                  var bs;
-                  $scope.signals.bs.universe.updateSignal(id, bs = new BooleanSignal(
+                  $scope.signals.bs.universe.updateSignal(id, new BooleanSignal(
                            $scope.editableSignal.text.trim()));
-                  bs.calculateChartValues();
+                  $scope.updateCharts();
                   $scope.saveState();
                   $scope.disableEditor(id);
                };
 
                $scope.deleteSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
+                  $scope.updateCharts();
                   $scope.saveState();
                };
 
                /**
-                * ******************** Formulas management
-                * ************************
+                * ******************** Formulas management ********************
                 */
                $scope.addFormula = function() {
                   // TODO
