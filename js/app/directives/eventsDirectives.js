@@ -9,8 +9,10 @@
             var model = $parse(attrs.gainFocus);
             scope.$watch(model, function(value) {
                if (value === true) {
-                  element[0].focus();
-                  scope[model] = false;
+                  $timeout(function() {
+                     element[0].focus();
+                     scope[model] = false;
+                  });
                }
             });
          }

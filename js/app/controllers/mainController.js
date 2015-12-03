@@ -4,7 +4,6 @@
    /**
     * ****************** Defining the main controller *********************
     */
-
    var app = angular.module('alambic.controllers');
 
    app.controller('MainController', [
@@ -28,6 +27,7 @@
                } else {
                   universeFromJson = new Universe();
                }
+
                signals.bs.universe = universeFromJson;
 
                $scope.signals = signals;
@@ -37,6 +37,9 @@
                }
 
                $scope.updateCharts = function() {
+                  $scope.signals.tf.formulas.values().forEach(function(f) {
+                     f.calculateChartValues();
+                  });
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      s.calculateChartValues();
                   });
@@ -53,6 +56,7 @@
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      s.setEditorEnabled(false);
                   });
+
                   var s = $scope.signals.bs.universe.signalById(id);
                   s.setEditorEnabled(true);
                   $scope.editableSignal.text = s.getContent();
@@ -83,10 +87,11 @@
                };
 
                $scope.addSignals = function() {
-                  var signalsArray = $scope.signalsString.trim().split(";");
+                  var signalsArray = $scope.signalsString.trim().split(Symbols.getSemiColon());
                   if (signalsArray[signalsArray.length - 1] === "") {
                      signalsArray.splice(signalsArray.length - 1, 1);
                   }
+
                   signalsArray.forEach(function(signalStr) {
                      $scope.signals.bs.universe.addSignal(new BooleanSignal(signalStr));
                   });
@@ -119,7 +124,10 @@
                 * ******************** Formulas management ********************
                 */
                $scope.addFormula = function() {
-                  // TODO
-               }
+                  var tf = TemporalFormulaInterpreter.evaluate($scope.formulaString,
+                           $scope.signals.bs.universe);
+                  $scope.signals.tf.formulas.put(tf.getId(), tf);
+                  $scope.updateCharts();
+               };
             }]);
 }(angular, _));

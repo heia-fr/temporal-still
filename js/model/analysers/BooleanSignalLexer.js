@@ -12,17 +12,17 @@ inheritPrototype(BooleanSignalLexer, Lexer);
 
 // adding specific methods to BooleanSignalLexer prototype
 BooleanSignalLexer.prototype.isZero = function() {
-   return this.getCurrentToken() === "0";
+   return this.getCurrentToken() === Symbols.getZero();
 };
 
 BooleanSignalLexer.prototype.isOne = function() {
-   return this.getCurrentToken() === "1";
+   return this.getCurrentToken() === Symbols.getOne();
 };
 
 BooleanSignalLexer.prototype.isSlash = function() {
-   return this.getCurrentToken() === "/";
+   return this.getCurrentToken() === Symbols.getSlash();
 };
 
 BooleanSignalLexer.prototype.isSemiColon = function() {
-   return this.getCurrentToken() === ";";
+   return this.getCurrentToken() === Symbols.getSemiColon();
 };

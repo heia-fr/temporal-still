@@ -84,15 +84,14 @@ var TemporalFormulaSyntaxDiagram = function() {
 
       return {
          isValid: function(expression) {
-            if (expression === "") { 
-               return false;
+            if (expression === "") { // permit empty string (that's to be validated in the view)
+               return true;
             }
             try {
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
                parseFormulaExpr();
             } catch (ex) {
-               console.log(ex.message + " -> " + expression);
                return false;
             }
             return lexer.hasNoMoreChars();

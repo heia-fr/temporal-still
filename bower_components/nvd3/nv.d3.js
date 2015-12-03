@@ -1028,7 +1028,7 @@ nv.utils.optionsFunc = function(args) {
   var margin = {top: 0, right: 0, bottom: 0, left: 0}
     , width = 75 //only used for tickLabel currently
     , height = 60 //only used for tickLabel currently
-    , scale = d3.scale.linear()
+    , scale = d3.scale.ordinal() //.linear()
     , axisLabelText = null
     , showMaxMin = true //TODO: showMaxMin should be disabled on all ordinal scaled axes
     , highlightZero = true
@@ -1039,7 +1039,7 @@ nv.utils.optionsFunc = function(args) {
     , ticks = null
     , axisLabelDistance = 12 //The larger this number is, the closer the axis label is to the axis.
     ;
-
+  
   axis
     .scale(scale)
     .orient('bottom')
@@ -1077,8 +1077,11 @@ nv.utils.optionsFunc = function(args) {
       if (ticks !== null)
         axis.ticks(ticks);
       else if (axis.orient() == 'top' || axis.orient() == 'bottom')
-        axis.ticks(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
-//      console.log(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
+        // ****************** MODIFIED BY MOUAD EL MERCHICHI *****************************
+         axis.ticks(d3.time.second, 1);
+        // axis.ticks(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
+        // *******************************************************************************
+        // console.log(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
 
       //TODO: consider calculating width/height based on whether or not label is added, for reference in charts using this component
 
@@ -5616,9 +5619,16 @@ nv.models.lineChart = function() {
       // Setup Axes
 
       if (showXAxis) {
+      // ****************** MODIFIED BY MOUAD EL MERCHICHI ****************** 
+        var xMax = x.domain().slice(-1)[0];
+      // ********************************************************************
         xAxis
           .scale(x)
-          .ticks( availableWidth / 100 )
+          // ****************** MODIFIED BY MOUAD EL MERCHICHI ******************
+          .tickValues(d3.range(xMax + 1))
+          .tickFormat(d3.format(",.0f"))
+          // ********************************************************************
+          //.ticks( availableWidth / 100 )
           .tickSize(-availableHeight, 0);
 
         g.select('.nv-x.nv-axis')
@@ -5630,9 +5640,16 @@ nv.models.lineChart = function() {
       }
 
       if (showYAxis) {
+      // ****************** MODIFIED BY MOUAD EL MERCHICHI ****************** 
+         var yMax = y.domain().slice(-1)[0];
+      // ********************************************************************
         yAxis
           .scale(y)
-          .ticks( availableHeight / 36 )
+          // ****************** MODIFIED BY MOUAD EL MERCHICHI ******************
+          .tickValues(d3.range(yMax + 1))
+          .tickFormat(d3.format(",.0f"))
+          // ********************************************************************
+//          .ticks( availableHeight / 36 )
           .tickSize( -availableWidth, 0);
 
         g.select('.nv-y.nv-axis')

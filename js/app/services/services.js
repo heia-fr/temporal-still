@@ -10,8 +10,10 @@
    app.factory("signalsService", function() {
       var signals = {};
       signals.bs = {};
+      signals.tf = {};
 
       signals.bs.universe = null;
+      signals.tf.formulas = new Map();
 
       return signals;
    });

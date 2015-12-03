@@ -10,6 +10,13 @@
    </ul>
 </nav>
 
+<!-- <section class="slideWrapper"> -->
+<!--    <div class="slide"> -->
+<!--       <input type="checkbox" value="None" id="slideThree" name="check" checked /> -->
+<!--       <label for="slideThree"></label> -->
+<!--    </div> -->
+<!-- </section> -->
+
 <div class="alambic--container">
    <div class="alambic--wrapper">
       <div class="alambic--signal">
@@ -25,7 +32,7 @@
 
             <div class="alambic--list">
                <ul class="ul--signals">
-                  <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.id"
+                  <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
                      id="signal{{sig.id}}">
                      <a ng-hide="sig.editorEnabled" ng-bind-html="sig.content | signalFormatter"
                         ng-click="enableEditor(sig.id, $event)"></a>
@@ -51,16 +58,17 @@
          <form name="alambicFormulaForm" role="form" class="alambic--form" novalidate>
             <div class="alambic--input-wrapper">
                <input class="alambic--input" type="search" name="inputData"
-                  placeholder="ex. f = []a | b" ng-model="formulaString" validate-formulas required />
+                  placeholder="ex. f = []a | b" ng-model="formulaString" validate-formulas />
             </div>
             <input class="alambic--submit" type="submit" value="&#10140;"
-               ng-disabled="alambicFormulaForm.$invalid" ng-click="addFormula()" />
+               ng-disabled="alambicFormulaForm.$invalid || !formulaString.length"
+               ng-click="addFormula()" />
 
             <div class="alambic--list">
                <ul class="ul--signals">
-                  <li ng-repeat="formula in signals.tf.data" id="formula{{formula.id}}">
+                  <li ng-repeat="formula in signals.tf.formulas.values()" id="formula{{formula.id}}">
                      <a ng-bind-html='formula.content | formulaFormatter'></a>
-                     <a class="delete--signal" ng-click="deleteFormula($index)"></a>
+                     <a class="delete--signal"></a>
                   </li>
                </ul>
             </div>
@@ -69,10 +77,14 @@
    </div>
 
    <div class="chart--wrapper">
-      <div ng-repeat="signal in signals.bs.universe.getSignals() track by signal.id">
-         <nvd3-line-chart data="signal.signalChartData" showXAxis="true" showYAxis="true"
-            tooltips="false" interactive="true" showlegend="true" width="1050" height="115"
-            useInteractiveGuideLine="true" margin="{left:15,top:30,bottom:50,right:20}">
+      <div ng-repeat="formula in signals.tf.formulas.values() track by formula.getId()">
+         <nvd3-line-chart data="formula.getChartData()" showXAxis="true" showYAxis="true"
+            showlegend="true" width="1090" height="115" margin="{left:15,top:20,bottom:50,right:20}">
+         </nvd3-line-chart>
+      </div>
+      <div ng-repeat="signal in signals.bs.universe.getSignals() track by signal.getId()">
+         <nvd3-line-chart data="signal.getChartData()" showXAxis="true" showYAxis="true"
+            showlegend="true" width="1090" height="115" margin="{left:15,top:20,bottom:50,right:20}">
          </nvd3-line-chart>
       </div>
    </div>

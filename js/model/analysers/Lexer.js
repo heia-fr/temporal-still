@@ -56,15 +56,15 @@ Lexer.prototype = {
             return /[a-z]+/.test(this.currentToken);
          },
          isEqualSign: function() {
-            return this.getCurrentToken() === "=";
+            return this.currentToken === Symbols.getEqual();
          },
          isOpeningBracket: function() {
-            return this.currentToken === "(";
+            return this.currentToken === Symbols.getOpeningBraket();
          },
          isClosingBracket: function() {
-            return this.currentToken === ")";
+            return this.currentToken === Symbols.getClosingBraket();
          },
          isEmptyToken: function() {
-            return this.currentToken === "";
+            return this.currentToken === Symbols.getEmpty();
          }
 };

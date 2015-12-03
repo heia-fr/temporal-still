@@ -1,38 +1,37 @@
 function BooleanSignal(expressionString, other) {
-
-   if (typeof (other) === 'undefined') {
-      if (typeof expressionString != "string") throw new TypeError("Expected 'String' object");
+   if (typeof other === 'undefined') {
+      if (typeof expressionString !== "string") throw new TypeError("Expected 'String' object");
 
       this.id = ""; // the signal's name
-      this.content = expressionString;
+      this.content = expressionString.trim();
       this.editorEnabled = false;
       this.body = ""; // the fixed part of the signal
       this.period = ""; // the periodic part of the signal
       this.periodStartIndex = 0; // holds the the start of the periodic part
-      // after
-      // extending the fixed part
-      this.fixedPartNewLength; // the extended fixed part length
+      // after extending the fixed part
+      this.fixedPartNewLength = 0; // the extended fixed part length
       this.periodicPartNewLength; // the updated length of the periodic part
       this.signalChartData;
 
-      var parts = expressionString.trim().split("=");
+      var parts = this.content.split("=");
       this.id = parts[0].trim();
 
       var signal = parts[1].split("/");
       this.body = signal[0].trim();
       this.period = signal[1].trim();
+      this.periodicPartNewLength = this.period.length;
    } else {
       this.id = other.id;
       this.content = other.content;
       this.editorEnabled = other.editorEnabled;
-      this.body = other.body; 
-      this.period = other.period; 
-      this.periodStartIndex = other.periodStartIndex; 
-      this.fixedPartNewLength = other.fixedPartNewLength; 
-      this.periodicPartNewLength = other.periodicPartNewLength; 
+      this.body = other.body;
+      this.period = other.period;
+      this.periodStartIndex = other.periodStartIndex;
+      this.fixedPartNewLength = other.fixedPartNewLength;
+      this.periodicPartNewLength = other.periodicPartNewLength;
       this.signalChartData = other.signalChartData;
    }
-   
+
    this.__type = 'BooleanSignal';
 }
 
@@ -40,6 +39,9 @@ BooleanSignal.prototype = {
          constructor: BooleanSignal,
          getId: function() {
             return this.id;
+         },
+         setId: function(id) {
+            this.id = id;
          },
          getContent: function() {
             return this.content;
@@ -72,14 +74,13 @@ BooleanSignal.prototype = {
             return newBody;
          },
          calculateUpdatedPeriodicPart: function() {
-            var i;
             var newPeriod = "";
-            for (i = 0, j = this.periodStartIndex; i < this.periodicPartNewLength; ++i, ++j) {
+            for (var i = 0, j = this.periodStartIndex; i < this.periodicPartNewLength; ++i, ++j) {
                newPeriod += this.period.charAt(j % this.period.length);
             }
             return newPeriod;
          },
-         calculateChartValues: function(/* TODO: parameters here */) {
+         calculateChartValues: function() {
 
             var newBody = this.calculateUpdatedFixedPart();
             var newPeriod = this.calculateUpdatedPeriodicPart();
@@ -104,7 +105,6 @@ BooleanSignal.prototype = {
                oldZ = z;
             });
 
-            // TODO: to be modified
             _.times(newPeriod.length, function(i) {
                x = newBody.length + i;
                nextX = newBody.length + i + 1;
@@ -116,8 +116,6 @@ BooleanSignal.prototype = {
                oldZ = z;
             });
 
-            console.log(values);
-            
             this.signalChartData = [{
                      "key": "Signal " + this.getId(),
                      "values": values,
@@ -125,7 +123,7 @@ BooleanSignal.prototype = {
             }];
          },
          getChartData: function() {
-            return this.signalChartData;
+           return this.signalChartData; 
          },
          colors: ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70",
                   "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#5B3822", "#F012BE", "#B10DC9",

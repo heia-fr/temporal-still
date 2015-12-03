@@ -143,6 +143,64 @@ footer {
 	width: 100%;
 }
 
+/*************************************** BEGIN checkbox ****************************/
+.slideWrapper {
+	clear: both;
+}
+
+.slide {
+  width: 80px;
+  height: 26px;
+  background: #333;
+  margin: 10px auto;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slide:after {
+  content: 'OFF';
+  color: #000;
+  position: absolute;
+  right: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+}
+.slide:before {
+  content: 'ON';
+  color: #486ca8;
+  position: absolute;
+  left: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+}
+.slide label {
+  display: block;
+  width: 34px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 1;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  -webkit-transition: all 0.4s ease;
+          transition: all 0.4s ease;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+.slide input[type=checkbox] {
+  visibility: hidden;
+}
+.slide input[type=checkbox]:checked + label {
+  left: 43px;
+}
+/*************************************** END checkbox ******************************/
+
 /***********************
  * Configurable Styles *
  ***********************/
@@ -211,8 +269,8 @@ input[name='inputData'].ng-dirty.ng-valid {
 	border-color: #5a5d63;
 }
 
-.alambic--submit:focus, .alambic--submit:hover,
-	.alambic--input:focus.alambic--submit {
+.alambic--submit:focus, .alambic--submit:hover, .alambic--input:focus.alambic--submit
+	{
 	color: #486ca8; /*#333*/
 }
 

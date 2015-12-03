@@ -8,11 +8,15 @@ function Map(other) {
       var len = this.keys.length;
       for (var i = 0; i < len; ++i) {
          var k = this.keys[i];
-         var obj;
-         if (typeof other.data[k] === 'object' && other.data[k].__type === 'BooleanSignal') {
-            obj = new BooleanSignal(undefined, other.data[k]);
-         } else {
-            obj = {};
+         var obj = null;
+         if (typeof other.data[k] === 'object') {
+            if (other.data[k].__type === 'BooleanSignal') {
+               obj = new BooleanSignal(undefined, other.data[k]);
+            } else if (other.data[k].__type === 'TemporalFormula') {
+               obj = new TemporalFormula(undefined, undefined, other.data[k]);
+            } else {
+               obj = {};
+            }
          }
          this.data[k] = obj;
       }
@@ -72,7 +76,7 @@ Map.prototype = {
             }
             return vals;
          },
-         forEach: function(func) {
+         each: function(func) {
             if (typeof func !== 'function') { return; }
             var len = this.keys.length;
             for (var i = 0; i < len; i++) {

@@ -1,5 +1,5 @@
 function Universe(other) {
-   if (typeof (other) === 'undefined') {
+   if (typeof other === 'undefined') {
       this.dataStoreMap = new Map();
       this.length = [0, 1];
    } else {
@@ -38,7 +38,7 @@ Universe.prototype = {
                      / this.pgcd(signal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
-            this.dataStoreMap.forEach(function(key, s, i) {
+            this.dataStoreMap.each(function(key, s, i) {
                s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                s.setPeriodicPartNewLength(that.length[1]);
             });
@@ -55,7 +55,7 @@ Universe.prototype = {
                      / this.pgcd(newSignal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
-            this.dataStoreMap.forEach(function(key, s, i) {
+            this.dataStoreMap.each(function(key, s, i) {
                s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                s.setPeriodicPartNewLength(that.length[1]);
             });
@@ -65,7 +65,7 @@ Universe.prototype = {
             if (removed) {
                this.length = [0, 1];
                var that = this;
-               this.dataStoreMap.forEach(function(key, s, i) {
+               this.dataStoreMap.each(function(key, s, i) {
                   if (s.getFixedPartLength() > that.length[0]) {
                      that.length[0] = s.getFixedPartLength();
                   }
@@ -73,7 +73,7 @@ Universe.prototype = {
                            / that.pgcd(s.getPeriodicPartLength(), that.length[1]);
                });
 
-               this.dataStoreMap.forEach(function(key, s, i) {
+               this.dataStoreMap.each(function(key, s, i) {
                   s.setFixedPartNewLength(that.length[0] - s.getFixedPartLength());
                   s.setPeriodicPartNewLength(that.length[1]);
                });

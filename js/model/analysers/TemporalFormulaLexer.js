@@ -12,33 +12,33 @@ inheritPrototype(TemporalFormulaLexer, Lexer);
 
 // adding specific methods to TemporalFormulaLexer prototype
 TemporalFormulaLexer.prototype.isOr = function() {
-   return (this.getCurrentToken() === "|" || this.getCurrentToken() === "+");
+   return (this.getCurrentToken() === Symbols.getOr());
 };
 
 TemporalFormulaLexer.prototype.isAnd = function() {
-   return (this.getCurrentToken() === "&" || this.getCurrentToken() === ".");
+   return (this.getCurrentToken() === Symbols.getAnd());
 };
 
 TemporalFormulaLexer.prototype.isNot = function() {
-   return this.getCurrentToken() === "!";
+   return this.getCurrentToken() === Symbols.getNot();
 };
 
 TemporalFormulaLexer.prototype.isOpeningSquareBracket = function() {
-   return this.getCurrentToken() === "[";
+   return this.getCurrentToken() === Symbols.getOpeningSquareBraket();
 };
 
 TemporalFormulaLexer.prototype.isClosingSquareBracket = function() {
-   return this.getCurrentToken() === "]";
+   return this.getCurrentToken() === Symbols.getClosingSquareBraket();
 };
 
 TemporalFormulaLexer.prototype.isLessThanSign = function() {
-   return this.getCurrentToken() === "<";
+   return this.getCurrentToken() === Symbols.getLessThan();
 };
 
 TemporalFormulaLexer.prototype.isGreaterThanSign = function() {
-   return this.getCurrentToken() === ">";
+   return this.getCurrentToken() === Symbols.getGreaterThan();
 };
 
 TemporalFormulaLexer.prototype.isWeaklyUntil = function() {
-   return this.getCurrentToken() === "W";
+   return this.getCurrentToken() === Symbols.getWeakUntil();
 };
