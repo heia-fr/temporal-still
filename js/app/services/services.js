@@ -13,7 +13,7 @@
       signals.tf = {};
 
       signals.bs.universe = null;
-      signals.tf.formulas = new Map();
+      signals.tf.formulasManager = null;
 
       return signals;
    });

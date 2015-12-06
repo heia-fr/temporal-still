@@ -25,6 +25,9 @@ Universe.prototype = {
          signalById: function(id) {
             return this.dataStoreMap.get(id);
          },
+         containsSignal: function(id) {
+           return this.dataStoreMap.contains(id); 
+         },
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))
                throw new TypeError("Expected 'BooleanSignal' object");

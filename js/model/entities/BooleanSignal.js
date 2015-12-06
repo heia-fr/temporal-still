@@ -1,6 +1,7 @@
 function BooleanSignal(expressionString, other) {
    if (typeof other === 'undefined') {
-      if (typeof expressionString !== "string") throw new TypeError("Expected 'String' object");
+      if (typeof expressionString !== 'string')
+         throw new TypeError("BooleanSignal: Expected expressionString to be a 'String' object");
 
       this.id = ""; // the signal's name
       this.content = expressionString.trim();
@@ -81,7 +82,6 @@ BooleanSignal.prototype = {
             return newPeriod;
          },
          calculateChartValues: function() {
-
             var newBody = this.calculateUpdatedFixedPart();
             var newPeriod = this.calculateUpdatedPeriodicPart();
 
@@ -123,7 +123,7 @@ BooleanSignal.prototype = {
             }];
          },
          getChartData: function() {
-           return this.signalChartData; 
+            return this.signalChartData;
          },
          colors: ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70",
                   "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#5B3822", "#F012BE", "#B10DC9",

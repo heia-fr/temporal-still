@@ -35,19 +35,19 @@
                   <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
                      id="signal{{sig.id}}">
                      <a ng-hide="sig.editorEnabled" ng-bind-html="sig.content | signalFormatter"
-                        ng-click="enableEditor(sig.id, $event)"></a>
+                        ng-click="editable.editableSignal.enableEditor(sig.getId(), $event)"></a>
                      <input type="text" name="inputEditor" class="alambic--editorField"
-                        ng-show="sig.editorEnabled" ng-model="editableSignal.text"
-                        on-esc="disableEditor(sig.id)"
-                        on-enter="alambicSignalsForm.$valid ? updateSignal(sig.id) : ''"
+                        ng-show="sig.editorEnabled" ng-model="editable.editableSignal.text"
+                        on-esc="editable.editableSignal.disableEditor(sig.getId())"
+                        on-enter="alambicSignalsForm.$valid ? updateSignal(sig.getId()) : ''"
                         gain-focus="sig.editorEnabled" validate-editable-signal />
 
                      <a class="cancel--signal" ng-show="sig.editorEnabled"
-                        ng-click="disableEditor(sig.id)"></a>
+                        ng-click="editable.editableSignal.disableEditor(sig.getId())"></a>
                      <button class="edit--signal" ng-disabled="alambicSignalsForm.$invalid"
-                        ng-show="sig.editorEnabled" ng-click="updateSignal(sig.id)"></button>
+                        ng-show="sig.editorEnabled" ng-click="updateSignal(sig.getId())"></button>
                      <a class="delete--signal" ng-hide="sig.editorEnabled"
-                        ng-click="deleteSignal(sig.id)"></a>
+                        ng-click="removeSignal(sig.getId())"></a>
                   </li>
                </ul>
             </div>
@@ -66,9 +66,25 @@
 
             <div class="alambic--list">
                <ul class="ul--signals">
-                  <li ng-repeat="formula in signals.tf.formulas.values()" id="formula{{formula.id}}">
-                     <a ng-bind-html='formula.content | formulaFormatter'></a>
-                     <a class="delete--signal"></a>
+                  <li
+                     ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()"
+                     id="formula{{formula.id}}">
+                     <a ng-hide="formula.editorEnabled"
+                        ng-bind-html='formula.content | formulaFormatter'
+                        ng-click="editable.editableFormula.enableEditor(formula.getId(), $event)"></a>
+
+                     <input type="text" name="inputEditor" class="alambic--editorField"
+                        ng-show="formula.editorEnabled" ng-model="editable.editableFormula.text"
+                        on-esc="editable.editableFormula.disableEditor(formula.getId())"
+                        on-enter="alambicFormulaForm.$valid ? updateFormula(formula.getId()) : ''"
+                        gain-focus="formula.editorEnabled" validate-editable-formula />
+
+                     <a class="cancel--signal" ng-show="formula.editorEnabled"
+                        ng-click="editable.editableFormula.disableEditor(formula.getId())"></a>
+                     <button class="edit--signal" ng-disabled="alambicFormulaForm.$invalid"
+                        ng-show="formula.editorEnabled" ng-click="updateFormula(formula.getId())"></button>
+                     <a class="delete--signal" ng-hide="formula.editorEnabled"
+                        ng-click="removeFormula(formula.getId())"></a>
                   </li>
                </ul>
             </div>
@@ -77,15 +93,17 @@
    </div>
 
    <div class="chart--wrapper">
-      <div ng-repeat="formula in signals.tf.formulas.values() track by formula.getId()">
+      <div ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()">
          <nvd3-line-chart data="formula.getChartData()" showXAxis="true" showYAxis="true"
-            showlegend="true" width="1090" height="115" margin="{left:15,top:20,bottom:50,right:20}">
-         </nvd3-line-chart>
+            useinteractiveguideline="false" interactive="false" clipEdge="false" showlegend="true"
+            legendradiobuttonmode="false" forcey="[0,1]" width="1090" height="115"
+            margin="{left:15,top:20,bottom:50,right:20}"> </nvd3-line-chart>
       </div>
       <div ng-repeat="signal in signals.bs.universe.getSignals() track by signal.getId()">
          <nvd3-line-chart data="signal.getChartData()" showXAxis="true" showYAxis="true"
-            showlegend="true" width="1090" height="115" margin="{left:15,top:20,bottom:50,right:20}">
-         </nvd3-line-chart>
+            useinteractiveguideline="false" interactive="false" clipEdge="false" showlegend="true"
+            legendradiobuttonmode="false" forcey="[0,1]" width="1090" height="115"
+            margin="{left:15,top:20,bottom:50,right:20}"> </nvd3-line-chart>
       </div>
    </div>
 </div>

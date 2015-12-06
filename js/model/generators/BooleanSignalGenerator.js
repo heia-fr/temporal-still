@@ -11,13 +11,6 @@ var BooleanSignalGenerator = function() {
 
       var generator = new Random();
       var charSet = "abcdefghijklmnopqrstuwxyz"; // 'v' is omitted
-      var symbol = {
-               equalSign: "=",
-               zero: "0",
-               one: "1",
-               slash: "/",
-               semiColon: ";"
-      };
 
       function generateVarName() {
          var i = generator.integer(0, charSet.length - 1);
@@ -28,7 +21,7 @@ var BooleanSignalGenerator = function() {
          var digits = "";
          var nbDigits = generator.integer(1, maxNbDigits);
          for (var i = 0; i < nbDigits; i++) {
-            digits += (generator.bool() ? symbol.one : symbol.zero);
+            digits += (generator.bool() ? Symbols.getOne() : Symbols.getZero());
          }
 
          return digits;
@@ -44,8 +37,8 @@ var BooleanSignalGenerator = function() {
             body = generateDigits(maxBody);
             period = generateDigits(maxPeriod);
 
-            signals += varName + " " + symbol.equalSign + " " + body + symbol.slash + period
-                     + ((i == nbOfSignals) ? "" : symbol.semiColon);
+            signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash() + period
+                     + ((i == nbOfSignals) ? "" : Symbols.getSemiColon());
          }
 
          return signals;

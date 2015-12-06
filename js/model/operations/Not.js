@@ -1,4 +1,3 @@
-
 function Not(lSignal) {
    Operator.call(this, function(bit1) {
       if (bit1 === Symbols.getZero()) return Symbols.getOne();

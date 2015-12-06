@@ -1,9 +1,11 @@
 function Operator(operation, lSignal, rSignal) {
-   if (this.constructor === Operator) throw new Error("Cannot instantiate abstract class");
+   if (this.constructor === Operator)
+      throw new Error("Operator: Cannot instantiate abstract class");
 
-   if (typeof operation !== 'function') throw new TypeError("Expected a 'function' object");
+   if (typeof operation !== 'function')
+      throw new TypeError("Operator: Expected a 'function' object");
    if (!(lSignal instanceof BooleanSignal))
-      throw new TypeError("Expected 'lSignal' to be a 'BooleanSignal' object");
+      throw new TypeError("Operator: Expected 'lSignal' to be a 'BooleanSignal' object");
 
    this.eval = operation;
    this.leftSignal = lSignal;
@@ -30,12 +32,13 @@ Operator.prototype = {
          },
          performBinaryOperator: function() {
             if (!(this.rightSignal instanceof BooleanSignal))
-               throw new TypeError("Expected 'rightSignal' to be a 'BooleanSignal' object");
-             var thisBody = this.leftSignal.calculateUpdatedFixedPart();
-             var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
-            
-             var thatBody = this.rightSignal.calculateUpdatedFixedPart();
-             var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart();
+               throw new TypeError(
+                        "Operator: Expected 'rightSignal' to be a 'BooleanSignal' object");
+            var thisBody = this.leftSignal.calculateUpdatedFixedPart();
+            var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
+
+            var thatBody = this.rightSignal.calculateUpdatedFixedPart();
+            var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart();
 
             if (thisBody.length != thatBody.length)
                throw new Error("Operator: Incompatible signals lengths");

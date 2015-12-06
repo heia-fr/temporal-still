@@ -48,7 +48,10 @@ var TemporalFormulaInterpreter = function() {
       function parseFactor() {
          var bs = parseAtom();
          if (lexer.isWeaklyUntil()) {
-            // TODO: perfom WEAKLY UNTIL operation
+            lexer.goToNextToken();
+            var thatBs = parseAtom();
+            var op = new WeakUntil(bs, thatBs);
+            bs = op.performBinaryOperator();
          }
 
          return bs;
@@ -65,6 +68,7 @@ var TemporalFormulaInterpreter = function() {
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
+            lexer.goToNextToken();
             bs = parseAtom();
             var op = new Not(bs);
             bs = op.performUnaryOperator();

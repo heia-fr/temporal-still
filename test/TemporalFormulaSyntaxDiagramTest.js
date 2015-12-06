@@ -1,7 +1,7 @@
 function generateCorrectFormulas(nbOfFormulas) {
    var formulas = [];
    for (var i = 1; i <= nbOfFormulas; i++) {
-      formulas.push(FormulaGenerator.generateFormula());
+      formulas.push(FormulaGenerator.generateTemporalFormula());
    }
    return formulas;
 }
@@ -12,9 +12,10 @@ function testCorrectFormulas(generator, maxNbFormulas, nbrOfTests) {
    var nbOfFormulas = generator.integer(1, maxNbFormulas);
    for (var i = 0; i < nbrOfTests; i++) {
       formulas = generateCorrectFormulas(nbOfFormulas);
-      for (formula in formulas) {
+      formulas.forEach(function(formula) {
+         console.log(formula);
          result = TemporalFormulaSyntaxDiagram.isValid(formula) && result;
-      }
+      });
    }
    return result;
 }
@@ -50,6 +51,8 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
    it('Correct formulas are expected to be accepted', function() {
       var result = true;
       result = TemporalFormulaSyntaxDiagram.isValid("f = []a | b & c") && result;
+      result = TemporalFormulaSyntaxDiagram.isValid("f = []a | <>(b & c)") && result;
+      result = TemporalFormulaSyntaxDiagram.isValid("f = !(b & c)") && result;
       result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests) && result;
       
       expect(result).toBe(true);
@@ -57,7 +60,7 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
 
    it('Uncorrect formulas are expected to be refused', function() {
       var result = false;
-      result = TemporalFormulaSyntaxDiagram.isValid("") || result;
+      result = TemporalFormulaSyntaxDiagram.isValid("") && result;
       result = TemporalFormulaSyntaxDiagram.isValid("g") || result;
       result = TemporalFormulaSyntaxDiagram.isValid("oWdWp . [t") || result;
       result = TemporalFormulaSyntaxDiagram.isValid("[]r(<>b + <o") || result;

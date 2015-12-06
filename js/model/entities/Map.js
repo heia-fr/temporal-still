@@ -64,6 +64,9 @@ Map.prototype = {
          size: function() {
             return this.keys.length;
          },
+         contains: function(key) {
+            return (this.data[key] !== undefined);
+         },
          keys: function() {
             return this.keys.slice(0); // clone the keys array
          },

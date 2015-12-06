@@ -1,17 +1,20 @@
 function TemporalFormula(formulaString, booleanSignal, other) {
-   if (!(other instanceof TemporalFormula)) {
-      if (typeof formulaString !== "string") throw new TypeError("Expected 'String' object");
+   if (typeof other === 'undefined') {
+      if (typeof formulaString !== "string")
+         throw new TypeError("TemporalFormula: Expected 'String' object");
       if (!(booleanSignal instanceof BooleanSignal))
-         throw new TypeError("Expected 'BooleanSignal' object");
+         throw new TypeError("TemporalFormula: Expected 'BooleanSignal' object");
 
       this.id = formulaString.split("=")[0].trim();
       this.content = formulaString;
-      this.booleanSignal = booleanSignal;
+      this.editorEnabled = false;
+      this.booleanSignal = new BooleanSignal(undefined, booleanSignal);
       this.booleanSignal.setId(this.id);
    } else {
       this.id = other.id;
       this.content = other.content;
-      this.booleanSignal = other.booleanSignal;
+      this.editorEnabled = other.editorEnabled;
+      this.booleanSignal = new BooleanSignal(undefined, other.booleanSignal);
    }
 
    this.__type = 'TemporalFormula';
@@ -25,29 +28,11 @@ TemporalFormula.prototype = {
          getContent: function() {
             return this.content;
          },
-         getBooleanSignal: function() {
-            return this.booleanSignal;
-         },
-         setBooleanSignal: function(booleanSignal) {
-            this.booleanSignal = booleanSignal;
-         },
          isEditorEnabled: function() {
-            return this.booleanSignal.isEditorEnabled();
+            return this.editorEnabled;
          },
          setEditorEnabled: function(enabled) {
-            this.booleanSignal.setEditorEnabled(enabled);
-         },
-         getFixedPartLength: function() {
-            return this.booleanSignal.getFixedPartLength();
-         },
-         getPeriodicPartLength: function() {
-            return this.booleanSignal.getPeriodicPartLength();
-         },
-         setFixedPartNewLength: function(len) {
-            this.booleanSignal.setFixedPartNewLength(len);
-         },
-         setPeriodicPartNewLength: function(len) {
-            this.booleanSignal.setPeriodicPartNewLength(len);
+            this.editorEnabled = enabled;
          },
          calculateChartValues: function() {
             this.booleanSignal.calculateChartValues();

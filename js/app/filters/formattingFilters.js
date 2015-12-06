@@ -46,7 +46,7 @@
                   transformedFormula += "&#172;";
                } else if (lexer.isOpeningSquareBracket()) {
                   lexer.goToNextToken();
-                  transformedFormula += "&#9720;";
+                  transformedFormula += "&#9723;";
                } else if (lexer.isLessThanSign()) {
                   lexer.goToNextToken();
                   transformedFormula += "&#9674;";

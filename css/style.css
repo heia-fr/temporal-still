@@ -250,7 +250,7 @@ footer {
 /*css declaration only for Chrome/Safari*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.alambic--submit {
-		margin-top: 10px; /* margin-top + border-width */
+		margin-top: 10px;
 	}
 }
 

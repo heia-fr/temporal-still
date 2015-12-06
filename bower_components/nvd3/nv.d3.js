@@ -1081,7 +1081,6 @@ nv.utils.optionsFunc = function(args) {
          axis.ticks(d3.time.second, 1);
         // axis.ticks(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
         // *******************************************************************************
-        // console.log(Math.abs(scale.range()[1] - scale.range()[0]) / 100);
 
       //TODO: consider calculating width/height based on whether or not label is added, for reference in charts using this component
 
@@ -5640,13 +5639,10 @@ nv.models.lineChart = function() {
       }
 
       if (showYAxis) {
-      // ****************** MODIFIED BY MOUAD EL MERCHICHI ****************** 
-         var yMax = y.domain().slice(-1)[0];
-      // ********************************************************************
         yAxis
           .scale(y)
           // ****************** MODIFIED BY MOUAD EL MERCHICHI ******************
-          .tickValues(d3.range(yMax + 1))
+          .tickValues(d3.range(2))
           .tickFormat(d3.format(",.0f"))
           // ********************************************************************
 //          .ticks( availableHeight / 36 )

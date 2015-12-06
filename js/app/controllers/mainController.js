@@ -15,8 +15,9 @@
 
                $scope.$window = $window;
 
-               var universeAsJson = localStorageService.get('universe');
+               // restore universe from local storage
                var universeFromJson;
+               var universeAsJson = localStorageService.get('universe');
                if (universeAsJson) {
                   universeFromJson = JSON.parse(universeAsJson, function(key, value) {
                      if (typeof (value) === 'object' && value.__type === 'Universe')
@@ -27,21 +28,43 @@
                } else {
                   universeFromJson = new Universe();
                }
-
                signals.bs.universe = universeFromJson;
 
-               $scope.signals = signals;
+               // restore formulas from local storage
+               var formulasManagerFromJson;
+               var formulasManagerAsJson = localStorageService.get('formulasManager');
+               if (formulasManagerAsJson) {
+                  formulasManagerFromJson = JSON.parse(formulasManagerAsJson, function(key, value) {
+                     if (typeof (value) === 'object' && value.__type === 'FormulasManager')
+                        return new FormulasManager(value);
 
-               $scope.saveState = function() {
+                     return value;
+                  });
+               } else {
+                  formulasManagerFromJson = new FormulasManager();
+               }
+               signals.tf.formulasManager = formulasManagerFromJson;
+
+               $scope.signals = signals; // hook data to the scope variable
+
+               // save universe and formulas in the local storage
+               $scope.saveUniverseState = function() {
                   localStorageService.set('universe', angular.toJson($scope.signals.bs.universe));
                }
+               $scope.saveFormulasManagerState = function() {
+                  localStorageService.set('formulasManager', angular
+                           .toJson($scope.signals.tf.formulasManager));
+               }
 
-               $scope.updateCharts = function() {
-                  $scope.signals.tf.formulas.values().forEach(function(f) {
-                     f.calculateChartValues();
-                  });
+               // update charts
+               $scope.updateSignalsCharts = function() {
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      s.calculateChartValues();
+                  });
+               };
+               $scope.updateFormulasCharts = function() {
+                  $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
+                     f.calculateChartValues();
                   });
                };
 
@@ -49,25 +72,25 @@
                 * ************* Signals management operations *************
                 */
                $scope.signalsString = "";
-               $scope.formulaString = "";
-               $scope.editableSignal = {};
+               $scope.editable = {};
+               $scope.editable.editableSignal = {};
 
-               $scope.enableEditor = function(id, event) {
+               $scope.editable.editableSignal.enableEditor = function(id, event) {
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      s.setEditorEnabled(false);
                   });
 
                   var s = $scope.signals.bs.universe.signalById(id);
                   s.setEditorEnabled(true);
-                  $scope.editableSignal.text = s.getContent();
-                  $scope.editableSignal.id = id;
+                  $scope.editable.editableSignal.text = s.getContent();
+                  $scope.editable.editableSignal.id = id;
                   event.stopPropagation();
                };
 
-               $scope.disableEditor = function(id) {
+               $scope.editable.editableSignal.disableEditor = function(id) {
                   var s = $scope.signals.bs.universe.signalById(id);
                   s.setEditorEnabled(false);
-                  $scope.editableSignal.text = s.getContent();
+                  $scope.editable.editableSignal.text = s.getContent();
                   event.stopPropagation();
                };
 
@@ -84,6 +107,14 @@
                         return;
                      }
                   });
+
+                  $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
+                     if (f.isEditorEnabled()) {
+                        f.setEditorEnabled(false);
+                        $scope.$apply();
+                        return;
+                     }
+                  });
                };
 
                $scope.addSignals = function() {
@@ -95,39 +126,88 @@
                   signalsArray.forEach(function(signalStr) {
                      $scope.signals.bs.universe.addSignal(new BooleanSignal(signalStr));
                   });
-                  $scope.updateCharts();
-                  $scope.saveState();
+                  $scope.updateSignalsCharts();
+                  $scope.saveUniverseState();
                   $scope.signalsString = "";
                };
 
                $scope.updateSignal = function(id) {
                   var s = $scope.signals.bs.universe.signalById(id);
-                  if (s.getContent().trim() === $scope.editableSignal.text.trim()) {
-                     $scope.disableEditor(id);
+                  var str = $scope.editable.editableSignal.text.trim();
+                  if (s.getContent().trim() === str) {
+                     $scope.editable.editableSignal.disableEditor(id);
                      return;
                   }
 
-                  $scope.signals.bs.universe.updateSignal(id, new BooleanSignal(
-                           $scope.editableSignal.text.trim()));
-                  $scope.updateCharts();
-                  $scope.saveState();
-                  $scope.disableEditor(id);
+                  $scope.signals.bs.universe.updateSignal(id, new BooleanSignal(str));
+                  $scope.updateSignalsCharts();
+                  $scope.saveUniverseState();
+                  $scope.editable.editableSignal.disableEditor(id);
                };
 
-               $scope.deleteSignal = function(id) {
+               $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
-                  $scope.updateCharts();
-                  $scope.saveState();
+                  $scope.updateSignalsCharts();
+                  $scope.saveUniverseState();
                };
 
                /**
                 * ******************** Formulas management ********************
                 */
+               $scope.formulaString = "";
+               $scope.editable.editableFormula = {};
+
+               $scope.editable.editableFormula.enableEditor = function(id, event) {
+                  $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
+                     f.setEditorEnabled(false);
+                  });
+
+                  var f = $scope.signals.tf.formulasManager.formulaById(id);
+                  f.setEditorEnabled(true);
+                  $scope.editable.editableFormula.text = f.getContent();
+                  $scope.editable.editableFormula.id = id;
+                  event.stopPropagation();
+               };
+
+               $scope.editable.editableFormula.disableEditor = function(id) {
+                  var f = $scope.signals.tf.formulasManager.formulaById(id);
+                  f.setEditorEnabled(false);
+                  $scope.editable.editableFormula.text = f.getContent();
+                  event.stopPropagation();
+               };
+
                $scope.addFormula = function() {
                   var tf = TemporalFormulaInterpreter.evaluate($scope.formulaString,
                            $scope.signals.bs.universe);
-                  $scope.signals.tf.formulas.put(tf.getId(), tf);
-                  $scope.updateCharts();
+                  if (tf instanceof TemporalFormula) {
+                     $scope.signals.tf.formulasManager.addFormula(tf);
+                     $scope.updateFormulasCharts();
+                     $scope.saveFormulasManagerState();
+                  }
+                  $scope.formulaString = "";
+               };
+
+               $scope.updateFormula = function(id) {
+                  var f = $scope.signals.tf.formulasManager.formulaById(id);
+                  var str = $scope.editable.editableFormula.text.trim();
+                  if (f.getContent().trim() === str) {
+                     $scope.editable.editableFormula.disableEditor(id);
+                     return;
+                  }
+
+                  var tf = TemporalFormulaInterpreter.evaluate(str, $scope.signals.bs.universe);
+                  if (tf instanceof TemporalFormula) {
+                     $scope.signals.tf.formulasManager.updateFormula(id, tf);
+                     $scope.updateFormulasCharts();
+                     $scope.saveFormulasManagerState();
+                     $scope.editable.editableFormula.disableEditor(id);
+                  }
+               };
+
+               $scope.removeFormula = function(id) {
+                  $scope.signals.tf.formulasManager.removeFormula(id);
+                  $scope.updateFormulasCharts();
+                  $scope.saveFormulasManagerState();
                };
             }]);
 }(angular, _));
