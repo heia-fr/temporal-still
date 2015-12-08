@@ -4,6 +4,8 @@ var TemporalFormulaInterpreter = function() {
 
       var lexer;
       var universe;
+      var fId;
+      var ids = [];
 
       function parseFormulaExpr() {
          // ------------------------------------------------------------------------------
@@ -64,7 +66,8 @@ var TemporalFormulaInterpreter = function() {
          if (lexer.isOpeningBracket()) {
             lexer.goToNextToken();
             bs = parseFormula();
-            if (!lexer.isClosingBracket()) throw new SyntaxError("Expected ')'");
+            if (!lexer.isClosingBracket())
+               throw new SyntaxError("Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
@@ -75,7 +78,8 @@ var TemporalFormulaInterpreter = function() {
 
          } else if (lexer.isOpeningSquareBracket()) {
             lexer.goToNextToken();
-            if (!lexer.isClosingSquareBracket()) throw new SyntaxError("Expected ']'");
+            if (!lexer.isClosingSquareBracket())
+               throw new SyntaxError("Expected " + Symbols.getClosingSquareBraket());
             lexer.goToNextToken();
             bs = parseAtom();
             var op = new Always(bs);
@@ -99,6 +103,8 @@ var TemporalFormulaInterpreter = function() {
       function parseProp() {
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          var bs = universe.signalById(lexer.getCurrentToken());
+         ids.push(bs.getId());
+         bs.addReferencingTemporalFormulaId(fId);
          lexer.goToNextToken();
          return bs;
       }
@@ -114,8 +120,11 @@ var TemporalFormulaInterpreter = function() {
                universe = univ;
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
+               fId = expression.split("=")[0].trim();
                var bs = parseFormulaExpr();
-               return new TemporalFormula(expression, bs);
+               var tf = new TemporalFormula(expression, bs, ids);
+               ids = [];
+               return tf;
             } catch (ex) {
                console.log(ex.message);
                return null;

@@ -7,16 +7,16 @@ var TemporalFormulaSyntaxDiagram = function() {
    function Singleton() {
 
       var lexer;
-      
+
       function parseFormulaExpr() {
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          lexer.goToNextToken();
 
          if (!lexer.isEqualSign()) throw new SyntaxError("Expected " + Symbols.getEqual());
          lexer.goToNextToken();
-         
+
          parseFormula();
-         
+
          if (!lexer.isEmptyToken()) throw new SyntaxError("Expected end of formula");
       }
 
@@ -79,22 +79,22 @@ var TemporalFormulaSyntaxDiagram = function() {
       }
 
       function parseProp() {
-         if (!lexer.isVarName())
-            throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          lexer.goToNextToken();
       }
 
       return {
          isValid: function(expression) {
-            if (expression === "") { // permit empty string (that's to be validated in the view)
-               return true;
-            }
+            // permit empty string (that's to be validated in the view)
+            if (expression === Symbols.getEmpty()) { return true; }
+
             try {
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
                parseFormulaExpr();
             } catch (ex) {
-               console.log("exception: " + ex.message + " --> " + expression);
+               // console.log("exception: " + ex.message + " --> " +
+               // expression);
                return false;
             }
             return lexer.hasNoMoreChars();

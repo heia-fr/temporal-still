@@ -347,7 +347,7 @@ input:-moz-placeholder {
 }
 
 .alambic--list ul li a.delete--signal, .alambic--list ul li button.edit--signal,
-	.alambic--list ul li a.cancel--signal {
+	.alambic--list ul li button.delete--signal, .alambic--list ul li a.cancel--signal {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -360,17 +360,28 @@ input:-moz-placeholder {
 	float: right;
 }
 
-.alambic--list ul li a.delete--signal:hover {
-	background-image: url('../images/delete-blue.png') !important;
-}
-
-.alambic--list ul li button.edit--signal {
-	background-image: url('../images/edit16.png') !important;
+.alambic--list ul li button.edit--signal, .alambic--list ul li button.delete--signal {
 	background-color: transparent !important;
 	border: none;
 	outline: none;
 	padding: 0 !important;
 	outline-offset: 0;
+}
+
+.alambic--list ul li button.delete--signal  {
+   background-image: url('../images/delete16.png') !important;
+}
+
+.alambic--list ul li button.delete--signal:disabled {
+   background-image: url('../images/delete-disabled16.png') !important;
+}
+
+.alambic--list ul li button.delete--signal:hover:enabled {
+   background-image: url('../images/delete-blue.png') !important;
+}
+
+.alambic--list ul li button.edit--signal {
+   background-image: url('../images/edit16.png') !important;
 }
 
 .alambic--list ul li button.edit--signal:disabled {
@@ -387,6 +398,10 @@ input:-moz-placeholder {
 
 .alambic--list ul li a.cancel--signal:hover {
 	background-image: url('../images/back-blue16.png') !important;
+}
+
+.alambic--list ul li a.delete--signal:hover {
+   background-image: url('../images/delete-blue.png') !important;
 }
 
 .alambic--list ul li input.alambic--editorField {

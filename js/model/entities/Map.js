@@ -13,7 +13,7 @@ function Map(other) {
             if (other.data[k].__type === 'BooleanSignal') {
                obj = new BooleanSignal(undefined, other.data[k]);
             } else if (other.data[k].__type === 'TemporalFormula') {
-               obj = new TemporalFormula(undefined, undefined, other.data[k]);
+               obj = new TemporalFormula(undefined, undefined, undefined, other.data[k]);
             } else {
                obj = {};
             }
@@ -31,17 +31,19 @@ Map.prototype = {
             return this.data[key];
          },
          put: function(key, value) {
-            if (typeof this.data[key] === 'undefined') {
+            if (!this.contains(key)) { // typeof this.data[key] === 'undefined'
                this.keys.push(key);
             }
             this.data[key] = value;
             return this;
          },
          remove: function(key) {
-            var i = this.keys.indexOf(key);
-            if (i != -1) {
-               this.keys.splice(i, 1);
-               delete this.data[key];
+            // var i = this.keys.indexOf(key);
+            // i != -1
+            if (this.contains(key)) {
+               this.keys = _.without(this.keys, key);
+               // this.keys.splice(i, 1);
+                delete this.data[key];
                return true;
             }
             return false;
@@ -59,13 +61,14 @@ Map.prototype = {
             return entrys;
          },
          isEmpty: function() {
-            return this.keys.length == 0;
+            return (this.keys.length == 0);
          },
          size: function() {
             return this.keys.length;
          },
          contains: function(key) {
-            return (this.data[key] !== undefined);
+            return _.includes(this.keys, key);// (this.data[key] !==
+            // undefined);
          },
          keys: function() {
             return this.keys.slice(0); // clone the keys array
@@ -90,6 +93,7 @@ Map.prototype = {
          },
          equals: function(other) {
             if (!other) return false;
+            if (!(other instanceof Map)) return false;
             if (this.keys.length != other.keys.length) return false;
             var e = this.keys.every(function(element, index) {
                return element === other.keys[index];

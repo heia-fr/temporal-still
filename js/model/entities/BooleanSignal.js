@@ -6,6 +6,7 @@ function BooleanSignal(expressionString, other) {
       this.id = ""; // the signal's name
       this.content = expressionString.trim();
       this.editorEnabled = false;
+      this.referencingTemporalFormulasIds = [];
       this.body = ""; // the fixed part of the signal
       this.period = ""; // the periodic part of the signal
       this.periodStartIndex = 0; // holds the the start of the periodic part
@@ -25,6 +26,7 @@ function BooleanSignal(expressionString, other) {
       this.id = other.id;
       this.content = other.content;
       this.editorEnabled = other.editorEnabled;
+      this.referencingTemporalFormulasIds = other.referencingTemporalFormulasIds;
       this.body = other.body;
       this.period = other.period;
       this.periodStartIndex = other.periodStartIndex;
@@ -52,6 +54,26 @@ BooleanSignal.prototype = {
          },
          setEditorEnabled: function(enabled) {
             this.editorEnabled = enabled;
+         },
+         getReferencingTemporalFormulasIds: function() {
+            return this.referencingTemporalFormulasIds;
+         },
+         setReferencingTemporalFormulasIds: function(refTfIds) {
+            this.referencingTemporalFormulasIds = refTfIds;
+         },
+         addReferencingTemporalFormulaId: function(TfId) {
+            if (!_.includes(this.referencingTemporalFormulasIds, TfId)) {
+               this.referencingTemporalFormulasIds.push(TfId);
+            }
+         },
+         removeReferencingTemporalFormulaId: function(TfId) {
+            if (_.includes(this.referencingTemporalFormulasIds, TfId)) {
+               this.referencingTemporalFormulasIds = _.without(this.referencingTemporalFormulasIds,
+                        TfId);
+            }
+         },
+         isReferenced: function() {
+            return (this.referencingTemporalFormulasIds.length != 0);
          },
          getFixedPartLength: function() {
             return this.body.length;

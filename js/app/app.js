@@ -8,10 +8,14 @@
    app.config(['localStorageServiceProvider', '$routeProvider',
             function(localStorageServiceProvider, $routeProvider) {
                localStorageServiceProvider.setPrefix('alambic');
+               localStorageServiceProvider.setStorageType('sessionStorage');
 
                $routeProvider.when('/', {
                         templateUrl: 'pages/home.html',
                         controller: 'MainController'
+               }).when('/howto', {
+                        templateUrl: 'pages/how-to.html',
+                        controller: 'HowToController'
                }).when('/about', {
                         templateUrl: 'pages/about.html',
                         controller: 'AboutController'

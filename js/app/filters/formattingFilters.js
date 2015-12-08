@@ -39,9 +39,9 @@
 
             while (!lexer.hasNoMoreChars()) {
                if (lexer.isAnd()) {
-                  transformedFormula += " &#8226; "; // &#8743;
+                  transformedFormula += " &#8743; ";
                } else if (lexer.isOr()) {
-                  transformedFormula += " + "; // &#8744;
+                  transformedFormula += " &#8744; ";
                } else if (lexer.isNot()) {
                   transformedFormula += "&#172;";
                } else if (lexer.isOpeningSquareBracket()) {

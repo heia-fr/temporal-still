@@ -14,59 +14,57 @@
             function($scope, $window, localStorageService, signals) {
 
                $scope.$window = $window;
-
-               // restore universe from local storage
-               var universeFromJson;
-               var universeAsJson = localStorageService.get('universe');
-               if (universeAsJson) {
-                  universeFromJson = JSON.parse(universeAsJson, function(key, value) {
-                     if (typeof (value) === 'object' && value.__type === 'Universe')
-                        return new Universe(value);
-
-                     return value;
-                  });
-               } else {
-                  universeFromJson = new Universe();
-               }
-               signals.bs.universe = universeFromJson;
-
-               // restore formulas from local storage
-               var formulasManagerFromJson;
-               var formulasManagerAsJson = localStorageService.get('formulasManager');
-               if (formulasManagerAsJson) {
-                  formulasManagerFromJson = JSON.parse(formulasManagerAsJson, function(key, value) {
-                     if (typeof (value) === 'object' && value.__type === 'FormulasManager')
-                        return new FormulasManager(value);
-
-                     return value;
-                  });
-               } else {
-                  formulasManagerFromJson = new FormulasManager();
-               }
-               signals.tf.formulasManager = formulasManagerFromJson;
-
                $scope.signals = signals; // hook data to the scope variable
-
+               
+               updateSignalsCharts();
+               updateFormulasCharts();
+               
+               /**
+                * ****************** private operations *********************
+                */
                // save universe and formulas in the local storage
-               $scope.saveUniverseState = function() {
+               function saveUniverseState() {
                   localStorageService.set('universe', angular.toJson($scope.signals.bs.universe));
                }
-               $scope.saveFormulasManagerState = function() {
+               function saveFormulasManagerState() {
                   localStorageService.set('formulasManager', angular
                            .toJson($scope.signals.tf.formulasManager));
                }
 
                // update charts
-               $scope.updateSignalsCharts = function() {
+               function updateSignalsCharts() {
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      s.calculateChartValues();
                   });
-               };
-               $scope.updateFormulasCharts = function() {
+               }
+               function updateFormulasCharts() {
                   $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
                      f.calculateChartValues();
                   });
-               };
+               }
+
+               // when removing a formula, release the referenced
+               // boolean signals
+               function removeReferencingFormula(tf) {
+                  tf.getReferencedBooleanSignalsIds().forEach(function(id) {
+                     var bs = $scope.signals.bs.universe.signalById(id);
+                     bs.removeReferencingTemporalFormulaId(tf.getId());
+                  });
+               }
+
+               // after updating a boolean signal => update it's referencing
+               // temporal formulas
+               function reevaluateReferencingTemporalFormulas(s) {
+                  s.getReferencingTemporalFormulasIds().forEach(
+                           function(fId) {
+                              var tf = $scope.signals.tf.formulasManager.formulaById(fId);
+                              var tf = TemporalFormulaInterpreter.evaluate(tf.getContent(),
+                                       $scope.signals.bs.universe);
+                              if (tf instanceof TemporalFormula) {
+                                 $scope.signals.tf.formulasManager.updateFormula(fId, tf);
+                              }
+                           });
+               }
 
                /**
                 * ************* Signals management operations *************
@@ -126,8 +124,9 @@
                   signalsArray.forEach(function(signalStr) {
                      $scope.signals.bs.universe.addSignal(new BooleanSignal(signalStr));
                   });
-                  $scope.updateSignalsCharts();
-                  $scope.saveUniverseState();
+
+                  updateSignalsCharts();
+                  saveUniverseState();
                   $scope.signalsString = "";
                };
 
@@ -139,16 +138,23 @@
                      return;
                   }
 
-                  $scope.signals.bs.universe.updateSignal(id, new BooleanSignal(str));
-                  $scope.updateSignalsCharts();
-                  $scope.saveUniverseState();
+                  var newS = new BooleanSignal(str);
+                  newS.setReferencingTemporalFormulasIds(s.getReferencingTemporalFormulasIds());
+                  $scope.signals.bs.universe.updateSignal(id, newS);
+
+                  reevaluateReferencingTemporalFormulas(newS);
+
+                  updateSignalsCharts();
+                  updateFormulasCharts();
+                  saveUniverseState();
+                  saveFormulasManagerState();
                   $scope.editable.editableSignal.disableEditor(id);
                };
 
                $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
-                  $scope.updateSignalsCharts();
-                  $scope.saveUniverseState();
+                  updateSignalsCharts();
+                  saveUniverseState();
                };
 
                /**
@@ -181,33 +187,44 @@
                            $scope.signals.bs.universe);
                   if (tf instanceof TemporalFormula) {
                      $scope.signals.tf.formulasManager.addFormula(tf);
-                     $scope.updateFormulasCharts();
-                     $scope.saveFormulasManagerState();
+
+                     updateFormulasCharts();
+                     saveFormulasManagerState();
+                     saveUniverseState();
                   }
                   $scope.formulaString = "";
                };
 
                $scope.updateFormula = function(id) {
-                  var f = $scope.signals.tf.formulasManager.formulaById(id);
+                  var tf = $scope.signals.tf.formulasManager.formulaById(id);
                   var str = $scope.editable.editableFormula.text.trim();
-                  if (f.getContent().trim() === str) {
+                  if (tf.getContent().trim() === str) {
                      $scope.editable.editableFormula.disableEditor(id);
                      return;
                   }
 
-                  var tf = TemporalFormulaInterpreter.evaluate(str, $scope.signals.bs.universe);
+                  removeReferencingFormula(tf);
+
+                  tf = TemporalFormulaInterpreter.evaluate(str, $scope.signals.bs.universe);
                   if (tf instanceof TemporalFormula) {
                      $scope.signals.tf.formulasManager.updateFormula(id, tf);
-                     $scope.updateFormulasCharts();
-                     $scope.saveFormulasManagerState();
+
+                     updateFormulasCharts();
+                     saveFormulasManagerState();
+                     saveUniverseState();
                      $scope.editable.editableFormula.disableEditor(id);
                   }
                };
 
                $scope.removeFormula = function(id) {
+                  var tf = $scope.signals.tf.formulasManager.formulaById(id);
+
+                  removeReferencingFormula(tf);
+
                   $scope.signals.tf.formulasManager.removeFormula(id);
-                  $scope.updateFormulasCharts();
-                  $scope.saveFormulasManagerState();
+                  updateFormulasCharts();
+                  saveFormulasManagerState();
+                  saveUniverseState();
                };
             }]);
 }(angular, _));
