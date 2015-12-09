@@ -32,7 +32,9 @@
             <input class="alambic--submit" type="submit" value="&#10140;"
                ng-disabled="alambicSignalsForm.$invalid || !signalsString.length"
                ng-click="addSignals()" />
+         </form>
 
+         <form name="alambicSignalsListForm" role="form" class="alambic--form" novalidate>
             <div class="alambic--list">
                <ul class="ul--signals">
                   <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
@@ -43,12 +45,12 @@
                      <input type="text" name="inputEditor" class="alambic--editorField"
                         ng-show="sig.isEditorEnabled()" ng-model="editable.editableSignal.text"
                         on-esc="editable.editableSignal.disableEditor(sig.getId())"
-                        on-enter="alambicSignalsForm.$valid ? updateSignal(sig.getId()) : ''"
+                        on-enter="alambicSignalsListForm.$valid ? updateSignal(sig.getId()) : ''"
                         gain-focus="sig.isEditorEnabled()" validate-editable-signal />
 
                      <a class="cancel--signal" ng-show="sig.isEditorEnabled()"
                         ng-click="editable.editableSignal.disableEditor(sig.getId())"></a>
-                     <button class="edit--signal" ng-disabled="alambicSignalsForm.$invalid"
+                     <button class="edit--signal" ng-disabled="alambicSignalsListForm.$invalid"
                         ng-show="sig.isEditorEnabled()" ng-click="updateSignal(sig.getId())"></button>
                      <button class="delete--signal" ng-hide="sig.isEditorEnabled()"
                         ng-disabled="sig.isReferenced()" ng-click="removeSignal(sig.getId())"></button>
@@ -67,7 +69,9 @@
             <input class="alambic--submit" type="submit" value="&#10140;"
                ng-disabled="alambicFormulaForm.$invalid || !formulaString.length"
                ng-click="addFormula()" />
+         </form>
 
+         <form name="alambicFormulaListForm" role="form" class="alambic--form" novalidate>
             <div class="alambic--list">
                <ul class="ul--signals">
                   <li
@@ -80,12 +84,12 @@
                      <input type="text" name="inputEditor" class="alambic--editorField"
                         ng-show="formula.isEditorEnabled()" ng-model="editable.editableFormula.text"
                         on-esc="editable.editableFormula.disableEditor(formula.getId())"
-                        on-enter="alambicFormulaForm.$valid ? updateFormula(formula.getId()) : ''"
+                        on-enter="alambicFormulaListForm.$valid ? updateFormula(formula.getId()) : ''"
                         gain-focus="formula.isEditorEnabled()" validate-editable-formula />
 
                      <a class="cancel--signal" ng-show="formula.isEditorEnabled()"
                         ng-click="editable.editableFormula.disableEditor(formula.getId())"></a>
-                     <button class="edit--signal" ng-disabled="alambicFormulaForm.$invalid"
+                     <button class="edit--signal" ng-disabled="alambicFormulaListForm.$invalid"
                         ng-show="formula.isEditorEnabled()"
                         ng-click="updateFormula(formula.getId())"></button>
                      <a class="delete--signal" ng-hide="formula.isEditorEnabled()"
