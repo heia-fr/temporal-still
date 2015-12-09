@@ -15,10 +15,10 @@
 
                $scope.$window = $window;
                $scope.signals = signals; // hook data to the scope variable
-               
+
                updateSignalsCharts();
                updateFormulasCharts();
-               
+
                /**
                 * ****************** private operations *********************
                 */

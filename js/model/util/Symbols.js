@@ -20,7 +20,12 @@ var Symbols = function() {
                always: "[]",
                weakUntil: "W",
                and: "&",
-               or: "|"
+               or: "|",
+               prettyAnd: "&#8743;",
+               prettyOr: "&#8744;",
+               prettyAlways: "&#9723;",
+               prettyEventually: "&#9674;",
+               prettyNot: "&#172;"
       };
 
       return {
@@ -77,6 +82,21 @@ var Symbols = function() {
                },
                getOr: function() {
                   return symbols.or;
+               },
+               getPrettyAnd: function() {
+                  return symbols.prettyAnd;
+               },
+               getPrettyOr: function() {
+                  return symbols.prettyOr;
+               },
+               getPrettyAlways: function() {
+                  return symbols.prettyAlways;
+               },
+               getPrettyEventually: function() {
+                  return symbols.prettyEventually;
+               },
+               getPrettyNot: function() {
+                  return symbols.prettyNot;
                }
       };
    }

@@ -1,8 +1,9 @@
 (function(angular, _) {
    "use strict";
-   
+
    /**
-    * ****************** Defining formatter filters for signals and formulas *********************
+    * ****************** Defining formatter filters for signals and formulas
+    * *********************
     */
 
    var app = angular.module('alambic.filters');
@@ -39,17 +40,17 @@
 
             while (!lexer.hasNoMoreChars()) {
                if (lexer.isAnd()) {
-                  transformedFormula += " &#8743; ";
+                  transformedFormula += " " + Symbols.getPrettyAnd() + " ";
                } else if (lexer.isOr()) {
-                  transformedFormula += " &#8744; ";
+                  transformedFormula += " " + Symbols.getPrettyOr() + " ";
                } else if (lexer.isNot()) {
-                  transformedFormula += "&#172;";
+                  transformedFormula += Symbols.getPrettyNot();
                } else if (lexer.isOpeningSquareBracket()) {
                   lexer.goToNextToken();
-                  transformedFormula += "&#9723;";
+                  transformedFormula += Symbols.getPrettyAlways();
                } else if (lexer.isLessThanSign()) {
                   lexer.goToNextToken();
-                  transformedFormula += "&#9674;";
+                  transformedFormula += Symbols.getPrettyEventually();
                } else if (lexer.isOpeningBracket()) {
                   transformedFormula += lexer.getCurrentToken();
                } else {

@@ -13,7 +13,7 @@ function Map(other) {
             if (other.data[k].__type === 'BooleanSignal') {
                obj = new BooleanSignal(undefined, other.data[k]);
             } else if (other.data[k].__type === 'TemporalFormula') {
-               obj = new TemporalFormula(undefined, undefined, undefined, other.data[k]);
+               obj = new TemporalFormula(undefined, undefined, undefined, undefined, other.data[k]);
             } else {
                obj = {};
             }

@@ -149,55 +149,61 @@ footer {
 }
 
 .slide {
-  width: 80px;
-  height: 26px;
-  background: #333;
-  margin: 10px auto;
-  position: relative;
-  border-radius: 50px;
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+	width: 80px;
+	height: 26px;
+	background: #333;
+	margin: 10px auto;
+	position: relative;
+	border-radius: 50px;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px
+		rgba(255, 255, 255, 0.2);
 }
+
 .slide:after {
-  content: 'OFF';
-  color: #000;
-  position: absolute;
-  right: 10px;
-  z-index: 0;
-  font: 12px/26px Arial, sans-serif;
-  font-weight: bold;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+	content: 'OFF';
+	color: #000;
+	position: absolute;
+	right: 10px;
+	z-index: 0;
+	font: 12px/26px Arial, sans-serif;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
 }
+
 .slide:before {
-  content: 'ON';
-  color: #486ca8;
-  position: absolute;
-  left: 10px;
-  z-index: 0;
-  font: 12px/26px Arial, sans-serif;
-  font-weight: bold;
+	content: 'ON';
+	color: #486ca8;
+	position: absolute;
+	left: 10px;
+	z-index: 0;
+	font: 12px/26px Arial, sans-serif;
+	font-weight: bold;
 }
+
 .slide label {
-  display: block;
-  width: 34px;
-  height: 20px;
-  cursor: pointer;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  z-index: 1;
-  background: #fcfff4;
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  border-radius: 50px;
-  -webkit-transition: all 0.4s ease;
-          transition: all 0.4s ease;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+	display: block;
+	width: 34px;
+	height: 20px;
+	cursor: pointer;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	z-index: 1;
+	background: #fcfff4;
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	border-radius: 50px;
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
 }
+
 .slide input[type=checkbox] {
-  visibility: hidden;
+	visibility: hidden;
 }
-.slide input[type=checkbox]:checked + label {
-  left: 43px;
+
+.slide input[type=checkbox]:checked+label {
+	left: 43px;
 }
 /*************************************** END checkbox ******************************/
 
@@ -347,7 +353,8 @@ input:-moz-placeholder {
 }
 
 .alambic--list ul li a.delete--signal, .alambic--list ul li button.edit--signal,
-	.alambic--list ul li button.delete--signal, .alambic--list ul li a.cancel--signal {
+	.alambic--list ul li button.delete--signal, .alambic--list ul li a.cancel--signal
+	{
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -360,7 +367,8 @@ input:-moz-placeholder {
 	float: right;
 }
 
-.alambic--list ul li button.edit--signal, .alambic--list ul li button.delete--signal {
+.alambic--list ul li button.edit--signal, .alambic--list ul li button.delete--signal
+	{
 	background-color: transparent !important;
 	border: none;
 	outline: none;
@@ -368,20 +376,20 @@ input:-moz-placeholder {
 	outline-offset: 0;
 }
 
-.alambic--list ul li button.delete--signal  {
-   background-image: url('../images/delete16.png') !important;
+.alambic--list ul li button.delete--signal {
+	background-image: url('../images/delete16.png') !important;
 }
 
 .alambic--list ul li button.delete--signal:disabled {
-   background-image: url('../images/delete-disabled16.png') !important;
+	background-image: url('../images/delete-disabled16.png') !important;
 }
 
 .alambic--list ul li button.delete--signal:hover:enabled {
-   background-image: url('../images/delete-blue.png') !important;
+	background-image: url('../images/delete-blue.png') !important;
 }
 
 .alambic--list ul li button.edit--signal {
-   background-image: url('../images/edit16.png') !important;
+	background-image: url('../images/edit16.png') !important;
 }
 
 .alambic--list ul li button.edit--signal:disabled {
@@ -401,7 +409,7 @@ input:-moz-placeholder {
 }
 
 .alambic--list ul li a.delete--signal:hover {
-   background-image: url('../images/delete-blue.png') !important;
+	background-image: url('../images/delete-blue.png') !important;
 }
 
 .alambic--list ul li input.alambic--editorField {
@@ -443,14 +451,34 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 	padding: 6px;
 }
 
-.about--wrapper h1 {
-	margin-bottom: 10px;
-	margin-top: 5px;
-	margin-left: 3px;
+.about--content {
+	min-height: 560px;
+	max-height: 560px;
+	margin-top: 0;
 }
 
-.about--content {
-	min-height: 518px;
-	max-height: 518px;
-	margin-top: 0;
+.about--wrapper h1, h2, h3 {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+.about--wrapper h2 {
+	margin-top: 5px;
+	font-size: 18px;
+}
+
+.about--wrapper h3 {
+	font-size: 14px;
+}
+
+.about--content table {
+	margin-left: 10px;
+}
+
+.about--content table tr td:nth-child(1) {
+	text-align: right;
+}
+
+.about--content table.operatorsTable tr td:nth-child(2) {
+	text-align: center;
 }

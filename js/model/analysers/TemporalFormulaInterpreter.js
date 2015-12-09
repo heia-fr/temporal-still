@@ -122,7 +122,7 @@ var TemporalFormulaInterpreter = function() {
                lexer.goToNextToken();
                fId = expression.split("=")[0].trim();
                var bs = parseFormulaExpr();
-               var tf = new TemporalFormula(expression, bs, ids);
+               var tf = new TemporalFormula(fId, expression, bs, ids);
                ids = [];
                return tf;
             } catch (ex) {

@@ -1,4 +1,4 @@
-function TemporalFormula(formulaString, booleanSignal, referencedBS, other) {
+function TemporalFormula(id, formulaString, booleanSignal, referencedBS, other) {
    if (typeof other === 'undefined') {
       if (typeof formulaString !== "string")
          throw new TypeError("TemporalFormula: Expected 'String' object");
@@ -7,7 +7,7 @@ function TemporalFormula(formulaString, booleanSignal, referencedBS, other) {
       if (!(referencedBS instanceof Array))
          throw new TypeError("TemporalFormula: Expected 'Array' object");
 
-      this.id = formulaString.split("=")[0].trim();
+      this.id = id;
       this.content = formulaString;
       this.editorEnabled = false;
       this.referencedBooleanSignalsIds = referencedBS;
