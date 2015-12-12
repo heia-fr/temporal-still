@@ -51,14 +51,14 @@
                } else if (lexer.isLessThanSign()) {
                   lexer.goToNextToken();
                   transformedFormula += Symbols.getPrettyEventually();
-               } else if (lexer.isOpeningBracket()) {
-                  transformedFormula += lexer.getCurrentToken();
-               } else {
+               } else if (lexer.isWeaklyUntil() || lexer.isEqualSign()) {
                   transformedFormula += " " + lexer.getCurrentToken() + " ";
+               } else {
+                  transformedFormula += lexer.getCurrentToken();
                }
                lexer.goToNextToken();
             }
-            transformedFormula += " " + lexer.getCurrentToken() + " ";
+            transformedFormula += lexer.getCurrentToken();
 
             return $sce.trustAsHtml(transformedFormula);
          }

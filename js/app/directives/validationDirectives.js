@@ -8,8 +8,8 @@
                require: 'ngModel',
                link: function(scope, elem, attr, ngModel) {
                   ngModel.$parsers.unshift(function(value) {
-                     ngModel.$setValidity('validateSignals', BooleanSignalSyntaxDiagram
-                              .isValid(value));
+                     var b = BooleanSignalSyntaxDiagram.isValid(value);
+                     ngModel.$setValidity('validateSignals', b);
                      return value;
                   });
                }
@@ -89,14 +89,14 @@
                link: function(scope, elem, attr, ngModel) {
                   ngModel.$parsers.unshift(function(value) {
                      var b = TemporalFormulaSyntaxDiagram.isValid(value) && value.length != 0;
-                     
+
                      var formulaArr;
                      if (b) {
                         formulaArr = value.split(Symbols.getEqual());
                         var formulaId = formulaArr[0].trim();
                         b = (formulaId === scope.editable.editableFormula.id);
                      }
-                     
+
                      if (b) {
                         var formulaBody = formulaArr[1].trim();
                         var lexer = new TemporalFormulaLexer(formulaBody);
@@ -115,7 +115,7 @@
                            }
                         }
                      }
-                     
+
                      ngModel.$setValidity('validateEditableFormula', b);
                      return value;
                   });

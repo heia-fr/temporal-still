@@ -1158,7 +1158,10 @@ nv.utils.optionsFunc = function(args) {
                 lastIdx = i;
                 if(i == 0) i = 1;
                 return 'translate(' + -scale(d)/(2*i) + ', 0)';
-          });
+          }).text(function(d,i) {
+             var v = fmt(d);
+             return ('' + v).match('NaN') ? '' : v - 1;
+           });
           // ********************************************************************************
           if (showMaxMin) {
           //if (showMaxMin && !isOrdinal) {
@@ -1184,7 +1187,9 @@ nv.utils.optionsFunc = function(args) {
                 .style('text-anchor', rotateLabels ? (rotateLabels%360 > 0 ? 'start' : 'end') : 'middle')
                 .text(function(d,i) {
                   var v = fmt(d);
-                  return ('' + v).match('NaN') ? '' : v;
+                  // ****************** MODIFIED BY MOUAD EL MERCHICHI ************************
+                  return ('' + v).match('NaN') || ('' + v).match('0') ? '' : v - 1;
+                  // **************************************************************************
                 });
             axisMaxMin.transition()
                 .attr('transform', function(d,i) {

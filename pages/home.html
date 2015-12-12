@@ -38,7 +38,7 @@
             <div class="alambic--list">
                <ul class="ul--signals">
                   <li ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
-                     id="signal{{sig.id}}">
+                     id="signal{{sig.getId()}}">
                      <a ng-hide="sig.isEditorEnabled()"
                         ng-bind-html="sig.getContent() | signalFormatter"
                         ng-click="editable.editableSignal.enableEditor(sig.getId(), $event)"></a>
@@ -76,7 +76,7 @@
                <ul class="ul--signals">
                   <li
                      ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()"
-                     id="formula{{formula.id}}">
+                     id="formula{{formula.getId()}}">
                      <a ng-hide="formula.isEditorEnabled()"
                         ng-bind-html='formula.getContent() | formulaFormatter'
                         ng-click="editable.editableFormula.enableEditor(formula.getId(), $event)"></a>

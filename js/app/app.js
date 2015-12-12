@@ -11,13 +11,13 @@
                localStorageServiceProvider.setStorageType('sessionStorage');
 
                $routeProvider.when('/', {
-                        templateUrl: 'pages/home.html',
+                        templateUrl: 'home.html', // pages/home.html
                         controller: 'MainController'
                }).when('/howto', {
-                        templateUrl: 'pages/how-to.html',
+                        templateUrl: 'how-to.html', // pages/how-to.html
                         controller: 'HowToController'
                }).when('/about', {
-                        templateUrl: 'pages/about.html',
+                        templateUrl: 'about.html', // pages/about.html
                         controller: 'AboutController'
                }).otherwise({
                   redirectTo: '/'

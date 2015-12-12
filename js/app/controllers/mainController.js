@@ -82,6 +82,8 @@
                   s.setEditorEnabled(true);
                   $scope.editable.editableSignal.text = s.getContent();
                   $scope.editable.editableSignal.id = id;
+                  $scope.alambicSignalsListForm.$setPristine();
+                  $scope.alambicSignalsListForm.$setUntouched();
                   event.stopPropagation();
                };
 
@@ -128,6 +130,8 @@
                   updateSignalsCharts();
                   saveUniverseState();
                   $scope.signalsString = "";
+                  $scope.alambicSignalsForm.$setPristine();
+                  $scope.alambicSignalsForm.$setUntouched();
                };
 
                $scope.updateSignal = function(id) {
@@ -172,6 +176,8 @@
                   f.setEditorEnabled(true);
                   $scope.editable.editableFormula.text = f.getContent();
                   $scope.editable.editableFormula.id = id;
+                  $scope.alambicFormulaListForm.$setPristine();
+                  $scope.alambicFormulaListForm.$setUntouched();
                   event.stopPropagation();
                };
 
@@ -193,6 +199,8 @@
                      saveUniverseState();
                   }
                   $scope.formulaString = "";
+                  $scope.alambicFormulaForm.$setPristine();
+                  $scope.alambicFormulaForm.$setUntouched();
                };
 
                $scope.updateFormula = function(id) {

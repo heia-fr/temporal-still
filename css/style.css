@@ -1,4 +1,4 @@
-@CHARSET "ISO-8859-1";
+@CHARSET "UTF-8";
 
 @font-face {
 	font-family: "Steinem";
@@ -27,11 +27,11 @@ body {
 #wrapper .content {
 	display: inline-block;
 	width: 1124px; /* 713 */
-	min-height: 774px;
+	min-height: 784px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 10px;
-	padding: 20px 10px 15px 17px;
+	margin-top: 5px;
+	padding: 10px 10px 15px 17px;
 	position: relative;
 	border-radius: 5px;
 	-webkit-box-shadow: 0px 0px 9px 1px rgba(50, 54, 50, 0.75);
@@ -109,7 +109,7 @@ footer {
 	height: auto;
 	overflow: hidden;
 	background: transparent;
-	margin-bottom: 5px;
+/* 	margin-bottom: 5px; */
 	position: static;
 }
 
@@ -308,7 +308,7 @@ input:-moz-placeholder {
 	margin-left: 2px;
 	padding: 0;
 	width: 99%;
-	height: 140px;
+	height: 160px;
 	overflow: auto;
 	-moz-padding-start: 5px !important;
 }
@@ -365,6 +365,7 @@ input:-moz-placeholder {
 	position: relative;
 	right: 0px;
 	float: right;
+	transition: all 0.3s ease 0s;
 }
 
 .alambic--list ul li button.edit--signal, .alambic--list ul li button.delete--signal
@@ -442,8 +443,8 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 /***************************************************************************************/
 .chart--wrapper, .about--content {
 	max-width: 99%;
-	min-height: 330px;
-	max-height: 330px;
+	min-height: 334px;
+	max-height: 334px;
 	margin-left: 2px;
 	overflow: auto;
 	border: 1px solid #ccc;
@@ -452,8 +453,8 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 }
 
 .about--content {
-	min-height: 560px;
-	max-height: 560px;
+	min-height: 580px;
+	max-height: 580px;
 	margin-top: 0;
 }
 
