@@ -14,7 +14,7 @@
             function($scope, $window, localStorageService, signals) {
 
                $scope.$window = $window;
-               $scope.signals = signals; // hook data to the scope variable
+               $scope.signals = signals; // hook data to a scope variable
 
                updateSignalsCharts();
                updateFormulasCharts();
@@ -22,15 +22,14 @@
                /**
                 * ****************** private operations *********************
                 */
-               // save universe and formulas in the local storage
-               function saveUniverseState() {
-                  localStorageService.set('universe', angular.toJson($scope.signals.bs.universe));
+               function saveUniverse() {
+                  $scope.signals.save($scope.signals.universeKey, angular
+                           .toJson($scope.signals.bs.universe));
                }
-               function saveFormulasManagerState() {
-                  localStorageService.set('formulasManager', angular
+               function saveFormulasManager() {
+                  $scope.signals.save($scope.signals.formulasManagerKey, angular
                            .toJson($scope.signals.tf.formulasManager));
                }
-
                // update charts
                function updateSignalsCharts() {
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
@@ -45,17 +44,17 @@
 
                // when removing a formula, release the referenced
                // boolean signals
-               function removeReferencingFormula(tf) {
-                  tf.getReferencedBooleanSignalsIds().forEach(function(id) {
+               function removeReferringFormula(tf) {
+                  tf.getReferredBooleanSignalsIds().forEach(function(id) {
                      var bs = $scope.signals.bs.universe.signalById(id);
-                     bs.removeReferencingTemporalFormulaId(tf.getId());
+                     bs.removeReferringTemporalFormulaId(tf.getId());
                   });
                }
 
                // after updating a boolean signal => update it's referencing
                // temporal formulas
-               function reevaluateReferencingTemporalFormulas(s) {
-                  s.getReferencingTemporalFormulasIds().forEach(
+               function reevaluateReferringTemporalFormulas(s) {
+                  s.getReferringTemporalFormulasIds().forEach(
                            function(fId) {
                               var tf = $scope.signals.tf.formulasManager.formulaById(fId);
                               var tf = TemporalFormulaInterpreter.evaluate(tf.getContent(),
@@ -98,7 +97,7 @@
                // clicks outside the update text field, it will be hidden
                $scope.$window.onclick = function(event) {
                   var editor = event.target;
-                  if (!editor || editor.classList.contains("alambic--editorField")) return;
+                  if (!editor || editor.classList.contains("alambic-editorField")) return;
 
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
                      if (s.isEditorEnabled()) {
@@ -123,15 +122,35 @@
                      signalsArray.splice(signalsArray.length - 1, 1);
                   }
 
+                  var updateFormulas = false;
                   signalsArray.forEach(function(signalStr) {
-                     $scope.signals.bs.universe.addSignal(new BooleanSignal(signalStr));
+                     var id = signalStr.split(Symbols.getEqual())[0].trim();
+                     var newS = new BooleanSignal(signalStr);
+                     var bs;
+                     if ($scope.signals.bs.universe.containsSignal(id)) {
+                        bs = $scope.signals.bs.universe.signalById(id);
+                     }
+
+                     if (bs && bs.isReferred()) {
+                        newS.setReferringTemporalFormulasIds(bs.getReferringTemporalFormulasIds());
+                        $scope.signals.bs.universe.updateSignal(id, newS);
+                        reevaluateReferringTemporalFormulas(newS);
+                        updateFormulas = true;
+                     } else {
+                        $scope.signals.bs.universe.addSignal(newS);
+                     }
                   });
 
-                  updateSignalsCharts();
-                  saveUniverseState();
                   $scope.signalsString = "";
+                  updateSignalsCharts();
+                  saveUniverse();
                   $scope.alambicSignalsForm.$setPristine();
                   $scope.alambicSignalsForm.$setUntouched();
+
+                  if (updateFormulas) {
+                     updateFormulasCharts();
+                     saveFormulasManager();
+                  }
                };
 
                $scope.updateSignal = function(id) {
@@ -143,22 +162,28 @@
                   }
 
                   var newS = new BooleanSignal(str);
-                  newS.setReferencingTemporalFormulasIds(s.getReferencingTemporalFormulasIds());
+                  newS.setReferringTemporalFormulasIds(s.getReferringTemporalFormulasIds());
                   $scope.signals.bs.universe.updateSignal(id, newS);
 
-                  reevaluateReferencingTemporalFormulas(newS);
+                  reevaluateReferringTemporalFormulas(newS);
 
                   updateSignalsCharts();
                   updateFormulasCharts();
-                  saveUniverseState();
-                  saveFormulasManagerState();
+                  saveUniverse();
+                  saveFormulasManager();
                   $scope.editable.editableSignal.disableEditor(id);
                };
 
                $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
                   updateSignalsCharts();
-                  saveUniverseState();
+                  updateFormulasCharts();
+                  saveUniverse();
+                  saveFormulasManager();
+               };
+
+               $scope.generateSignals = function() {
+                  $scope.signalsString = BooleanSignalGenerator.generateBooleanSignals();
                };
 
                /**
@@ -195,8 +220,8 @@
                      $scope.signals.tf.formulasManager.addFormula(tf);
 
                      updateFormulasCharts();
-                     saveFormulasManagerState();
-                     saveUniverseState();
+                     saveUniverse();
+                     saveFormulasManager();
                   }
                   $scope.formulaString = "";
                   $scope.alambicFormulaForm.$setPristine();
@@ -211,15 +236,15 @@
                      return;
                   }
 
-                  removeReferencingFormula(tf);
+                  removeReferringFormula(tf);
 
                   tf = TemporalFormulaInterpreter.evaluate(str, $scope.signals.bs.universe);
                   if (tf instanceof TemporalFormula) {
                      $scope.signals.tf.formulasManager.updateFormula(id, tf);
 
                      updateFormulasCharts();
-                     saveFormulasManagerState();
-                     saveUniverseState();
+                     saveUniverse();
+                     saveFormulasManager();
                      $scope.editable.editableFormula.disableEditor(id);
                   }
                };
@@ -227,12 +252,16 @@
                $scope.removeFormula = function(id) {
                   var tf = $scope.signals.tf.formulasManager.formulaById(id);
 
-                  removeReferencingFormula(tf);
+                  removeReferringFormula(tf);
 
                   $scope.signals.tf.formulasManager.removeFormula(id);
                   updateFormulasCharts();
-                  saveFormulasManagerState();
-                  saveUniverseState();
+                  saveUniverse();
+                  saveFormulasManager();
+               };
+
+               $scope.generateFormula = function() {
+                  $scope.formulaString = FormulaGenerator.generateTemporalFormula();
                };
             }]);
 }(angular, _));

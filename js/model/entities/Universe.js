@@ -26,7 +26,10 @@ Universe.prototype = {
             return this.dataStoreMap.get(id);
          },
          containsSignal: function(id) {
-           return this.dataStoreMap.contains(id); 
+            return this.dataStoreMap.contains(id);
+         },
+         isEmpty: function() {
+            return this.dataStoreMap.isEmpty();
          },
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))

@@ -27,7 +27,7 @@ body {
 #wrapper .content {
 	display: inline-block;
 	width: 1124px; /* 713 */
-	min-height: 784px;
+	min-height: 808px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 5px;
@@ -109,7 +109,7 @@ footer {
 	height: auto;
 	overflow: hidden;
 	background: transparent;
-/* 	margin-bottom: 5px; */
+	/* 	margin-bottom: 5px; */
 	position: static;
 }
 
@@ -222,7 +222,7 @@ footer {
 	border-color: #5a5d63; /*#888*/
 	border-style: solid;
 	border-width: 4px;
-	margin-top: 15px;
+	margin-top: 10px;
 	color: #333;
 	font-family: 'Helvetica', sans-serif;
 	font-size: 22px;
@@ -243,7 +243,7 @@ footer {
 	height: 50px;
 	padding: 0;
 	border: none;
-	margin-top: 8px; /* margin-top + border-width */
+	margin-top: 3px; /* margin-top + border-width */
 	margin-right: 4px; /* border-width */
 	background: transparent;
 	color: #5a5d63; /*#888*/
@@ -256,7 +256,7 @@ footer {
 /*css declaration only for Chrome/Safari*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.alambic--submit {
-		margin-top: 10px;
+		margin-top: 5px;
 	}
 }
 
@@ -307,7 +307,7 @@ input:-moz-placeholder {
 	margin-top: 10px;
 	margin-left: 2px;
 	padding: 0;
-	width: 99%;
+	width: 98.2%;
 	height: 160px;
 	overflow: auto;
 	-moz-padding-start: 5px !important;
@@ -344,6 +344,12 @@ input:-moz-placeholder {
 	border-bottom: 1px solid #ccc;
 }
 
+/*css declaration only for Firefox*/
+@-moz-document url-prefix () { .alambic--list ul li:first-child {
+	padding-top: 0;
+}
+
+}
 .alambic--list ul li:last-child {
 	border-bottom: 0;
 }
@@ -364,8 +370,11 @@ input:-moz-placeholder {
 	float: right;
 	position: relative;
 	right: 0px;
-	float: right;
 	transition: all 0.3s ease 0s;
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	-ms-transition: all 0.3s ease 0s;
 }
 
 .alambic--list ul li button.edit--signal, .alambic--list ul li button.delete--signal
@@ -428,6 +437,7 @@ input:-moz-placeholder {
 	outline: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	-o-appearance: none;
 }
 
 input[name='inputEditor'].ng-dirty.ng-invalid {
@@ -440,7 +450,7 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 	border-color: #5a5d63;
 }
 
-/***************************************************************************************/
+/***************************** Generator buttons ***************************************/
 .chart--wrapper, .about--content {
 	max-width: 99%;
 	min-height: 334px;
@@ -453,8 +463,8 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 }
 
 .about--content {
-	min-height: 580px;
-	max-height: 580px;
+	min-height: 607px;
+	max-height: 607px;
 	margin-top: 0;
 }
 
@@ -482,4 +492,58 @@ input[name='inputEditor'].ng-dirty.ng-valid {
 
 .about--content table.operatorsTable tr td:nth-child(2) {
 	text-align: center;
+}
+
+/*****************   Floating button **************************/
+a.btn-floating-left, a.btn-floating-right {
+	display: block;
+	position: relative;
+	top: 5px;
+	overflow: hidden;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0 !important;
+	margin-left: 5px;
+	background-image: url('../images/random32.png') !important;
+	cursor: pointer;
+	-webkit-transition: .2s ease-out;
+	-moz-transition: .2s ease-out;
+	-o-transition: .2s ease-out;
+	-ms-transition: .2s ease-out;
+	transition: .2s ease-out;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+/* 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 */
+/* 		rgba(0, 0, 0, 0.12); */
+/* 	-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 */
+/* 		rgba(0, 0, 0, 0.12); */
+/* 	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 */
+/* 		rgba(0, 0, 0, 0.12); */
+}
+
+a.btn-floating-left {
+	float: left;
+}
+
+a.btn-floating-right {
+	position: relative;
+	left: 92.9%;
+}
+
+a.btn-floating-left:hover, a.btn-floating-right:hover:enabled {
+	background: url('../images/random-blue32.png') !important;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0
+		rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0
+		rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0
+		rgba(0, 0, 0, 0.15);
+}
+
+a.btn-floating-right:disabled {
+   background-image: url('../images/random-disabled32.png') !important;
 }

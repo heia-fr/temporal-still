@@ -9,6 +9,21 @@
                link: function(scope, elem, attr, ngModel) {
                   ngModel.$parsers.unshift(function(value) {
                      var b = BooleanSignalSyntaxDiagram.isValid(value);
+
+                     if (b && value.length != 0) {
+                        var signalsArray = value.split(Symbols.getSemiColon());
+                        if (signalsArray[signalsArray.length - 1] === "") {
+                           signalsArray.splice(signalsArray.length - 1, 1);
+                        }
+
+                        signalsArray.forEach(function(signalStr) {
+                           var signalParts = signalStr.split(Symbols.getEqual());
+                           if (scope.signals.tf.formulasManager.containsFormula(signalParts[0].trim())) {
+                              b = false;
+                           }
+                        });
+                     }
+
                      ngModel.$setValidity('validateSignals', b);
                      return value;
                   });

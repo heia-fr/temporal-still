@@ -104,7 +104,7 @@ var TemporalFormulaInterpreter = function() {
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          var bs = universe.signalById(lexer.getCurrentToken());
          ids.push(bs.getId());
-         bs.addReferencingTemporalFormulaId(fId);
+         bs.addReferringTemporalFormulaId(fId);
          lexer.goToNextToken();
          return bs;
       }

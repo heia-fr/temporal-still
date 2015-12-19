@@ -20,6 +20,9 @@ FormulasManager.prototype = {
          formulaById: function(id) {
             return this.dataStoreMap.get(id);
          },
+         containsFormula: function(id) {
+            return this.dataStoreMap.contains(id); 
+         },
          addFormula: function(formula) {
             if (!(formula instanceof TemporalFormula))
                throw new TypeError("FormulasManager: Expected 'TemporalFormula' object");

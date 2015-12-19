@@ -57,6 +57,11 @@
 
 <div class="alambic--container">
    <div class="alambic--wrapper">
+      <div>
+         <a class="btn-floating-left" title="Generate random signals" ng-click="generateSignals()"></a>
+         <a class="btn-floating-right" title="Generate random formula" ng-click="generateFormula()"
+           ng-disabled="signals.bs.universe.isEmpty()"></a>
+      </div>
       <div class="alambic--signal">
          <form name="alambicSignalsForm" role="form" class="alambic--form" novalidate>
             <div class="alambic--input-wrapper">
@@ -88,7 +93,7 @@
                      <button class="edit--signal" ng-disabled="alambicSignalsListForm.$invalid"
                         ng-show="sig.isEditorEnabled()" ng-click="updateSignal(sig.getId())"></button>
                      <button class="delete--signal" ng-hide="sig.isEditorEnabled()"
-                        ng-disabled="sig.isReferenced()" ng-click="removeSignal(sig.getId())"></button>
+                        ng-disabled="sig.isReferred()" ng-click="removeSignal(sig.getId())"></button>
                   </li>
                </ul>
             </div>
@@ -315,12 +320,12 @@
 
 
       <h3>Temporal formulas</h3>
-      <p>Temporal formulas reference existing boolean signals such as a&#44;b&#44; etc. For
+      <p>Temporal formulas reference to existing boolean signals such as a&#44;b&#44; etc. For
          example&#44; the temporal formula f {{symbols.equal}} a W b references the signals a and b.
-         Thus, these two signals cannot be deleted as long as they are referenced.</p>
+         Thus, these two signals cannot be deleted as long as they are referred.</p>
       <p>the relationship between temporal formulas and booleans signals is of type
-         many-to-many. That means, each boolean signal can be referenced by zero or many temporal
-         formulas, and a temporal formula can reference one or many boolean signals.</p>
+         many-to-many. That means, each boolean signal can be referred by zero or many temporal
+         formulas, and a temporal formula can refer to one or many boolean signals.</p>
 
       <p>Temporal formulas can also be altered by clicking on them in the list below the main
          text field.</p>
@@ -396,5 +401,7 @@
    <script type="text/javascript" src="js/model/entities/FormulasManager.js"></script>
    <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
    <script type="text/javascript" src="js/model/entities/TemporalFormula.js"></script>
+   <script type="text/javascript" src="js/model/generators/BooleanSignalGenerator.js"></script>
+   <script type="text/javascript" src="js/model/generators/FormulaGenerator.js"></script>
 </body>
 </html>

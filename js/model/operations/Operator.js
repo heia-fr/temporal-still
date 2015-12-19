@@ -1,7 +1,22 @@
+/**
+ * This constructor function represents a base abstract class for all logical
+ * operators.
+ * 
+ * @param function
+ *           a function provided by derived Operators and used to evaluate
+ *           the signal(s).
+ * @param BooleanSignal
+ *           lSignal is the left operand
+ * @param BooleanSignal
+ *           rSignal is the right operand
+ */
 function Operator(operation, lSignal, rSignal) {
+   // This class cannot be instantiated and it must be derived
+   // in order to be used
    if (this.constructor === Operator)
       throw new Error("Operator: Cannot instantiate abstract class");
 
+   // Be sure that the operation and the left operand are of the expected types
    if (typeof operation !== 'function')
       throw new TypeError("Operator: Expected a 'function' object");
    if (!(lSignal instanceof BooleanSignal))
@@ -14,6 +29,7 @@ function Operator(operation, lSignal, rSignal) {
 
 Operator.prototype = {
          constructor: Operator,
+         // implement the default behavior for unary operators
          performUnaryOperator: function() {
             var thisBody = this.leftSignal.calculateUpdatedFixedPart();
             var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
@@ -30,6 +46,7 @@ Operator.prototype = {
             whole = this.leftSignal.getId() + Symbols.getEqual() + whole;
             return new BooleanSignal(whole);
          },
+      // implement the default behavior for binary operators
          performBinaryOperator: function() {
             if (!(this.rightSignal instanceof BooleanSignal))
                throw new TypeError(

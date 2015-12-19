@@ -16,10 +16,21 @@
 
                signals.bs.universe = null;
                signals.tf.formulasManager = null;
+               
+               signals.universeKey = 'universe';
+               signals.formulasManagerKey = 'formulasManager';
+
+               // methods to save and restore data in/from the local storage
+               signals.save = function(key, data) {
+                  localStorageService.set(key, data);
+               };
+               signals.restore = function(key) {
+                  return localStorageService.get(key);
+               };
 
                // restore universe from local storage
                var universeFromJson;
-               var universeAsJson = localStorageService.get('universe');
+               var universeAsJson = signals.restore(signals.universeKey);
                if (universeAsJson) {
                   universeFromJson = JSON.parse(universeAsJson, function(key, value) {
                      if (typeof (value) === 'object' && value.__type === 'Universe')
@@ -36,7 +47,7 @@
 
                // restore formulas from local storage
                var formulasManagerFromJson;
-               var formulasManagerAsJson = localStorageService.get('formulasManager');
+               var formulasManagerAsJson = signals.restore(signals.formulasManagerKey);
                if (formulasManagerAsJson) {
                   formulasManagerFromJson = JSON.parse(formulasManagerAsJson, function(key, value) {
                      if (typeof (value) === 'object' && value.__type === 'FormulasManager')

@@ -9,19 +9,23 @@ var BooleanSignalGenerator = function() {
       var maxPeriod = 5;
       var maxNbOfSignals = 5;
 
-      var generator = new Random();
-      var charSet = "abcdefghijklmnopqrstuwxyz"; // 'v' is omitted
+      var charSet = "abcdefghijklmnopqrstuvwxyz";
 
-      function generateVarName() {
-         var i = generator.integer(0, charSet.length - 1);
+      function generateVarName(ids) {
+         var i;
+         var id;
+         do {
+            i = _.random(0, charSet.length - 1);
+            id = charSet.charAt(i);
+         } while (_.includes(ids, id));
          return charSet.charAt(i);
       }
 
       function generateDigits(maxNbDigits) {
          var digits = "";
-         var nbDigits = generator.integer(1, maxNbDigits);
+         var nbDigits = _.random(1, maxNbDigits);
          for (var i = 0; i < nbDigits; i++) {
-            digits += (generator.bool() ? Symbols.getOne() : Symbols.getZero());
+            digits += (_.random() === 1 ? Symbols.getOne() : Symbols.getZero());
          }
 
          return digits;
@@ -29,16 +33,18 @@ var BooleanSignalGenerator = function() {
 
       function generateSignals() {
          var signals = "";
-         var nbOfSignals = generator.integer(1, maxNbOfSignals);
+         var nbOfSignals = _.random(1, maxNbOfSignals);
          var varName, body, period;
+         var ids = [];
 
          for (var i = 1; i <= nbOfSignals; i++) {
-            varName = generateVarName();
+            varName = generateVarName(ids);
+            ids.push(varName);
             body = generateDigits(maxBody);
             period = generateDigits(maxPeriod);
 
-            signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash() + period
-                     + ((i == nbOfSignals) ? "" : Symbols.getSemiColon());
+            signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash()
+                     + period + ((i == nbOfSignals) ? "" : Symbols.getSemiColon());
          }
 
          return signals;
