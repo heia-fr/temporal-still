@@ -12,7 +12,7 @@
 
                      if (b && value.length != 0) {
                         var signalsArray = value.split(Symbols.getSemiColon());
-                        if (signalsArray[signalsArray.length - 1] === "") {
+                        if (signalsArray[signalsArray.length - 1] === Symbols.getEmpty()) {
                            signalsArray.splice(signalsArray.length - 1, 1);
                         }
 
@@ -23,7 +23,7 @@
                            }
                         });
                      }
-
+                     
                      ngModel.$setValidity('validateSignals', b);
                      return value;
                   });
@@ -67,15 +67,15 @@
                      var formulaArr;
                      if (b && value.length != 0) {
                         formulaArr = value.split(Symbols.getEqual());
-                        var formulaId = formulaArr[0].trim();
-                        if (scope.signals.bs.universe.containsSignal(formulaId)) {
+                        var fId = formulaArr[0].trim();
+                        if (scope.signals.bs.universe.containsSignal(fId)) {
                            b = false;
                         }
                      }
 
                      if (b && value.length != 0) {
-                        var formulaBody = formulaArr[1].trim();
-                        var lexer = new TemporalFormulaLexer(formulaBody);
+                        var fBody = formulaArr[1].trim();
+                        var lexer = new TemporalFormulaLexer(fBody);
                         while (!lexer.hasNoMoreChars() && b) {
                            if (lexer.isVarName()) {
                               if (!scope.signals.bs.universe
@@ -108,8 +108,8 @@
                      var formulaArr;
                      if (b) {
                         formulaArr = value.split(Symbols.getEqual());
-                        var formulaId = formulaArr[0].trim();
-                        b = (formulaId === scope.editable.editableFormula.id);
+                        var fId = formulaArr[0].trim();
+                        b = (fId === scope.editable.editableFormula.id);
                      }
 
                      if (b) {

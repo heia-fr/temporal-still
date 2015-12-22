@@ -5,82 +5,97 @@ var FormulaGenerator = function() {
 
    function Singleton() {
 
+      var universe;
+
+      var formulaLevel;
       var maxNbTerms = 5;
       var maxNbFactors = 5;
-      var level = 3;
+      var maxPercent = 100;
+      var pathOnePercent = 20;
+      var pathTwoPercent = 40;
+      var pathThreePercent = 60;
+      var pathFourPercent = 80;
 
       var charSet = "abcdefghijklmnopqrstuvwxyz";
 
-      function generateProp() {
-         var i = _.random(0, charSet.length - 1); // TODO
-         return charSet.charAt(i);
+      function generateProp(ids) {
+         var i;
+         var id;
+         do {
+            i = _.random(0, charSet.length - 1);
+            id = charSet.charAt(i);
+         } while (universe.containsSignal(id));
+         return id;
       }
 
-      function generateAtom(formulaLevel, maxNbTerms, maxNbFactors) {
+      function generateAtom() {
          var atom;
-         var chance =  _.random(1, 100);
+         var chance = _.random(1, maxPercent);
 
-         if (chance <= 20) {
+         if (chance <= pathOnePercent) {
             if (formulaLevel > 0) {
-               atom = Symbols.getOpeningBraket()
-                        + generateFormula(formulaLevel - 1, maxNbTerms, maxNbFactors)
-                        + Symbols.getClosingBraket();
+               --formulaLevel;
+               atom = Symbols.getOpeningBraket() + generateFormula() + Symbols.getClosingBraket();
             } else {
                chance = _.random(21, 100);
             }
          }
 
-         if (chance <= 40) {
-            atom = generateProp();
-         } else if (chance <= 60) {
-            atom = Symbols.getNot() + generateAtom(formulaLevel, maxNbTerms, maxNbFactors);
-         } else if (chance <= 80) {
-            atom = Symbols.getAlways() + generateAtom(formulaLevel, maxNbTerms, maxNbFactors);
+         if (chance <= pathTwoPercent) {
+            var ids = universe.getSignalsIds();
+            atom = ids[_.random(0, ids.length - 1)];
+         } else if (chance <= pathThreePercent) {
+            atom = Symbols.getNot() + generateAtom();
+         } else if (chance <= pathFourPercent) {
+            atom = Symbols.getAlways() + generateAtom();
          } else {
-            atom = Symbols.getEventually() + generateAtom(formulaLevel, maxNbTerms, maxNbFactors);
+            atom = Symbols.getEventually() + generateAtom();
          }
          return atom;
       }
 
-      function generateFactor(formulaLevel, maxNbTerms, maxNbFactors) {
-         var factor = generateAtom(formulaLevel, maxNbTerms, maxNbFactors);
+      function generateFactor() {
+         var factor = generateAtom();
 
          if (_.random(0, 1) === 0) {
-            factor += Symbols.getWeakUntil() + generateAtom(formulaLevel, maxNbTerms, maxNbFactors);
+            factor += Symbols.getWeakUntil() + generateAtom();
          }
          return factor;
       }
 
-      function generateTerm(formulaLevel, maxNbTerms, maxNbFactors) {
-         var term = generateFactor(formulaLevel, maxNbTerms, maxNbFactors);
+      function generateTerm() {
+         var term = generateFactor();
 
          if (_.random(0, 1) === 0) {
             var nbFactors = _.random(2, maxNbFactors);
             for (var i = 1; i < nbFactors; i++) {
-               term += " " + Symbols.getAnd() + " "
-                        + generateFactor(formulaLevel, maxNbTerms, maxNbFactors);
+               term += " " + Symbols.getAnd() + " " + generateFactor();
             }
          }
          return term;
       }
 
-      function generateFormula(formulaLevel, maxNbTerms, maxNbFactors) {
-         var formula = generateTerm(formulaLevel, maxNbTerms, maxNbFactors);
+      function generateFormula() {
+         var formula = generateTerm();
 
          if (_.random(0, 1) === 0) {
             var nbTerms = _.random(2, maxNbTerms);
             for (var i = 1; i < nbTerms; i++) {
-               formula += " " + Symbols.getOr() + " "
-                        + generateTerm(formulaLevel, maxNbTerms, maxNbFactors);
+               formula += " " + Symbols.getOr() + " " + generateTerm();
             }
          }
          return formula;
       }
 
       return {
-         generateTemporalFormula: function() {
-            return generateProp() + Symbols.getEqual()
-                     + generateFormula(level, maxNbTerms, maxNbFactors);
+         generateTemporalFormula: function(univ) {
+            if (!(univ instanceof Universe))
+               throw new TypeError("FormulaGenerator: Expecting 'univ' to be a 'Universe' object");
+
+            universe = univ;
+            formulaLevel = 3;
+
+            return generateProp() + Symbols.getEqual() + generateFormula();
          }
       };
    }

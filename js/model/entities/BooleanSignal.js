@@ -3,22 +3,22 @@ function BooleanSignal(expressionString, other) {
       if (typeof expressionString !== 'string')
          throw new TypeError("BooleanSignal: Expected expressionString to be a 'String' object");
 
-      this.id = ""; // the signal's name
+      this.id = Symbols.getEmpty(); // the signal's id
       this.content = expressionString.trim();
       this.editorEnabled = false;
       this.referringTemporalFormulasIds = [];
-      this.body = ""; // the fixed part of the signal
-      this.period = ""; // the periodic part of the signal
+      this.body = Symbols.getEmpty(); // the fixed part of the signal
+      this.period = Symbols.getEmpty(); // the periodic part of the signal
       this.periodStartIndex = 0; // holds the the start of the periodic part
       // after extending the fixed part
       this.fixedPartNewLength = 0; // the extended fixed part length
       this.periodicPartNewLength; // the updated length of the periodic part
       this.signalChartData;
 
-      var parts = this.content.split("=");
+      var parts = this.content.split(Symbols.getEqual());
       this.id = parts[0].trim();
 
-      var signal = parts[1].split("/");
+      var signal = parts[1].split(Symbols.getSlash());
       this.body = signal[0].trim();
       this.period = signal[1].trim();
       this.periodicPartNewLength = this.period.length;
@@ -68,8 +68,10 @@ BooleanSignal.prototype = {
          },
          removeReferringTemporalFormulaId: function(TfId) {
             if (_.includes(this.referringTemporalFormulasIds, TfId)) {
+               console.log("#before signal id: " + this.getId() + " ==> " + this.referringTemporalFormulasIds);
                this.referringTemporalFormulasIds = _.without(this.referringTemporalFormulasIds,
                         TfId);
+               console.log("#after signal id: " + this.getId() + " ==> " + this.referringTemporalFormulasIds);
             }
          },
          isReferred: function() {
@@ -141,18 +143,10 @@ BooleanSignal.prototype = {
             this.signalChartData = [{
                      "key": "Signal " + this.getId(),
                      "values": values,
-                     "color": this.colors[_.random(0, this.colors.length - 1)]
+                     "color": Util.colors[_.random(0, Util.colors.length - 1)]
             }];
          },
          getChartData: function() {
             return this.signalChartData;
-         },
-         colors: ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70",
-                  "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#5B3822", "#F012BE", "#B10DC9",
-                  "#2B0F0E", "#111111", "#AAAAAA", "#3F5D7D", "#927054", "#279B61", "#008AB8",
-                  "#993333", "#CC3333", "#006495", "#004C70", "#0093D1", "#F2635F", "#F4D00C",
-                  "#E0A025", "#462066", "#FFB85F", "#FF7A5A", "#00AAA0", "#5D4C46", "#7B8D8E",
-                  "#632528", "#3F2518", "#333333", "#FFCC00", "#669966", "#993366", "#F14C38",
-                  "#144955", "#6633CC", "#EF34A2", "#FD9308", "#462D44", "#3399FF", "#99D21B",
-                  "#B08749", "#FFA3D6", "#00D9FF", "#000000", "#0000FF", "#FF0000", "#00FF00"]
+         }
 };

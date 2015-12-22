@@ -5,6 +5,8 @@ var BooleanSignalGenerator = function() {
 
    function Singleton() {
 
+      var formulasManager;
+
       var maxBody = 10;
       var maxPeriod = 5;
       var maxNbOfSignals = 5;
@@ -17,8 +19,8 @@ var BooleanSignalGenerator = function() {
          do {
             i = _.random(0, charSet.length - 1);
             id = charSet.charAt(i);
-         } while (_.includes(ids, id));
-         return charSet.charAt(i);
+         } while (_.includes(ids, id) || formulasManager.containsFormula(id));
+         return id;
       }
 
       function generateDigits(maxNbDigits) {
@@ -51,7 +53,12 @@ var BooleanSignalGenerator = function() {
       }
 
       return {
-         generateBooleanSignals: function() {
+         generateBooleanSignals: function(fManager) {
+            if (!(fManager instanceof FormulasManager))
+               throw new TypeError(
+                        "BooleanSignalGenerator: Expecting 'fManager' to be a 'FormulasManager' object");
+            formulasManager = fManager;
+            
             return generateSignals();
          }
       };

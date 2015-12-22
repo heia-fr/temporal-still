@@ -9,22 +9,17 @@
 <meta name="author" content="Mouad El Merchichi">
 
 <title>Alambic II</title>
+<!-- AngularJS needed to be loaded early -->
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-<script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script type="text/javascript"
-   src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
-<script type="text/javascript" src="bower_components/d3/d3.js"></script>
-<script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-<script type="text/javascript"
-   src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
-<script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+
+<!-- Page logo -->
+<link rel="shortcut icon" sizes="16x15" href="images/alambicon2.ico">
 
 <link href="bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="shortcut icon" sizes="16x15" href="images/alambicon.ico">
+<link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
+
+<!-- Custom style -->
 <link rel="stylesheet" type="text/css" href="css/bootsrap-style.css" />
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -38,6 +33,7 @@
    <header>
       <div class="header-limiter">
          <h1>
+            <img src="images/alambic-logo.png" alt="Alambic II" width="60" height="60" />
             <a href="#">
                ALAMBIC &Agrave; FORMULES TEMPORELLES
                <span>II</span>
@@ -46,7 +42,7 @@
       </div>
    </header>
 
-   <div class="container drop-shadow">
+   <div class="container">
       <!-- Navigation tabs -->
       <ul class="nav nav-tabs" role="tablist">
          <li role="presentation" class="active">
@@ -66,7 +62,22 @@
             <div class="row top-buffer">
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
-                     <div class="panel-body">
+                     <div class="input-group left-btn-group">
+                        <button class="btn btn-primary btn-lg round toggle" data-toggle="collapse"
+                           data-tooltip="tooltip" title="Collapse signals panel"
+                           data-target="#collapseSignals" aria-expanded="true"
+                           aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
+                           <i ng-show="buttonState.SignalsUp" class="glyphicon glyphicon-chevron-up"></i>
+                           <i ng-hide="buttonState.SignalsUp"
+                              class="glyphicon glyphicon-chevron-down"></i>
+                        </button>
+                        <button class="btn btn-primary btn-lg round right-toggle toggle"
+                           data-tooltip="tooltip" title="Generate random signals"
+                           ng-click="generateSignals()">
+                           <i class="fa fa-random"></i>
+                        </button>
+                     </div>
+                     <div class="panel-body collapse in" id="collapseSignals">
                         <form name="alambicSignalsForm" role="form" novalidate>
                            <div class="input-group input-group-lg"
                               ng-class="{'has-error has-feedback' : 
@@ -100,7 +111,8 @@
                                        <div class="input-group input-group-sm"
                                           ng-class="{'has-error has-feedback' : 
                                         alambicSignalsListForm.$invalid && alambicSignalsListForm.$dirty}">
-                                          <input type="text" name="inputEditor" class="form-control alambic-editorField"
+                                          <input type="text" name="inputEditor"
+                                             class="form-control alambic-editorField"
                                              ng-show="sig.isEditorEnabled()"
                                              ng-model="editable.editableSignal.text"
                                              on-esc="editable.editableSignal.disableEditor(sig.getId())"
@@ -137,7 +149,23 @@
 
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
-                     <div class="panel-body">
+                     <div class="input-group left-btn-group">
+                        <button class="btn btn-primary btn-lg round toggle" data-toggle="collapse"
+                           data-tooltip="tooltip" title="Collapse formulas panel"
+                           data-target="#collapseFormulas" aria-expanded="false"
+                           aria-controls="collapseFormulas" ng-click="toggleFormlasPanel()">
+                           <i ng-show="buttonState.FormulasUp"
+                              class="glyphicon glyphicon-chevron-up"></i> <i
+                              ng-hide="buttonState.FormulasUp"
+                              class="glyphicon glyphicon-chevron-down"></i>
+                        </button>
+                        <button class="btn btn-primary btn-lg round right-toggle toggle"
+                           data-tooltip="tooltip" title="Generate random formula"
+                           ng-click="generateFormula()" ng-disabled="signals.bs.universe.isEmpty()">
+                           <i class="fa fa-random"></i>
+                        </button>
+                     </div>
+                     <div class="panel-body collapse in" id="collapseFormulas">
                         <form name="alambicFormulaForm" role="form" novalidate>
                            <div class="input-group input-group-lg"
                               ng-class="{'has-error has-feedback' : 
@@ -171,7 +199,8 @@
                                        <div class="input-group input-group-sm"
                                           ng-class="{'has-error has-feedback' : 
                                         alambicFormulaListForm.$invalid && alambicFormulaListForm.$dirty}">
-                                          <input type="text" name="inputEditor" class="form-control alambic-editorField"
+                                          <input type="text" name="inputEditor"
+                                             class="form-control alambic-editorField"
                                              ng-show="formula.isEditorEnabled()"
                                              ng-model="editable.editableFormula.text"
                                              on-esc="editable.editableFormula.disableEditor(formula.getId())"
@@ -411,6 +440,11 @@
                   frameworks. Monitored by Mr. Fr&eacute;d&eacute;ric Bapst &amp; Mr.
                   Fran&ccedil;ois Kilchoer.
                </p>
+               <div class="centered-img">
+                  <span class="image-wrap">
+                    <img src="images/alambic-logo-big.png" alt="Alambic II" />
+                  </span>
+               </div>
             </div>
          </div>
       </div>
@@ -427,9 +461,22 @@
       </footer>
    </div>
 
+   <!-- JS Components -->
+   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+   <script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+   <script type="text/javascript"
+      src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+   <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+   <script type="text/javascript"
+      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+
    <!-- My scripts -->
    <script type="text/javascript" src="js/app/app.js"></script>
    <script type="text/javascript" src="js/model/util/Symbols.js"></script>
+   <script type="text/javascript" src="js/model/util/Util.js"></script>
    <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
    <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
    <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
@@ -460,5 +507,11 @@
    <script type="text/javascript" src="js/model/entities/TemporalFormula.js"></script>
    <script type="text/javascript" src="js/model/generators/BooleanSignalGenerator.js"></script>
    <script type="text/javascript" src="js/model/generators/FormulaGenerator.js"></script>
+
+   <script type="text/javascript">
+            $(function() {
+               $('[data-tooltip="tooltip"]').tooltip()
+            });
+         </script>
 </body>
 </html>

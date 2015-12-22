@@ -120,7 +120,7 @@ var TemporalFormulaInterpreter = function() {
                universe = univ;
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
-               fId = expression.split("=")[0].trim();
+               fId = expression.split(Symbols.getEqual())[0].trim();
                var bs = parseFormulaExpr();
                var tf = new TemporalFormula(fId, expression, bs, ids);
                ids = [];

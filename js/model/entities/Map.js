@@ -1,13 +1,13 @@
 function Map(other) {
    if (typeof other === 'undefined') {
-      this.keys = [];
+      this.mapKeys = [];
       this.data = {};
    } else {
-      this.keys = other.keys;
+      this.mapKeys = other.mapKeys;
       this.data = {};
-      var len = this.keys.length;
+      var len = this.mapKeys.length;
       for (var i = 0; i < len; ++i) {
-         var k = this.keys[i];
+         var k = this.mapKeys[i];
          var obj = null;
          if (typeof other.data[k] === 'object') {
             if (other.data[k].__type === 'BooleanSignal') {
@@ -32,7 +32,7 @@ Map.prototype = {
          },
          put: function(key, value) {
             if (!this.contains(key)) { // typeof this.data[key] === 'undefined'
-               this.keys.push(key);
+               this.mapKeys.push(key);
             }
             this.data[key] = value;
             return this;
@@ -41,7 +41,7 @@ Map.prototype = {
             // var i = this.keys.indexOf(key);
             // i != -1
             if (this.contains(key)) {
-               this.keys = _.without(this.keys, key);
+               this.mapKeys = _.without(this.mapKeys, key);
                // this.keys.splice(i, 1);
                 delete this.data[key];
                return true;
@@ -49,10 +49,10 @@ Map.prototype = {
             return false;
          },
          entries: function() {
-            var len = this.keys.length;
+            var len = this.mapKeys.length;
             var entrys = new Array(len);
             for (var i = 0; i < len; i++) {
-               var k = this.keys[i];
+               var k = this.mapKeys[i];
                entrys[i] = {
                         key: k,
                         value: this.data[k]
@@ -61,32 +61,32 @@ Map.prototype = {
             return entrys;
          },
          isEmpty: function() {
-            return (this.keys.length == 0);
+            return (this.mapKeys.length == 0);
          },
          size: function() {
-            return this.keys.length;
+            return this.mapKeys.length;
          },
          contains: function(key) {
-            return _.includes(this.keys, key);// (this.data[key] !==
+            return _.includes(this.mapKeys, key);// (this.data[key] !==
             // undefined);
          },
          keys: function() {
-            return this.keys.slice(0); // clone the keys array
+            return this.mapKeys.slice(0); // clone the keys array
          },
          values: function() {
-            var len = this.keys.length;
+            var len = this.mapKeys.length;
             var vals = new Array(len);
             for (var i = 0; i < len; i++) {
-               var key = this.keys[i];
+               var key = this.mapKeys[i];
                vals[i] = this.data[key];
             }
             return vals;
          },
          each: function(func) {
             if (typeof func !== 'function') { return; }
-            var len = this.keys.length;
+            var len = this.mapKeys.length;
             for (var i = 0; i < len; i++) {
-               var k = this.keys[i];
+               var k = this.mapKeys[i];
                func(k, this.data[k], i);
             }
             return this;
@@ -94,8 +94,8 @@ Map.prototype = {
          equals: function(other) {
             if (!other) return false;
             if (!(other instanceof Map)) return false;
-            if (this.keys.length != other.keys.length) return false;
-            var e = this.keys.every(function(element, index) {
+            if (this.mapKeys.length != other.keys.length) return false;
+            var e = this.mapKeys.every(function(element, index) {
                return element === other.keys[index];
             });
             if (!e) return false;

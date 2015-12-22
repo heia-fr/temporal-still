@@ -19,6 +19,9 @@ Universe.prototype = {
          getLength: function() {
             return this.length;
          },
+         getSignalsIds: function() {
+            return this.dataStoreMap.keys();
+         },
          getSignals: function() {
             return this.dataStoreMap.values();
          },
@@ -41,7 +44,7 @@ Universe.prototype = {
                this.length[0] = signal.getFixedPartLength();
             }
             this.length[1] = (signal.getPeriodicPartLength() * this.length[1])
-                     / this.pgcd(signal.getPeriodicPartLength(), this.length[1]);
+                     / Util.gcd(signal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
             this.dataStoreMap.each(function(key, s, i) {
@@ -58,7 +61,7 @@ Universe.prototype = {
                this.length[0] = newSignal.getFixedPartLength();
             }
             this.length[1] = (newSignal.getPeriodicPartLength() * this.length[1])
-                     / this.pgcd(newSignal.getPeriodicPartLength(), this.length[1]);
+                     / Util.gcd(newSignal.getPeriodicPartLength(), this.length[1]);
 
             var that = this;
             this.dataStoreMap.each(function(key, s, i) {
@@ -76,7 +79,7 @@ Universe.prototype = {
                      that.length[0] = s.getFixedPartLength();
                   }
                   that.length[1] = (s.getPeriodicPartLength() * that.length[1])
-                           / that.pgcd(s.getPeriodicPartLength(), that.length[1]);
+                           / Util.gcd(s.getPeriodicPartLength(), that.length[1]);
                });
 
                this.dataStoreMap.each(function(key, s, i) {
@@ -84,14 +87,5 @@ Universe.prototype = {
                   s.setPeriodicPartNewLength(that.length[1]);
                });
             }
-         },
-         pgcd: function(p, q) {
-            var r;
-            while (q != 0) {
-               r = p % q;
-               p = q;
-               q = r;
-            }
-            return p;
          }
 };

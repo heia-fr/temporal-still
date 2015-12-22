@@ -15,6 +15,16 @@
 
                $scope.$window = $window;
                $scope.signals = signals; // hook data to a scope variable
+               $scope.buttonState = {};
+               $scope.buttonState.SignalsUp = true;
+               $scope.buttonState.FormulasUp = true;
+
+               $scope.toggleSignalsPanel = function() {
+                  $scope.buttonState.SignalsUp = !$scope.buttonState.SignalsUp;
+               };
+               $scope.toggleFormlasPanel = function() {
+                  $scope.buttonState.FormulasUp = !$scope.buttonState.FormulasUp;
+               };
 
                updateSignalsCharts();
                updateFormulasCharts();
@@ -45,6 +55,8 @@
                // when removing a formula, release the referenced
                // boolean signals
                function removeReferringFormula(tf) {
+                  console.log("formula id: " + tf.getId() + " ==> "
+                           + tf.getReferredBooleanSignalsIds());
                   tf.getReferredBooleanSignalsIds().forEach(function(id) {
                      var bs = $scope.signals.bs.universe.signalById(id);
                      bs.removeReferringTemporalFormulaId(tf.getId());
@@ -57,7 +69,7 @@
                   s.getReferringTemporalFormulasIds().forEach(
                            function(fId) {
                               var tf = $scope.signals.tf.formulasManager.formulaById(fId);
-                              var tf = TemporalFormulaInterpreter.evaluate(tf.getContent(),
+                              tf = TemporalFormulaInterpreter.evaluate(tf.getContent(),
                                        $scope.signals.bs.universe);
                               if (tf instanceof TemporalFormula) {
                                  $scope.signals.tf.formulasManager.updateFormula(fId, tf);
@@ -126,7 +138,7 @@
                   signalsArray.forEach(function(signalStr) {
                      var id = signalStr.split(Symbols.getEqual())[0].trim();
                      var newS = new BooleanSignal(signalStr);
-                     var bs;
+                     var bs = null;
                      if ($scope.signals.bs.universe.containsSignal(id)) {
                         bs = $scope.signals.bs.universe.signalById(id);
                      }
@@ -183,7 +195,8 @@
                };
 
                $scope.generateSignals = function() {
-                  $scope.signalsString = BooleanSignalGenerator.generateBooleanSignals();
+                  $scope.signalsString = BooleanSignalGenerator
+                           .generateBooleanSignals($scope.signals.tf.formulasManager);
                };
 
                /**
@@ -214,18 +227,27 @@
                };
 
                $scope.addFormula = function() {
-                  var tf = TemporalFormulaInterpreter.evaluate($scope.formulaString,
+                  var fId = $scope.formulaString.split(Symbols.getEqual())[0].trim();
+                  var tf;
+                  if ($scope.signals.tf.formulasManager.containsFormula(fId)) {
+                     tf = $scope.signals.tf.formulasManager.formulaById(fId);
+                     removeReferringFormula(tf);
+                  }
+
+                  tf = TemporalFormulaInterpreter.evaluate($scope.formulaString,
                            $scope.signals.bs.universe);
                   if (tf instanceof TemporalFormula) {
                      $scope.signals.tf.formulasManager.addFormula(tf);
 
                      updateFormulasCharts();
+                     // save the boolean signals state that has changed
+                     // while evaluating the formula
                      saveUniverse();
                      saveFormulasManager();
+                     $scope.formulaString = "";
+                     $scope.alambicFormulaForm.$setPristine();
+                     $scope.alambicFormulaForm.$setUntouched();
                   }
-                  $scope.formulaString = "";
-                  $scope.alambicFormulaForm.$setPristine();
-                  $scope.alambicFormulaForm.$setUntouched();
                };
 
                $scope.updateFormula = function(id) {
@@ -243,6 +265,8 @@
                      $scope.signals.tf.formulasManager.updateFormula(id, tf);
 
                      updateFormulasCharts();
+                     // save the boolean signals state that has changed
+                     // while evaluating the formula
                      saveUniverse();
                      saveFormulasManager();
                      $scope.editable.editableFormula.disableEditor(id);
@@ -261,7 +285,8 @@
                };
 
                $scope.generateFormula = function() {
-                  $scope.formulaString = FormulaGenerator.generateTemporalFormula();
+                  $scope.formulaString = FormulaGenerator
+                           .generateTemporalFormula($scope.signals.bs.universe);
                };
             }]);
 }(angular, _));
