@@ -87,5 +87,13 @@ Universe.prototype = {
                   s.setPeriodicPartNewLength(that.length[1]);
                });
             }
+         }, 
+         clearReferences: function() {
+            this.dataStoreMap.each(function(key, s, i) {
+            	s.setReferringTemporalFormulasIds([]);
+            });
+         },
+         clear: function() {
+            this.dataStoreMap.clear();
          }
 };

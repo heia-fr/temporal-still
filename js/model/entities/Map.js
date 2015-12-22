@@ -91,6 +91,10 @@ Map.prototype = {
             }
             return this;
          },
+         clear: function() {
+            this.mapKeys = [];
+            this.data = {};
+         },
          equals: function(other) {
             if (!other) return false;
             if (!(other instanceof Map)) return false;

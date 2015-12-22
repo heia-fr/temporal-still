@@ -63,9 +63,9 @@
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
-                        <button class="btn btn-primary btn-lg round toggle" data-toggle="collapse"
+                        <button class="btn btn-default btn-lg round toggle" data-toggle="collapse"
                            data-tooltip="tooltip" title="Collapse signals panel"
-                           data-target="#collapseSignals" aria-expanded="true"
+                           data-target="#collapseSignals" aria-expanded="false"
                            aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
                            <i ng-show="buttonState.SignalsUp" class="glyphicon glyphicon-chevron-up"></i>
                            <i ng-hide="buttonState.SignalsUp"
@@ -75,6 +75,11 @@
                            data-tooltip="tooltip" title="Generate random signals"
                            ng-click="generateSignals()">
                            <i class="fa fa-random"></i>
+                        </button>
+                        <button class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                           data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
+                           ng-disabled="signals.bs.universe.isEmpty() || !signals.tf.formulasManager.isEmpty()">
+                           <i class="fa fa-trash"></i>
                         </button>
                      </div>
                      <div class="panel-body collapse in" id="collapseSignals">
@@ -127,16 +132,16 @@
                                           ng-disabled="alambicSignalsListForm.$invalid"
                                           ng-show="sig.isEditorEnabled()"
                                           ng-click="updateSignal(sig.getId())">
-                                          <span class="glyphicon glyphicon-ok-circle"></span>
+                                          <span class="glyphicon glyphicon-ok"></span>
                                        </button>
                                        <button class="btn-link" ng-show="sig.isEditorEnabled()"
                                           ng-click="editable.editableSignal.disableEditor(sig.getId())">
-                                          <span class="glyphicon glyphicon-log-out"></span>
+                                          <span class="glyphicon glyphicon-chevron-right"></span>
                                        </button>
                                        <button class="btn-link" ng-hide="sig.isEditorEnabled()"
                                           ng-disabled="sig.isReferred()"
                                           ng-click="removeSignal(sig.getId())">
-                                          <span class="glyphicon glyphicon-remove-circle"></span>
+                                          <span class="glyphicon glyphicon-remove"></span>
                                        </button>
                                     </div>
                                  </div>
@@ -150,7 +155,7 @@
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
-                        <button class="btn btn-primary btn-lg round toggle" data-toggle="collapse"
+                        <button class="btn btn-default btn-lg round toggle" data-toggle="collapse"
                            data-tooltip="tooltip" title="Collapse formulas panel"
                            data-target="#collapseFormulas" aria-expanded="false"
                            aria-controls="collapseFormulas" ng-click="toggleFormlasPanel()">
@@ -163,6 +168,11 @@
                            data-tooltip="tooltip" title="Generate random formula"
                            ng-click="generateFormula()" ng-disabled="signals.bs.universe.isEmpty()">
                            <i class="fa fa-random"></i>
+                        </button>
+                        <button class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                           data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
+                           ng-disabled="signals.tf.formulasManager.isEmpty()">
+                           <i class="fa fa-trash"></i>
                         </button>
                      </div>
                      <div class="panel-body collapse in" id="collapseFormulas">
@@ -215,15 +225,15 @@
                                           ng-disabled="alambicFormulaListForm.$invalid"
                                           ng-show="formula.isEditorEnabled()"
                                           ng-click="updateFormula(formula.getId())">
-                                          <span class="glyphicon glyphicon-ok-circle"></span>
+                                          <span class="glyphicon glyphicon-ok"></span>
                                        </button>
                                        <button class="btn-link" ng-show="formula.isEditorEnabled()"
                                           ng-click="editable.editableFormula.disableEditor(formula.getId())">
-                                          <span class="glyphicon glyphicon-log-out"></span>
+                                          <span class="glyphicon glyphicon-chevron-right"></span>
                                        </button>
                                        <button class="btn-link" ng-hide="formula.isEditorEnabled()"
                                           ng-click="removeFormula(formula.getId())">
-                                          <span class="glyphicon glyphicon-remove-circle"></span>
+                                          <span class="glyphicon glyphicon-remove"></span>
                                        </button>
                                     </div>
                                  </div>
@@ -442,7 +452,7 @@
                </p>
                <div class="centered-img">
                   <span class="image-wrap">
-                    <img src="images/alambic-logo-big.png" alt="Alambic II" />
+                     <img src="images/alambic-logo-big.png" alt="Alambic II" />
                   </span>
                </div>
             </div>
@@ -510,7 +520,9 @@
 
    <script type="text/javascript">
             $(function() {
-               $('[data-tooltip="tooltip"]').tooltip()
+               $('[data-tooltip="tooltip"]').tooltip({
+                  'trigger': 'hover'
+               });
             });
          </script>
 </body>

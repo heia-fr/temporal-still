@@ -198,6 +198,11 @@
                   $scope.signalsString = BooleanSignalGenerator
                            .generateBooleanSignals($scope.signals.tf.formulasManager);
                };
+               
+               $scope.clearSignals = function() {
+                  $scope.signals.bs.universe.clear();
+                  saveUniverse();
+               };
 
                /**
                 * ******************** Formulas management ********************
@@ -287,6 +292,15 @@
                $scope.generateFormula = function() {
                   $scope.formulaString = FormulaGenerator
                            .generateTemporalFormula($scope.signals.bs.universe);
+               };
+               
+               $scope.clearFormulas = function() {
+                  $scope.signals.bs.universe.clearReferences();
+                  
+                  $scope.signals.tf.formulasManager.clear();
+                  
+                  saveFormulasManager();
+                  saveUniverse();
                };
             }]);
 }(angular, _));

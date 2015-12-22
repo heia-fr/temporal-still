@@ -35,7 +35,13 @@ FormulasManager.prototype = {
 
             this.dataStoreMap.put(id, newFormula);
          },
+         isEmpty: function() {
+            return this.dataStoreMap.isEmpty();
+         },
          removeFormula: function(id) {
             this.dataStoreMap.remove(id);
+         },
+         clear: function() {
+            this.dataStoreMap.clear();
          }
 };
