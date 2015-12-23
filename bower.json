@@ -4,13 +4,14 @@
   "version": "0.0.1",
   "dependencies": {
     "angular": "latest",
-    "bootstrap-css-only": "latest",
+    "bootstrap": "latest",
     "lodash": "latest",
     "d3": "latest",
     "random": "latest",
     "jasmine-core": "latest",
     "angular-local-storage": "latest",
-    "angular-route": "latest"
+    "angular-route": "latest",
+    "jquery": "latest"
   },
   "ignore": [
     "**/.*",

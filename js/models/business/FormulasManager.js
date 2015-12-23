@@ -21,7 +21,7 @@ FormulasManager.prototype = {
             return this.dataStoreMap.get(id);
          },
          containsFormula: function(id) {
-            return this.dataStoreMap.contains(id); 
+            return this.dataStoreMap.containsKey(id); 
          },
          addFormula: function(formula) {
             if (!(formula instanceof TemporalFormula))

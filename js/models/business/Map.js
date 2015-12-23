@@ -31,19 +31,16 @@ Map.prototype = {
             return this.data[key];
          },
          put: function(key, value) {
-            if (!this.contains(key)) { // typeof this.data[key] === 'undefined'
+            if (!this.contains(key)) {
                this.mapKeys.push(key);
             }
             this.data[key] = value;
             return this;
          },
          remove: function(key) {
-            // var i = this.keys.indexOf(key);
-            // i != -1
             if (this.contains(key)) {
                this.mapKeys = _.without(this.mapKeys, key);
-               // this.keys.splice(i, 1);
-                delete this.data[key];
+               delete this.data[key];
                return true;
             }
             return false;
@@ -66,9 +63,8 @@ Map.prototype = {
          size: function() {
             return this.mapKeys.length;
          },
-         contains: function(key) {
-            return _.includes(this.mapKeys, key);// (this.data[key] !==
-            // undefined);
+         containsKey: function(key) {
+            return _.includes(this.mapKeys, key);
          },
          keys: function() {
             return this.mapKeys.slice(0); // clone the keys array

@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
 
 <!-- Custom style -->
-<link rel="stylesheet" type="text/css" href="css/bootsrap-style.css" />
+<link rel="stylesheet" type="text/css" href="css/custom-style.css" />
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,24 +63,27 @@
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
-                        <button class="btn btn-default btn-lg round toggle" data-toggle="collapse"
+                        <button id="collapseButton" type="button"
+                           class="btn btn-default btn-lg round toggle" data-toggle="collapse"
                            data-tooltip="tooltip" title="Collapse signals panel"
                            data-target="#collapseSignals" aria-expanded="false"
                            aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
-                           <i ng-show="buttonState.SignalsUp" class="glyphicon glyphicon-chevron-up"></i>
-                           <i ng-hide="buttonState.SignalsUp"
+                           <i ng-show="buttonState.signalsUp" class="glyphicon glyphicon-chevron-up"></i>
+                           <i ng-hide="buttonState.signalsUp"
                               class="glyphicon glyphicon-chevron-down"></i>
                         </button>
-                        <button class="btn btn-primary btn-lg round right-toggle toggle"
+                        <button type="button"
+                           class="btn btn-primary btn-lg round right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random signals"
                            ng-click="generateSignals()">
                            <i class="fa fa-random"></i>
                         </button>
-                        <button class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                        <a role="button" type="button"
+                           class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
                            ng-disabled="signals.bs.universe.isEmpty() || !signals.tf.formulasManager.isEmpty()">
                            <i class="fa fa-trash"></i>
-                        </button>
+                        </a>
                      </div>
                      <div class="panel-body collapse in" id="collapseSignals">
                         <form name="alambicSignalsForm" role="form" novalidate>
@@ -155,25 +158,28 @@
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
-                        <button class="btn btn-default btn-lg round toggle" data-toggle="collapse"
-                           data-tooltip="tooltip" title="Collapse formulas panel"
-                           data-target="#collapseFormulas" aria-expanded="false"
-                           aria-controls="collapseFormulas" ng-click="toggleFormlasPanel()">
-                           <i ng-show="buttonState.FormulasUp"
+                        <button type="button" class="btn btn-default btn-lg round toggle"
+                           data-toggle="collapse" data-tooltip="tooltip"
+                           title="Collapse formulas panel" data-target="#collapseFormulas"
+                           aria-expanded="false" aria-controls="collapseFormulas"
+                           ng-click="toggleFormlasPanel()">
+                           <i ng-show="buttonState.formulasUp"
                               class="glyphicon glyphicon-chevron-up"></i> <i
-                              ng-hide="buttonState.FormulasUp"
+                              ng-hide="buttonState.formulasUp"
                               class="glyphicon glyphicon-chevron-down"></i>
                         </button>
-                        <button class="btn btn-primary btn-lg round right-toggle toggle"
+                        <button type="button"
+                           class="btn btn-primary btn-lg round right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random formula"
                            ng-click="generateFormula()" ng-disabled="signals.bs.universe.isEmpty()">
                            <i class="fa fa-random"></i>
                         </button>
-                        <button class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                        <a role="button" type="button"
+                           class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
                            ng-disabled="signals.tf.formulasManager.isEmpty()">
                            <i class="fa fa-trash"></i>
-                        </button>
+                        </a>
                      </div>
                      <div class="panel-body collapse in" id="collapseFormulas">
                         <form name="alambicFormulaForm" role="form" novalidate>
@@ -181,7 +187,7 @@
                               ng-class="{'has-error has-feedback' : 
                                         alambicFormulaForm.inputData.$invalid}">
                               <input type="text" class="form-control" name="inputData"
-                                 placeholder="ex. f = []a | b" ng-model="formulaString"
+                                 placeholder="e.g. f = []a | b" ng-model="formulaString"
                                  validate-formulas />
                               <div class="input-group-btn">
                                  <button class="btn btn-default" type="submit" value="&#10140;"
@@ -483,41 +489,42 @@
       src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
    <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
-   <!-- My scripts -->
+   <!-- My JS scripts -->
    <script type="text/javascript" src="js/app/app.js"></script>
-   <script type="text/javascript" src="js/model/util/Symbols.js"></script>
-   <script type="text/javascript" src="js/model/util/Util.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Symbols.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Util.js"></script>
    <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
    <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
    <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
    <script type="text/javascript" src="js/app/services/services.js"></script>
-   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
    <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
    <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
+   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
 
-   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
-   <script type="text/javascript" src="js/model/util/Extend.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/operations/Operator.js"></script>
-   <script type="text/javascript" src="js/model/operations/TemporalOperator.js"></script>
-   <script type="text/javascript" src="js/model/operations/And.js"></script>
-   <script type="text/javascript" src="js/model/operations/Or.js"></script>
-   <script type="text/javascript" src="js/model/operations/Not.js"></script>
-   <script type="text/javascript" src="js/model/operations/Always.js"></script>
-   <script type="text/javascript" src="js/model/operations/Eventually.js"></script>
-   <script type="text/javascript" src="js/model/operations/WeakUntil.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaInterpreter.js"></script>
-   <script type="text/javascript" src="js/model/entities/Map.js"></script>
-   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
-   <script type="text/javascript" src="js/model/entities/FormulasManager.js"></script>
-   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
-   <script type="text/javascript" src="js/model/entities/TemporalFormula.js"></script>
-   <script type="text/javascript" src="js/model/generators/BooleanSignalGenerator.js"></script>
-   <script type="text/javascript" src="js/model/generators/FormulaGenerator.js"></script>
+   <script type="text/javascript" src="js/models/analysers/Lexer.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Extend.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/operations/Operator.js"></script>
+   <script type="text/javascript" src="js/models/operations/TemporalOperator.js"></script>
+   <script type="text/javascript" src="js/models/operations/And.js"></script>
+   <script type="text/javascript" src="js/models/operations/Or.js"></script>
+   <script type="text/javascript" src="js/models/operations/Not.js"></script>
+   <script type="text/javascript" src="js/models/operations/Always.js"></script>
+   <script type="text/javascript" src="js/models/operations/Eventually.js"></script>
+   <script type="text/javascript" src="js/models/operations/WeakUntil.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaInterpreter.js"></script>
+   <script type="text/javascript" src="js/models/business/Map.js"></script>
+   <script type="text/javascript" src="js/models/business/Universe.js"></script>
+   <script type="text/javascript" src="js/models/business/FormulasManager.js"></script>
+   <script type="text/javascript" src="js/models/entities/BooleanSignal.js"></script>
+   <script type="text/javascript" src="js/models/entities/TemporalFormula.js"></script>
+   <script type="text/javascript" src="js/models/generators/BooleanSignalGenerator.js"></script>
+   <script type="text/javascript" src="js/models/generators/FormulaGenerator.js"></script>
 
+   <!-- Activate Twitter Bootstrap tooltips -->
    <script type="text/javascript">
             $(function() {
                $('[data-tooltip="tooltip"]').tooltip({

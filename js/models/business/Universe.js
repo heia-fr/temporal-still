@@ -29,14 +29,14 @@ Universe.prototype = {
             return this.dataStoreMap.get(id);
          },
          containsSignal: function(id) {
-            return this.dataStoreMap.contains(id);
+            return this.dataStoreMap.containsKey(id);
          },
          isEmpty: function() {
             return this.dataStoreMap.isEmpty();
          },
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))
-               throw new TypeError("Expected 'BooleanSignal' object");
+               throw new TypeError("Universe: Expected 'BooleanSignal' object");
 
             // Update an element if it already exists in the map
             this.dataStoreMap.put(signal.getId(), signal);
@@ -54,7 +54,7 @@ Universe.prototype = {
          },
          updateSignal: function(id, newSignal) {
             if (!(newSignal instanceof BooleanSignal))
-               throw new TypeError("Expected 'BooleanSignal' object");
+               throw new TypeError("Universe: Expected 'BooleanSignal' object");
 
             this.dataStoreMap.put(id, newSignal);
             if (newSignal.getFixedPartLength() > this.length[0]) {

@@ -1,7 +1,7 @@
 function generateCorrectFormulas(nbOfFormulas) {
    var formulas = [];
    for (var i = 1; i <= nbOfFormulas; i++) {
-      formulas.push(FormulaGenerator.generateTemporalFormula());
+      formulas.push(FormulaGenerator.generateTemporalFormula(new Universe));
    }
    return formulas;
 }

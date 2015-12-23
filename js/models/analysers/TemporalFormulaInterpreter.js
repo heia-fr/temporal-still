@@ -8,14 +8,10 @@ var TemporalFormulaInterpreter = function() {
       var ids = [];
 
       function parseFormulaExpr() {
-         // ------------------------------------------------------------------------------
-         // not necessary in our case (validation is assumed to be done before
-         // calling the interpreter)
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          lexer.goToNextToken();
          if (!lexer.isEqualSign()) throw new SyntaxError("Expected equal sign");
          lexer.goToNextToken();
-         // ------------------------------------------------------------------------------
 
          var bs = parseFormula();
          return bs;

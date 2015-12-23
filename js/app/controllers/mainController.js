@@ -16,14 +16,14 @@
                $scope.$window = $window;
                $scope.signals = signals; // hook data to a scope variable
                $scope.buttonState = {};
-               $scope.buttonState.SignalsUp = true;
-               $scope.buttonState.FormulasUp = true;
+               $scope.buttonState.signalsUp = true;
+               $scope.buttonState.formulasUp = true;
 
                $scope.toggleSignalsPanel = function() {
-                  $scope.buttonState.SignalsUp = !$scope.buttonState.SignalsUp;
+                  $scope.buttonState.signalsUp = !$scope.buttonState.signalsUp;
                };
                $scope.toggleFormlasPanel = function() {
-                  $scope.buttonState.FormulasUp = !$scope.buttonState.FormulasUp;
+                  $scope.buttonState.formulasUp = !$scope.buttonState.formulasUp;
                };
 
                updateSignalsCharts();

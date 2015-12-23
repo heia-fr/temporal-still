@@ -35,9 +35,9 @@ var FormulaGenerator = function() {
          if (chance <= pathOnePercent) {
             if (formulaLevel > 0) {
                --formulaLevel;
-               atom = Symbols.getOpeningBraket() + generateFormula() + Symbols.getClosingBraket();
+               return Symbols.getOpeningBraket() + generateFormula() + Symbols.getClosingBraket();
             } else {
-               chance = _.random(21, 100);
+               chance = _.random(pathOnePercent + 1, maxPercent);
             }
          }
 
