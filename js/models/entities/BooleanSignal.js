@@ -1,13 +1,10 @@
 /**
- * This class represents a Boolean Signal. The user must provide a string
- * with a specific format. e.g. b = 1010/01 where:
- * 
- * 1) 'b' is the boolean signal's identifier
- * 2) '1010' is the boolean signal's fixed part
- * 3) '01' is the boolean signal's periodic part
- * 
- * if the parameter 'other' is provided, it must be a valid boolean signal
- * so the newly created object can copy the values of its attributes.
+ * This class represents a Boolean Signal. The user must provide a string with a
+ * specific format. e.g. b = 1010/01 where: 1) 'b' is the boolean signal's
+ * identifier 2) '1010' is the boolean signal's fixed part 3) '01' is the
+ * boolean signal's periodic part if the parameter 'other' is provided, it must
+ * be a valid boolean signal so the newly created object can copy the values of
+ * its attributes.
  */
 function BooleanSignal(expressionString, other) {
    if (!other) {
@@ -74,19 +71,22 @@ BooleanSignal.prototype = {
          setReferringTemporalFormulasIds: function(refTfIds) {
             this.referringTemporalFormulasIds = refTfIds;
          },
-         addReferringTemporalFormulaId: function(TfId) {
-            if (!_.includes(this.referringTemporalFormulasIds, TfId)) {
-               this.referringTemporalFormulasIds.push(TfId);
+         addReferringTemporalFormulaId: function(tfId) {
+            if (!this.isReferredByTemporalFormula(tfId)) {
+               this.referringTemporalFormulasIds.push(tfId);
             }
          },
-         removeReferringTemporalFormulaId: function(TfId) {
-            if (_.includes(this.referringTemporalFormulasIds, TfId)) {
+         removeReferringTemporalFormulaId: function(tfId) {
+            if (this.isReferredByTemporalFormula(tfId)) {
                this.referringTemporalFormulasIds = _.without(this.referringTemporalFormulasIds,
-                        TfId);
+                        tfId);
             }
          },
          isReferred: function() {
             return (this.referringTemporalFormulasIds.length != 0);
+         },
+         isReferredByTemporalFormula: function(tfId) {
+            return _.includes(this.referringTemporalFormulasIds, tfId);
          },
          getFixedPartLength: function() {
             return this.body.length;
@@ -95,27 +95,29 @@ BooleanSignal.prototype = {
             return this.period.length;
          },
          /**
-          * this method sets the length of the extension to add
-          * to the fixed part
+          * this method sets the length of the extension to add to the fixed
+          * part
           * 
-          * @param len the length of the extension to add
+          * @param len
+          *           the length of the extension to add
           */
          setFixedPartNewLength: function(len) {
             this.fixedPartNewLength = len;
          },
          /**
-          * this method sets the length of the extension to add
-          * to the periodic part
+          * this method sets the length of the extension to add to the periodic
+          * part
           * 
-          * @param len the length of the extension to add
+          * @param len
+          *           the length of the extension to add
           */
          setPeriodicPartNewLength: function(len) {
             this.periodicPartNewLength = len;
          },
          /**
-          * this method calculates the new fixed part using
-          * the already specified extension length. It must be called
-          * after setFixedPartNewLength() method.
+          * this method calculates the new fixed part using the already
+          * specified extension length. It must be called after
+          * setFixedPartNewLength() method.
           * 
           * @return the new fixed part with the extension added
           */
@@ -125,24 +127,25 @@ BooleanSignal.prototype = {
             for (i = 0; i < this.fixedPartNewLength; ++i) {
                newBody += this.period.charAt(i % this.period.length);
             }
-            this.periodStartIndex = i % this.period.length; // remember the periodic part offset
+            this.periodStartIndex = i % this.period.length; // save the
+                                                            // periodic part
+                                                            // offset
             return newBody;
          },
          /**
-          * this method calculates the new periodic part using
-          * the already specified extension length. It must be called
-          * after setPeriodicPartNewLength() method.
+          * this method calculates the new periodic part using the already
+          * specified extension length. It must be called after
+          * setPeriodicPartNewLength() method.
           * 
           * @return the new periodic part with the extension added
           */
          calculateUpdatedPeriodicPart: function() {
-            // if the specified periodicPartNewLength is negative, 
+            // if the specified periodicPartNewLength is negative,
             // return what remains from the periodic part by taking into
             // account the offset periodStartIndex
-            if(this.periodicPartNewLength <= 0){
-               return this.period.substring(this.periodStartIndex, this.period.length);
-            }
-            
+            if (this.periodicPartNewLength <= 0) { return this.period.substring(
+                     this.periodStartIndex, this.period.length); }
+
             var newPeriod = "";
             // calculate the new periodic part by using a round robin technique
             for (var i = 0, j = this.periodStartIndex; i < this.periodicPartNewLength; ++i, ++j) {
@@ -151,18 +154,16 @@ BooleanSignal.prototype = {
             return newPeriod;
          },
          /**
-          * this method calculates data to be used by the chart library
-          * in order to display this boolean signal.
+          * this method calculates data to be used by the chart library in order
+          * to display this boolean signal. The data is calculates such that
+          * each bit of the signal is mapped to a segment of line, say two
+          * points ([t0, val0], [t1, val1]). 
           * 
-          * The data is calculates such that each bit of the signal
-          * is mapped to a segment of line, say two points ([t0, val0], [t1, val1]).
-          * 
-          * 1) t0, t1, t2, etc. represent the ticks of the chart
-          * 2) val0, val1, val2, etc. represent the values of the signal in each tick (0 or 1)
-          * 
-          * For example, the bit 1 is the signal 'a = 10/0' is represented as the couple 
-          * of points ([0, 1], [1, 1]) and the bit 0 that follows is represented
-          * as ([1, 0], [2, 0]) 
+          * 1) t0, t1, t2, etc. represent the ticks of the chart 
+          * 2) val0, val1, val2, etc. represent the values of
+          * the signal in each tick (0 or 1) For example, the bit 1 is the
+          * signal 'a = 10/0' is represented as the couple of points ([0, 1],
+          * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2, 0])
           * 
           * @return An array containing data ready to be displayed
           */
@@ -184,7 +185,7 @@ BooleanSignal.prototype = {
                x = i + 1;
                nextX = i + 2;
                z = parseInt(newBody.charAt(i + 1));
-               // if (z != oldZ) { 
+               // if (z != oldZ) {
                values.push([x, z]);
                // }
                values.push([nextX, z]);
