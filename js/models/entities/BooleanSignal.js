@@ -34,7 +34,7 @@ function BooleanSignal(expressionString, other) {
       this.period = signal[1].trim();
       this.periodicPartNewLength = this.period.length;
    } else {
-      if (typeof other !== 'object' || other.__type !== 'BooleanSignal')
+      if (!(other instanceof Object) || other.__type !== 'BooleanSignal')
          throw new TypeError("BooleanSignal: Expected other to be a 'BooleanSignal' object");
       this.id = other.id;
       this.content = other.content;
@@ -184,7 +184,7 @@ BooleanSignal.prototype = {
                x = i + 1;
                nextX = i + 2;
                z = parseInt(newBody.charAt(i + 1));
-               // if (z != oldZ) {
+               // if (z != oldZ) { 
                values.push([x, z]);
                // }
                values.push([nextX, z]);

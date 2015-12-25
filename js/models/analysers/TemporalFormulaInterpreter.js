@@ -99,7 +99,9 @@ var TemporalFormulaInterpreter = function() {
       function parseProp() {
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          var bs = universe.signalById(lexer.getCurrentToken());
-         ids.push(bs.getId());
+         if (!_.includes(ids, bs.getId())) {
+            ids.push(bs.getId());
+         }
          bs.addReferringTemporalFormulaId(fId);
          lexer.goToNextToken();
          return bs;
@@ -108,9 +110,9 @@ var TemporalFormulaInterpreter = function() {
       return {
          evaluate: function(expression, univ) {
             if (typeof expression !== 'string')
-               throw new TypeError("Expecting 'expression' to be a 'String' object");
+               throw new TypeError("TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
             if (!(univ instanceof Universe))
-               throw new TypeError("Expecting 'universe' to be a 'Universe' object");
+               throw new TypeError("TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
 
             try {
                universe = univ;

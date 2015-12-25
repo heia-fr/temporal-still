@@ -31,14 +31,14 @@ Map.prototype = {
             return this.data[key];
          },
          put: function(key, value) {
-            if (!this.contains(key)) {
+            if (!this.containsKey(key)) {
                this.mapKeys.push(key);
             }
             this.data[key] = value;
             return this;
          },
          remove: function(key) {
-            if (this.contains(key)) {
+            if (this.containsKey(key)) {
                this.mapKeys = _.without(this.mapKeys, key);
                delete this.data[key];
                return true;
@@ -99,7 +99,6 @@ Map.prototype = {
                return element === other.keys[index];
             });
             if (!e) return false;
-            if (JSON.stringify(this.data) !== JSON.stringify(other.data)) return false;
-            return true;
+            return (JSON.stringify(this.data) !== JSON.stringify(other.data));
          }
 };

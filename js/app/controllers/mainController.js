@@ -55,8 +55,6 @@
                // when removing a formula, release the referenced
                // boolean signals
                function removeReferringFormula(tf) {
-                  console.log("formula id: " + tf.getId() + " ==> "
-                           + tf.getReferredBooleanSignalsIds());
                   tf.getReferredBooleanSignalsIds().forEach(function(id) {
                      var bs = $scope.signals.bs.universe.signalById(id);
                      bs.removeReferringTemporalFormulaId(tf.getId());
@@ -134,35 +132,34 @@
                      signalsArray.splice(signalsArray.length - 1, 1);
                   }
 
-                  var updateFormulas = false;
                   signalsArray.forEach(function(signalStr) {
                      var id = signalStr.split(Symbols.getEqual())[0].trim();
-                     var newS = new BooleanSignal(signalStr);
                      var bs = null;
                      if ($scope.signals.bs.universe.containsSignal(id)) {
                         bs = $scope.signals.bs.universe.signalById(id);
+                        if (bs.getContent() === signalStr) { return; }
                      }
 
+                     var newS = new BooleanSignal(signalStr);
                      if (bs && bs.isReferred()) {
                         newS.setReferringTemporalFormulasIds(bs.getReferringTemporalFormulasIds());
                         $scope.signals.bs.universe.updateSignal(id, newS);
                         reevaluateReferringTemporalFormulas(newS);
-                        updateFormulas = true;
                      } else {
                         $scope.signals.bs.universe.addSignal(newS);
                      }
                   });
 
                   $scope.signalsString = "";
+                  $scope.signals.tf.formulasManager
+                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
+                  updateFormulasCharts();
                   saveUniverse();
+                  saveFormulasManager();
+
                   $scope.alambicSignalsForm.$setPristine();
                   $scope.alambicSignalsForm.$setUntouched();
-
-                  if (updateFormulas) {
-                     updateFormulasCharts();
-                     saveFormulasManager();
-                  }
                };
 
                $scope.updateSignal = function(id) {
@@ -176,9 +173,10 @@
                   var newS = new BooleanSignal(str);
                   newS.setReferringTemporalFormulasIds(s.getReferringTemporalFormulasIds());
                   $scope.signals.bs.universe.updateSignal(id, newS);
-
                   reevaluateReferringTemporalFormulas(newS);
 
+                  $scope.signals.tf.formulasManager
+                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
                   updateFormulasCharts();
                   saveUniverse();
@@ -188,6 +186,9 @@
 
                $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
+
+                  $scope.signals.tf.formulasManager
+                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
                   updateFormulasCharts();
                   saveUniverse();
@@ -198,7 +199,7 @@
                   $scope.signalsString = BooleanSignalGenerator
                            .generateBooleanSignals($scope.signals.tf.formulasManager);
                };
-               
+
                $scope.clearSignals = function() {
                   $scope.signals.bs.universe.clear();
                   saveUniverse();
@@ -293,12 +294,12 @@
                   $scope.formulaString = FormulaGenerator
                            .generateTemporalFormula($scope.signals.bs.universe);
                };
-               
+
                $scope.clearFormulas = function() {
                   $scope.signals.bs.universe.clearReferences();
-                  
+
                   $scope.signals.tf.formulasManager.clear();
-                  
+
                   saveFormulasManager();
                   saveUniverse();
                };

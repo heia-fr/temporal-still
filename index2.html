@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description"
-   content="The main purpose of this application is to evaluate temporal formulas referencing a set boolean signals">
+   content="The main purpose of this application is to evaluate temporal formulas that references a set boolean signals">
 <meta name="author" content="Mouad El Merchichi">
 
 <title>Alambic II</title>
-<!-- AngularJS needed to be loaded early -->
+<!-- AngularJS -->
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 
 <!-- Page logo -->
@@ -69,7 +69,7 @@
                            data-target="#collapseSignals" aria-expanded="false"
                            aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
                            <i ng-show="buttonState.signalsUp" class="glyphicon glyphicon-chevron-up"></i>
-                           <i ng-hide="buttonState.signalsUp"
+                           <i ng-hide="buttonState.signalsUp" ng-cloak
                               class="glyphicon glyphicon-chevron-down"></i>
                         </button>
                         <button type="button"
@@ -102,7 +102,6 @@
                               </div>
                            </div>
                         </form>
-
                         <form name="alambicSignalsListForm" class="top-buffer" role="form"
                            novalidate>
                            <ul class="list-group y-scroll">
@@ -125,7 +124,7 @@
                                              ng-model="editable.editableSignal.text"
                                              on-esc="editable.editableSignal.disableEditor(sig.getId())"
                                              on-enter="alambicSignalsListForm.$valid ? updateSignal(sig.getId()) : ''"
-                                             gain-focus="sig.isEditorEnabled()"
+                                             gain-focus="sig.isEditorEnabled()" ng-cloak
                                              validate-editable-signal />
                                        </div>
                                     </div>
@@ -134,11 +133,12 @@
                                        <button class="btn-link"
                                           ng-disabled="alambicSignalsListForm.$invalid"
                                           ng-show="sig.isEditorEnabled()"
-                                          ng-click="updateSignal(sig.getId())">
+                                          ng-click="updateSignal(sig.getId())" ng-cloak>
                                           <span class="glyphicon glyphicon-ok"></span>
                                        </button>
                                        <button class="btn-link" ng-show="sig.isEditorEnabled()"
-                                          ng-click="editable.editableSignal.disableEditor(sig.getId())">
+                                          ng-click="editable.editableSignal.disableEditor(sig.getId())"
+                                          ng-cloak>
                                           <span class="glyphicon glyphicon-chevron-right"></span>
                                        </button>
                                        <button class="btn-link" ng-hide="sig.isEditorEnabled()"
@@ -154,7 +154,6 @@
                      </div>
                   </div>
                </div>
-
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
@@ -165,7 +164,7 @@
                            ng-click="toggleFormlasPanel()">
                            <i ng-show="buttonState.formulasUp"
                               class="glyphicon glyphicon-chevron-up"></i> <i
-                              ng-hide="buttonState.formulasUp"
+                              ng-hide="buttonState.formulasUp" ng-cloak
                               class="glyphicon glyphicon-chevron-down"></i>
                         </button>
                         <button type="button"
@@ -198,7 +197,6 @@
                               </div>
                            </div>
                         </form>
-
                         <form name="alambicFormulaListForm" class="top-buffer" role="form"
                            novalidate>
                            <ul class="list-group y-scroll">
@@ -221,7 +219,7 @@
                                              ng-model="editable.editableFormula.text"
                                              on-esc="editable.editableFormula.disableEditor(formula.getId())"
                                              on-enter="alambicFormulaListForm.$valid ? updateFormula(formula.getId()) : ''"
-                                             gain-focus="formula.isEditorEnabled()"
+                                             gain-focus="formula.isEditorEnabled()" ng-cloak
                                              validate-editable-formula />
                                        </div>
                                     </div>
@@ -230,11 +228,12 @@
                                        <button class="btn-link"
                                           ng-disabled="alambicFormulaListForm.$invalid"
                                           ng-show="formula.isEditorEnabled()"
-                                          ng-click="updateFormula(formula.getId())">
+                                          ng-click="updateFormula(formula.getId())" ng-cloak>
                                           <span class="glyphicon glyphicon-ok"></span>
                                        </button>
                                        <button class="btn-link" ng-show="formula.isEditorEnabled()"
-                                          ng-click="editable.editableFormula.disableEditor(formula.getId())">
+                                          ng-click="editable.editableFormula.disableEditor(formula.getId())"
+                                          ng-cloak>
                                           <span class="glyphicon glyphicon-chevron-right"></span>
                                        </button>
                                        <button class="btn-link" ng-hide="formula.isEditorEnabled()"
@@ -471,7 +470,7 @@
       <footer>
          <div class="row">
             <div class="col-lg-12">
-               <p>Copyright &copy; Alambic II 2015</p>
+               <p>Alambic &agrave; Formules Temporelles II 2015</p>
             </div>
          </div>
       </footer>
@@ -531,6 +530,6 @@
                   'trigger': 'hover'
                });
             });
-         </script>
+   </script>
 </body>
 </html>

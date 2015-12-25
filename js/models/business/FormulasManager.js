@@ -21,17 +21,19 @@ FormulasManager.prototype = {
             return this.dataStoreMap.get(id);
          },
          containsFormula: function(id) {
-            return this.dataStoreMap.containsKey(id); 
+            return this.dataStoreMap.containsKey(id);
          },
          addFormula: function(formula) {
             if (!(formula instanceof TemporalFormula))
-               throw new TypeError("FormulasManager: Expected 'TemporalFormula' object");
+               throw new TypeError(
+                        "FormulasManager: Expected 'formula' to be a 'TemporalFormula' object");
 
             this.dataStoreMap.put(formula.getId(), formula);
          },
          updateFormula: function(id, newFormula) {
             if (!(newFormula instanceof TemporalFormula))
-               throw new TypeError("FormulasManager: Expected 'TemporalFormula' object");
+               throw new TypeError(
+                        "FormulasManager: Expected 'newFormula' to be a 'TemporalFormula' object");
 
             this.dataStoreMap.put(id, newFormula);
          },
@@ -40,6 +42,19 @@ FormulasManager.prototype = {
          },
          removeFormula: function(id) {
             this.dataStoreMap.remove(id);
+         },
+         updateFormulasLengths: function(universeLength) {
+            if (!(universeLength instanceof Array))
+               throw new TypeError(
+                        "FormulasManager: Expected 'universeLength' to be an 'Array' object");
+            if (universeLength.length != 2)
+               throw new Error("FormulasManager: 'universeLength' must have a length of 2");
+
+            this.dataStoreMap.each(function(key, f, i) {
+               var s = f.getAssociatedSignal();
+               s.setFixedPartNewLength(universeLength[0] - s.getFixedPartLength());
+               s.setPeriodicPartNewLength(universeLength[1]);
+            });
          },
          clear: function() {
             this.dataStoreMap.clear();

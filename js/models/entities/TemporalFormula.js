@@ -1,11 +1,14 @@
 function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
-   if (typeof other === 'undefined') {
+   if (!other) {
+      if (typeof id !== "string")
+         throw new TypeError("TemporalFormula: Expected 'id' to be 'String' object");
       if (typeof formulaString !== "string")
-         throw new TypeError("TemporalFormula: Expected 'String' object");
+         throw new TypeError("TemporalFormula: Expected 'formulaString' to be 'String' object");
       if (!(booleanSignal instanceof BooleanSignal))
-         throw new TypeError("TemporalFormula: Expected 'BooleanSignal' object");
+         throw new TypeError(
+                  "TemporalFormula: Expected 'booleanSignal' to be 'BooleanSignal' object");
       if (!(referredBS instanceof Array))
-         throw new TypeError("TemporalFormula: Expected 'Array' object");
+         throw new TypeError("TemporalFormula: Expected 'referredBS' to be 'Array' object");
 
       this.id = id;
       this.content = formulaString;
@@ -14,6 +17,8 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
       this.booleanSignal = new BooleanSignal(undefined, booleanSignal);
       this.booleanSignal.setId(this.id);
    } else {
+      if (!(other instanceof Object) || other.__type !== 'TemporalFormula')
+         throw new TypeError("TemporalFormula: Expected other to be a 'TemporalFormula' object");
       this.id = other.id;
       this.content = other.content;
       this.editorEnabled = other.editorEnabled;
@@ -31,6 +36,9 @@ TemporalFormula.prototype = {
          },
          getContent: function() {
             return this.content;
+         },
+         getAssociatedSignal: function() {
+            return this.booleanSignal;
          },
          getReferredBooleanSignalsIds: function() {
             return this.referredBooleanSignalsIds;
