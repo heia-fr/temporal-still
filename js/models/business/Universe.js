@@ -43,7 +43,7 @@ Universe.prototype = {
          },
          updateSignal: function(id, newSignal) {
             if (!(newSignal instanceof BooleanSignal))
-               throw new TypeError("Universe: Expected 'BooleanSignal' object");
+               throw new TypeError("Universe: Expected 'newSignal' to be 'BooleanSignal' object");
 
             this.dataStoreMap.put(id, newSignal);
             this.calculateMaxLength(newSignal);
@@ -59,6 +59,9 @@ Universe.prototype = {
             }
          },
          calculateMaxLength: function(s) {
+            if (!(s instanceof BooleanSignal))
+               throw new TypeError("Universe: Expected 's' to be a 'BooleanSignal' object");
+
             if (s.getFixedPartLength() > this.length[0]) {
                this.length[0] = s.getFixedPartLength();
             }

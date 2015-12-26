@@ -143,8 +143,6 @@ BooleanSignal.prototype = {
           * signal 'a = 10/0' is represented as the couple of points ([0, 1],
           * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2,
           * 0])
-          * 
-          * @return An array containing data ready to be displayed
           */
          calculateChartValues: function(universeLength) {
             if (!(universeLength instanceof Array))
@@ -195,6 +193,9 @@ BooleanSignal.prototype = {
                      "color": Util.colors[_.random(0, Util.colors.length - 1)]
             }];
          },
+         /**
+          * @return An array containing data ready to be displayed
+          */
          getChartData: function() {
             return this.signalChartData;
          }

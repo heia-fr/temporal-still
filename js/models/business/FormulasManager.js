@@ -1,12 +1,11 @@
 function FormulasManager(other) {
-   if (typeof other === 'undefined') {
+   if (!other) {
       this.dataStoreMap = new Map();
    } else {
-      if (other.dataStoreMap.__type === 'Map') {
-         this.dataStoreMap = new Map(other.dataStoreMap);
-      } else {
-         this.dataStoreMap = new Map();
-      }
+      if (!(other instanceof Object) || other.__type !== 'FormulasManager')
+         throw new TypeError("Universe: Expected other to be a 'FormulasManager' object");
+
+      this.dataStoreMap = new Map(other.dataStoreMap);
    }
 
    this.__type = 'FormulasManager';
@@ -37,22 +36,12 @@ FormulasManager.prototype = {
 
             this.dataStoreMap.put(id, newFormula);
          },
-         isEmpty: function() {
-            return this.dataStoreMap.isEmpty();
-         },
          removeFormula: function(id) {
             this.dataStoreMap.remove(id);
          },
-//         updateFormulasLengths: function(universeLength) {
-//            if (!(universeLength instanceof Array))
-//               throw new TypeError(
-//                        "FormulasManager: Expected 'universeLength' to be an 'Array' object");
-//            if (universeLength.length != 2)
-//               throw new Error("FormulasManager: 'universeLength' must have a length of 2");
-//
-//            BooleanSignal.prototype.fixedPartNewLength = universeLength[0];
-//            BooleanSignal.prototype.periodicPartNewLength = universeLength[1];
-//         },
+         isEmpty: function() {
+            return this.dataStoreMap.isEmpty();
+         },
          clear: function() {
             this.dataStoreMap.clear();
          }

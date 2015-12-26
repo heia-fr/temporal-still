@@ -3,8 +3,8 @@
  * operators.
  * 
  * @param function
- *           a function provided by derived Operators and used to evaluate
- *           the signal(s).
+ *           a function provided by derived Operators and used to evaluate the
+ *           signal(s).
  * @param BooleanSignal
  *           lSignal is the left operand
  * @param BooleanSignal
@@ -21,7 +21,7 @@ function Operator(operation, lSignal, rSignal) {
       throw new TypeError("Operator: Expected a 'function' object");
    if (!(lSignal instanceof BooleanSignal))
       throw new TypeError("Operator: Expected 'lSignal' to be a 'BooleanSignal' object");
-   
+
    this.eval = operation;
    this.leftSignal = lSignal;
    this.rightSignal = rSignal;
@@ -31,6 +31,10 @@ Operator.prototype = {
          constructor: Operator,
          universeLength: [0, 1],
          setUniverseLength: function(universeLength) {
+            if (!(universeLength instanceof Array))
+               throw new TypeError("Operator: Expected 'universeLength' to be an 'Array' object");
+            if (universeLength.length != 2)
+               throw new Error("Operator: Expected 'universeLength' length to be 2");
             this.universeLength = universeLength;
          },
          // implement the default behavior for unary operators
@@ -50,7 +54,7 @@ Operator.prototype = {
             whole = this.leftSignal.getId() + Symbols.getEqual() + whole;
             return new BooleanSignal(whole);
          },
-      // implement the default behavior for binary operators
+         // implement the default behavior for binary operators
          performBinaryOperator: function() {
             if (!(this.rightSignal instanceof BooleanSignal))
                throw new TypeError(
