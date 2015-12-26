@@ -127,23 +127,14 @@ describe('testing BooleanSignal constructor', function() {
       expect(bs.getFixedPartLength()).toEqual(8);
       expect(bs.getPeriodicPartLength()).toEqual(2);
 
-      bs.setFixedPartNewLength(-1);
-      bs.setPeriodicPartNewLength(-1);
+      expect(bs.calculateUpdatedFixedPart(-1)).toMatch("10110101");
+      expect(bs.calculateUpdatedPeriodicPart(-1)).toMatch("01");
 
-      expect(bs.calculateUpdatedFixedPart()).toMatch("10110101");
-      expect(bs.calculateUpdatedPeriodicPart()).toMatch("01");
+      expect(bs.calculateUpdatedFixedPart(0)).toMatch("10110101");
+      expect(bs.calculateUpdatedPeriodicPart(0)).toMatch("01");
 
-      bs.setFixedPartNewLength(0);
-      bs.setPeriodicPartNewLength(0);
-
-      expect(bs.calculateUpdatedFixedPart()).toMatch("10110101");
-      expect(bs.calculateUpdatedPeriodicPart()).toMatch("01");
-
-      bs.setFixedPartNewLength(5);
-      bs.setPeriodicPartNewLength(10);
-
-      expect(bs.calculateUpdatedFixedPart()).toMatch("1011010101010");
-      expect(bs.calculateUpdatedPeriodicPart()).toMatch("1010101010");
+      expect(bs.calculateUpdatedFixedPart(13)).toMatch("1011010101010");
+      expect(bs.calculateUpdatedPeriodicPart(10)).toMatch("1010101010");
 
       expect(bs.body).toMatch("10110101");
       expect(bs.period).toMatch("01");
@@ -154,7 +145,7 @@ describe('testing BooleanSignal constructor', function() {
    it('BooleanSignal chart data should be calculated correctly', function() {
       var bs = new BooleanSignal("signal = 101101/10");
 
-      bs.calculateChartValues();
+      bs.calculateChartValues([6, 2]);
       var data = bs.getChartData();
       var expectedValues = [[0, 1], [1, 1], [1, 0], [2, 0], [2, 1], [3, 1], [3, 1], [4, 1], [4, 0],
                [5, 0], [5, 1], [6, 1], [6, 1], [7, 1], [7, 0], [8, 0]];

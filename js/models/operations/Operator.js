@@ -21,7 +21,7 @@ function Operator(operation, lSignal, rSignal) {
       throw new TypeError("Operator: Expected a 'function' object");
    if (!(lSignal instanceof BooleanSignal))
       throw new TypeError("Operator: Expected 'lSignal' to be a 'BooleanSignal' object");
-
+   
    this.eval = operation;
    this.leftSignal = lSignal;
    this.rightSignal = rSignal;
@@ -29,10 +29,14 @@ function Operator(operation, lSignal, rSignal) {
 
 Operator.prototype = {
          constructor: Operator,
+         universeLength: [0, 1],
+         setUniverseLength: function(universeLength) {
+            this.universeLength = universeLength;
+         },
          // implement the default behavior for unary operators
          performUnaryOperator: function() {
-            var thisBody = this.leftSignal.calculateUpdatedFixedPart();
-            var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
+            var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+            var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
             var whole = Symbols.getEmpty();
             for (var i = 0; i < thisBody.length; ++i) {
@@ -51,16 +55,16 @@ Operator.prototype = {
             if (!(this.rightSignal instanceof BooleanSignal))
                throw new TypeError(
                         "Operator: Expected 'rightSignal' to be a 'BooleanSignal' object");
-            var thisBody = this.leftSignal.calculateUpdatedFixedPart();
-            var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
+            var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+            var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
-            var thatBody = this.rightSignal.calculateUpdatedFixedPart();
-            var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart();
+            var thatBody = this.rightSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+            var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
             if (thisBody.length != thatBody.length)
-               throw new Error("Operator: Incompatible signals lengths");
+               throw new Error("Operator: Incompatible fixed part lengths");
             if (thisPeriod.length != thatPeriod.length)
-               throw new Error("Operator: Incompatible signals lengths");
+               throw new Error("Operator: Incompatible periodic part lengths");
 
             var whole = Symbols.getEmpty();
             for (var i = 0; i < thisBody.length; ++i) {

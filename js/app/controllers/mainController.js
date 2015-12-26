@@ -43,12 +43,12 @@
                // update charts
                function updateSignalsCharts() {
                   $scope.signals.bs.universe.getSignals().forEach(function(s) {
-                     s.calculateChartValues();
+                     s.calculateChartValues($scope.signals.bs.universe.getLength());
                   });
                }
                function updateFormulasCharts() {
                   $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
-                     f.calculateChartValues();
+                     f.calculateChartValues($scope.signals.bs.universe.getLength());
                   });
                }
 
@@ -151,8 +151,6 @@
                   });
 
                   $scope.signalsString = "";
-                  $scope.signals.tf.formulasManager
-                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
                   updateFormulasCharts();
                   saveUniverse();
@@ -175,8 +173,6 @@
                   $scope.signals.bs.universe.updateSignal(id, newS);
                   reevaluateReferringTemporalFormulas(newS);
 
-                  $scope.signals.tf.formulasManager
-                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
                   updateFormulasCharts();
                   saveUniverse();
@@ -187,8 +183,6 @@
                $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
 
-                  $scope.signals.tf.formulasManager
-                           .updateFormulasLengths($scope.signals.bs.universe.getLength());
                   updateSignalsCharts();
                   updateFormulasCharts();
                   saveUniverse();

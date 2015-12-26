@@ -43,19 +43,16 @@ FormulasManager.prototype = {
          removeFormula: function(id) {
             this.dataStoreMap.remove(id);
          },
-         updateFormulasLengths: function(universeLength) {
-            if (!(universeLength instanceof Array))
-               throw new TypeError(
-                        "FormulasManager: Expected 'universeLength' to be an 'Array' object");
-            if (universeLength.length != 2)
-               throw new Error("FormulasManager: 'universeLength' must have a length of 2");
-
-            this.dataStoreMap.each(function(key, f, i) {
-               var s = f.getAssociatedSignal();
-               s.setFixedPartNewLength(universeLength[0] - s.getFixedPartLength());
-               s.setPeriodicPartNewLength(universeLength[1]);
-            });
-         },
+//         updateFormulasLengths: function(universeLength) {
+//            if (!(universeLength instanceof Array))
+//               throw new TypeError(
+//                        "FormulasManager: Expected 'universeLength' to be an 'Array' object");
+//            if (universeLength.length != 2)
+//               throw new Error("FormulasManager: 'universeLength' must have a length of 2");
+//
+//            BooleanSignal.prototype.fixedPartNewLength = universeLength[0];
+//            BooleanSignal.prototype.periodicPartNewLength = universeLength[1];
+//         },
          clear: function() {
             this.dataStoreMap.clear();
          }

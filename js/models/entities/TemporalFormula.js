@@ -52,8 +52,8 @@ TemporalFormula.prototype = {
          setEditorEnabled: function(editorEnabled) {
             this.editorEnabled = editorEnabled;
          },
-         calculateChartValues: function() {
-            this.booleanSignal.calculateChartValues();
+         calculateChartValues: function(universeLength) {
+            this.booleanSignal.calculateChartValues(universeLength);
          },
          getChartData: function() {
             return this.booleanSignal.getChartData();

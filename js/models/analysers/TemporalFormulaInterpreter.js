@@ -116,6 +116,7 @@ var TemporalFormulaInterpreter = function() {
 
             try {
                universe = univ;
+               Operator.prototype.setUniverseLength(universe.getLength());
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();
                fId = expression.split(Symbols.getEqual())[0].trim();

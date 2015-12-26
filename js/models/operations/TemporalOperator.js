@@ -7,8 +7,8 @@ function TemporalOperator(func, lSignal, rSignal) {
 inheritPrototype(TemporalOperator, Operator);
 
 TemporalOperator.prototype.performUnaryOperator = function() {
-   var thisBody = this.leftSignal.calculateUpdatedFixedPart();
-   var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
+   var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+   var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
    var flattenedSignal = thisBody.concat(thisPeriod);
 
@@ -26,11 +26,11 @@ TemporalOperator.prototype.performUnaryOperator = function() {
 };
 
 TemporalOperator.prototype.performBinaryOperator = function() {
-   var thisBody = this.leftSignal.calculateUpdatedFixedPart();
-   var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart();
+   var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+   var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
-   var thatBody = this.rightSignal.calculateUpdatedFixedPart();
-   var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart();
+   var thatBody = this.rightSignal.calculateUpdatedFixedPart(this.universeLength[0]);
+   var thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
    var lFlattenedSignal = thisBody.concat(thisPeriod);
    var rFlattenedSignal = thatBody.concat(thatPeriod);

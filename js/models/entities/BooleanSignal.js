@@ -11,16 +11,17 @@ function BooleanSignal(expressionString, other) {
       if (typeof expressionString !== 'string')
          throw new TypeError("BooleanSignal: Expected expressionString to be a 'String' object");
 
-      this.id = Symbols.getEmpty(); // the signal's id
+      // the signal's id
+      this.id = Symbols.getEmpty();
       this.content = expressionString.trim();
       this.editorEnabled = false;
       this.referringTemporalFormulasIds = [];
-      this.body = Symbols.getEmpty(); // the fixed part of the signal
-      this.period = Symbols.getEmpty(); // the periodic part of the signal
-      this.periodStartIndex = 0; // holds the the start of the periodic part
-      // after extending the fixed part
-      this.fixedPartNewLength = 0; // the extended fixed part length
-      this.periodicPartNewLength; // the updated length of the periodic part
+      // the fixed part of the signal
+      this.body = Symbols.getEmpty();
+      // the periodic part of the signal
+      this.period = Symbols.getEmpty();
+      // holds the the start of the periodic part after extending the fixed part
+      this.periodStartIndex = 0;
       this.signalChartData;
 
       var parts = this.content.split(Symbols.getEqual());
@@ -40,8 +41,6 @@ function BooleanSignal(expressionString, other) {
       this.body = other.body;
       this.period = other.period;
       this.periodStartIndex = other.periodStartIndex;
-      this.fixedPartNewLength = other.fixedPartNewLength;
-      this.periodicPartNewLength = other.periodicPartNewLength;
       this.signalChartData = other.signalChartData;
    }
 
@@ -50,6 +49,8 @@ function BooleanSignal(expressionString, other) {
 
 BooleanSignal.prototype = {
          constructor: BooleanSignal,
+         // fixedPartNewLength: 0, // the extended fixed part length
+         // periodicPartNewLength: 0, // the updated length of the periodic part
          getId: function() {
             return this.id;
          },
@@ -95,41 +96,20 @@ BooleanSignal.prototype = {
             return this.period.length;
          },
          /**
-          * this method sets the length of the extension to add to the fixed
-          * part
-          * 
-          * @param len
-          *           the length of the extension to add
-          */
-         setFixedPartNewLength: function(len) {
-            this.fixedPartNewLength = len;
-         },
-         /**
-          * this method sets the length of the extension to add to the periodic
-          * part
-          * 
-          * @param len
-          *           the length of the extension to add
-          */
-         setPeriodicPartNewLength: function(len) {
-            this.periodicPartNewLength = len;
-         },
-         /**
           * this method calculates the new fixed part using the already
           * specified extension length. It must be called after
           * setFixedPartNewLength() method.
           * 
           * @return the new fixed part with the extension added
           */
-         calculateUpdatedFixedPart: function() {
+         calculateUpdatedFixedPart: function(fixedPartNewLength) {
             var i;
             var newBody = this.body;
-            for (i = 0; i < this.fixedPartNewLength; ++i) {
+            for (i = 0; i < fixedPartNewLength - this.body.length; ++i) {
                newBody += this.period.charAt(i % this.period.length);
             }
-            this.periodStartIndex = i % this.period.length; // save the
-                                                            // periodic part
-                                                            // offset
+            // save the periodic part offset
+            this.periodStartIndex = i % this.period.length;
             return newBody;
          },
          /**
@@ -139,16 +119,16 @@ BooleanSignal.prototype = {
           * 
           * @return the new periodic part with the extension added
           */
-         calculateUpdatedPeriodicPart: function() {
+         calculateUpdatedPeriodicPart: function(periodicPartNewLength) {
             // if the specified periodicPartNewLength is negative,
             // return what remains from the periodic part by taking into
             // account the offset periodStartIndex
-            if (this.periodicPartNewLength <= 0) { return this.period.substring(
-                     this.periodStartIndex, this.period.length); }
+            if (periodicPartNewLength <= 0) { return this.period.substring(this.periodStartIndex,
+                     this.period.length); }
 
             var newPeriod = "";
             // calculate the new periodic part by using a round robin technique
-            for (var i = 0, j = this.periodStartIndex; i < this.periodicPartNewLength; ++i, ++j) {
+            for (var i = 0, j = this.periodStartIndex; i < periodicPartNewLength; ++i, ++j) {
                newPeriod += this.period.charAt(j % this.period.length);
             }
             return newPeriod;
@@ -157,19 +137,24 @@ BooleanSignal.prototype = {
           * this method calculates data to be used by the chart library in order
           * to display this boolean signal. The data is calculates such that
           * each bit of the signal is mapped to a segment of line, say two
-          * points ([t0, val0], [t1, val1]). 
-          * 
-          * 1) t0, t1, t2, etc. represent the ticks of the chart 
-          * 2) val0, val1, val2, etc. represent the values of
+          * points ([t0, val0], [t1, val1]). 1) t0, t1, t2, etc. represent the
+          * ticks of the chart 2) val0, val1, val2, etc. represent the values of
           * the signal in each tick (0 or 1) For example, the bit 1 is the
           * signal 'a = 10/0' is represented as the couple of points ([0, 1],
-          * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2, 0])
+          * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2,
+          * 0])
           * 
           * @return An array containing data ready to be displayed
           */
-         calculateChartValues: function() {
-            var newBody = this.calculateUpdatedFixedPart();
-            var newPeriod = this.calculateUpdatedPeriodicPart();
+         calculateChartValues: function(universeLength) {
+            if (!(universeLength instanceof Array))
+               throw new TypeError(
+                        "BooleanSignal: Expected 'universeLength' to be an 'Array' object");
+            if (universeLength.length != 2)
+               throw new Error("BooleanSignal: Expected 'universeLength' length to be 2");
+
+            var newBody = this.calculateUpdatedFixedPart(universeLength[0]);
+            var newPeriod = this.calculateUpdatedPeriodicPart(universeLength[1]);
 
             var values = [];
             var x = 0;
