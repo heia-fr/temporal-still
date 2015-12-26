@@ -1,4 +1,12 @@
+/**
+ * This class represents a 'Not' operator. it inherits from Operator class and
+ * passes an eval() callback to be used it the evaluation of 'NOT' operation.
+ */
 function Not(lSignal) {
+   // Call the base class constructor and passing a callback
+   // along with the signal to be evaluated.
+   // PRE: bit1 is expected to be 0 or 1 for this operator
+   // to work fine
    Operator.call(this, function(bit1) {
       if (bit1 === Symbols.getZero()) return Symbols.getOne();
       return Symbols.getZero();
@@ -6,6 +14,8 @@ function Not(lSignal) {
 }
 inheritPrototype(Not, Operator);
 
+// Override the performBinaryOperator() of the base
+// class so the user can't call it from a 'Not' object
 Not.prototype.performBinaryOperator = function() {
    throw new Error("Not implemented method");
 };

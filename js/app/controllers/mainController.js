@@ -30,7 +30,7 @@
                updateFormulasCharts();
 
                /**
-                * ****************** private operations *********************
+                * ****************** private methods *********************
                 */
                function saveUniverse() {
                   $scope.signals.save($scope.signals.universeKey, angular
