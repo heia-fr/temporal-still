@@ -1,4 +1,4 @@
-describe('testing "And" constructor', function() {
+describe('testing "Or" constructor', function() {
 
    var u = new Universe();
 
@@ -6,27 +6,27 @@ describe('testing "And" constructor', function() {
       u.clear();
    });
 
-   it('"And" Operator Should Not Have "performUnaryOperator" Implemented', function() {
+   it('"Or" Operator Should Not Have "performUnaryOperator" Implemented', function() {
       var s1 = new BooleanSignal("a = 101/101");
       var s2 = new BooleanSignal("b = 110/011");
-      var and = new And(s1, s2);
+      var or = new Or(s1, s2);
 
       expect(function() {
-         and.performUnaryOperator();
+         or.performUnaryOperator();
       }).toThrow();
       expect(function() {
-         and.performBinaryOperator();
+         or.performBinaryOperator();
       }).not.toThrow();
    });
 
-   it('Correct "And" operation should pass', function() {
+   it('Correct "Or" operation should pass', function() {
       u.addSignal(new BooleanSignal("a = 101/101"));
       u.addSignal(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      and = new And(u.signalById("a"), u.signalById("b"));
+      and = new Or(u.signalById("a"), u.signalById("b"));
       var r = and.performBinaryOperator();
 
-      expect(r.getContent()).toEqual("ab=100/001");
+      expect(r.getContent()).toEqual("ab=111/111");
    });
 });
