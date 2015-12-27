@@ -1,4 +1,18 @@
-
+/**
+ * This class defines a TemporalFormula
+ * 
+ * @param id
+ *           the identifier of the temporal formula
+ * @param formulaString
+ *           the string representation of the formula
+ * @param booleanSignal
+ *           the evaluated representation of the formula
+ * @param referredBS
+ *           an array of referenced boolean signals' IDs
+ * @param other
+ *           an other temporal formula to copy from. It must be a valid
+ *           TemporalFormula
+ */
 function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
    if (!other) {
       if (typeof id !== "string")
@@ -11,10 +25,14 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
       if (!(referredBS instanceof Array))
          throw new TypeError("TemporalFormula: Expected 'referredBS' to be 'Array' object");
 
-      this.id = id;
+      // the identifier of the temporal formula
+      this.id = id; 
+      // the string representation of the temporal formula
       this.content = formulaString;
       this.editorEnabled = false;
+      // Array of referenced boolean signals
       this.referredBooleanSignalsIds = referredBS;
+      // the evaluated representation of the temporal formula
       this.booleanSignal = new BooleanSignal(undefined, booleanSignal);
       this.booleanSignal.setId(this.id);
    } else {

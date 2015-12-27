@@ -1,6 +1,14 @@
-/*******************************************************************************
- * Defining ForumlaGenerator
- ******************************************************************************/
+/**
+ * Defining ForumlaGenerator using the concept of the recursive descent
+ * algorithm. The generator makes use of the universe to produce a formula that
+ * refers to existing signals
+ * 
+ * The maximum levels of recursion are fixed:
+ * 
+ * 1) maximum nested formulas: 3
+ * 2) maximum number of terms: 5
+ * 3) maximum number of factors: 5
+ */
 var FormulaGenerator = function() {
 
    function Singleton() {

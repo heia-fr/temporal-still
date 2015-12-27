@@ -1,10 +1,23 @@
+/**
+ * This class represents a 'WeakUntil' operator. it inherits from
+ * TemporalOperator class and passes an eval() callback to be used it the
+ * evaluation of 'WEAKLY UNTIL' operation.
+ */
 function WeakUntil(lSignal, rSignal) {
+   // call the base class constructor and passing a callback
+   // along with the signal to be evaluated.
+   //
+   // PRE: lbitStr and rbitStr are expected to be a set of 0s and 1s
+   // index and start are, respectively, the position
+   // of the bit to evaluate and the starting point
+   // of the evaluation
    TemporalOperator.call(this, function(index, start, offset, lbitStr, rbitStr) {
       // if rSignal is 1 at time t, then return 1
       if (rbitStr.charAt(index) === Symbols.getOne()) return Symbols.getOne();
 
       var i, j;
       var l = rbitStr.length;
+      // search the time t+k when the right boolean signal becomes 1
       for (i = start, j = index; i < l; ++i, ++j) {
          if (rbitStr.charAt(j % l) === Symbols.getOne()) break;
       }

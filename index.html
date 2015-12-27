@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <title>Alambic II</title>
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
-<script type="text/javascript"
-   src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
-<script type="text/javascript" src="bower_components/d3/d3.js"></script>
-<script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-<script type="text/javascript"
-   src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
-<script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
 <link rel="shortcut icon" sizes="16x15" href="images/alambicon.ico">
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
@@ -371,37 +363,48 @@
    </div>
 
    <!-- Scripts -->
+   <script type="text/javascript"
+      src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+   <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+   <script type="text/javascript"
+      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+
+   <!-- My JS scripts -->
    <script type="text/javascript" src="js/app/app.js"></script>
-   <script type="text/javascript" src="js/model/util/Symbols.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Symbols.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Util.js"></script>
    <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
    <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
    <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
    <script type="text/javascript" src="js/app/services/services.js"></script>
-   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
    <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
    <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
+   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
 
-   <script type="text/javascript" src="js/model/analysers/Lexer.js"></script>
-   <script type="text/javascript" src="js/model/util/Extend.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaLexer.js"></script>
-   <script type="text/javascript" src="js/model/analysers/BooleanSignalSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/model/operations/Operator.js"></script>
-   <script type="text/javascript" src="js/model/operations/TemporalOperator.js"></script>
-   <script type="text/javascript" src="js/model/operations/And.js"></script>
-   <script type="text/javascript" src="js/model/operations/Or.js"></script>
-   <script type="text/javascript" src="js/model/operations/Not.js"></script>
-   <script type="text/javascript" src="js/model/operations/Always.js"></script>
-   <script type="text/javascript" src="js/model/operations/Eventually.js"></script>
-   <script type="text/javascript" src="js/model/operations/WeakUntil.js"></script>
-   <script type="text/javascript" src="js/model/analysers/TemporalFormulaInterpreter.js"></script>
-   <script type="text/javascript" src="js/model/entities/Map.js"></script>
-   <script type="text/javascript" src="js/model/entities/Universe.js"></script>
-   <script type="text/javascript" src="js/model/entities/FormulasManager.js"></script>
-   <script type="text/javascript" src="js/model/entities/BooleanSignal.js"></script>
-   <script type="text/javascript" src="js/model/entities/TemporalFormula.js"></script>
-   <script type="text/javascript" src="js/model/generators/BooleanSignalGenerator.js"></script>
-   <script type="text/javascript" src="js/model/generators/FormulaGenerator.js"></script>
+   <script type="text/javascript" src="js/models/analysers/Lexer.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Extend.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/operations/Operator.js"></script>
+   <script type="text/javascript" src="js/models/operations/TemporalOperator.js"></script>
+   <script type="text/javascript" src="js/models/operations/And.js"></script>
+   <script type="text/javascript" src="js/models/operations/Or.js"></script>
+   <script type="text/javascript" src="js/models/operations/Not.js"></script>
+   <script type="text/javascript" src="js/models/operations/Always.js"></script>
+   <script type="text/javascript" src="js/models/operations/Eventually.js"></script>
+   <script type="text/javascript" src="js/models/operations/WeakUntil.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaInterpreter.js"></script>
+   <script type="text/javascript" src="js/models/business/Map.js"></script>
+   <script type="text/javascript" src="js/models/business/Universe.js"></script>
+   <script type="text/javascript" src="js/models/business/FormulasManager.js"></script>
+   <script type="text/javascript" src="js/models/entities/BooleanSignal.js"></script>
+   <script type="text/javascript" src="js/models/entities/TemporalFormula.js"></script>
+   <script type="text/javascript" src="js/models/generators/BooleanSignalGenerator.js"></script>
+   <script type="text/javascript" src="js/models/generators/FormulaGenerator.js"></script>
 </body>
 </html>

@@ -17,12 +17,26 @@ function Lexer(expressionString) {
 // Overriding Lexer's default prototype with an object containing methods
 Lexer.prototype = {
          constructor: Lexer,
+         /**
+          * Returns the current token
+          * 
+          * @returns {string}
+          */
          getCurrentToken: function() {
             return this.currentToken;
          },
+         /**
+          * Checks whether the string has no more characters left to parse
+          * 
+          * @returns {Boolean}
+          */
          hasNoMoreChars: function() {
             return (this.nextCharIndex >= this.expressionString.length);
          },
+         /**
+          * Moves the cursor to the next token. The blank characters are
+          * ignored. Letters are grouped together to form an identifier
+          */
          goToNextToken: function() {
             this.currentToken = Symbols.getEmpty();
             if (this.hasNoMoreChars()) return;
@@ -52,18 +66,43 @@ Lexer.prototype = {
                this.nextCharIndex++;
             }
          },
+         /**
+          * Checks whether the current token is an variable name
+          * 
+          * @returns {Boolean}
+          */
          isVarName: function() {
             return /[a-z]+/.test(this.currentToken);
          },
+         /**
+          * Checks whether the current token is an equal sign
+          * 
+          * @returns {Boolean}
+          */
          isEqualSign: function() {
             return this.currentToken === Symbols.getEqual();
          },
+         /**
+          * Checks whether the current token is an opening bracket
+          * 
+          * @returns {Boolean}
+          */
          isOpeningBracket: function() {
             return this.currentToken === Symbols.getOpeningBraket();
          },
+         /**
+          * Checks whether the current token is an closing bracket
+          * 
+          * @returns {Boolean}
+          */
          isClosingBracket: function() {
             return this.currentToken === Symbols.getClosingBraket();
          },
+         /**
+          * Checks whether the current token is an empty string
+          * 
+          * @returns {Boolean}
+          */
          isEmptyToken: function() {
             return this.currentToken === Symbols.getEmpty();
          }

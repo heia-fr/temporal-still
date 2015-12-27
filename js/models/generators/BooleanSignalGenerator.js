@@ -1,6 +1,14 @@
-/*******************************************************************************
- * Defining BooleanSignalGenerator
- ******************************************************************************/
+/**
+ * Defining BooleanSignalGenerator using the concept of the recursive descent
+ * algorithm. The generator makes use of the formulas manager to produce a signals
+ * with IDs different from existing formulas
+ * 
+ * The maximum lengths of the signals are:
+ * 
+ * 1) maximum length of the signal's fixed part: 10
+ * 2) maximum length of the signal's periodic part: 5
+ * 3) maximum number of signals to generate: 5
+ */
 var BooleanSignalGenerator = function() {
 
    function Singleton() {

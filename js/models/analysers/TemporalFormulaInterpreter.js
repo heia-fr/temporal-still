@@ -1,3 +1,9 @@
+/**
+ * This class defines an interpreter of formulas. It uses the recursive descent
+ * to evaluate each part of the formula. The universe is used to fetch the
+ * corresponding signals. The result of the evaluation is a BooleanSignal object
+ * that will be wrapped in a TemporalFormula object.
+ */
 var TemporalFormulaInterpreter = function() {
 
    function Singleton() {
@@ -99,23 +105,39 @@ var TemporalFormulaInterpreter = function() {
       function parseProp() {
          if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
          var bs = universe.signalById(lexer.getCurrentToken());
+         // if the boolean signal is not referenced by the temporal formula
+         // that is being evaluated, then add it to the references array
          if (!_.includes(ids, bs.getId())) {
             ids.push(bs.getId());
          }
+         // add a reference to the formula being evaluated to the current
+         // boolean signal
          bs.addReferringTemporalFormulaId(fId);
          lexer.goToNextToken();
          return bs;
       }
 
       return {
+         /**
+          * Evaluates the formula represented by the provided string.
+          * 
+          * @param expression
+          *           is a string that represents the formula to evaluate
+          * @param univ
+          *           is the universe of BooleanSignal objects
+          */
          evaluate: function(expression, univ) {
             if (typeof expression !== 'string')
-               throw new TypeError("TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
+               throw new TypeError(
+                        "TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
             if (!(univ instanceof Universe))
-               throw new TypeError("TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
+               throw new TypeError(
+                        "TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
 
             try {
                universe = univ;
+               // set the universe length so all the operators can have access
+               // to the same lengths
                Operator.prototype.setUniverseLength(universe.getLength());
                lexer = new TemporalFormulaLexer(expression);
                lexer.goToNextToken();

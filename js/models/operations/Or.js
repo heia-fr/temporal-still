@@ -22,8 +22,8 @@ function Or(lSignal, rSignal) {
 }
 inheritPrototype(Or, Operator);
 
-//Override the performUnaryOperator() of the base
-//class so the user can't call it from an 'Or' object
+// Override the performUnaryOperator() of the base
+// class so the user can't call it from an 'Or' object
 Or.prototype.performUnaryOperator = function() {
    throw new Error("Not implemented method");
 };

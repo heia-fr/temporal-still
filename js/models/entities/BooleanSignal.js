@@ -118,6 +118,7 @@ BooleanSignal.prototype = {
          calculateUpdatedFixedPart: function(fixedPartNewLength) {
             var i;
             var newBody = this.body;
+            // extending the fixed part so it matches the universe's length
             for (i = 0; i < fixedPartNewLength - this.body.length; ++i) {
                newBody += this.period.charAt(i % this.period.length);
             }
