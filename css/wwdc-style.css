@@ -1,13 +1,13 @@
 @CHARSET "UTF-8";
 
-.circle, .squircle {
+.centered-img .circle, .centered-img .squircle {
 	border-top: 0.1em solid rgba(255, 255, 255, 0.4);
 	height: 12.5em;
 	position: absolute;
 	width: 12.5em;
 }
 
-.circle {
+.centered-img .circle {
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
@@ -21,69 +21,69 @@
 	transform-origin: 50% 12.5em;
 }
 
-.one {
+.centered-img .one {
 	background: rgba(16, 63, 236, 0.75);
 	-webkit-transform: rotateZ(225deg);
 	-moz-transform: rotateZ(225deg);
 	transform: rotateZ(225deg);
 }
 
-.two {
+.centered-img .two {
 	background: rgba(37, 172, 162, 0.75);
 	-webkit-transform: rotateZ(180deg);
 	-moz-transform: rotateZ(180deg);
 	transform: rotateZ(180deg);
 }
 
-.three {
+.centered-img .three {
 	background: rgba(233, 124, 32, 0.75);
 	-webkit-transform: rotateZ(135deg);
 	-moz-transform: rotateZ(135deg);
 	transform: rotateZ(135deg);
 }
 
-.four {
+.centered-img .four {
 	background: rgba(235, 67, 35, 0.75);
 	-webkit-transform: rotateZ(90deg);
 	-moz-transform: rotateZ(90deg);
 	transform: rotateZ(90deg);
 }
 
-.five {
+.centered-img .five {
 	background: rgba(190, 28, 65, 0.75);
 	-webkit-transform: rotateZ(45deg);
 	-moz-transform: rotateZ(45deg);
 	transform: rotateZ(45deg);
 }
 
-.six {
+.centered-img .six {
 	background: rgba(208, 57, 159, 0.75);
 	-webkit-transform: rotateZ(0);
 	-moz-transform: rotateZ(0);
 	transform: rotateZ(0);
 }
 
-.seven {
+.centered-img .seven {
 	background: rgba(150, 32, 198, 0.75);
 	-webkit-transform: rotateZ(-45deg);
 	-moz-transform: rotateZ(-45deg);
 	transform: rotateZ(-45deg);
 }
 
-.eight {
+.centered-img .eight {
 	background: rgba(95, 33, 203, 0.75);
 	-webkit-transform: rotateZ(-90deg);
 	-moz-transform: rotateZ(-90deg);
 	transform: rotateZ(-90deg);
 }
 
-.squircle {
+.centered-img .squircle {
 	border-radius: 25%;
 	-webkit-border-radius: 25%;
 	-moz-border-radius: 25%;
 }
 
-.small {
+.centered-img .small {
 	width: 4em;
 	height: 4em;
 	left: calc(50% - 2em);
@@ -96,7 +96,7 @@
 	box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
 }
 
-.small.squircle {
+.centered-img .small.squircle {
 	background: none;
 	border: none;
 	-webkit-box-shadow: none;
@@ -104,7 +104,7 @@
 	box-shadow: none;
 }
 
-.small.squircle::after {
+.centered-img .small.squircle::after {
 	background: red;
 	-webkit-border-radius: 25%;
 	-moz-border-radius: 25%;
@@ -121,23 +121,23 @@
 	width: 100%;
 }
 
-.small.squircle.two::after {
+.centered-img .small.squircle.two::after {
 	background: rgba(37, 172, 162, 0.75);
 }
 
-.small.squircle.four::after {
+.centered-img .small.squircle.four::after {
 	background: rgba(235, 67, 35, 0.75);
 }
 
-.small.squircle.six::after {
+.centered-img .small.squircle.six::after {
 	background: rgba(208, 57, 159, 0.75);
 }
 
-.small.squircle.eight::after {
+.centered-img .small.squircle.eight::after {
 	background: rgba(95, 33, 203, 0.75);
 }
 
-.large.squircle {
+.centered-img .large.squircle {
 	background: rgba(30, 7, 66, 0.65);
 	border: none;
 	height: 15em;
@@ -152,13 +152,13 @@
 	width: 15em;
 }
 
-.large.squircle.one {
+.centered-img .large.squircle.one {
 	-webkit-transform: rotateZ(45deg);
 	-moz-transform: rotateZ(45deg);
 	transform: rotateZ(45deg);
 }
 
-.content .image-wrap {
+.centered-img .content .image-wrap {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -166,7 +166,7 @@
 	margin-left: -80px;
 }
 
-.content .image-wrap img {
+.centered-img .content .image-wrap img {
 	width: 128px;
 	height: 128px;
 }
@@ -179,9 +179,9 @@
 }
 
 /*
-** Animation
+** ***************** Animation **********************
 */
-span {
+.centered-img span {
 	display: block;
 	margin-top: 50px;
 	height: 20em;
@@ -192,37 +192,86 @@ span {
 	height: 20em;
 }
 
-.large-squircle-two-content {
+.centered-img .large-squircle-two-content {
 	margin-top: 50px;
 }
 
-.large-circles {
+.centered-img .large-circles {
 	-webkit-animation: spin 10s linear infinite;
 	-moz-animation: spin 10s linear infinite;
 	animation: spin 10s linear infinite;
 }
 
-.small-shapes {
+.centered-img .small-shapes {
 	-webkit-animation: spin 30s linear infinite;
 	-moz-animation: spin 30s linear infinite;
 	animation: spin 30s linear infinite;
 }
 
-.content-squircle {
+.centered-img .content-squircle {
 	-webkit-animation: spin 20s linear infinite;
 	-moz-animation: spin 20s linear infinite;
 	animation: spin 20s linear infinite;
 }
 
-@keyframes spin { 
-0% {
+@
+keyframes spin { 0% {
 	-webkit-transform: rotateZ(0);
 	-moz-transform: rotateZ(0);
 	transform: rotateZ(0);
 }
-100% {
-   -webkit-transform: rotateZ(360deg);
-   -moz-transform: rotateZ(360deg);
-   transform: rotateZ(360deg);
+100%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+rotateZ
+
+
+(360
+deg
+);
+
+
+   
+
+-moz-transform
+
+
+:
+
+ 
+
+rotateZ
+
+
+(360
+deg
+);
+
+
+   
+
+transform
+
+
+:
+
+ 
+
+rotateZ
+
+
+(360
+deg
+);
+
+
+
+
 }
 }

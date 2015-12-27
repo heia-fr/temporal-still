@@ -67,7 +67,7 @@ header .header-limiter a:hover {
 	}
 }
 
-.main-content, .how-to-content {
+.main-content {
 	min-height: 520px;
 }
 
