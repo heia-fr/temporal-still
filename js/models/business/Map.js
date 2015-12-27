@@ -7,19 +7,19 @@ function Map(other) {
       this.mapKeys = [];
       this.data = {};
    } else {
+      if (!(other instanceof Object) || other.__type !== 'Map')
+         throw new TypeError("Map: Expected 'other' to be a 'Map' object");
       this.mapKeys = other.mapKeys;
       this.data = {};
       var len = this.mapKeys.length;
       for (var i = 0; i < len; ++i) {
          var k = this.mapKeys[i];
-         var obj = null;
+         var obj = other.data[k];
          if (typeof other.data[k] === 'object') {
             if (other.data[k].__type === 'BooleanSignal') {
                obj = new BooleanSignal(undefined, other.data[k]);
             } else if (other.data[k].__type === 'TemporalFormula') {
                obj = new TemporalFormula(undefined, undefined, undefined, undefined, other.data[k]);
-            } else {
-               obj = {};
             }
          }
          this.data[k] = obj;

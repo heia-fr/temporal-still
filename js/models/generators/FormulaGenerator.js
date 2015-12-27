@@ -16,14 +16,12 @@ var FormulaGenerator = function() {
       var pathThreePercent = 60;
       var pathFourPercent = 80;
 
-      var charSet = "abcdefghijklmnopqrstuvwxyz";
-
       function generateProp(ids) {
          var i;
          var id;
          do {
-            i = _.random(0, charSet.length - 1);
-            id = charSet.charAt(i);
+            i = _.random(0, Symbols.getCharSet().length - 1);
+            id = Symbols.getCharSet().charAt(i);
          } while (universe.containsSignal(id));
          return id;
       }

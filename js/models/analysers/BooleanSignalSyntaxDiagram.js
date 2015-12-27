@@ -9,30 +9,35 @@ var BooleanSignalSyntaxDiagram = function() {
       var lexer;
 
       function parseSignal() {
-         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName())
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected valid variable name");
          lexer.goToNextToken();
 
-         if (!lexer.isEqualSign()) throw new SyntaxError("Expected equal sign");
+         if (!lexer.isEqualSign())
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected equal sign");
          lexer.goToNextToken();
 
          parseDigits();
 
-         if (!lexer.isSlash()) throw new SyntaxError("Expected slash sign");
+         if (!lexer.isSlash())
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected slash sign");
          lexer.goToNextToken();
 
          parseDigits();
 
          if (lexer.isSemiColon()) {
             lexer.goToNextToken();
-            if(lexer.isEmptyToken()) return;
+            if (lexer.isEmptyToken()) return;
             parseSignal();
          }
 
-         if (!lexer.isEmptyToken()) throw new SyntaxError("Expected end of signals");
+         if (!lexer.isEmptyToken())
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected end of signals");
       }
 
       function parseDigits() {
-         if (!(lexer.isZero() || lexer.isOne())) throw new SyntaxError("Expected 0 or 1");
+         if (!(lexer.isZero() || lexer.isOne()))
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected 0 or 1");
          lexer.goToNextToken();
 
          while (lexer.isZero() || lexer.isOne()) {
@@ -42,7 +47,8 @@ var BooleanSignalSyntaxDiagram = function() {
 
       return {
          isValid: function(expression) {
-            if (expression === "") return true; // permit empty string (that's to be validated in the view)
+            // permit empty string (that's to be validated in the view)
+            if (expression === "") return true;
             try {
                lexer = new BooleanSignalLexer(expression);
                lexer.goToNextToken();

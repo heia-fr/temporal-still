@@ -25,7 +25,7 @@ function testUncorrectFormulas(generator, maxNbFormulas, nbrOfTests, universe) {
    var nbOfFormulas = generator.integer(1, maxNbFormulas);
    var formulas;
    var len, fLen;
-   var pool = "[<à$]!?)(\>.:@,-_*+'/&2345%6789abcdefghijklmnopqrstuvwxyz";
+   var pool = "[<à$]!?)(\>.:@,-_*+'/&2345%6789" + Symbols.getCharSet();
    for (var i = 0; i < nbrOfTests; i++) {
       formulas = generateCorrectFormulas(nbOfFormulas, universe);
 

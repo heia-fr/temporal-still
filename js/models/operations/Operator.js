@@ -1,10 +1,9 @@
 /**
- * This class represents a base abstract class for all logical
- * operators used in this application. It implements default behavior for both
- * unary (Not, Eventually, Always) and binary (And, Or, WeakUntil) operators
- * 
- * PRE: operation() must be a valid callback function that handles the logic
- *      of one of the logical operators used in the application
+ * This class represents a base abstract class for all logical operators used in
+ * this application. It implements default behavior for both unary (Not,
+ * Eventually, Always) and binary (And, Or, WeakUntil) operators PRE:
+ * operation() must be a valid callback function that handles the logic of one
+ * of the logical operators used in the application
  * 
  * @param function
  *           a function provided by derived Operators and used to evaluate the
@@ -48,13 +47,13 @@ Operator.prototype = {
          // implement the default behavior for unary operators
          performUnaryOperator: function() {
             // update both the fixed and periodic parts of the signal to
-            // evaluate
-            // using the universe's length
+            // evaluate using the universe's length
             var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
             var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 
             // Parse the signal bit by bit and use the eval() callback
-            // to calculate the result
+            // to calculate the result for both parts (fixed and periodic)
+            // for example: Not(101/10) == 010/01
             var whole = Symbols.getEmpty();
             for (var i = 0; i < thisBody.length; ++i) {
                whole += this.eval(thisBody.charAt(i));
@@ -64,13 +63,15 @@ Operator.prototype = {
                whole += this.eval(thisPeriod.charAt(i));
             }
 
-            // form and return a fresh signal as a result of the operation
+            // construct and return a fresh signal as a result of the operation
             whole = this.leftSignal.getId() + Symbols.getEqual() + whole;
             return new BooleanSignal(whole);
          },
-         // implement the default behavior for binary operators
-         // it has the same logic as performUnaryOperator()
-         // but for two operands see performUnaryOperator() method
+         /**
+          * implement the default behavior for binary operators it has the same
+          * logic as performUnaryOperator() but for two operands (see
+          * performUnaryOperator() method)
+          */
          performBinaryOperator: function() {
             if (!(this.rightSignal instanceof BooleanSignal))
                throw new TypeError(

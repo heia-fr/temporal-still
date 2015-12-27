@@ -8,9 +8,9 @@
  ******************************************************************************/
 function Lexer(expressionString) {
    if (typeof expressionString != "string")
-      throw new TypeError("'expressionString' is expected to be a String object");
+      throw new TypeError("Lexer: 'expressionString' is expected to be a String object");
    this.expressionString = expressionString.trim();
-   this.currentToken = "";
+   this.currentToken = Symbols.getEmpty();
    this.nextCharIndex = 0;
 }
 
@@ -24,7 +24,7 @@ Lexer.prototype = {
             return (this.nextCharIndex >= this.expressionString.length);
          },
          goToNextToken: function() {
-            this.currentToken = "";
+            this.currentToken = Symbols.getEmpty();
             if (this.hasNoMoreChars()) return;
 
             var pattern = /\s/; // match a space character

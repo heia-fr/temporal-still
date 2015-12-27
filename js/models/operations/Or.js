@@ -5,6 +5,7 @@
 function Or(lSignal, rSignal) {
    // call the base class constructor and passing a callback
    // along with the signal to be evaluated.
+   //
    // PRE: bit1 and bit2 are expected to have 0 or 1 as a value for
    // this operator to work fine
    Operator.call(this, function(bit1, bit2) {

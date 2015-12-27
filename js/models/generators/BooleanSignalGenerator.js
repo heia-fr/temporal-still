@@ -11,20 +11,18 @@ var BooleanSignalGenerator = function() {
       var maxPeriod = 5;
       var maxNbOfSignals = 5;
 
-      var charSet = "abcdefghijklmnopqrstuvwxyz";
-
       function generateVarName(ids) {
          var i;
          var id;
          do {
-            i = _.random(0, charSet.length - 1);
-            id = charSet.charAt(i);
+            i = _.random(0, Symbols.getCharSet().length - 1);
+            id = Symbols.getCharSet().charAt(i);
          } while (_.includes(ids, id) || formulasManager.containsFormula(id));
          return id;
       }
 
       function generateDigits(maxNbDigits) {
-         var digits = "";
+         var digits = Symbols.getEmpty();
          var nbDigits = _.random(1, maxNbDigits);
          for (var i = 0; i < nbDigits; i++) {
             digits += (_.random() === 1 ? Symbols.getOne() : Symbols.getZero());
@@ -34,7 +32,7 @@ var BooleanSignalGenerator = function() {
       }
 
       function generateSignals() {
-         var signals = "";
+         var signals = Symbols.getEmpty();
          var nbOfSignals = _.random(1, maxNbOfSignals);
          var varName, body, period;
          var ids = [];

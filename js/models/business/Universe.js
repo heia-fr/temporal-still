@@ -65,8 +65,8 @@ Universe.prototype = {
             if (s.getFixedPartLength() > this.length[0]) {
                this.length[0] = s.getFixedPartLength();
             }
-            this.length[1] = (s.getPeriodicPartLength() * this.length[1])
-                     / Util.gcd(s.getPeriodicPartLength(), this.length[1]);
+            this.length[1] = s.getPeriodicPartLength()
+                     * (this.length[1] / Util.gcd(s.getPeriodicPartLength(), this.length[1]));
          },
          clearReferences: function() {
             this.dataStoreMap.each(function(key, s, i) {

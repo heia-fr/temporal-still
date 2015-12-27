@@ -1,3 +1,6 @@
+/**
+ * This an utility class that provides a set of symbols used in this application
+ */
 var Symbols = function() {
 
    function Singleton() {
@@ -25,7 +28,8 @@ var Symbols = function() {
                prettyOr: "&#8744;",
                prettyAlways: "&#9723;",
                prettyEventually: "&#9674;",
-               prettyNot: "&#172;"
+               prettyNot: "&#172;",
+               charSet: "abcdefghijklmnopqrstuvwxyz"
       };
 
       return {
@@ -97,6 +101,9 @@ var Symbols = function() {
                },
                getPrettyNot: function() {
                   return symbols.prettyNot;
+               },
+               getCharSet: function() {
+                  return symbols.charSet;
                }
       };
    }

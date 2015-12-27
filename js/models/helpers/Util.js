@@ -1,8 +1,21 @@
+/**
+ * This class offers some utilities used across the application.
+ */
 var Util = function() {
 
    function Singleton() {
 
       return {
+               /**
+                * This method calculates the greatest common divider of two
+                * positive integer values using The Euclidean Algorithm PRE: p
+                * and q must be positive integer values
+                * 
+                * @param number
+                *           p is the first positive integer value
+                * @param number
+                *           q is the second positive integer value
+                */
                gcd: function(p, q) {
                   var r;
                   while (q != 0) {
@@ -12,6 +25,9 @@ var Util = function() {
                   }
                   return p;
                },
+               /**
+                * This is a set of hex web colors used to color boolean charts
+                */
                colors: ["#001f3f", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40",
                         "#01FF70", "#FFDC00", "#FF851B", "#FF4136", "#85144b", "#5B3822",
                         "#F012BE", "#B10DC9", "#2B0F0E", "#111111", "#AAAAAA", "#3F5D7D",

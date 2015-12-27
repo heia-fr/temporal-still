@@ -1,3 +1,4 @@
+
 function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
    if (!other) {
       if (typeof id !== "string")

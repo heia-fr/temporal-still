@@ -4,7 +4,14 @@
  * identifier 2) '1010' is the boolean signal's fixed part 3) '01' is the
  * boolean signal's periodic part if the parameter 'other' is provided, it must
  * be a valid boolean signal so the newly created object can copy the values of
- * its attributes.
+ * its attributes. PRE: if provided, expressionString must be a valid
+ * BooleanSignal string representation e.g. a = 100101/11 PRE: if provided,
+ * other must be a valid BooleanSignal object
+ * 
+ * @param string
+ *           expressionString a string representation of a BooleanSignal
+ * @param BooleanSignal
+ *           other a valid BooleanSignal object
  */
 function BooleanSignal(expressionString, other) {
    if (!other) {
@@ -59,6 +66,12 @@ BooleanSignal.prototype = {
          },
          getContent: function() {
             return this.content;
+         },
+         getBody: function() {
+            return this.body;
+         },
+         getPeriod: function() {
+            return this.period;
          },
          isEditorEnabled: function() {
             return this.editorEnabled;
@@ -126,7 +139,7 @@ BooleanSignal.prototype = {
             if (periodicPartNewLength <= 0) { return this.period.substring(this.periodStartIndex,
                      this.period.length); }
 
-            var newPeriod = "";
+            var newPeriod = Symbols.getEmpty();
             // calculate the new periodic part by using a round robin technique
             for (var i = 0, j = this.periodStartIndex; i < periodicPartNewLength; ++i, ++j) {
                newPeriod += this.period.charAt(j % this.period.length);

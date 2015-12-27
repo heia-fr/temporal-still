@@ -5,6 +5,7 @@
 function Not(lSignal) {
    // Call the base class constructor and passing a callback
    // along with the signal to be evaluated.
+   //
    // PRE: bit1 is expected to be 0 or 1 for this operator
    // to work fine
    Operator.call(this, function(bit1) {

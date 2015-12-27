@@ -18,7 +18,7 @@ describe('testing "Not" constructor', function() {
       }).not.toThrow();
    });
 
-   it('Correct "And" operation should pass', function() {
+   it('Correct "Not" operation should pass', function() {
       u.addSignal(new BooleanSignal("a = 101/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 

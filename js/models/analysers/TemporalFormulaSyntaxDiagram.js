@@ -9,15 +9,18 @@ var TemporalFormulaSyntaxDiagram = function() {
       var lexer;
 
       function parseFormulaExpr() {
-         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName())
+            throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected valid variable name");
          lexer.goToNextToken();
 
-         if (!lexer.isEqualSign()) throw new SyntaxError("Expected " + Symbols.getEqual());
+         if (!lexer.isEqualSign())
+            throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected " + Symbols.getEqual());
          lexer.goToNextToken();
 
          parseFormula();
 
-         if (!lexer.isEmptyToken()) throw new SyntaxError("Expected end of formula");
+         if (!lexer.isEmptyToken())
+            throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected end of formula");
       }
 
       function parseFormula() {
@@ -52,7 +55,8 @@ var TemporalFormulaSyntaxDiagram = function() {
             lexer.goToNextToken();
             parseFormula();
             if (!lexer.isClosingBracket())
-               throw new SyntaxError("Expected " + Symbols.getClosingBraket());
+               throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected "
+                        + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
@@ -62,14 +66,16 @@ var TemporalFormulaSyntaxDiagram = function() {
          } else if (lexer.isOpeningSquareBracket()) {
             lexer.goToNextToken();
             if (!lexer.isClosingSquareBracket())
-               throw new SyntaxError("Expected " + Symbols.getClosingSquareBraket());
+               throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected "
+                        + Symbols.getClosingSquareBraket());
             lexer.goToNextToken();
             parseAtom();
 
          } else if (lexer.isLessThanSign()) {
             lexer.goToNextToken();
             if (!lexer.isGreaterThanSign())
-               throw new SyntaxError("Expected " + Symbols.getGreaterThan());
+               throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected "
+                        + Symbols.getGreaterThan());
             lexer.goToNextToken();
             parseAtom();
 
@@ -79,7 +85,8 @@ var TemporalFormulaSyntaxDiagram = function() {
       }
 
       function parseProp() {
-         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName())
+            throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected valid variable name");
          lexer.goToNextToken();
       }
 
@@ -93,8 +100,6 @@ var TemporalFormulaSyntaxDiagram = function() {
                lexer.goToNextToken();
                parseFormulaExpr();
             } catch (ex) {
-               // console.log("exception: " + ex.message + " --> " +
-               // expression);
                return false;
             }
             return lexer.hasNoMoreChars();

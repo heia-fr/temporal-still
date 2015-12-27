@@ -1,8 +1,6 @@
-var charSet = "abcdefghijklmnopqrstuvwxyz";
-
 function testCorrectSignals(nbrOfTests) {
    var result = true;
-   var signals = "";
+   var signals = Symbols.getEmpty();
    for (var i = 0; i < nbrOfTests; i++) {
       signals = BooleanSignalGenerator.generateBooleanSignals(new FormulasManager());
       result = BooleanSignalSyntaxDiagram.isValid(signals) && result;
@@ -12,8 +10,8 @@ function testCorrectSignals(nbrOfTests) {
 
 function testUncorrectSignals(generator, nbrOfTests) {
    var result = false;
-   var signals = "";
-   var pool = "[<à$]!?)(\>.:@,-_*+'/&2345%6789" + charSet;
+   var signals = Symbols.getEmpty();
+   var pool = "[<à$]!?)(\>.:@,-_*+'/&2345%6789" + Symbols.getCharSet();
    String.prototype.replaceAt = function(index, character) {
       return this.substr(0, index) + character + this.substr(index + character.length);
    }

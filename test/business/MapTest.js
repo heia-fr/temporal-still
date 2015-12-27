@@ -11,6 +11,8 @@ describe('testing Map constructor', function() {
       expect(m.isEmpty()).toBe(true);
       expect(m.keys()).toEqual([]);
       expect(m.values()).toEqual([]);
+      expect(function() { new Map(2016); }).toThrow();
+      expect(function() { new Map({}); }).toThrow();
    });
 
    it('put method should work as expected', function() {
