@@ -108,7 +108,7 @@
                            <ul class="list-group y-scroll">
                               <li class="list-group-item"
                                  ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
-                                 id="signal{{sig.getId()}}">
+                                 id="signal{{sig.getId()}}" ng-cloak>
 
                                  <div class="row">
                                     <div class="col-sm-8 col-md-8 col-lg-8 text-left">
@@ -203,7 +203,7 @@
                            <ul class="list-group y-scroll">
                               <li class="list-group-item"
                                  ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()"
-                                 id="formula{{formula.getId()}}">
+                                 id="formula{{formula.getId()}}" ng-cloak>
 
                                  <div class="row">
                                     <div class="col-sm-8 col-md-8 col-lg-8 text-left">
