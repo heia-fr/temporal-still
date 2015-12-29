@@ -1,10 +1,12 @@
 (function(angular) {
    "use strict";
 
+   // regroupe all of the modules under one named module
    var app = angular.module('alambic', ['alambic.controllers', 'alambic.services',
             'alambic.filters', 'alambic.directives', 'nvd3ChartDirectives', 'LocalStorageModule',
             'ngRoute']);
 
+   // configure the app
    app.config(['localStorageServiceProvider', '$routeProvider',
             function(localStorageServiceProvider, $routeProvider) {
                localStorageServiceProvider.setPrefix('alambic');
@@ -24,6 +26,7 @@
                });
             }]);
 
+   // create modules
    angular.module('alambic.controllers', []);
    angular.module('alambic.services', []);
    angular.module('alambic.filters', []);

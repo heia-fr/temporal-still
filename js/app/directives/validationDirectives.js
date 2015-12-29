@@ -15,7 +15,8 @@
                      // verify that the signals match the exact syntax
                      var b = BooleanSignalSyntaxDiagram.isValid(value);
 
-                     // if the signals are correct, verify that the ids does'nt conflict
+                     // if the signals are correct, verify that the ids does'nt
+                     // conflict
                      // with the formulas IDs
                      if (b && value.length != 0) {
                         var signalsArray = value.split(Symbols.getSemiColon());
@@ -55,6 +56,8 @@
                      var arr = value.split(Symbols.getSemiColon());
                      var b = BooleanSignalSyntaxDiagram.isValid(value) && (arr.length == 1)
                               && value.length != 0;
+
+                     // the ID must not be changed
                      if (b) {
                         var sId = value.split(Symbols.getEqual())[0].trim();
                         b = (sId === scope.editable.editableSignal.id);
@@ -79,6 +82,9 @@
                      var b = TemporalFormulaSyntaxDiagram.isValid(value);
 
                      var formulaArr;
+                     // if the the formula is correct, verify that its ID
+                     // does'nt conflict
+                     // with the signals IDs
                      if (b && value.length != 0) {
                         formulaArr = value.split(Symbols.getEqual());
                         var fId = formulaArr[0].trim();
@@ -87,6 +93,8 @@
                         }
                      }
 
+                     // Verify that all of the referenced signals exist in the
+                     // universe
                      if (b && value.length != 0) {
                         var fBody = formulaArr[1].trim();
                         var lexer = new TemporalFormulaLexer(fBody);
@@ -123,12 +131,15 @@
                      var b = TemporalFormulaSyntaxDiagram.isValid(value) && value.length != 0;
 
                      var formulaArr;
+                     // the ID must not be changed
                      if (b) {
                         formulaArr = value.split(Symbols.getEqual());
                         var fId = formulaArr[0].trim();
                         b = (fId === scope.editable.editableFormula.id);
                      }
 
+                     // Verify that all of the referenced signals exist in the
+                     // universe
                      if (b) {
                         var formulaBody = formulaArr[1].trim();
                         var lexer = new TemporalFormulaLexer(formulaBody);

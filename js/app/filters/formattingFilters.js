@@ -7,6 +7,9 @@
 
    var app = angular.module('alambic.filters');
 
+   /**
+    * Define a filter to prettify the signals
+    */
    app.filter('signalFormatter', function($sce) {
 
       return function(signal) {
@@ -26,6 +29,9 @@
       }
    });
 
+   /**
+    * Define a filter to prettify the formulas
+    */
    app.filter('formulaFormatter', function($sce) {
 
       return function(formula) {

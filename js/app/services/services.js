@@ -4,9 +4,11 @@
    /**
     * ****************** Defining services *********************
     */
-
    var app = angular.module('alambic.services');
 
+   /**
+    * Define a service that provides data manipulated by the app
+    */
    app.factory('signalsService', [
             'localStorageService',
             function(localStorageService) {
@@ -38,7 +40,7 @@
 
                      return value;
                   });
-               } else {
+               } else { // set the default signals
                   universeFromJson = new Universe();
                   universeFromJson.addSignal(new BooleanSignal("b = 111000100011/1"));
                   universeFromJson.addSignal(new BooleanSignal("a = 110000101000/0"));
@@ -55,7 +57,7 @@
 
                      return value;
                   });
-               } else {
+               } else { // set the default formulas
                   formulasManagerFromJson = new FormulasManager();
                   var tfs = ["f = b W !a", "g = !a W b", "h = <>(a & b)", "i = b & []!a"];
 
