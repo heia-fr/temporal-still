@@ -2,8 +2,7 @@
    "use strict";
 
    /**
-    * ****************** Defining formatter filters for signals and formulas
-    * *********************
+    * ******** Defining formatter filters for signals and formulas ********
     */
 
    var app = angular.module('alambic.filters');
@@ -12,14 +11,14 @@
 
       return function(signal) {
 
-         var transformedSignal = "";
+         var transformedSignal = Symbols.getEmpty();
 
-         if (signal === '') {
+         if (signal === Symbols.getEmpty()) {
             return signal;
          } else {
-            var parts = signal.split("=");
-            var bodyParts = parts[1].split("/");
-            transformedSignal = parts[0] + " = " + bodyParts[0]
+            var parts = signal.split(Symbols.getEqual());
+            var bodyParts = parts[1].split(Symbols.getSlash());
+            transformedSignal = parts[0] + " " + Symbols.getEqual() + " " + bodyParts[0]
                      + "<span style='text-decoration: overline;'>" + bodyParts[1] + "</span>";
 
             return $sce.trustAsHtml(transformedSignal);
@@ -31,9 +30,9 @@
 
       return function(formula) {
 
-         var transformedFormula = "";
+         var transformedFormula = Symbols.getEmpty();
 
-         if (formula === '') {
+         if (formula === Symbols.getEmpty()) {
             return formula;
          } else {
             var lexer = new TemporalFormulaLexer(formula);

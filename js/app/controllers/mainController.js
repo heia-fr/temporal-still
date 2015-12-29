@@ -6,19 +6,32 @@
     */
    var app = angular.module('alambic.controllers');
 
+   /**
+    * This is the main controller where the core features of alambic are coded.
+    * the following services are injected by angularJS to this controller: 1)
+    * the $scope variable 2) the $window variable (represents the window object
+    * of DOM) 3) signalsService a service that provides the data manipulated by
+    * the app (save/restore data)
+    */
    app.controller('MainController', [
             '$scope',
             '$window',
-            'localStorageService',
             'signalsService',
-            function($scope, $window, localStorageService, signals) {
+            function($scope, $window, signalsService) {
 
                $scope.$window = $window;
-               $scope.signals = signals; // hook data to a scope variable
+               $scope.signals = signalsService; // hook data to the scope variable
                $scope.buttonState = {};
+               // a toggle boolean used to change the icon of the signals
+               // collapse button
                $scope.buttonState.signalsUp = true;
+               // a toggle boolean used to change the icon of the formulas
+               // collapse button
                $scope.buttonState.formulasUp = true;
 
+               /**
+                * methods to toggle the boolean variables
+                */
                $scope.toggleSignalsPanel = function() {
                   $scope.buttonState.signalsUp = !$scope.buttonState.signalsUp;
                };

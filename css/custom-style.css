@@ -125,6 +125,18 @@ p.about-text {
 	margin-bottom: 520px;
 }
 
+.about-content table {
+   margin-left: 10px;
+}
+
+.about-content table tr td:nth-child(1) {
+   text-align: right;
+}
+
+.about-content table.operatorsTable tr td:nth-child(2) {
+   text-align: center;
+}
+
 /* .centered-img .image-wrap { */
 /* 	position: relative; */
 /* 	display: inline-block; */

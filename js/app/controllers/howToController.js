@@ -3,6 +3,10 @@
 
    var app = angular.module('alambic.controllers');
 
+   /**
+    * Defines a controller for the HowTo Tab. A set of symbols has been hooked
+    * to the scope variable in order to be used in the HowTo tab page
+    */
    app.controller('HowToController', function($scope, $sce) {
       $scope.symbols = {};
       $scope.symbols.prettyAnd = $sce.trustAsHtml(Symbols.getPrettyAnd());

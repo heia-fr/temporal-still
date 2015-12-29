@@ -278,10 +278,9 @@
          <div role="tabpanel" class="tab-pane" id="howTo" ng-controller="HowToController">
             <div class="how-to-content">
                <h1>Welcome to Alambic II Tool!</h1>
-               <p>This is a tool for evaluating temporal formulas, based on a set of specified
-                  boolean signals. These formulas are a straight-forward way to illustrate what can
-                  sometimes become very complicated processing in systems with temporal logic. The
-                  features of this app are:</p>
+               <p>This is a tool for evaluating temporal formulas, using boolean signals. These
+                  formulas are a straight-forward way to illustrate what can sometimes become very
+                  complicated in systems based on temporal logic. The features of this app are:</p>
                <ul>
                   <li>Management of boolean signals</li>
                   <li>Boolean signal presentation in SVG</li>
@@ -294,7 +293,7 @@
 
                <h3>Symbols</h3>
 
-               <p>Below is the notation used to define boolean signal:</p>
+               <p>Below is the notation used to define a boolean signal:</p>
                <table>
                   <tr>
                      <td>Equal sign &#40;{{symbols.equal}}&#41;:</td>
@@ -309,9 +308,6 @@
                      <td>used to separated multiple boolean signals</td>
                   </tr>
                </table>
-
-               <p>Boolean signals must follow a strict syntax: id1 =
-                  fixedPart1/periodicPart1[;id2 = fixedPart2/periodicPart2...]</p>
 
                <h3>Parts of a boolean signal</h3>
 
@@ -336,9 +332,25 @@
                   <br />
                </p>
 
+               <h3>Boolean signals management</h3>
+
+               <p>Boolean signals must follow a strict syntax, i.e id1 =
+                  fixedPart1/periodicPart1[;id2 = fixedPart2/periodicPart2...]</p>
+               <img src="images/caps/cap1.png" alt="Adding boolean signals" class="img-thumbnail" />
+
                <p>A boolean signal can be altered by clicking on it in the list under the main
-                  text field. Once a modification has occurred, its chart is updated and also the
-                  charts of all of the formulas referencing it</p>
+                  text field. Once a modification has occurred, its graphical representation is
+                  updated and also the graphical representation of all of the formulas referencing
+                  it</p>
+               <img src="images/caps/cap2.png" alt="Updating boolean signals" class="img-thumbnail" />
+
+               <p>Boolean signals can be removed from the list of signals by clicking on the
+                  blue cross. However, once referenced a boolean signal cannot be deleted until it
+                  no longer the case.</p>
+               <p>If no boolean signal is referred by any formula, the list of boolean signal
+                  can be cleared by clicking the red button above the text field</p>
+               <img src="images/caps/cap3.png" alt="Clearing the list of boolean signals"
+                  class="img-thumbnail" />
 
                <h2>Temporal formulas</h2>
 
@@ -422,22 +434,38 @@
                </ol>
 
 
-               <h3>Temporal formulas</h3>
-               <p>Temporal formulas reference to existing boolean signals such as a&#44;b&#44;
-                  etc. For example&#44; the temporal formula f {{symbols.equal}} a W b references
-                  the signals a and b. Thus, these two signals cannot be deleted as long as they are
+               <h3>Temporal formulas management</h3>
+               <p>Temporal formulas refer to existing boolean signals such as a&#44; b&#44; etc.
+                  For example&#44; the temporal formula f {{symbols.equal}} a W b refers to the
+                  signals a and b. Thus, these two signals cannot be deleted as long as they are
                   referenced.</p>
-               <p>the relationship between temporal formulas and booleans signals is of type
+               <img src="images/caps/cap4.png" alt="Adding temporal formulas" class="img-thumbnail" />
+
+               <p>the relationship between temporal formulas and boolean signals is of type
                   many-to-many. That means, each boolean signal can be referenced by zero or many
                   temporal formulas, and a temporal formula can refer to one or many boolean
                   signals.</p>
 
                <p>Temporal formulas can also be altered by clicking on them in the list below
                   the main text field.</p>
+               <img src="images/caps/cap5.png" alt="Updating temporal formulas"
+                  class="img-thumbnail" />
+
+               <p>Temporal formulas can be removed by clicking on the blue cross in the list of
+                  temporal formulas.</p>
+               <img src="images/caps/cap6.png" alt="Removing temporal formulas"
+                  class="img-thumbnail" />
+
+               <p>The red button above the temporal formulas text field can be used to clear the
+                  list of formulas.</p>
 
                <h2>Graphical presentation</h2>
 
-               <p>Both boolean signals and temporal formulas are presented by a boolean chart.</p>
+               <p>Both boolean signals and temporal formulas are presented by a boolean chart.
+                  These graphical representations are updated each time a boolean signal changes
+                  (added, updated or removed)</p>
+               <img src="images/caps/cap7.png" alt="Graphical representations" class="img-thumbnail" />
+
             </div>
          </div>
 

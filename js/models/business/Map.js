@@ -1,6 +1,7 @@
 /**
  * This class represents a data structure using the concept of Map. The elements
- * stored are of nature (key, value). Multiple values are not allowed
+ * stored are of nature (key, value). Multiple values are not allowed. PRE: This
+ * Implementation require lodash library
  */
 function Map(other) {
    if (!other) {
@@ -97,7 +98,6 @@ Map.prototype = {
           * @returns {Number}
           */
          size: function() {
-            console.log("yes I'm here");
             return this.mapKeys.length;
          },
          /**
@@ -134,17 +134,19 @@ Map.prototype = {
          /**
           * Provides a method to iterate over entries of this Map (key, value,
           * index). A callback function must be provided by the user. The
-          * returned value is this Map object to permit chained calls
+          * returned value is this Map object to permit chained calls. This
+          * method does nothing if 'callback' parameter is not a function
           * 
-          * @param func
+          * @param callback(key, value, index)
+          *           is a function to apply to each element of the Map
           * @returns {Map}
           */
-         each: function(func) {
-            if (typeof func !== 'function') { return; }
+         each: function(callback) {
+            if (typeof callback !== 'function') { return; }
             var len = this.mapKeys.length;
             for (var i = 0; i < len; i++) {
                var k = this.mapKeys[i];
-               func(k, this.data[k], i);
+               callback(k, this.data[k], i);
             }
             return this;
          },
