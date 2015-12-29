@@ -33,7 +33,6 @@
    angular.module('alambic.directives', []);
 
    // make sure the Array.some, Array.forEach and Array.every exists
-   Util.ensureSome();
    Util.ensureEvery();
    Util.ensureForEach();
 }(angular));

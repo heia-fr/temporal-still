@@ -24,14 +24,10 @@
                            signalsArray.splice(signalsArray.length - 1, 1);
                         }
 
-                        signalsArray.some(function(signalStr) {
+                        b = signalsArray.every(function(signalStr) {
                            var signalParts = signalStr.split(Symbols.getEqual());
-                           if (scope.signals.tf.formulasManager.containsFormula(signalParts[0]
-                                    .trim())) {
-                              b = false;
-                              return true;
-                           }
-                           return false;
+                           return !scope.signals.tf.formulasManager.containsFormula(signalParts[0]
+                                    .trim());
                         });
                      }
 
