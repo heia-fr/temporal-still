@@ -37,7 +37,97 @@ var Util = function() {
                         "#7B8D8E", "#632528", "#3F2518", "#333333", "#FFCC00", "#669966",
                         "#993366", "#F14C38", "#144955", "#6633CC", "#EF34A2", "#FD9308",
                         "#462D44", "#3399FF", "#99D21B", "#B08749", "#FFA3D6", "#00D9FF",
-                        "#000000", "#FF0000", "#2CB050"]
+                        "#000000", "#FF0000", "#2CB050"],
+               ensureSome: function() {
+                  // Production ECMA-262, Edition 5, 15.4.4.17
+                  // Reference : http://es5.github.io/#x15.4.4.17
+                  if (!Array.prototype.some) {
+                     Array.prototype.some = function(func /* , thisArg */) {
+                        'use strict';
+
+                        if (this == null) { throw new TypeError(
+                                 'Array.prototype.some called with null or undefined'); }
+
+                        if (typeof func !== 'function') { throw new TypeError(); }
+
+                        var t = Object(this);
+                        var len = t.length >>> 0;
+
+                        var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+                        for (var i = 0; i < len; i++) {
+                           if (i in t && func.call(thisArg, t[i], i, t)) { return true; }
+                        }
+
+                        return false;
+                     };
+                  }
+               },
+               ensureForEach: function() {
+                  // ECMA-262, Edition 5, 15.4.4.18
+                  // Reference: http://es5.github.io/#x15.4.4.18
+                  if (!Array.prototype.forEach) {
+
+                     Array.prototype.forEach = function(callback, thisArg) {
+                        var T, k;
+                        if (this == null) { throw new TypeError(' this equals null or undefined'); }
+
+                        var O = Object(this);
+                        var len = O.length >>> 0;
+                        if (typeof callback !== "function") { throw new TypeError(callback
+                                 + ' is not a fonction'); }
+
+                        if (arguments.length > 1) {
+                           T = thisArg;
+                        }
+                        k = 0;
+
+                        while (k < len) {
+                           var kValue;
+                           if (k in O) {
+                              kValue = O[k];
+                              callback.call(T, kValue, k, O);
+                           }
+                           k++;
+                        }
+                     };
+                  }
+               },
+               ensureEvery: function() {
+                  // ECMA-262, Edition 5, 15.4.4.16
+                  // Reference: http://es5.github.io/#x15.4.4.16
+                  if (!Array.prototype.every) {
+                     Array.prototype.every = function(callbackfn, thisArg) {
+                        'use strict';
+                        var T, k;
+
+                        if (this == null) { throw new TypeError('this equals null or undefined'); }
+
+                        var O = Object(this);
+                        var len = O.length >>> 0;
+
+                        if (typeof callbackfn !== 'function') { throw new TypeError(); }
+
+                        if (arguments.length > 1) {
+                           T = thisArg;
+                        }
+
+                        k = 0;
+
+                        while (k < len) {
+                           var kValue;
+
+                           if (k in O) {
+                              kValue = O[k];
+                              var testResult = callbackfn.call(T, kValue, k, O);
+                              if (!testResult) { return false; }
+                           }
+                           k++;
+                        }
+                        return true;
+                     };
+                  }
+               }
+
       };
    }
 

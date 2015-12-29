@@ -3,6 +3,9 @@
 
    var app = angular.module('alambic.directives');
 
+   /**
+    * Create a directive the gives focus to the update editor being enabled
+    */
    app.directive('gainFocus', function($timeout, $parse) {
       return {
          link: function(scope, element, attrs) {
@@ -19,6 +22,10 @@
       };
    });
 
+   /**
+    * Create a directive that handle the 'escape' event when updating a signal
+    * or a formula
+    */
    app.directive('onEsc', function() {
       return function(scope, element, attrs) {
          element.bind("keypress keydown keyup", function(event) {
@@ -34,6 +41,10 @@
       };
    });
 
+   /**
+    * Create a directive that handle the 'enter' event when updating a signal or
+    * a formula
+    */
    app.directive('onEnter', function() {
       return function(scope, element, attrs) {
          element.bind("keypress keydown keyup", function(event) {

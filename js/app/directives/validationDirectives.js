@@ -3,27 +3,37 @@
 
    var app = angular.module('alambic.directives');
 
+   /**
+    * A directive to validate the entered signals before processing them in the
+    * controller
+    */
    app.directive('validateSignals', function() {
       return {
                require: 'ngModel',
                link: function(scope, elem, attr, ngModel) {
                   ngModel.$parsers.unshift(function(value) {
+                     // verify that the signals match the exact syntax
                      var b = BooleanSignalSyntaxDiagram.isValid(value);
 
+                     // if the signals are correct, verify that the ids does'nt conflict
+                     // with the formulas IDs
                      if (b && value.length != 0) {
                         var signalsArray = value.split(Symbols.getSemiColon());
                         if (signalsArray[signalsArray.length - 1] === Symbols.getEmpty()) {
                            signalsArray.splice(signalsArray.length - 1, 1);
                         }
 
-                        signalsArray.forEach(function(signalStr) {
+                        signalsArray.some(function(signalStr) {
                            var signalParts = signalStr.split(Symbols.getEqual());
-                           if (scope.signals.tf.formulasManager.containsFormula(signalParts[0].trim())) {
+                           if (scope.signals.tf.formulasManager.containsFormula(signalParts[0]
+                                    .trim())) {
                               b = false;
+                              return true;
                            }
+                           return false;
                         });
                      }
-                     
+
                      ngModel.$setValidity('validateSignals', b);
                      return value;
                   });
@@ -57,6 +67,10 @@
       };
    });
 
+   /**
+    * A directive to validate the formula entered before processing it in the
+    * controller
+    */
    app.directive('validateFormulas', function() {
       return {
                require: 'ngModel',
@@ -98,6 +112,9 @@
       };
    });
 
+   /**
+    * A directive to validate the formula being updated
+    */
    app.directive('validateEditableFormula', function() {
       return {
                require: 'ngModel',
