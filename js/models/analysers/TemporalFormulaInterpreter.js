@@ -14,9 +14,9 @@ var TemporalFormulaInterpreter = function() {
       var ids = [];
 
       function parseFormulaExpr() {
-         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName()) throw new SyntaxError("TemporalFormulaInterpreter: Expected valid formula name");
          lexer.goToNextToken();
-         if (!lexer.isEqualSign()) throw new SyntaxError("Expected equal sign");
+         if (!lexer.isEqualSign()) throw new SyntaxError("TemporalFormulaInterpreter: Expected equal sign");
          lexer.goToNextToken();
 
          var bs = parseFormula();
@@ -24,6 +24,22 @@ var TemporalFormulaInterpreter = function() {
       }
 
       function parseFormula() {
+         var bs = parseComponent();
+
+         while (lexer.isDash()) {
+            lexer.goToNextToken();
+            if (!lexer.isGreaterThanSign())
+               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.isGreaterThanSign());
+            lexer.goToNextToken();
+            var thatBs = parseComponent();
+            var op = new Implies(bs, thatBs);
+            bs = op.performBinaryOperator();
+         }
+
+         return bs;
+      }
+      
+      function parseComponent() {
          var bs = parseTerm();
 
          while (lexer.isOr()) {
@@ -69,7 +85,7 @@ var TemporalFormulaInterpreter = function() {
             lexer.goToNextToken();
             bs = parseFormula();
             if (!lexer.isClosingBracket())
-               throw new SyntaxError("Expected " + Symbols.getClosingBraket());
+               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
@@ -81,7 +97,7 @@ var TemporalFormulaInterpreter = function() {
          } else if (lexer.isOpeningSquareBracket()) {
             lexer.goToNextToken();
             if (!lexer.isClosingSquareBracket())
-               throw new SyntaxError("Expected " + Symbols.getClosingSquareBraket());
+               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingSquareBraket());
             lexer.goToNextToken();
             bs = parseAtom();
             var op = new Always(bs);
@@ -90,7 +106,7 @@ var TemporalFormulaInterpreter = function() {
          } else if (lexer.isLessThanSign()) {
             lexer.goToNextToken();
             if (!lexer.isGreaterThanSign())
-               throw new SyntaxError("Expected " + Symbols.getGreaterThan());
+               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getGreaterThan());
             lexer.goToNextToken();
             bs = parseAtom();
             var op = new Eventually(bs);
@@ -103,7 +119,10 @@ var TemporalFormulaInterpreter = function() {
       }
 
       function parseProp() {
-         if (!lexer.isVarName()) throw new SyntaxError("Expected valid variable name");
+         if (!lexer.isVarName()) {
+            console.log(lexer.getCurrentToken());
+            throw new SyntaxError("TemporalFormulaInterpreter: Expected valid variable name");
+         }
          var bs = universe.signalById(lexer.getCurrentToken());
          // if the boolean signal is not referenced by the temporal formula
          // that is being evaluated, then add it to the references array

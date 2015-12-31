@@ -19,6 +19,13 @@
             'signalsService',
             function($scope, $window, signalsService) {
 
+               // activate Twitter Bootstrap tooltips
+               $(function() {
+                  $('[data-tooltip="tooltip"]').tooltip({
+                     'trigger': 'hover'
+                  });
+               });
+
                $scope.$window = $window;
                $scope.signals = signalsService; // hook data to the scope
                // variable
@@ -26,18 +33,28 @@
                // a toggle boolean used to change the icon of the signals
                // collapse button
                $scope.buttonState.signalsUp = true;
+               // used to change the content of the signals toggle button's
+               // tooltip dynamically
+               $scope.buttonState.signalsTitle = 'Hide signals panel';
                // a toggle boolean used to change the icon of the formulas
                // collapse button
                $scope.buttonState.formulasUp = true;
+               // used to change the content of the formulas toggle button's
+               // tooltip dynamically
+               $scope.buttonState.formulasTitle = 'Hide formulas panel';
 
                /**
                 * methods to toggle the boolean variables
                 */
                $scope.toggleSignalsPanel = function() {
                   $scope.buttonState.signalsUp = !$scope.buttonState.signalsUp;
+                  $scope.buttonState.signalsTitle = $scope.buttonState.signalsUp
+                           ? 'Hide signals panel' : 'Show signals panel';
                };
                $scope.toggleFormlasPanel = function() {
                   $scope.buttonState.formulasUp = !$scope.buttonState.formulasUp;
+                  $scope.buttonState.formulasTitle = $scope.buttonState.formulasUp
+                           ? 'Hide formulas panel' : 'Show formulas panel';
                };
 
                // update chart when launching the app
@@ -178,7 +195,7 @@
                      }
                   });
 
-                  $scope.signalsString = "";
+                  $scope.signalsString = Symbols.getEmpty();
                   // update the graphical charts and save the universe's and
                   // formulas manager's states
                   updateSignalsCharts();
@@ -293,7 +310,7 @@
                      saveUniverse();
                      saveFormulasManager();
                      $scope.formulaString = "";
-
+                     
                      // clean the text field
                      $scope.alambicFormulaForm.$setPristine();
                      $scope.alambicFormulaForm.$setUntouched();

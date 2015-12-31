@@ -9,8 +9,12 @@ function Not(lSignal) {
    // PRE: bit1 is expected to be 0 or 1 for this operator
    // to work fine
    Operator.call(this, function(bit1) {
-      if (bit1 === Symbols.getZero()) return Symbols.getOne();
-      return Symbols.getZero();
+      if (bit1 === Symbols.getZero()) {
+         return Symbols.getOne();
+      } else if (bit1 === Symbols.getOne()) {
+         return Symbols.getZero();
+      } 
+      throw new Error("Not: bit1 must be 0 or 1");
    }, lSignal);
 }
 inheritPrototype(Not, Operator);

@@ -18,6 +18,8 @@ var Symbols = function() {
                closingSquareBracket: "]",
                lessThan: "<",
                greaterThan: ">",
+               dash: "-",
+               implies: "->",
                not: "!",
                eventually: "<>",
                always: "[]",
@@ -29,6 +31,7 @@ var Symbols = function() {
                prettyAlways: "&#9723;",
                prettyEventually: "&#9674;",
                prettyNot: "&#172;",
+               prettyImplies: "&#8594;",
                charSet: "abcdefghijklmnopqrstuvwxyz"
       };
 
@@ -69,6 +72,9 @@ var Symbols = function() {
                getGreaterThan: function() {
                   return symbols.greaterThan;
                },
+               getDash: function() {
+                  return symbols.dash;
+               },
                getNot: function() {
                   return symbols.not;
                },
@@ -87,6 +93,9 @@ var Symbols = function() {
                getOr: function() {
                   return symbols.or;
                },
+               getImplies: function() {
+                 return symbols.implies; 
+               },
                getPrettyAnd: function() {
                   return symbols.prettyAnd;
                },
@@ -98,6 +107,9 @@ var Symbols = function() {
                },
                getPrettyEventually: function() {
                   return symbols.prettyEventually;
+               },
+               getPrettyImplies: function() {
+                  return symbols.prettyImplies;
                },
                getPrettyNot: function() {
                   return symbols.prettyNot;

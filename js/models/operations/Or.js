@@ -15,8 +15,10 @@ function Or(lSignal, rSignal) {
          return Symbols.getOne();
       } else if (bit1 === Symbols.getOne() && bit2 === Symbols.getZero()) {
          return Symbols.getOne();
-      } else {
+      } else if(bit1 === Symbols.getOne() && bit2 === Symbols.getOne()) {
          return Symbols.getOne();
+      } else {
+         throw new Error("Or: bit1 and bit2 must be 0 or 1");
       }
    }, lSignal, rSignal);
 }

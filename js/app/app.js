@@ -1,7 +1,7 @@
 (function(angular) {
    "use strict";
 
-   // regroupe all of the modules under one named module
+   // register all of the modules under one named module
    var app = angular.module('alambic', ['alambic.controllers', 'alambic.services',
             'alambic.filters', 'alambic.directives', 'nvd3ChartDirectives', 'LocalStorageModule',
             'ngRoute']);
@@ -9,9 +9,13 @@
    // configure the app
    app.config(['localStorageServiceProvider', '$routeProvider',
             function(localStorageServiceProvider, $routeProvider) {
+               // set the prefix under which the app variables will be saved in
+               // the local storage
                localStorageServiceProvider.setPrefix('alambic');
+               // set the type of the local storage to sessionStorage
                localStorageServiceProvider.setStorageType('sessionStorage');
 
+               // routing for the first version TODO: to be removed later
                $routeProvider.when('/', {
                         templateUrl: 'home.html', // pages/home.html
                         controller: 'MainController'
@@ -32,7 +36,7 @@
    angular.module('alambic.filters', []);
    angular.module('alambic.directives', []);
 
-   // make sure the Array.some, Array.forEach and Array.every exists
+   // make sure Array.forEach and Array.every exist
    Util.ensureEvery();
    Util.ensureForEach();
 }(angular));

@@ -16,8 +16,9 @@ var FormulaGenerator = function() {
       var universe;
 
       var formulaLevel;
-      var maxNbTerms = 5;
-      var maxNbFactors = 5;
+      var maxNbComponents = 3;
+      var maxNbTerms = 4;
+      var maxNbFactors = 4;
       var maxPercent = 100;
       var pathOnePercent = 20;
       var pathTwoPercent = 40;
@@ -63,7 +64,7 @@ var FormulaGenerator = function() {
       function generateFactor() {
          var factor = generateAtom();
 
-         if (_.random(0, 1) === 0) {
+         if (_.random(0, 1) === 1) {
             factor += Symbols.getWeakUntil() + generateAtom();
          }
          return factor;
@@ -80,14 +81,26 @@ var FormulaGenerator = function() {
          }
          return term;
       }
+      
+      function generateComponent() {
+         var component = generateTerm();
 
-      function generateFormula() {
-         var formula = generateTerm();
-
-         if (_.random(0, 1) === 0) {
+         if (_.random(0, 1) === 1) {
             var nbTerms = _.random(2, maxNbTerms);
             for (var i = 1; i < nbTerms; i++) {
-               formula += " " + Symbols.getOr() + " " + generateTerm();
+               component += " " + Symbols.getOr() + " " + generateTerm();
+            }
+         }
+         return component;
+      }
+
+      function generateFormula() {
+         var formula = generateComponent();
+
+         if (_.random(0, 1) === 0) {
+            var nbComponents = _.random(2, maxNbComponents);
+            for (var i = 1; i < nbComponents; i++) {
+               formula += " " + Symbols.getImplies() + " " + generateComponent();
             }
          }
          return formula;

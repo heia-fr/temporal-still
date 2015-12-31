@@ -69,22 +69,31 @@
                      <div class="input-group left-btn-group">
                         <button id="collapseButton" type="button"
                            class="btn btn-default btn-lg round toggle" data-toggle="collapse"
-                           data-tooltip="tooltip" title="Collapse signals panel"
+                           data-tooltip="tooltip" data-original-title="{{buttonState.signalsTitle}}"
                            data-target="#collapseSignals" aria-expanded="false"
                            aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
-                           <i ng-show="buttonState.signalsUp" class="glyphicon glyphicon-chevron-up"></i>
-                           <i ng-hide="buttonState.signalsUp" ng-cloak
-                              class="glyphicon glyphicon-chevron-down"></i>
+                           <i ng-show="buttonState.signalsUp"
+                              class="glyphicon glyphicon-chevron-down"></i> <i
+                              ng-hide="buttonState.signalsUp" ng-cloak
+                              class="glyphicon glyphicon-chevron-right"></i>
                         </button>
                         <button type="button"
                            class="btn btn-primary btn-lg round right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random signals"
-                           ng-click="generateSignals()">
+                           ng-show="buttonState.signalsUp" ng-click="generateSignals()" ng-cloak>
                            <i class="fa fa-random"></i>
                         </button>
+                        <!--                         <a role="button" type="button" -->
+                        <!--                            class="btn btn-success btn-lg round fixed-right-toggle toggle" -->
+                        <!--                            data-tooltip="tooltip" title="Restore signals" ng-click="" -->
+                        <!--                            ng-show="buttonState.signalsUp" -->
+                        <!--                            ng-disabled="true" ng-cloak> -->
+                        <!--                            <i class="glyphicon glyphicon-share-alt"></i> -->
+                        <!--                         </a> -->
                         <a role="button" type="button"
                            class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
+                           ng-show="buttonState.signalsUp" ng-cloak
                            ng-disabled="signals.bs.universe.isEmpty() || !signals.tf.formulasManager.isEmpty()">
                            <i class="fa fa-trash"></i>
                         </a>
@@ -163,23 +172,32 @@
                      <div class="input-group left-btn-group">
                         <button type="button" class="btn btn-default btn-lg round toggle"
                            data-toggle="collapse" data-tooltip="tooltip"
-                           title="Collapse formulas panel" data-target="#collapseFormulas"
-                           aria-expanded="false" aria-controls="collapseFormulas"
-                           ng-click="toggleFormlasPanel()">
+                           data-original-title="{{buttonState.formulasTitle}}"
+                           data-target="#collapseFormulas" aria-expanded="false"
+                           aria-controls="collapseFormulas" ng-click="toggleFormlasPanel()">
                            <i ng-show="buttonState.formulasUp"
-                              class="glyphicon glyphicon-chevron-up"></i> <i
+                              class="glyphicon glyphicon-chevron-down"></i> <i
                               ng-hide="buttonState.formulasUp" ng-cloak
-                              class="glyphicon glyphicon-chevron-down"></i>
+                              class="glyphicon glyphicon-chevron-right"></i>
                         </button>
                         <button type="button"
                            class="btn btn-primary btn-lg round right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random formula"
-                           ng-click="generateFormula()" ng-disabled="signals.bs.universe.isEmpty()">
+                           ng-show="buttonState.formulasUp" ng-cloak ng-click="generateFormula()"
+                           ng-disabled="signals.bs.universe.isEmpty()">
                            <i class="fa fa-random"></i>
                         </button>
+                        <!--                         <a role="button" type="button" -->
+                        <!--                            class="btn btn-success btn-lg round fixed-right-toggle toggle" -->
+                        <!--                            data-tooltip="tooltip" title="Restore formulas" ng-click="" -->
+                        <!--                            ng-show="buttonState.formulasUp" -->
+                        <!--                            ng-disabled="true" ng-cloak> -->
+                        <!--                            <i class="glyphicon glyphicon-share-alt"></i> -->
+                        <!--                         </a> -->
                         <a role="button" type="button"
                            class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
+                           ng-show="buttonState.formulasUp" ng-cloak
                            ng-disabled="signals.tf.formulasManager.isEmpty()">
                            <i class="fa fa-trash"></i>
                         </a>
@@ -535,58 +553,51 @@
             </div>
          </footer>
       </div>
+   </div>
 
-      <!-- JS Components -->
-      <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-      <script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-      <script type="text/javascript"
-         src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-      <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
-      <script type="text/javascript" src="bower_components/d3/d3.js"></script>
-      <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
-      <script type="text/javascript"
-         src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
-      <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+   <!-- JS Components -->
+   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+   <script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+   <script type="text/javascript"
+      src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+   <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+   <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+   <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
+   <script type="text/javascript"
+      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+   <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
-      <!-- My JS scripts -->
-      <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
-      <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
-      <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
-      <script type="text/javascript" src="js/app/services/services.js"></script>
-      <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
-      <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
-      <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
+   <!-- My JS scripts -->
+   <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
+   <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
+   <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
+   <script type="text/javascript" src="js/app/services/services.js"></script>
+   <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
+   <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
+   <script type="text/javascript" src="js/app/filters/formattingFilters.js"></script>
 
-      <script type="text/javascript" src="js/models/analysers/Lexer.js"></script>
-      <script type="text/javascript" src="js/models/helpers/Extend.js"></script>
-      <script type="text/javascript" src="js/models/analysers/BooleanSignalLexer.js"></script>
-      <script type="text/javascript" src="js/models/analysers/TemporalFormulaLexer.js"></script>
-      <script type="text/javascript" src="js/models/analysers/BooleanSignalSyntaxDiagram.js"></script>
-      <script type="text/javascript" src="js/models/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-      <script type="text/javascript" src="js/models/operations/Operator.js"></script>
-      <script type="text/javascript" src="js/models/operations/TemporalOperator.js"></script>
-      <script type="text/javascript" src="js/models/operations/And.js"></script>
-      <script type="text/javascript" src="js/models/operations/Or.js"></script>
-      <script type="text/javascript" src="js/models/operations/Not.js"></script>
-      <script type="text/javascript" src="js/models/operations/Always.js"></script>
-      <script type="text/javascript" src="js/models/operations/Eventually.js"></script>
-      <script type="text/javascript" src="js/models/operations/WeakUntil.js"></script>
-      <script type="text/javascript" src="js/models/analysers/TemporalFormulaInterpreter.js"></script>
-      <script type="text/javascript" src="js/models/business/Map.js"></script>
-      <script type="text/javascript" src="js/models/business/Universe.js"></script>
-      <script type="text/javascript" src="js/models/business/FormulasManager.js"></script>
-      <script type="text/javascript" src="js/models/entities/BooleanSignal.js"></script>
-      <script type="text/javascript" src="js/models/entities/TemporalFormula.js"></script>
-      <script type="text/javascript" src="js/models/generators/BooleanSignalGenerator.js"></script>
-      <script type="text/javascript" src="js/models/generators/FormulaGenerator.js"></script>
-
-      <!-- Activate Twitter Bootstrap tooltips -->
-      <script type="text/javascript">
-                     $(function() {
-                        $('[data-tooltip="tooltip"]').tooltip({
-                           'trigger': 'hover'
-                        });
-                     });
-                  </script>
+   <script type="text/javascript" src="js/models/analysers/Lexer.js"></script>
+   <script type="text/javascript" src="js/models/helpers/Extend.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaLexer.js"></script>
+   <script type="text/javascript" src="js/models/analysers/BooleanSignalSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaSyntaxDiagram.js"></script>
+   <script type="text/javascript" src="js/models/operations/Operator.js"></script>
+   <script type="text/javascript" src="js/models/operations/TemporalOperator.js"></script>
+   <script type="text/javascript" src="js/models/operations/And.js"></script>
+   <script type="text/javascript" src="js/models/operations/Or.js"></script>
+      <script type="text/javascript" src="js/models/operations/Implies.js"></script>
+   <script type="text/javascript" src="js/models/operations/Not.js"></script>
+   <script type="text/javascript" src="js/models/operations/Always.js"></script>
+   <script type="text/javascript" src="js/models/operations/Eventually.js"></script>
+   <script type="text/javascript" src="js/models/operations/WeakUntil.js"></script>
+   <script type="text/javascript" src="js/models/analysers/TemporalFormulaInterpreter.js"></script>
+   <script type="text/javascript" src="js/models/business/Map.js"></script>
+   <script type="text/javascript" src="js/models/business/Universe.js"></script>
+   <script type="text/javascript" src="js/models/business/FormulasManager.js"></script>
+   <script type="text/javascript" src="js/models/entities/BooleanSignal.js"></script>
+   <script type="text/javascript" src="js/models/entities/TemporalFormula.js"></script>
+   <script type="text/javascript" src="js/models/generators/BooleanSignalGenerator.js"></script>
+   <script type="text/javascript" src="js/models/generators/FormulaGenerator.js"></script>
 </body>
 </html>

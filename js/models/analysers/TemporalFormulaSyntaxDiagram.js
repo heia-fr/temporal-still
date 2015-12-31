@@ -24,6 +24,18 @@ var TemporalFormulaSyntaxDiagram = function() {
       }
 
       function parseFormula() {
+         parseComponent();
+
+         while (lexer.isDash()) {
+            lexer.goToNextToken();
+            if(!lexer.isGreaterThanSign())
+               throw new SyntaxError("TemporalFormulaSyntaxDiagram: Expected " + Symbols.isGreaterThanSign());
+            lexer.goToNextToken();
+            parseComponent();
+         }
+      }
+      
+      function parseComponent() {
          parseTerm();
 
          while (lexer.isOr()) {

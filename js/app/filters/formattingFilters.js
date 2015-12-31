@@ -48,6 +48,9 @@
                   transformedFormula += " " + Symbols.getPrettyAnd() + " ";
                } else if (lexer.isOr()) {
                   transformedFormula += " " + Symbols.getPrettyOr() + " ";
+               } else if(lexer.isDash()) {
+                  lexer.goToNextToken();
+                  transformedFormula += " " + Symbols.getPrettyImplies() + " ";
                } else if (lexer.isNot()) {
                   transformedFormula += Symbols.getPrettyNot();
                } else if (lexer.isOpeningSquareBracket()) {

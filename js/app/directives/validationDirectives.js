@@ -15,7 +15,8 @@
                      // verify that the signals match the exact syntax
                      var b = BooleanSignalSyntaxDiagram.isValid(value);
 
-                     // if the signals are correct, verify that the ids does'nt
+                     // if the signals are correct, verify that the ids
+                     // doesn't
                      // conflict
                      // with the formulas IDs
                      if (b && value.length != 0) {
@@ -89,7 +90,8 @@
                         }
                      }
 
-                     // Verify that all of the referenced signals exist in the
+                     // Verify that all of the referenced signals exist in
+                     // the
                      // universe
                      if (b && value.length != 0) {
                         var fBody = formulaArr[1].trim();

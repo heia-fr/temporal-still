@@ -19,6 +19,10 @@ TemporalFormulaLexer.prototype.isAnd = function() {
    return (this.getCurrentToken() === Symbols.getAnd());
 };
 
+TemporalFormulaLexer.prototype.isDash = function() {
+   return this.getCurrentToken() === Symbols.getDash();
+};
+
 TemporalFormulaLexer.prototype.isNot = function() {
    return this.getCurrentToken() === Symbols.getNot();
 };

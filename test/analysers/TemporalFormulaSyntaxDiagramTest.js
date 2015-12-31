@@ -55,6 +55,7 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
 
    it('Correct formulas are expected to be accepted', function() {
       var result = true;
+      result = TemporalFormulaSyntaxDiagram.isValid("f = ((c | d) & (c -> e)) | (!(c | d) ) | (!(c -> e))") && result;
       result = TemporalFormulaSyntaxDiagram.isValid("f = []a | b & c") && result;
       result = TemporalFormulaSyntaxDiagram.isValid("f = []a | <>(b & c)") && result;
       result = TemporalFormulaSyntaxDiagram.isValid("f = !(b & c)") && result;
