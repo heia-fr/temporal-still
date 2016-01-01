@@ -83,9 +83,46 @@ header .header-limiter a:hover {
 
 .y-scroll {
 	max-height: 160px;
-	overflow-y: auto;
+	overflow: auto;
 }
 
+/*
+*************** BEGIN *****************
+*/
+.verticalTrack {
+	width: 10px;
+	background: rgba(0, 0, 0, 0);
+	margin-right: 2px;
+	border-radius: 10px;
+	-webkit-transition: background 250ms linear;
+	-moz-transition: background 250ms linear;
+	transition: background 250ms linear;
+}
+
+.verticalTrack:hover, .verticalTrack.dragging {
+	background: #d9d9d9;
+	background: rgba(0, 0, 0, 0.15);
+}
+
+.verticalHandle {
+	width: 7px;
+	right: 0;
+	background: #999;
+	background: rgba(0, 0, 0, 0.4);
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	-webkit-transition: width 250ms;
+	-moz-transition: width 250ms;
+	transition: width 250ms;
+}
+
+.verticalTrack:hover .verticalHandle, .verticalTrack.dragging .verticalHandle {
+	width: 10px;
+}
+/*
+*************** END *****************
+*/
 .fix-panel {
 	margin-bottom: 10px;
 }
@@ -126,15 +163,15 @@ p.about-text {
 }
 
 .about-content table {
-   margin-left: 10px;
+	margin-left: 10px;
 }
 
 .about-content table tr td:nth-child(1) {
-   text-align: right;
+	text-align: right;
 }
 
 .about-content table.operatorsTable tr td:nth-child(2) {
-   text-align: center;
+	text-align: center;
 }
 
 /* .centered-img .image-wrap { */
@@ -158,7 +195,6 @@ p.about-text {
 /* 	background: linear-gradient(top, rgba(255, 255, 255, 0.7) 0%, */
 /* 		rgba(255, 255, 255, .1) 100%); */
 /* } */
-
 footer {
 	height: 70px;
 }

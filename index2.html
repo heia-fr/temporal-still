@@ -117,7 +117,7 @@
                         </form>
                         <form name="alambicSignalsListForm" class="top-buffer" role="form"
                            novalidate>
-                           <ul class="list-group y-scroll">
+                           <ul id="signalsList" class="list-group y-scroll">
                               <li class="list-group-item"
                                  ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
                                  id="signal{{sig.getId()}}" ng-cloak>
@@ -221,7 +221,7 @@
                         </form>
                         <form name="alambicFormulaListForm" class="top-buffer" role="form"
                            novalidate>
-                           <ul class="list-group y-scroll">
+                           <ul id="formulasList" class="list-group y-scroll">
                               <li class="list-group-item"
                                  ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()"
                                  id="formula{{formula.getId()}}" ng-cloak>
@@ -557,6 +557,7 @@
 
    <!-- JS Components -->
    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+   <script src="bower_components/jquery/dist/enscroll-0.6.1.min.js" type="text/javascript"></script>
    <script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
    <script type="text/javascript"
       src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>

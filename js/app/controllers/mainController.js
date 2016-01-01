@@ -19,10 +19,16 @@
             'signalsService',
             function($scope, $window, signalsService) {
 
-               // activate Twitter Bootstrap tooltips
+               // activate Twitter Bootstrap tooltips and enscroll plugin
                $(function() {
                   $('[data-tooltip="tooltip"]').tooltip({
                      'trigger': 'hover'
+                  });
+
+                  $('#signalsList, #formulasList').enscroll({
+                           showOnHover: false,
+                           verticalTrackClass: 'verticalTrack',
+                           verticalHandleClass: 'verticalHandle'
                   });
                });
 
@@ -310,7 +316,7 @@
                      saveUniverse();
                      saveFormulasManager();
                      $scope.formulaString = "";
-                     
+
                      // clean the text field
                      $scope.alambicFormulaForm.$setPristine();
                      $scope.alambicFormulaForm.$setUntouched();
