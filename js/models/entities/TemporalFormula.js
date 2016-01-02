@@ -29,7 +29,7 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
       this.id = id; 
       // the string representation of the temporal formula
       this.content = formulaString;
-      this.editorEnabled = false;
+      this.editable = false;
       // Array of referenced boolean signals
       this.referredBooleanSignalsIds = referredBS;
       // the evaluated representation of the temporal formula
@@ -40,7 +40,7 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
          throw new TypeError("TemporalFormula: Expected other to be a 'TemporalFormula' object");
       this.id = other.id;
       this.content = other.content;
-      this.editorEnabled = other.editorEnabled;
+      this.editable = other.editorEnabled;
       this.referredBooleanSignalsIds = other.referredBooleanSignalsIds;
       this.booleanSignal = new BooleanSignal(undefined, other.booleanSignal);
    }
@@ -66,13 +66,13 @@ TemporalFormula.prototype = {
             this.referredBooleanSignalsIds = bsIdsArray;
          },
          isEditorEnabled: function() {
-            return this.editorEnabled;
+            return this.editable;
          },
          setEditorEnabled: function(editorEnabled) {
-            this.editorEnabled = editorEnabled;
+            this.editable = editorEnabled;
          },
          calculateChartValues: function(universeLength) {
-            this.booleanSignal.calculateChartValues(universeLength);
+            this.booleanSignal.calculateChartValues(universeLength, "Formula");
          },
          getChartData: function() {
             return this.booleanSignal.getChartData();

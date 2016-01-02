@@ -271,7 +271,7 @@
                   </div>
                </div>
                <div class="col-sm-12 col-md-12 col-lg-12">
-                  <div class="panel panel-default chart-grid">
+                  <div id="chartPanel" class="panel panel-default chart-grid">
                      <div class="panel-body">
                         <div
                            ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()">
@@ -380,12 +380,16 @@
                <p>Below is the notation used to define logical and temporal operators:</p>
                <table class="operatorsTable">
                   <tr>
+                     <th>Operator</th>
+                     <th>Symbol</th>
+                  </tr>
+                  <tr>
                      <td>
-                        logical AND &#40;
-                        <span ng-bind-html='symbols.prettyAnd'></span>
+                        Material Implication &#40;
+                        <span ng-bind-html='symbols.prettyImplies'></span>
                         &#41;:
                      </td>
-                     <td>&amp;</td>
+                     <td>&minus;&gt;</td>
                   </tr>
                   <tr>
                      <td>
@@ -394,6 +398,14 @@
                         &#41;:
                      </td>
                      <td>&#124;</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        logical AND &#40;
+                        <span ng-bind-html='symbols.prettyAnd'></span>
+                        &#41;:
+                     </td>
+                     <td>&amp;</td>
                   </tr>
                   <tr>
                      <td>
@@ -451,6 +463,10 @@
                   <li>
                      OR
                      <span ng-bind-html='symbols.prettyOr'></span>
+                  </li>
+                  <li>
+                     IMPLIES
+                     <span ng-bind-html='symbols.prettyImplies'></span>
                   </li>
                </ol>
 
@@ -583,15 +599,15 @@
    <script type="text/javascript" src="js/models/analysers/TemporalFormulaLexer.js"></script>
    <script type="text/javascript" src="js/models/analysers/BooleanSignalSyntaxDiagram.js"></script>
    <script type="text/javascript" src="js/models/analysers/TemporalFormulaSyntaxDiagram.js"></script>
-   <script type="text/javascript" src="js/models/operations/Operator.js"></script>
-   <script type="text/javascript" src="js/models/operations/TemporalOperator.js"></script>
-   <script type="text/javascript" src="js/models/operations/And.js"></script>
-   <script type="text/javascript" src="js/models/operations/Or.js"></script>
-      <script type="text/javascript" src="js/models/operations/Implies.js"></script>
-   <script type="text/javascript" src="js/models/operations/Not.js"></script>
-   <script type="text/javascript" src="js/models/operations/Always.js"></script>
-   <script type="text/javascript" src="js/models/operations/Eventually.js"></script>
-   <script type="text/javascript" src="js/models/operations/WeakUntil.js"></script>
+   <script type="text/javascript" src="js/models/operators/Operator.js"></script>
+   <script type="text/javascript" src="js/models/operators/TemporalOperator.js"></script>
+   <script type="text/javascript" src="js/models/operators/And.js"></script>
+   <script type="text/javascript" src="js/models/operators/Or.js"></script>
+   <script type="text/javascript" src="js/models/operators/Implies.js"></script>
+   <script type="text/javascript" src="js/models/operators/Not.js"></script>
+   <script type="text/javascript" src="js/models/operators/Always.js"></script>
+   <script type="text/javascript" src="js/models/operators/Eventually.js"></script>
+   <script type="text/javascript" src="js/models/operators/WeakUntil.js"></script>
    <script type="text/javascript" src="js/models/analysers/TemporalFormulaInterpreter.js"></script>
    <script type="text/javascript" src="js/models/business/Map.js"></script>
    <script type="text/javascript" src="js/models/business/Universe.js"></script>

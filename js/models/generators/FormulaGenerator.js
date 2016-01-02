@@ -16,9 +16,9 @@ var FormulaGenerator = function() {
       var universe;
 
       var formulaLevel;
-      var maxNbComponents = 3;
-      var maxNbTerms = 4;
-      var maxNbFactors = 4;
+      var maxNbComponents = 2;
+      var maxNbTerms = 3;
+      var maxNbFactors = 3;
       var maxPercent = 100;
       var pathOnePercent = 20;
       var pathTwoPercent = 40;
@@ -112,7 +112,7 @@ var FormulaGenerator = function() {
                throw new TypeError("FormulaGenerator: Expecting 'univ' to be a 'Universe' object");
 
             universe = univ;
-            formulaLevel = 3;
+            formulaLevel = 2;
 
             return generateProp() + Symbols.getEqual() + generateFormula();
          }

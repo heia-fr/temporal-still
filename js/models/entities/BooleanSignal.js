@@ -21,7 +21,7 @@ function BooleanSignal(expressionString, other) {
       // the signal's id
       this.id = Symbols.getEmpty();
       this.content = expressionString.trim();
-      this.editorEnabled = false;
+      this.editable = false;
       this.referringTemporalFormulasIds = [];
       // the fixed part of the signal
       this.body = Symbols.getEmpty();
@@ -37,13 +37,12 @@ function BooleanSignal(expressionString, other) {
       var signal = parts[1].split(Symbols.getSlash());
       this.body = signal[0].trim();
       this.period = signal[1].trim();
-      this.periodicPartNewLength = this.period.length;
    } else {
       if (!(other instanceof Object) || other.__type !== 'BooleanSignal')
          throw new TypeError("BooleanSignal: Expected other to be a 'BooleanSignal' object");
       this.id = other.id;
       this.content = other.content;
-      this.editorEnabled = other.editorEnabled;
+      this.editable = other.editorEnabled;
       this.referringTemporalFormulasIds = other.referringTemporalFormulasIds;
       this.body = other.body;
       this.period = other.period;
@@ -74,10 +73,10 @@ BooleanSignal.prototype = {
             return this.period;
          },
          isEditorEnabled: function() {
-            return this.editorEnabled;
+            return this.editable;
          },
          setEditorEnabled: function(enabled) {
-            this.editorEnabled = enabled;
+            this.editable = enabled;
          },
          getReferringTemporalFormulasIds: function() {
             return this.referringTemporalFormulasIds;
@@ -158,7 +157,7 @@ BooleanSignal.prototype = {
           * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2,
           * 0])
           */
-         calculateChartValues: function(universeLength) {
+         calculateChartValues: function(universeLength, legendLabel) {
             if (!(universeLength instanceof Array))
                throw new TypeError(
                         "BooleanSignal: Expected 'universeLength' to be an 'Array' object");
@@ -201,8 +200,9 @@ BooleanSignal.prototype = {
                oldZ = z;
             });
 
+            var label = legendLabel || "Signal";
             this.signalChartData = [{
-                     "key": "Signal " + this.getId(),
+                     "key": label + " " + this.getId(),
                      "values": values,
                      "color": Util.colors[_.random(0, Util.colors.length - 1)]
             }];

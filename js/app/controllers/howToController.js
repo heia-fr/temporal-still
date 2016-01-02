@@ -11,6 +11,7 @@
       $scope.symbols = {};
       $scope.symbols.prettyAnd = $sce.trustAsHtml(Symbols.getPrettyAnd());
       $scope.symbols.prettyOr = $sce.trustAsHtml(Symbols.getPrettyOr());
+      $scope.symbols.prettyImplies = $sce.trustAsHtml(Symbols.getPrettyImplies());
       $scope.symbols.prettyNot = $sce.trustAsHtml(Symbols.getPrettyNot());
       $scope.symbols.prettyEventually = $sce.trustAsHtml(Symbols.getPrettyEventually());
       $scope.symbols.prettyAlways = $sce.trustAsHtml(Symbols.getPrettyAlways());

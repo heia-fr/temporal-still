@@ -25,7 +25,7 @@
                      'trigger': 'hover'
                   });
 
-                  $('#signalsList, #formulasList').enscroll({
+                  $('#signalsList, #formulasList, #chartPanel').enscroll({
                            showOnHover: false,
                            verticalTrackClass: 'verticalTrack',
                            verticalHandleClass: 'verticalHandle'

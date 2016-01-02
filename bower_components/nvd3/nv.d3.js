@@ -1160,7 +1160,7 @@ nv.utils.optionsFunc = function(args) {
                 return 'translate(' + -scale(d)/(2*i) + ', 0)';
           }).text(function(d,i) {
              var v = fmt(d);
-             return ('' + v).match('NaN') ? '' : v - 1;
+             return ('' + v).match('NaN') ? '' : (v - 1);
            });
           // ********************************************************************************
           if (showMaxMin) {
@@ -1188,7 +1188,7 @@ nv.utils.optionsFunc = function(args) {
                 .text(function(d,i) {
                   var v = fmt(d);
                   // ****************** MODIFIED BY MOUAD EL MERCHICHI ************************
-                  return ('' + v).match('NaN') || ('' + v).match('0') ? '' : v - 1;
+                  return (('' + v).match('NaN') || (v <= 0)) ? '' : (v - 1);
                   // **************************************************************************
                 });
             axisMaxMin.transition()

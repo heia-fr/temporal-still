@@ -87,10 +87,9 @@ header .header-limiter a:hover {
 }
 
 /*
-*************** BEGIN *****************
+*************** BEGIN: Style for scroll bars *****************
 */
 .verticalTrack {
-	width: 10px;
 	background: rgba(0, 0, 0, 0);
 	margin-right: 2px;
 	border-radius: 10px;
@@ -117,11 +116,12 @@ header .header-limiter a:hover {
 	transition: width 250ms;
 }
 
-.verticalTrack:hover .verticalHandle, .verticalTrack.dragging .verticalHandle {
+.verticalTrack:hover .verticalHandle, .verticalTrack.dragging .verticalHandle
+	{
 	width: 10px;
 }
 /*
-*************** END *****************
+*************** END: Style for scroll bars *****************
 */
 .fix-panel {
 	margin-bottom: 10px;
@@ -171,6 +171,7 @@ p.about-text {
 }
 
 .about-content table.operatorsTable tr td:nth-child(2) {
+	padding-left: 5px;
 	text-align: center;
 }
 
