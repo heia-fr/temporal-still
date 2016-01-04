@@ -76,53 +76,18 @@ header .header-limiter a:hover {
 }
 
 .chart-grid {
+	position: relative;
 	min-height: 470px;
-	max-height: 1410px;
-	overflow-y: auto;
+	max-height: 1024px;
+	overflow: auto;
 }
 
 .y-scroll {
+	position: relative;
 	max-height: 160px;
 	overflow: auto;
 }
 
-/*
-*************** BEGIN: Style for scroll bars *****************
-*/
-.verticalTrack {
-	background: rgba(0, 0, 0, 0);
-	margin-right: 2px;
-	border-radius: 10px;
-	-webkit-transition: background 250ms linear;
-	-moz-transition: background 250ms linear;
-	transition: background 250ms linear;
-}
-
-.verticalTrack:hover, .verticalTrack.dragging {
-	background: #d9d9d9;
-	background: rgba(0, 0, 0, 0.15);
-}
-
-.verticalHandle {
-	width: 7px;
-	right: 0;
-	background: #999;
-	background: rgba(0, 0, 0, 0.4);
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	-webkit-transition: width 250ms;
-	-moz-transition: width 250ms;
-	transition: width 250ms;
-}
-
-.verticalTrack:hover .verticalHandle, .verticalTrack.dragging .verticalHandle
-	{
-	width: 10px;
-}
-/*
-*************** END: Style for scroll bars *****************
-*/
 .fix-panel {
 	margin-bottom: 10px;
 }

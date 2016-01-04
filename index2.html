@@ -18,9 +18,10 @@
 <!-- Page logo -->
 <link rel="shortcut icon" sizes="16x15" href="images/alambicon2.ico">
 
-<link href="bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css" />
+<link href="bower_components/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="bower_components/nvd3/nv.d3.css" type="text/css" rel="stylesheet" />
+<link href="bower_components/jquery/dist/perfect-scrollbar.min.css" type="text/css" rel="stylesheet" />
 
 <!-- Custom style -->
 <link rel="stylesheet" type="text/css" href="css/custom-style.css" />
@@ -271,7 +272,7 @@
                   </div>
                </div>
                <div class="col-sm-12 col-md-12 col-lg-12">
-                  <div id="chartPanel" class="panel panel-default chart-grid">
+                  <div class="panel panel-default chart-grid">
                      <div class="panel-body">
                         <div
                            ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()">
@@ -573,7 +574,8 @@
 
    <!-- JS Components -->
    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-   <script src="bower_components/jquery/dist/enscroll-0.6.1.min.js" type="text/javascript"></script>
+   <script src="bower_components/jquery/dist/perfect-scrollbar.js" type="text/javascript"></script>
+   <script src="bower_components/jquery/dist/perfect-scrollbar.jquery.js" type="text/javascript"></script>
    <script src="bower_components/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
    <script type="text/javascript"
       src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>

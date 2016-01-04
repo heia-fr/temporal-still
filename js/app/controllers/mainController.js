@@ -24,12 +24,10 @@
                   $('[data-tooltip="tooltip"]').tooltip({
                      'trigger': 'hover'
                   });
-
-                  $('#signalsList, #formulasList, #chartPanel').enscroll({
-                           showOnHover: false,
-                           verticalTrackClass: 'verticalTrack',
-                           verticalHandleClass: 'verticalHandle'
-                  });
+                  
+                  $('#signalsList, #formulasList, .chart-grid').perfectScrollbar({
+                     wheelSpeed: 0.4
+                  }); 
                });
 
                $scope.$window = $window;
