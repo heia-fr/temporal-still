@@ -92,6 +92,10 @@ header .header-limiter a:hover {
 	margin-bottom: 10px;
 }
 
+.fix-outline {
+	outline: 0;
+}
+
 .round {
 	width: 48px;
 	height: 48px;

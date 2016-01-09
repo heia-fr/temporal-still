@@ -19,19 +19,33 @@
             'signalsService',
             function($scope, $window, signalsService) {
 
-               // activate Twitter Bootstrap tooltips and enscroll plugin
+               $scope.$window = $window;
+               $scope.signals = signalsService; // hook data to the scope
+               
+               // configure bootstrap JavaScript components in the context of
+               // angularJS
                $(function() {
                   $('[data-tooltip="tooltip"]').tooltip({
                      'trigger': 'hover'
                   });
-                  
+
                   $('#signalsList, #formulasList, .chart-grid').perfectScrollbar({
                      wheelSpeed: 0.4
-                  }); 
+                  });
+
+                  // for bootstrap 3, we use 'shown.bs.tab'
+                  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                     // save the latest tab
+                     $scope.signals.save('lastTab', $(this).attr('href'));
+                  });
+
+                  // go to the latest tab, if it exists
+                  var lastTab = $scope.signals.restore('lastTab');
+                  if (lastTab) {
+                     $('[href="' + lastTab + '"]').tab('show');
+                  }
                });
 
-               $scope.$window = $window;
-               $scope.signals = signalsService; // hook data to the scope
                // variable
                $scope.buttonState = {};
                // a toggle boolean used to change the icon of the signals
