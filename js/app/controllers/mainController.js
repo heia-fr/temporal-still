@@ -21,7 +21,7 @@
 
                $scope.$window = $window;
                $scope.signals = signalsService; // hook data to the scope
-               
+
                // configure bootstrap JavaScript components in the context of
                // angularJS
                $(function() {
@@ -256,6 +256,12 @@
                // remove the boolean signal corresponding to the provided ID
                $scope.removeSignal = function(id) {
                   $scope.signals.bs.universe.removeSignal(id);
+                  // recalculate the universe's length by
+                  // taking into account the formulas' associated
+                  // boolean signals
+                  $scope.signals.tf.formulasManager.getFormulas().forEach(function(f) {
+                     $scope.signals.bs.universe.calculateMaxLength(f.getAssociatedSignal());
+                  });
 
                   // update the graphical charts and save the universe's and
                   // formulas manager's states
