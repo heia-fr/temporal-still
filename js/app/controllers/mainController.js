@@ -385,8 +385,8 @@
 
                // generate a random temporal formulas
                $scope.generateFormula = function() {
-                  // FormulaGenerator
-                  $scope.formulaString = LTLFormulaGenerator
+                  // LTLFormulaGenerator
+                  $scope.formulaString = FormulaGenerator
                            .generateTemporalFormula($scope.signals.bs.universe);
                };
 
