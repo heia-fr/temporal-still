@@ -21,7 +21,7 @@ var BooleanSignalGenerator = function() {
 
       function generateVarName(ids) {
          var i;
-         var id;
+         var id = "";
          do {
             i = _.random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);

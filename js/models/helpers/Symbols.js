@@ -94,7 +94,7 @@ var Symbols = function() {
                   return symbols.or;
                },
                getImplies: function() {
-                 return symbols.implies; 
+                  return symbols.implies;
                },
                getPrettyAnd: function() {
                   return symbols.prettyAnd;
@@ -116,6 +116,12 @@ var Symbols = function() {
                },
                getCharSet: function() {
                   return symbols.charSet;
+               },
+               isUnaryOp: function(op) {
+                  return (op === symbols.not || op === symbols.always || op === symbols.eventually);
+               },
+               isBinaryOp: function(op) {
+                  return (op === symbols.and || op === symbols.or || op === symbols.weakUntil || op === symbols.implies);
                }
       };
    }

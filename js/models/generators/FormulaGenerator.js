@@ -1,13 +1,9 @@
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent
  * algorithm. The generator makes use of the universe to produce a formula that
- * refers to existing signals
- * 
- * The maximum levels of recursion are fixed:
- * 
- * 1) maximum nested formulas: 3
- * 2) maximum number of terms: 5
- * 3) maximum number of factors: 5
+ * refers to existing signals The maximum levels of recursion are fixed: 1)
+ * maximum nested formulas: 3 2) maximum number of terms: 5 3) maximum number of
+ * factors: 5
  */
 var FormulaGenerator = function() {
 
@@ -17,8 +13,8 @@ var FormulaGenerator = function() {
 
       var formulaLevel;
       var maxNbComponents = 2;
-      var maxNbTerms = 3;
-      var maxNbFactors = 3;
+      var maxNbTerms = 2;
+      var maxNbFactors = 2;
       var maxPercent = 100;
       var pathOnePercent = 20;
       var pathTwoPercent = 40;
@@ -26,9 +22,10 @@ var FormulaGenerator = function() {
       var pathFourPercent = 80;
 
       function generateProp() {
+         var i;
          var id = "";
          do {
-            var i = _.random(0, Symbols.getCharSet().length - 1);
+            i = _.random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
          } while (universe.containsSignal(id));
          return id;
@@ -80,7 +77,7 @@ var FormulaGenerator = function() {
          }
          return term;
       }
-      
+
       function generateComponent() {
          var component = generateTerm();
 
