@@ -38,7 +38,6 @@
                      // save the latest tab
                      $scope.signals.save('lastTab', $(this).attr('href'));
                   });
-
                   // go to the latest tab, if it exists
                   var lastTab = $scope.signals.restore('lastTab');
                   if (lastTab) {
@@ -82,6 +81,11 @@
                /**
                 * ****************** private methods *********************
                 */
+
+               // update the scroll bar associated with provided element's selector
+               function updateScrollBar(selector) {
+                  $(selector).perfectScrollbar('update');
+               }
 
                // save the universe and formulas manager in the local storage
                function saveUniverse() {
@@ -218,6 +222,9 @@
                   // formulas manager's states
                   updateSignalsCharts();
                   updateFormulasCharts();
+                  // update scroll bar
+                  updateScrollBar('#signalsList');
+                  updateScrollBar('.chart-grid');
                   saveUniverse();
                   saveFormulasManager();
 
@@ -269,6 +276,10 @@
                   updateFormulasCharts();
                   saveUniverse();
                   saveFormulasManager();
+
+                  // update scroll bar
+                  updateScrollBar('#signalsList');
+                  updateScrollBar('.chart-grid');
                };
 
                // generate random boolean signals
@@ -280,6 +291,9 @@
                // clear the universe
                $scope.clearSignals = function() {
                   $scope.signals.bs.universe.clear();
+                  // update scroll bar
+                  updateScrollBar('#signalsList');
+                  updateScrollBar('.chart-grid');
                   saveUniverse();
                };
 
@@ -331,6 +345,9 @@
                      // update the graphical charts and save the universe's and
                      // formulas manager's states
                      updateFormulasCharts();
+                     // update scroll bar
+                     updateScrollBar('#formulasList');
+                     updateScrollBar('.chart-grid');
                      saveUniverse();
                      saveFormulasManager();
                      $scope.formulaString = "";
@@ -379,6 +396,9 @@
                   // update the graphical charts and save the universe's and
                   // formulas manager's states
                   updateFormulasCharts();
+                  // update scroll bar
+                  updateScrollBar('#formulasList');
+                  updateScrollBar('.chart-grid');
                   saveUniverse();
                   saveFormulasManager();
                };
@@ -395,7 +415,9 @@
                   $scope.signals.bs.universe.clearReferences();
 
                   $scope.signals.tf.formulasManager.clear();
-
+                  // update scroll bar
+                  updateScrollBar('#formulasList');
+                  updateScrollBar('.chart-grid');
                   saveFormulasManager();
                   saveUniverse();
                };

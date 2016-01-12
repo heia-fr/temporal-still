@@ -37,23 +37,23 @@ var LTLFormulaGenerator = function() {
 
       function generateUnaryOrBinaryOperator() {
          var choice = _.random(1, 100);
-         var unaryOp;
+         var op;
          if (choice <= 14) {
-            unaryOp = Symbols.getNot();
+            op = Symbols.getNot();
          } else if (choice <= 28) {
-            unaryOp = Symbols.getAlways();
+            op = Symbols.getAlways();
          } else if (choice <= 42) {
-            unaryOp = Symbols.getEventually();
+            op = Symbols.getEventually();
          } else if (choice <= 56) {
-            unaryOp = Symbols.getWeakUntil();
+            op = Symbols.getWeakUntil();
          } else if (choice <= 70) {
-            unaryOp = Symbols.getAnd();
+            op = Symbols.getAnd();
          } else if (choice <= 84) {
-            unaryOp = Symbols.getOr();
+            op = Symbols.getOr();
          } else {
-            unaryOp = Symbols.getImplies();
+            op = Symbols.getImplies();
          }
-         return unaryOp;
+         return op;
       }
 
       function generateSignalId() {
@@ -78,11 +78,9 @@ var LTLFormulaGenerator = function() {
                var n = _.random(1, nbProps - 2);
                var f1 = generateFormula(nbProps);
                var f2 = generateFormula(nbProps - n - 1);
-               if (op === Symbols.getImplies()) { 
-                  return Symbols.getOpeningBraket() + f1 + Symbols.getClosingBraket() 
-                         + op + 
-                         Symbols.getOpeningBraket() + f2 + Symbols.getClosingBraket(); 
-                  }
+               if (op === Symbols.getImplies()) { return Symbols.getOpeningBraket() + f1
+                        + Symbols.getClosingBraket() + op + Symbols.getOpeningBraket() + f2
+                        + Symbols.getClosingBraket(); }
                return f1 + op + f2;
             }
          }

@@ -7,13 +7,17 @@
             'ngRoute']);
 
    // configure the app
-   app.config(['localStorageServiceProvider', '$routeProvider',
-            function(localStorageServiceProvider, $routeProvider) {
+   app.config(['localStorageServiceProvider', '$routeProvider', '$locationProvider',
+            function(localStorageServiceProvider, $routeProvider, $locationProvider) {
                // set the prefix under which the app variables will be saved in
                // the local storage
                localStorageServiceProvider.setPrefix('alambic');
                // set the type of the local storage to sessionStorage
                localStorageServiceProvider.setStorageType('sessionStorage');
+
+               // use the HTML5 History API
+               // $locationProvider.html5Mode(true);
+               // $locationProvider.hashPrefix();
 
                // routing for the first version TODO: to be removed later
                $routeProvider.when('/', {

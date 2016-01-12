@@ -13,8 +13,8 @@ var FormulaGenerator = function() {
 
       var formulaLevel;
       var maxNbComponents = 2;
-      var maxNbTerms = 2;
-      var maxNbFactors = 2;
+      var maxNbTerms = 1;
+      var maxNbFactors = 1;
       var maxPercent = 100;
       var pathOnePercent = 20;
       var pathTwoPercent = 40;
@@ -70,8 +70,7 @@ var FormulaGenerator = function() {
          var term = generateFactor();
 
          if (_.random(0, 1) === 0) {
-            var nbFactors = _.random(2, maxNbFactors);
-            for (var i = 1; i < nbFactors; i++) {
+            for (var i = 1; i < maxNbFactors; i++) {
                term += " " + Symbols.getAnd() + " " + generateFactor();
             }
          }
@@ -82,8 +81,7 @@ var FormulaGenerator = function() {
          var component = generateTerm();
 
          if (_.random(0, 1) === 1) {
-            var nbTerms = _.random(2, maxNbTerms);
-            for (var i = 1; i < nbTerms; i++) {
+            for (var i = 1; i < maxNbTerms; i++) {
                component += " " + Symbols.getOr() + " " + generateTerm();
             }
          }
@@ -93,13 +91,43 @@ var FormulaGenerator = function() {
       function generateFormula() {
          var formula = generateComponent();
 
-         if (_.random(0, 1) === 0) {
-            var nbComponents = _.random(2, maxNbComponents);
-            for (var i = 1; i < nbComponents; i++) {
-               formula += " " + Symbols.getImplies() + " " + generateComponent();
-            }
+         var nbComponents = _.random(1, maxNbComponents);
+         for (var i = 1; i < nbComponents; i++) {
+            formula += " " + Symbols.getImplies() + " " + generateComponent();
          }
          return formula;
+      }
+
+      function purgeSuccessiveDuplicateOps(formulaStr) {
+         var newFormulaStr = "";
+         var c = "";
+         var lexer = new TemporalFormulaLexer(formulaStr);
+         lexer.goToNextToken();
+         while (!lexer.hasNoMoreChars()) {
+            if (lexer.isOpeningSquareBracket()) {
+               lexer.goToNextToken();
+               c = Symbols.getAlways();
+            } else if (lexer.isLessThanSign()) {
+               lexer.goToNextToken();
+               c = Symbols.getEventually();
+            } else if (lexer.isDash()) {
+               lexer.goToNextToken();
+               c = Symbols.getImplies();
+            } else {
+               c = lexer.getCurrentToken();
+            }
+
+            if (!_.endsWith(newFormulaStr, c) || !Symbols.isOperator(c)) {
+               newFormulaStr += c;
+            }
+
+            lexer.goToNextToken();
+         }
+         c = lexer.getCurrentToken();
+         if (!_.endsWith(newFormulaStr, c) || !Symbols.isOperator(c)) {
+            newFormulaStr += c;
+         }
+         return newFormulaStr;
       }
 
       return {
@@ -110,7 +138,8 @@ var FormulaGenerator = function() {
             universe = univ;
             formulaLevel = 2;
 
-            return generateProp() + Symbols.getEqual() + generateFormula();
+            var f = generateFormula();
+            return generateProp() + Symbols.getEqual() + purgeSuccessiveDuplicateOps(f);
          }
       };
    }

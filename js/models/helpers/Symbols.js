@@ -122,6 +122,9 @@ var Symbols = function() {
                },
                isBinaryOp: function(op) {
                   return (op === symbols.and || op === symbols.or || op === symbols.weakUntil || op === symbols.implies);
+               },
+               isOperator: function(symbol) {
+                  return (this.isUnaryOp(symbol) || this.isBinaryOp(symbol));
                }
       };
    }
