@@ -11,13 +11,13 @@ function Always(lSignal) {
    // index and start are, respectively, the position
    // of the bit to evaluate and the starting point
    // of the evaluation
-   TemporalOperator.call(this, function(index, start, bitStr) {
-      var l = bitStr.length;
+   TemporalOperator.call(this, function(index, start, bitStr, cutWrapper) {
       // if the signal is 0 at some time t+k return o, otherwise return 1
-      for (var i = start, j = index; i < l; ++i, ++j) {
+      for (var i = start, j = index, l = bitStr.length; i < l && !cutWrapper.cut; ++i, ++j) {
          if (bitStr.charAt(j % l) === Symbols.getZero()) return Symbols.getZero();
       }
 
+      cutWrapper.cut = true; // no more execution of the previous for loop
       return Symbols.getOne();
    }, lSignal);
 }

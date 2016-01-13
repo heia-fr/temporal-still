@@ -11,13 +11,14 @@ function Eventually(lSignal) {
    // index and start are, respectively, the position
    // of the bit to evaluate and the starting point
    // of the evaluation
-   TemporalOperator.call(this, function(index, start, bitStr) {
+   TemporalOperator.call(this, function(index, start, bitStr, cutWrapper) {
       var l = bitStr.length;
       // if the signal is 1 at some time t+k return 1, otherwise return 0
-      for (var i = start, j = index; i < l; ++i, ++j) {
+      for (var i = start, j = index; i < l && !cutWrapper.cut; ++i, ++j) {
          if (bitStr.charAt(j % l) === Symbols.getOne()) return Symbols.getOne();
       }
 
+      cutWrapper.cut = true; // no more execution of the previous for loop
       return Symbols.getZero();
    }, lSignal);
 }

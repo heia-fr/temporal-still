@@ -43,14 +43,17 @@ TemporalOperator.prototype.performUnaryOperator = function() {
    // to calculate the result for both parts (fixed and periodic)
    // for example: Always(110/01) == 000/01
    var whole = Symbols.getEmpty();
+   var cutWrapper = {
+      cut: false
+   };
    for (var i = 0; i < thisBody.length; ++i) {
-      whole += this.eval(i, i, flattenedSignal);
+      whole += this.eval(i, i, flattenedSignal, cutWrapper);
    }
    whole += Symbols.getSlash();
    for (var i = 0; i < thisPeriod.length; ++i) {
-      whole += this.eval(i, 0, thisPeriod);
+      whole += this.eval(i, 0, thisPeriod, cutWrapper);
    }
-
+   
    // construct and return a fresh signal as a result of the operation
    whole = this.leftSignal.getId() + Symbols.getEqual() + whole;
    return new BooleanSignal(whole);
