@@ -5,22 +5,18 @@
  */
 function Map(other) {
    if (!other) {
-      this.mapKeys = [];
       this.data = {};
    } else {
       if (!(other instanceof Object) || other.__type !== 'Map')
          throw new TypeError("Map: Expected 'other' to be a 'Map' object");
-      this.mapKeys = other.mapKeys;
       this.data = {};
-      var len = this.mapKeys.length;
-      for (var i = 0; i < len; ++i) {
-         var k = this.mapKeys[i];
+      for ( var k in other.data) {
          var obj = other.data[k];
-         if (typeof other.data[k] === 'object') {
-            if (other.data[k].__type === 'BooleanSignal') {
-               obj = new BooleanSignal(undefined, other.data[k]);
-            } else if (other.data[k].__type === 'TemporalFormula') {
-               obj = new TemporalFormula(undefined, undefined, undefined, undefined, other.data[k]);
+         if (typeof obj === 'object') {
+            if (obj.__type === 'BooleanSignal') {
+               obj = new BooleanSignal(undefined, obj);
+            } else if (obj.__type === 'TemporalFormula') {
+               obj = new TemporalFormula(undefined, undefined, undefined, undefined, obj);
             }
          }
          this.data[k] = obj;
@@ -36,18 +32,15 @@ Map.prototype = {
             return this.data[key];
          },
          /**
-          * creates entry with the provided (key, value) if it doesn't exist.
-          * Otherwise, the new value replaces the old one with the same key. The
-          * returned value is this Map object to permit chained calls
+          * Associates the specified value with the specified key in this map.
+          * If the map previously contained a mapping for the key, the old value
+          * is replaced.
           * 
           * @param key
           * @param value
           * @returns {Map}
           */
          put: function(key, value) {
-            if (!this.containsKey(key)) {
-               this.mapKeys.push(key);
-            }
             this.data[key] = value;
             return this;
          },
@@ -59,8 +52,8 @@ Map.prototype = {
           * @returns {Boolean}
           */
          remove: function(key) {
+            'use strict';
             if (this.containsKey(key)) {
-               this.mapKeys = _.without(this.mapKeys, key);
                delete this.data[key];
                return true;
             }
@@ -73,14 +66,12 @@ Map.prototype = {
           * @returns {Array}
           */
          entries: function() {
-            var len = this.mapKeys.length;
-            var entrys = new Array(len);
-            for (var i = 0; i < len; i++) {
-               var k = this.mapKeys[i];
-               entrys[i] = {
+            var entrys = [];
+            for ( var k in this.data) {
+               entrys.push({
                         key: k,
                         value: this.data[k]
-               };
+               });
             }
             return entrys;
          },
@@ -90,7 +81,7 @@ Map.prototype = {
           * @returns {Boolean}
           */
          isEmpty: function() {
-            return (this.mapKeys.length == 0);
+            return (Object.keys(this.data).length == 0);
          },
          /**
           * Returns the number of entries in this map
@@ -98,7 +89,7 @@ Map.prototype = {
           * @returns {Number}
           */
          size: function() {
-            return this.mapKeys.length;
+            return Object.keys(this.data).length;
          },
          /**
           * Checks whether this Map contains an entry with the specified key
@@ -107,7 +98,7 @@ Map.prototype = {
           * @returns {Boolean}
           */
          containsKey: function(key) {
-            return _.includes(this.mapKeys, key);
+            return (this.get(key) !== undefined);
          },
          /**
           * Returns an array containing the keys of this Map
@@ -115,7 +106,7 @@ Map.prototype = {
           * @returns {Array}
           */
          keys: function() {
-            return this.mapKeys.slice(0); // clone the keys array
+            return Object.keys(this.data).slice(0); // clone the keys array
          },
          /**
           * Returns an array containing the values of this Map
@@ -123,11 +114,9 @@ Map.prototype = {
           * @returns {Array}
           */
          values: function() {
-            var len = this.mapKeys.length;
-            var vals = new Array(len);
-            for (var i = 0; i < len; i++) {
-               var key = this.mapKeys[i];
-               vals[i] = this.data[key];
+            var vals = [];
+            for ( var k in this.data) {
+               vals.push(this.data[k]);
             }
             return vals;
          },
@@ -137,16 +126,17 @@ Map.prototype = {
           * returned value is this Map object to permit chained calls. This
           * method does nothing if 'callback' parameter is not a function
           * 
-          * @param callback(key, value, index)
-          *           is a function to apply to each element of the Map
+          * @param callback(key,
+          *           value, index) is a function to apply to each element of
+          *           the Map
           * @returns {Map}
           */
          each: function(callback) {
             if (typeof callback !== 'function') { return; }
-            var len = this.mapKeys.length;
-            for (var i = 0; i < len; i++) {
-               var k = this.mapKeys[i];
+            var i = 0;
+            for ( var k in this.data) {
                callback(k, this.data[k], i);
+               ++i;
             }
             return this;
          },
@@ -154,7 +144,6 @@ Map.prototype = {
           * This method clears the map completely
           */
          clear: function() {
-            this.mapKeys = [];
             this.data = {};
          },
          /**
@@ -166,11 +155,7 @@ Map.prototype = {
          equals: function(other) {
             if (!other) return false;
             if (!(other instanceof Map)) return false;
-            if (this.mapKeys.length != other.mapKeys.length) return false;
-            var e = this.mapKeys.every(function(element, index) {
-               return element === other.mapKeys[index];
-            });
-            if (!e) return false;
+            if (this.size() != other.size()) return false;
             return (JSON.stringify(this.data) === JSON.stringify(other.data));
          }
 };
