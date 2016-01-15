@@ -9,7 +9,7 @@ header {
 	padding: 7px 40px;
 	margin-bottom: 10px;
 	background-color: #292c2f;
-	height: 80px;
+	height: 68px;
 	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
@@ -90,10 +90,19 @@ header .header-limiter a:hover {
 }
 
 /**
-******** Setting padding property to the lists (signals/formulas) *******
+******** Change padding property to the lists (signals/formulas) *******
 */
 ul li.custom-item {
 	padding: 6px 15px !important;
+}
+
+/**
+******** Change height of tab items ***********
+*/
+.nav>li>a {
+	position: relative;
+	display: block;
+	padding: 7px 15px !important; /* You can change the first part of the padding (7px) */
 }
 
 .fix-panel {
@@ -106,10 +115,11 @@ ul li.custom-item {
 
 .round {
 	width: 48px;
-	height: 48px;
+	height: 47px;
 	-webkit-border-radius: 24px;
 	-moz-border-radius: 24px;
 	-ms-border-radius: 24px;
+	-o-border-radius: 24px;
 	border-radius: 24px;
 }
 
