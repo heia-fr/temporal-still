@@ -12,9 +12,13 @@ function Eventually(lSignal) {
    // of the bit to evaluate and the starting point
    // of the evaluation
    TemporalOperator.call(this, function(index, start, bitStr, cutWrapper) {
-      var l = bitStr.length;
+
+      // cut the search if we already know that this bit
+      // will be evaluated to 1
+      if (cutWrapper.cut) return Symbols.getZero();
+
       // if the signal is 1 at some time t+k return 1, otherwise return 0
-      for (var i = start, j = index; i < l && !cutWrapper.cut; ++i, ++j) {
+      for (var i = start, j = index, l = bitStr.length; i < l; ++i, ++j) {
          if (bitStr.charAt(j % l) === Symbols.getOne()) return Symbols.getOne();
       }
 

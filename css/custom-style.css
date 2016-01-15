@@ -89,6 +89,9 @@ header .header-limiter a:hover {
 	overflow: auto;
 }
 
+/**
+******** Setting padding property to the lists (signals/formulas) *******
+*/
 ul li.custom-item {
 	padding: 6px 15px !important;
 }
@@ -194,7 +197,6 @@ p.about-text {
 /**
 ** END: Go Back button 
 */
-
 footer {
 	height: 70px;
 }
