@@ -19,17 +19,7 @@
                // $locationProvider.html5Mode(true);
                // $locationProvider.hashPrefix();
 
-               // routing for the first version TODO: to be removed later
-               $routeProvider.when('/', {
-                        templateUrl: 'home.html', // pages/home.html
-                        controller: 'MainController'
-               }).when('/howto', {
-                        templateUrl: 'how-to.html', // pages/how-to.html
-                        controller: 'HowToController'
-               }).when('/about', {
-                        templateUrl: 'about.html', // pages/about.html
-                        controller: 'AboutController'
-               }).otherwise({
+               $routeProvider.otherwise({
                   redirectTo: '/'
                });
             }]);

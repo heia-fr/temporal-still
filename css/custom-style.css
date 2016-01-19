@@ -79,7 +79,7 @@ header .header-limiter a:hover {
 	position: relative;
 	min-height: 470px;
 	max-height: 1024px;
-	overflow: auto;
+	overflow: scroll;
 }
 
 .y-scroll {
@@ -90,21 +90,27 @@ header .header-limiter a:hover {
 }
 
 /**
-******** Change padding property to the lists (signals/formulas) *******
+******** BEGIN: Change padding property to the lists (signals/formulas) *******
 */
 ul li.custom-item {
 	padding: 6px 15px !important;
 }
+/**
+******** END: Change padding property to the lists (signals/formulas) *******
+*/
 
 /**
-******** Change height of tab items ***********
+******** BEGIN: Change height of tab items ***********
 */
 .nav>li>a {
 	position: relative;
 	display: block;
-	padding: 7px 15px !important; /* You can change the first part of the padding (7px) */
+	padding: 7px 15px !important;
+	/* You can change the first part of the padding (7px) */
 }
-
+/**
+******** END: Change height of tab items ***********
+*/
 .fix-panel {
 	margin-bottom: 10px;
 }

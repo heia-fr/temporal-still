@@ -24,7 +24,8 @@
 <link type="text/css" rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
 <link type="text/css" rel="stylesheet" href="bower_components/nvd3/nv.d3.css" />
-<link type="text/css" rel="stylesheet" href="bower_components/jquery/dist/perfect-scrollbar.min.css" />
+<link type="text/css" rel="stylesheet"
+   href="bower_components/perfect-scrollbar/perfect-scrollbar.min.css" />
 
 <!-- Custom style -->
 <link type="text/css" rel="stylesheet" href="css/custom-style.css" />
@@ -89,13 +90,6 @@
                            ng-show="buttonState.signalsUp" ng-click="generateSignals()" ng-cloak>
                            <i class="fa fa-random"></i>
                         </button>
-                        <!--                         <a role="button" type="button" -->
-                        <!--                            class="btn btn-success btn-lg round fixed-right-toggle toggle" -->
-                        <!--                            data-tooltip="tooltip" title="Restore signals" ng-click="" -->
-                        <!--                            ng-show="buttonState.signalsUp" -->
-                        <!--                            ng-disabled="true" ng-cloak> -->
-                        <!--                            <i class="glyphicon glyphicon-share-alt"></i> -->
-                        <!--                         </a> -->
                         <a role="button" type="button"
                            class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
@@ -193,13 +187,6 @@
                            ng-disabled="signals.bs.universe.isEmpty()">
                            <i class="fa fa-random"></i>
                         </button>
-                        <!--                         <a role="button" type="button" -->
-                        <!--                            class="btn btn-success btn-lg round fixed-right-toggle toggle" -->
-                        <!--                            data-tooltip="tooltip" title="Restore formulas" ng-click="" -->
-                        <!--                            ng-show="buttonState.formulasUp" -->
-                        <!--                            ng-disabled="true" ng-cloak> -->
-                        <!--                            <i class="glyphicon glyphicon-share-alt"></i> -->
-                        <!--                         </a> -->
                         <a role="button" type="button"
                            class="btn btn-danger btn-lg round fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
@@ -284,7 +271,7 @@
                            <nvd3-line-chart data="formula.getChartData()" showXAxis="true"
                               showYAxis="true" useinteractiveguideline="false" interactive="false"
                               clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-                              forcey="[0,1]"  height="100"
+                              forcey="[0,1]" height="100"
                               margin="{left:15,top:40,bottom:40,right:10}"> </nvd3-line-chart>
                         </div>
                         <div
@@ -576,7 +563,7 @@
 
 
             <div class="scroll-top-wrapper ">
-               <span> <!--  class="scroll-top-inner" -->
+               <span>
                   <i class="fa fa-2x fa-arrow-circle-up"></i>
                </span>
             </div>
@@ -585,8 +572,9 @@
    </div>
 
    <!-- JS Components -->
-   <script type="text/javascript" src="bower_components/jquery/dist/perfect-scrollbar.min.js"></script>
-   <script type="text/javascript" src="bower_components/jquery/dist/perfect-scrollbar.jquery.min.js"></script>
+   <script type="text/javascript" src="bower_components/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+   <script type="text/javascript"
+      src="bower_components/perfect-scrollbar/perfect-scrollbar.jquery.min.js"></script>
    <script type="text/javascript" src="bower_components/bootstrap/js/bootstrap.min.js"></script>
    <script type="text/javascript"
       src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
@@ -629,12 +617,11 @@
    <script type="text/javascript" src="js/models/entities/TemporalFormula.js"></script>
    <script type="text/javascript" src="js/models/generators/BooleanSignalGenerator.js"></script>
    <script type="text/javascript" src="js/models/generators/FormulaGenerator.js"></script>
-   <!--    <script type="text/javascript" src="js/models/generators/LTLFormulaGenerator.js"></script> -->
 
    <script type="text/javascript">
+            // setup "Go To Top" button
             $(function() {
                $(document).on('scroll', function() {
-
                   if ($(window).scrollTop() > 100) {
                      $('.scroll-top-wrapper').addClass('show');
                   } else {
@@ -654,6 +641,6 @@
                   scrollTop: offsetTop
                }, 500, 'linear');
             }
-   </script>
+         </script>
 </body>
 </html>

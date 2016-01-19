@@ -7,11 +7,15 @@
     "bootstrap": "latest",
     "lodash": "latest",
     "d3": "latest",
+    "nvd3": "latest",
+    "angularjs-nvd3-directives": "latest"
     "random": "latest",
     "jasmine-core": "latest",
     "angular-local-storage": "latest",
     "angular-route": "latest",
-    "jquery": "latest"
+    "jquery": "latest",
+    "perfect-scrollbar": "latest",
+    "font-awesome": "latest"
   },
   "ignore": [
     "**/.*",
