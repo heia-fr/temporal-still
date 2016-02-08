@@ -171,7 +171,7 @@ BooleanSignal.prototype = {
             var x = 0;
             var nextX = 1;
             var oldZ = parseInt(newBody.charAt(0));
-            var z;
+            var z=oldZ;
 
             values.push([x, oldZ]);
             values.push([nextX, oldZ]);
@@ -187,7 +187,10 @@ BooleanSignal.prototype = {
                values.push([nextX, z]);
                oldZ = z;
             });
-
+            //put a mark to visually show the beginning of the periodic part
+            values.push([newBody.length-0.1, 0.5]);
+            values.push([newBody.length+0.1, 0.5]);
+            values.push([newBody.length, z]);
             // calculate points for one period
             _.times(newPeriod.length, function(i) {
                x = newBody.length + i;
@@ -201,16 +204,23 @@ BooleanSignal.prototype = {
             });
 
             var label = legendLabel || "Signal";
-            this.signalChartData = [{
+            this.signalChartData = [
+              {
                      "key": label + " " + this.getId(),
                      "values": values,
                      "color": Util.colors[_.random(0, Util.colors.length - 1)]
-            }];
+              }
+            ];
          },
          /**
           * @return An array containing data ready to be displayed
           */
          getChartData: function() {
+//        	console.log(this.signalChartData[0].key);
+//         	this.signalChartData[0].values.forEach(function(elt, i) {
+//         		console.log(elt);
+//         	});
+//        	console.log(this.signalChartData);
             return this.signalChartData;
          }
 };

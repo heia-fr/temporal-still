@@ -1,7 +1,7 @@
 (function(angular, _) {
    "use strict";
 
-   /**
+   /** 
     * ****************** Defining the main controller *********************
     */
    var app = angular.module('alambic.controllers');

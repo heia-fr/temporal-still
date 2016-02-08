@@ -6,10 +6,10 @@ body {
 }
 
 header {
-	padding: 7px 40px;
+	padding: 4px 40px;
 	margin-bottom: 10px;
 	background-color: #292c2f;
-	height: 68px;
+	height: 58px;
 	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
@@ -72,7 +72,7 @@ header .header-limiter a:hover {
 }
 
 .top-buffer {
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 .chart-grid {
@@ -85,32 +85,24 @@ header .header-limiter a:hover {
 .y-scroll {
 	position: relative;
 	max-height: 190px;
-	margin-bottom: 5px;
+	margin-bottom: 3px;
 	overflow: auto;
 }
 
-/**
-******** BEGIN: Change padding property to the lists (signals/formulas) *******
-*/
+/** ******** BEGIN: Change padding property to the lists (signals/formulas) ******* */
 ul li.custom-item {
-	padding: 6px 15px !important;
+	padding: 2px 11px !important;
 }
-/**
-******** END: Change padding property to the lists (signals/formulas) *******
-*/
+/** ******** END: Change padding property to the lists (signals/formulas) ******* */
 
-/**
-******** BEGIN: Change height of tab items ***********
-*/
+/** ******** BEGIN: Change height of tab items *********** */
 .nav>li>a {
 	position: relative;
 	display: block;
-	padding: 7px 15px !important;
-	/* You can change the first part of the padding (7px) */
+	padding: 2px 10px !important;
+	/* You can change the first part of the padding (2px) */
 }
-/**
-******** END: Change height of tab items ***********
-*/
+/** ******** END: Change height of tab items *********** */
 .fix-panel {
 	margin-bottom: 10px;
 }
@@ -149,6 +141,7 @@ ul li.custom-item {
 
 .panel-body {
 	padding-top: 0;
+	padding-bottom: 2px;
 }
 
 p.about-text {
@@ -168,9 +161,8 @@ p.about-text {
 	text-align: center;
 }
 
-/**
-** BEGIN: Go Back Button
-*/
+
+/** -------------------------------- BEGIN: Go Back Button */
 .scroll-top-wrapper {
 	position: fixed;
 	right: 30px;
@@ -210,9 +202,7 @@ p.about-text {
 .scroll-top-wrapper i.fa {
 	line-height: inherit;
 }
-/**
-** END: Go Back button 
-*/
+/** ---------------------------------------- END: Go Back button */
 footer {
 	height: 70px;
 }

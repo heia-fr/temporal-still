@@ -75,7 +75,7 @@
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
                         <button id="collapseButton" type="button"
-                           class="btn btn-default btn-lg round toggle" data-toggle="collapse"
+                           class="btn btn-default toggle" data-toggle="collapse"
                            data-tooltip="tooltip" data-original-title="{{buttonState.signalsTitle}}"
                            data-target="#collapseSignals" aria-expanded="false"
                            aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
@@ -85,13 +85,13 @@
                               class="glyphicon glyphicon-chevron-right"></i>
                         </button>
                         <button type="button"
-                           class="btn btn-primary btn-lg round right-toggle toggle"
+                           class="btn btn-primary right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random signals"
                            ng-show="buttonState.signalsUp" ng-click="generateSignals()" ng-cloak>
                            <i class="fa fa-random"></i>
                         </button>
                         <a role="button" type="button"
-                           class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                           class="btn btn-danger  fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
                            ng-show="buttonState.signalsUp" ng-cloak
                            ng-disabled="signals.bs.universe.isEmpty() || !signals.tf.formulasManager.isEmpty()">
@@ -100,11 +100,11 @@
                      </div>
                      <div class="panel-body collapse in" id="collapseSignals">
                         <form name="alambicSignalsForm" role="form" novalidate>
-                           <div class="input-group input-group-lg"
+                           <div class="input-group "
                               ng-class="{'has-error has-feedback' : 
                                         alambicSignalsForm.inputData.$invalid}">
                               <input type="text" class="form-control" name="inputData"
-                                 placeholder="e.g. a = 11001/01;b = 101/0" ng-model="signalsString"
+                                 placeholder="  try maybe        s = 11011/01" ng-model="signalsString"
                                  validate-signals />
                               <div class="input-group-btn">
                                  <button class="btn btn-default" type="submit" value="&#10140;"
@@ -170,7 +170,7 @@
                <div class="col-sm-6 col-md-6 col-lg-6">
                   <div class="panel panel-default fix-panel">
                      <div class="input-group left-btn-group">
-                        <button type="button" class="btn btn-default btn-lg round toggle"
+                        <button type="button" class="btn btn-default toggle"
                            data-toggle="collapse" data-tooltip="tooltip"
                            data-original-title="{{buttonState.formulasTitle}}"
                            data-target="#collapseFormulas" aria-expanded="false"
@@ -181,14 +181,14 @@
                               class="glyphicon glyphicon-chevron-right"></i>
                         </button>
                         <button type="button"
-                           class="btn btn-primary btn-lg round right-toggle toggle"
+                           class="btn btn-primary right-toggle toggle"
                            data-tooltip="tooltip" title="Generate random formula"
                            ng-show="buttonState.formulasUp" ng-cloak ng-click="generateFormula()"
                            ng-disabled="signals.bs.universe.isEmpty()">
                            <i class="fa fa-random"></i>
                         </button>
                         <a role="button" type="button"
-                           class="btn btn-danger btn-lg round fixed-right-toggle toggle"
+                           class="btn btn-danger fixed-right-toggle toggle"
                            data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
                            ng-show="buttonState.formulasUp" ng-cloak
                            ng-disabled="signals.tf.formulasManager.isEmpty()">
@@ -197,11 +197,11 @@
                      </div>
                      <div class="panel-body collapse in" id="collapseFormulas">
                         <form name="alambicFormulaForm" role="form" novalidate>
-                           <div class="input-group input-group-lg"
+                           <div class="input-group"
                               ng-class="{'has-error has-feedback' : 
                                         alambicFormulaForm.inputData.$invalid}">
                               <input type="text" class="form-control" name="inputData"
-                                 placeholder="e.g. f = []a | b" ng-model="formulaString"
+                                 placeholder=" try maybe        f = []a | b" ng-model="formulaString"
                                  validate-formulas />
                               <div class="input-group-btn">
                                  <button class="btn btn-default" type="submit" value="&#10140;"
@@ -271,16 +271,16 @@
                            <nvd3-line-chart data="formula.getChartData()" showXAxis="true"
                               showYAxis="true" useinteractiveguideline="false" interactive="false"
                               clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-                              forcey="[0,1]" height="100"
-                              margin="{left:15,top:40,bottom:40,right:10}"> </nvd3-line-chart>
+                              forcey="[0,1]" height="70"
+                              margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
                         </div>
                         <div
                            ng-repeat="signal in signals.bs.universe.getSignals() track by signal.getId()">
                            <nvd3-line-chart data="signal.getChartData()" showXAxis="true"
                               showYAxis="true" useinteractiveguideline="false" interactive="false"
                               clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-                              forcey="[0,1]" height="100"
-                              margin="{left:15,top:40,bottom:40,right:10}"> </nvd3-line-chart>
+                              forcey="[0,1]" height="70"
+                              margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
                         </div>
                      </div>
                   </div>
@@ -494,7 +494,8 @@
                <p>Both boolean signals and temporal formulas are presented by a boolean chart.
                   These graphical representations are updated each time a boolean signal changes
                   (added, updated or removed)</p>
-               <img src="images/caps/cap7.png" alt="Graphical representations" class="img-thumbnail" />
+               <p>There is a small mark to highlight the start of the periodic part.</p>
+               <img src="images/caps/cap7-boolean-charts.png" alt="Graphical representation" class="img-thumbnail" />
 
             </div>
          </div>
@@ -557,7 +558,7 @@
          <footer>
             <div class="row">
                <div class="col-lg-12">
-                  <p>Alambic &agrave; Formules Temporelles II - HEIA-FR 2015</p>
+                  <p>Alambic &agrave; Formules Temporelles II - HEIA-FR 2016</p>
                </div>
             </div>
 
