@@ -297,10 +297,9 @@
                   complicated in systems based on temporal logic. The features of this app are:</p>
                <ul>
                   <li>Management of boolean signals</li>
-                  <li>Boolean signal presentation in SVG</li>
                   <li>Management of temporal formulas</li>
-                  <li>Temporal formula presentation in SVG</li>
                   <li>Evaluation of a temporal formula based on referenced boolean signals</li>
+                  <li>Presentation of signals and formulas as graphical diagrams</li>
                </ul>
 
                <h2>Boolean signals</h2>
@@ -310,31 +309,36 @@
                <p>Below is the notation used to define a boolean signal:</p>
                <table>
                   <tr>
-                     <td>Equal sign &#40;{{symbols.equal}}&#41;:</td>
+                     <td>Equal sign &#40;{{symbols.equal}}&#41;&nbsp;</td>
                      <td>used to associate a boolean signal to its identifier</td>
                   </tr>
                   <tr>
-                     <td>Slash &#40;{{symbols.slash}}&#41;:</td>
+                     <td>Slash &#40;{{symbols.slash}}&#41;&nbsp;</td>
                      <td>used to determine the periodic part of a signal</td>
                   </tr>
                   <tr>
-                     <td>Semi-colon &#40;{{symbols.semiColon}}&#41;:</td>
-                     <td>used to separated multiple boolean signals</td>
+                     <td>Semicolon &#40;{{symbols.semiColon}}&#41;&nbsp;</td>
+                     <td>used to separate multiple boolean signals</td>
+                  </tr>
+                  <tr>
+                     <td>Bits &#40;0,1&#41;</td>
+                     <td>truth values (0=false, 1=true)</td>
                   </tr>
                </table>
 
                <h3>Parts of a boolean signal</h3>
 
-               <p>Each boolean signal is composed of three basic parts</p>
+               <p>We consider every boolean signal as being infinite and periodic.
+                  Each signal is composed of three basic parts:</p>
                <dl>
-                  <dt>identifiers</dt>
+                  <dt>identifier</dt>
                   <dd>identifiers match an exact string of text in lower case and must be
                      unique. e.g. a, b, mysignal, etc.</dd>
 
-                  <dt>fixed part of a signal</dt>
+                  <dt>fixed part</dt>
                   <dd>every signal has a fixed part composed of 1s and 0s. e.g. 1011, 101, etc.</dd>
 
-                  <dt>periodic part of a signal</dt>
+                  <dt>periodic part</dt>
                   <dd>every signal has an endlessly repeated part composed of 1s and 0s and
                      preceded by a slash. e.g. /01, /011, etc.</dd>
                </dl>
@@ -359,7 +363,7 @@
                <img src="images/caps/cap2.png" alt="Updating boolean signals" class="img-thumbnail" />
 
                <p>Boolean signals can be removed from the list of signals by clicking on the
-                  blue cross. However, once referenced a boolean signal cannot be deleted until it
+                  blue cross. However, once referenced a boolean signal cannot be deleted until it is
                   no longer the case.</p>
                <p>If no boolean signal is referred by any formula, the list of boolean signal
                   can be cleared by clicking the red button above the text field</p>
@@ -428,11 +432,20 @@
                      <td>WEAK UNTIL &#40;W&#41;:</td>
                      <td>W</td>
                   </tr>
+                  <tr>
+                     <td>truth values:</td>
+                     <td>0, 1</td>
+                  </tr>
+                  <tr>
+                     <td>identifier:</td>
+                     <td>a, b, abc, ...</td>
+                  </tr>
                </table>
 
                <h3>Operator precedence</h3>
 
-               <p>Below is the order in which logical and temporal operators are evaluated:</p>
+               <p>Below is the order in which logical and temporal operators are evaluated
+                  (but do put parentheses to make it clearer):</p>
 
                <ol>
                   <li>PARENTHESES &#40;&#41;</li>
@@ -463,7 +476,6 @@
                   </li>
                </ol>
 
-
                <h3>Temporal formulas management</h3>
                <p>Temporal formulas refer to existing boolean signals such as a&#44; b&#44; etc.
                   For example&#44; the temporal formula f {{symbols.equal}} a W b refers to the
@@ -488,6 +500,8 @@
 
                <p>The red button above the temporal formulas text field can be used to clear the
                   list of formulas.</p>
+               <p>The blue button above the text field can be used to generate
+                  a random signal or formula (maybe only useful for us during development...).</p>
 
                <h2>Graphical presentation</h2>
 
