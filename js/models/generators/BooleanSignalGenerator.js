@@ -17,7 +17,7 @@ var BooleanSignalGenerator = function() {
 
       var maxBody = 10;
       var maxPeriod = 5;
-      var maxNbOfSignals = 5;
+      var maxNbOfSignals = 1;
 
       function generateVarName(ids) {
          var i;
