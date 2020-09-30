@@ -21,11 +21,11 @@
 <link rel="shortcut icon" sizes="16x15" href="images/alambicon2.ico">
 
 <!-- CSS Components -->
-<link type="text/css" rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.min.css" />
-<link type="text/css" rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+<link type="text/css" rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" href="bower_components/font-awesome/css/all.min.css" />
 <link type="text/css" rel="stylesheet" href="bower_components/nvd3/nv.d3.css" />
 <link type="text/css" rel="stylesheet"
-   href="bower_components/perfect-scrollbar/perfect-scrollbar.min.css" />
+   href="bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
 
 <!-- Custom style -->
 <link type="text/css" rel="stylesheet" href="css/custom-style.css" />
@@ -101,7 +101,7 @@
                      <div class="panel-body collapse in" id="collapseSignals">
                         <form name="alambicSignalsForm" role="form" novalidate>
                            <div class="input-group "
-                              ng-class="{'has-error has-feedback' : 
+                              ng-class="{'has-error has-feedback' :
                                         alambicSignalsForm.inputData.$invalid}">
                               <input type="text" class="form-control" name="inputData"
                                  placeholder="  try maybe        s = 11011/01" ng-model="signalsString"
@@ -129,7 +129,7 @@
                                           ng-click="editable.editableSignal.enableEditor(sig.getId(), $event)"></a>
 
                                        <div class="input-group input-group-sm"
-                                          ng-class="{'has-error has-feedback' : 
+                                          ng-class="{'has-error has-feedback' :
                                         alambicSignalsListForm.$invalid && alambicSignalsListForm.$dirty}">
                                           <input type="text" name="inputEditor"
                                              class="form-control alambic-editorField"
@@ -198,7 +198,7 @@
                      <div class="panel-body collapse in" id="collapseFormulas">
                         <form name="alambicFormulaForm" role="form" novalidate>
                            <div class="input-group"
-                              ng-class="{'has-error has-feedback' : 
+                              ng-class="{'has-error has-feedback' :
                                         alambicFormulaForm.inputData.$invalid}">
                               <input type="text" class="form-control" name="inputData"
                                  placeholder=" try maybe        f = []a | b" ng-model="formulaString"
@@ -226,7 +226,7 @@
                                           ng-click="editable.editableFormula.enableEditor(formula.getId(), $event)"></a>
 
                                        <div class="input-group input-group-sm"
-                                          ng-class="{'has-error has-feedback' : 
+                                          ng-class="{'has-error has-feedback' :
                                         alambicFormulaListForm.$invalid && alambicFormulaListForm.$dirty}">
                                           <input type="text" name="inputEditor"
                                              class="form-control alambic-editorField"
@@ -587,17 +587,17 @@
    </div>
 
    <!-- JS Components -->
-   <script type="text/javascript" src="bower_components/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+   <script type="text/javascript" src="bower_components/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
    <script type="text/javascript"
-      src="bower_components/perfect-scrollbar/perfect-scrollbar.jquery.min.js"></script>
-   <script type="text/javascript" src="bower_components/bootstrap/js/bootstrap.min.js"></script>
+      src="bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+   <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
    <script type="text/javascript"
       src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
    <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
    <script type="text/javascript" src="bower_components/d3/d3.js"></script>
    <script type="text/javascript" src="bower_components/nvd3/nv.d3.js"></script>
    <script type="text/javascript"
-      src="bower_components/angularjs-nvd3-directives/angularjs-nvd3-directives.js"></script>
+      src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
    <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
    <!-- My JS scripts -->

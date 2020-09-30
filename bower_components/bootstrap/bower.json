@@ -1,27 +1,34 @@
 {
-  "name": "bootstrap-css-only",
-  "description": "Bower component for [Bootstrap](http://getbootstrap.com/) CSS and font libraries only. No javascript, and more importantly NO bower depenedency on jQuery.",
+  "name": "bootstrap",
+  "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
   "keywords": [
-    "twitter",
-    "bootstrap",
-    "twitter-bootstrap",
-    "css"
+    "css",
+    "js",
+    "less",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
   ],
-  "main": [
-    "css/bootstrap.css",
-    "fonts/glyphicons-halflings-regular.eot",
-    "fonts/glyphicons-halflings-regular.svg",
-    "fonts/glyphicons-halflings-regular.ttf",
-    "fonts/glyphicons-halflings-regular.woff",
-    "fonts/glyphicons-halflings-regular.woff2"
-  ],
-  "homepage": "http://getbootstrap.com/",
+  "homepage": "https://getbootstrap.com/",
   "license": "MIT",
-  "author": {
-    "name": "Twitter Inc."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fyockm/bootstrap-css-only.git"
+  "moduleType": "globals",
+  "main": [
+    "less/bootstrap.less",
+    "dist/js/bootstrap.js"
+  ],
+  "ignore": [
+    "/.*",
+    "_config.yml",
+    "CNAME",
+    "composer.json",
+    "CONTRIBUTING.md",
+    "docs",
+    "js/tests",
+    "test-infra"
+  ],
+  "dependencies": {
+    "jquery": "1.9.1 - 3"
   }
 }

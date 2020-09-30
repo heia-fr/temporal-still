@@ -1,6 +1,6 @@
 angular-local-storage
 =====================
-An Angular module that gives you access to the browsers local storage, **v0.2.1**
+An Angular module that gives you access to the browsers local storage
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
@@ -9,7 +9,7 @@ An Angular module that gives you access to the browsers local storage, **v0.2.1*
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
-##Table of contents:
+## Table of contents:
 - [![Gitter][gitter-image]][gitter-url]
 - [Get Started](#get-started)
 - [Video Tutorial](https://www.youtube.com/watch?v=I4iB0kOSmx8)
@@ -17,12 +17,14 @@ An Angular module that gives you access to the browsers local storage, **v0.2.1*
 - [Configuration](#configuration)
  - [setPrefix](#setprefix)
  - [setStorageType](#setstoragetype)
+ - [setDefaultToCookie](#setdefaulttocookie)
  - [setStorageCookie](#setstoragecookie)
  - [setStorageCookieDomain](#setstoragecookiedomain)
  - [setNotify](#setnotify)
  - [Example](#configuration-example)
 - [API Documentation](#api-documentation)
  - [isSupported](#issupported)
+ - [changePrefix]
  - [getStorageType](#getstoragetype)
  - [set](#set)
  - [get](#get)
@@ -39,8 +41,8 @@ An Angular module that gives you access to the browsers local storage, **v0.2.1*
     - [remove](#cookieremove)
     - [clearAll](#cookieclearall)
 
-##Get Started
-**(1)** You can install angular-local-storage using 2 different ways:<br/>
+## Get Started
+**(1)** You can install angular-local-storage using 3 different ways:<br/>
 **Git:**
 clone & build [this](https://github.com/grevory/angular-local-storage.git) repository<br/>
 **Bower:**
@@ -61,7 +63,7 @@ When you're done, your setup should look similar to the following:
 <!doctype html>
 <html ng-app="myApp">
 <head>
-   
+
 </head>
 <body>
     ...
@@ -76,8 +78,8 @@ When you're done, your setup should look similar to the following:
 </body>
 </html>
 ```
-##Configuration
-###setPrefix
+## Configuration
+### setPrefix
 You could set a prefix to avoid overwriting any local storage variables from the rest of your app<br/>
 **Default prefix:** `ls.<your-key>`
 ```js
@@ -86,7 +88,7 @@ myApp.config(function (localStorageServiceProvider) {
     .setPrefix('yourAppName');
 });
 ```
-###setStorageType
+### setStorageType
 You could change web storage type to localStorage or sessionStorage<br/>
 **Default storage:** `localStorage`
 ```js
@@ -95,17 +97,27 @@ myApp.config(function (localStorageServiceProvider) {
     .setStorageType('sessionStorage');
 });
 ```
-###setStorageCookie
-Set cookie options (usually in case of fallback)<br/>
-**expiry:** number of days before cookies expire (0 = does not expire). **default:** `30`<br/>
-**path:** the web path the cookie represents. **default:** `'/'`
+### setDefaultToCookie
+If localStorage is not supported, the library will default to cookies instead. This behavior can be disabled.<br/>
+**Default:** `true`
 ```js
 myApp.config(function (localStorageServiceProvider) {
   localStorageServiceProvider
-    .setStorageCookie(45, '<path>');
+    .setDefaultToCookie(false);
 });
 ```
-###setStorageCookieDomain
+### setStorageCookie
+Set cookie options (usually in case of fallback)<br/>
+**expiry:** number of days before cookies expire (0 = session cookie). **default:** `30`<br/>
+**path:** the web path the cookie represents. **default:** `'/'`<br/>
+**secure:** whether to store cookies as secure. **default:** `false`
+```js
+myApp.config(function (localStorageServiceProvider) {
+  localStorageServiceProvider
+    .setStorageCookie(45, '<path>', false);
+});
+```
+### setStorageCookieDomain
 Set the cookie domain, since this runs inside a the `config()` block, only providers and constants can be injected.  As a result, `$location` service can't be used here, use a hardcoded string or `window.location`.<br/>
 **No default value**
 ```js
@@ -117,17 +129,18 @@ myApp.config(function (localStorageServiceProvider) {
 
 For local testing (when you are testing on localhost) set the domain to an empty string ''. Setting the domain to 'localhost' will not work on all browsers (eg. Chrome) since some browsers only allow you to set domain cookies for registry controlled domains, i.e. something ending in .com or so, but not IPs **or intranet hostnames** like localhost. </br>
 
-###setNotify
-Send signals for each of the following actions:<br/>
-**setItem** , default: `true`<br/>
-**removeItem** , default: `false`
+### setNotify
+
+Configure whether events should be broadcasted on $rootScope for each of the following actions:<br/>
+**setItem** , default: `true`, event "LocalStorageModule.notification.setitem"<br/>
+**removeItem** , default: `false`, event "LocalStorageModule.notification.removeitem"
 ```js
 myApp.config(function (localStorageServiceProvider) {
   localStorageServiceProvider
     .setNotify(true, true);
 });
 ```
-###Configuration Example
+### Configuration Example
 Using all together
 ```js
 myApp.config(function (localStorageServiceProvider) {
@@ -137,9 +150,9 @@ myApp.config(function (localStorageServiceProvider) {
     .setNotify(true, true)
 });
 ```
-##API Documentation
-##isSupported
-Checks if the browser support the current storage type(e.g: `localStorage`, `sessionStorage`).  
+## API Documentation
+## isSupported
+Checks if the browser support the current storage type(e.g: `localStorage`, `sessionStorage`).
 **Returns:** `Boolean`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -150,16 +163,27 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
+###setPrefix
+Change the local storage prefix during execution
+**Returns:** `Null`
+```js
+myApp.controller('MainCtrl', function($scope, localStorageService) {
+  //...
+  localStorageService.setPrefix('newPrefix');
+  //...
+});
+```
 ###getStorageType
 **Returns:** `String`
-```js
+```
 myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
   var storageType = localStorageService.getStorageType(); //e.g localStorage
   //...
 });
 ```
-###set
+You can also dynamically change storage type by passing the storage type as the last parameter for any of the API calls. For example: `localStorageService.set(key, val, "sessionStorage");`
+### set
 Directly adds a value to local storage.<br/>
 If local storage is not supported, use cookies instead.<br/>
 **Returns:** `Boolean`
@@ -172,7 +196,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###get
+### get
 Directly get a value from local storage.<br/>
 If local storage is not supported, use cookies instead.<br/>
 **Returns:** `value from local storage`
@@ -185,7 +209,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###keys
+### keys
 Return array of keys for local storage, ignore keys that not owned.<br/>
 **Returns:** `value from local storage`
 ```js
@@ -195,7 +219,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###remove
+### remove
 Remove an item(s) from local storage by key.<br/>
 If local storage is not supported, use cookies instead.<br/>
 **Returns:** `Boolean`
@@ -211,7 +235,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   }
 });
 ```
-###clearAll
+### clearAll
 Remove all data for this app from local storage.<br/>
 If local storage is not supported, use cookies instead.<br/>
 **Note:** Optionally takes a regular expression string and removes matching.<br/>
@@ -228,17 +252,17 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   }
 });
 ```
-###bind
-Bind $scope key to localStorageService.  
-**Usage:** `localStorageService.bind(scope, property, value[optional], key[optional])`  
-***key:*** The corresponding key used in local storage  
+### bind
+Bind $scope key to localStorageService.
+**Usage:** `localStorageService.bind(scope, property, value[optional], key[optional])`
+***key:*** The corresponding key used in local storage
 **Returns:** deregistration function for this listener.
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
   localStorageService.set('property', 'oldValue');
   $scope.unbind = localStorageService.bind($scope, 'property');
-  
+
   //Test Changes
   $scope.update = function(val) {
     $scope.property = val;
@@ -258,8 +282,8 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 </div>
 ```
 
-###deriveKey
-Return the derive key  
+### deriveKey
+Return the derive key
 **Returns** `String`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -270,8 +294,8 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###length
-Return localStorageService.length, ignore keys that not owned.  
+### length
+Return localStorageService.length, ignore keys that not owned.
 **Returns** `Number`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -280,10 +304,10 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-##Cookie
+## Cookie
 Deal with browser's cookies directly.
-##cookie.isSupported
-Checks if cookies are enabled in the browser.  
+## cookie.isSupported
+Checks if cookies are enabled in the browser.
 **Returns:** `Boolean`
 ```js
 myApp.controller('MainCtrl', function($scope, localStorageService) {
@@ -294,7 +318,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###cookie.set
+### cookie.set
 Directly adds a value to cookies.<br/>
 **Note:** Typically used as a fallback if local storage is not supported.<br/>
 **Returns:** `Boolean`
@@ -312,7 +336,12 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
     localStorageService.cookie.set(key,val,10)
 ```
 sets a cookie that expires in 10 days.
-###cookie.get
+**Secure Cookie** Pass a fourth argument to set the cookie as secure [W3C](https://www.w3.org/TR/csp-cookies/#grammardef-secure)
+```js
+    localStorageService.cookie.set(key,val,null,false)
+```
+sets a cookie that is secure.
+### cookie.get
 Directly get a value from a cookie.<br/>
 **Returns:** `value from local storage`
 ```js
@@ -324,7 +353,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###cookie.remove
+### cookie.remove
 Remove directly value from a cookie.<br/>
 **Returns:** `Boolean`
 ```js
@@ -336,7 +365,7 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
   //...
 });
 ```
-###cookie.clearAll
+### cookie.clearAll
 Remove all data for this app from cookie.<br/>
 **Returns:** `Boolean`
 ```js
@@ -350,11 +379,11 @@ myApp.controller('MainCtrl', function($scope, localStorageService) {
 
 Check out the full demo at http://gregpike.net/demos/angular-local-storage/demo.html
 
-##Development:
+## Development:
 * Don't forget about tests.
-* If you planning add some feature please create issue before.
+* If you're planning to add some feature please create an issue before.
 
-Clone the project: 
+Clone the project:
 ```sh
 $ git clone https://github.com/<your-repo>/angular-local-storage.git
 $ npm install
@@ -367,8 +396,9 @@ $ grunt test
 **Deploy:**<br/>
 Run the build task, update version before(bower,package)
 ```sh
+$ npm version patch|minor|major
 $ grunt dist
-$ git tag 0.*.*
+$ git commit [message]
 $ git push origin master --tags
 ```
 

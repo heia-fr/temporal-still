@@ -1,37 +1,44 @@
 {
-  "name": "bootstrap-css-only",
-  "description": "Bower component for [Bootstrap](http://getbootstrap.com/) CSS and font libraries only. No javascript, and more importantly NO bower depenedency on jQuery.",
+  "name": "bootstrap",
+  "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
   "keywords": [
-    "twitter",
-    "bootstrap",
-    "twitter-bootstrap",
-    "css"
+    "css",
+    "js",
+    "less",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
   ],
-  "main": [
-    "css/bootstrap.css",
-    "fonts/glyphicons-halflings-regular.eot",
-    "fonts/glyphicons-halflings-regular.svg",
-    "fonts/glyphicons-halflings-regular.ttf",
-    "fonts/glyphicons-halflings-regular.woff",
-    "fonts/glyphicons-halflings-regular.woff2"
-  ],
-  "homepage": "http://getbootstrap.com/",
+  "homepage": "https://getbootstrap.com/",
   "license": "MIT",
-  "author": {
-    "name": "Twitter Inc."
+  "moduleType": "globals",
+  "main": [
+    "less/bootstrap.less",
+    "dist/js/bootstrap.js"
+  ],
+  "ignore": [
+    "/.*",
+    "_config.yml",
+    "CNAME",
+    "composer.json",
+    "CONTRIBUTING.md",
+    "docs",
+    "js/tests",
+    "test-infra"
+  ],
+  "dependencies": {
+    "jquery": "1.9.1 - 3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fyockm/bootstrap-css-only.git"
-  },
-  "version": "3.3.5",
-  "_release": "3.3.5",
+  "version": "3.4.1",
+  "_release": "3.4.1",
   "_resolution": {
     "type": "version",
-    "tag": "3.3.5",
-    "commit": "21cec91fda8021f4ee6112934634d9b24b8fc778"
+    "tag": "v3.4.1",
+    "commit": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
   },
-  "_source": "git://github.com/fyockm/bootstrap-css-only.git",
-  "_target": "*",
-  "_originalSource": "bootstrap-css-only"
+  "_source": "https://github.com/twbs/bootstrap.git",
+  "_target": "3.4.1",
+  "_originalSource": "bootstrap"
 }
