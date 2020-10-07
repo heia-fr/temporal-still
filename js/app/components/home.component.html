@@ -1,0 +1,218 @@
+<div role="tabpanel" class="tab-pane active" id="home" ng-controller="MainController">
+    <div class="row top-buffer">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default fix-panel">
+                <div class="input-group left-btn-group">
+                    <button id="collapseButton" type="button"
+                        class="btn btn-default toggle" data-toggle="collapse"
+                        data-tooltip="tooltip" data-original-title="{{buttonState.signalsTitle}}"
+                        data-target="#collapseSignals" aria-expanded="false"
+                        aria-controls="collapseSignals" ng-click="toggleSignalsPanel()">
+                        <i ng-show="buttonState.signalsUp"
+                            class="glyphicon glyphicon-chevron-down"></i> <i
+                            ng-hide="buttonState.signalsUp" ng-cloak
+                            class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                    <button type="button"
+                        class="btn btn-primary right-toggle toggle"
+                        data-tooltip="tooltip" title="Generate random signals"
+                        ng-show="buttonState.signalsUp" ng-click="generateSignals()" ng-cloak>
+                        <i class="fa fa-random"></i>
+                    </button>
+                    <a role="button" type="button"
+                        class="btn btn-danger  fixed-right-toggle toggle"
+                        data-tooltip="tooltip" title="Clear signals" ng-click="clearSignals()"
+                        ng-show="buttonState.signalsUp" ng-cloak
+                        ng-disabled="signals.bs.universe.isEmpty() || !signals.tf.formulasManager.isEmpty()">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+                <div class="panel-body collapse in" id="collapseSignals">
+                    <form name="alambicSignalsForm" role="form" novalidate>
+                        <div class="input-group "
+                            ng-class="{'has-error has-feedback' :
+                                            alambicSignalsForm.inputData.$invalid}">
+                            <input type="text" class="form-control" name="inputData"
+                                placeholder="  try maybe        s = 11011/01" ng-model="signalsString"
+                                validate-signals />
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" value="&#10140;"
+                                    ng-disabled="alambicSignalsForm.$invalid || !signalsString.length"
+                                    ng-click="addSignals()">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <form name="alambicSignalsListForm" class="top-buffer" role="form"
+                        novalidate>
+                        <ul id="signalsList" class="list-group y-scroll">
+                            <li class="list-group-item custom-item"
+                                ng-repeat="sig in signals.bs.universe.getSignals() track by sig.getId()"
+                                id="signal{{sig.getId()}}" ng-cloak>
+
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8 text-left">
+                                        <a ng-hide="sig.isEditorEnabled()"
+                                            ng-bind-html="sig.getContent() | signalFormatter"
+                                            ng-click="editable.editableSignal.enableEditor(sig.getId(), $event)"></a>
+
+                                        <div class="input-group input-group-sm"
+                                            ng-class="{'has-error has-feedback' :
+                                            alambicSignalsListForm.$invalid && alambicSignalsListForm.$dirty}">
+                                            <input type="text" name="inputEditor"
+                                                class="form-control alambic-editorField"
+                                                ng-show="sig.isEditorEnabled()"
+                                                ng-model="editable.editableSignal.text"
+                                                on-esc="editable.editableSignal.disableEditor(sig.getId())"
+                                                on-enter="alambicSignalsListForm.$valid ? updateSignal(sig.getId()) : ''"
+                                                gain-focus="sig.isEditorEnabled()" ng-cloak
+                                                validate-editable-signal />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 col-md-4 col-lg-4 text-right">
+                                        <button class="btn-link"
+                                            ng-disabled="alambicSignalsListForm.$invalid"
+                                            ng-show="sig.isEditorEnabled()"
+                                            ng-click="updateSignal(sig.getId())" ng-cloak>
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button class="btn-link" ng-show="sig.isEditorEnabled()"
+                                            ng-click="editable.editableSignal.disableEditor(sig.getId())"
+                                            ng-cloak>
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </button>
+                                        <button class="btn-link" ng-hide="sig.isEditorEnabled()"
+                                            ng-disabled="sig.isReferred()"
+                                            ng-click="removeSignal(sig.getId())">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default fix-panel">
+                <div class="input-group left-btn-group">
+                    <button type="button" class="btn btn-default toggle"
+                        data-toggle="collapse" data-tooltip="tooltip"
+                        data-original-title="{{buttonState.formulasTitle}}"
+                        data-target="#collapseFormulas" aria-expanded="false"
+                        aria-controls="collapseFormulas" ng-click="toggleFormlasPanel()">
+                        <i ng-show="buttonState.formulasUp"
+                            class="glyphicon glyphicon-chevron-down"></i> <i
+                            ng-hide="buttonState.formulasUp" ng-cloak
+                            class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                    <button type="button"
+                        class="btn btn-primary right-toggle toggle"
+                        data-tooltip="tooltip" title="Generate random formula"
+                        ng-show="buttonState.formulasUp" ng-cloak ng-click="generateFormula()"
+                        ng-disabled="signals.bs.universe.isEmpty()">
+                        <i class="fa fa-random"></i>
+                    </button>
+                    <a role="button" type="button"
+                        class="btn btn-danger fixed-right-toggle toggle"
+                        data-tooltip="tooltip" title="Clear formulas" ng-click="clearFormulas()"
+                        ng-show="buttonState.formulasUp" ng-cloak
+                        ng-disabled="signals.tf.formulasManager.isEmpty()">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+                <div class="panel-body collapse in" id="collapseFormulas">
+                    <form name="alambicFormulaForm" role="form" novalidate>
+                        <div class="input-group"
+                            ng-class="{'has-error has-feedback' :
+                                            alambicFormulaForm.inputData.$invalid}">
+                            <input type="text" class="form-control" name="inputData"
+                                placeholder=" try maybe        f = []a | b" ng-model="formulaString"
+                                validate-formulas />
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" value="&#10140;"
+                                    ng-disabled="alambicFormulaForm.$invalid || !formulaString.length"
+                                    ng-click="addFormula()">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <form name="alambicFormulaListForm" class="top-buffer" role="form"
+                        novalidate>
+                        <ul id="formulasList" class="list-group y-scroll">
+                            <li class="list-group-item custom-item"
+                                ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()"
+                                id="formula{{formula.getId()}}" ng-cloak>
+
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8 text-left">
+                                        <a ng-hide="formula.isEditorEnabled()"
+                                            ng-bind-html='formula.getContent() | formulaFormatter'
+                                            ng-click="editable.editableFormula.enableEditor(formula.getId(), $event)"></a>
+
+                                        <div class="input-group input-group-sm"
+                                            ng-class="{'has-error has-feedback' :
+                                            alambicFormulaListForm.$invalid && alambicFormulaListForm.$dirty}">
+                                            <input type="text" name="inputEditor"
+                                                class="form-control alambic-editorField"
+                                                ng-show="formula.isEditorEnabled()"
+                                                ng-model="editable.editableFormula.text"
+                                                on-esc="editable.editableFormula.disableEditor(formula.getId())"
+                                                on-enter="alambicFormulaListForm.$valid ? updateFormula(formula.getId()) : ''"
+                                                gain-focus="formula.isEditorEnabled()" ng-cloak
+                                                validate-editable-formula />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 col-md-4 col-lg-4 text-right">
+                                        <button class="btn-link"
+                                            ng-disabled="alambicFormulaListForm.$invalid"
+                                            ng-show="formula.isEditorEnabled()"
+                                            ng-click="updateFormula(formula.getId())" ng-cloak>
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button class="btn-link" ng-show="formula.isEditorEnabled()"
+                                            ng-click="editable.editableFormula.disableEditor(formula.getId())"
+                                            ng-cloak>
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </button>
+                                        <button class="btn-link" ng-hide="formula.isEditorEnabled()"
+                                            ng-click="removeFormula(formula.getId())">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default chart-grid">
+                <div class="panel-body">
+                    <div
+                        ng-repeat="formula in signals.tf.formulasManager.getFormulas() track by formula.getId()">
+                        <nvd3-line-chart data="formula.getChartData()" showXAxis="true"
+                            showYAxis="true" useinteractiveguideline="false" interactive="false"
+                            clipEdge="false" showlegend="true" legendradiobuttonmode="false"
+                            forcey="[0,1]" height="70"
+                            margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
+                    </div>
+                    <div
+                        ng-repeat="signal in signals.bs.universe.getSignals() track by signal.getId()">
+                        <nvd3-line-chart data="signal.getChartData()" showXAxis="true"
+                            showYAxis="true" useinteractiveguideline="false" interactive="false"
+                            clipEdge="false" showlegend="true" legendradiobuttonmode="false"
+                            forcey="[0,1]" height="70"
+                            margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
