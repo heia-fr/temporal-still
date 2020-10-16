@@ -27,7 +27,7 @@
 
                         b = signalsArray.every(function(signalStr) {
                            var signalParts = signalStr.split(Symbols.getEqual());
-                           return !scope.signals.tf.formulasManager.containsFormula(signalParts[0]
+                           return !scope.vm.signals.tf.formulasManager.containsFormula(signalParts[0]
                                     .trim());
                         });
                      }
@@ -57,7 +57,7 @@
                      // the ID must not be changed
                      if (b) {
                         var sId = value.split(Symbols.getEqual())[0].trim();
-                        b = (sId === scope.editable.editableSignal.id);
+                        b = (sId === scope.vm.editable.editableSignal.id);
                      }
 
                      ngModel.$setValidity('validateEditableSignal', b);
@@ -85,7 +85,7 @@
                      if (b && value.length != 0) {
                         formulaArr = value.split(Symbols.getEqual());
                         var fId = formulaArr[0].trim();
-                        if (scope.signals.bs.universe.containsSignal(fId)) {
+                        if (scope.vm.signals.bs.universe.containsSignal(fId)) {
                            b = false;
                         }
                      }
@@ -98,7 +98,7 @@
                         var lexer = new TemporalFormulaLexer(fBody);
                         while (!lexer.hasNoMoreChars() && b) {
                            if (lexer.isVarName()) {
-                              if (!scope.signals.bs.universe
+                              if (!scope.vm.signals.bs.universe
                                        .containsSignal(lexer.getCurrentToken())) {
                                  b = false;
                               }
@@ -106,7 +106,7 @@
                            lexer.goToNextToken();
                         }
                         if (lexer.isVarName()) {
-                           if (!scope.signals.bs.universe.containsSignal(lexer.getCurrentToken())) {
+                           if (!scope.vm.signals.bs.universe.containsSignal(lexer.getCurrentToken())) {
                               b = false;
                            }
                         }
@@ -133,7 +133,7 @@
                      if (b) {
                         formulaArr = value.split(Symbols.getEqual());
                         var fId = formulaArr[0].trim();
-                        b = (fId === scope.editable.editableFormula.id);
+                        b = (fId === scope.vm.editable.editableFormula.id);
                      }
 
                      // Verify that all of the referenced signals exist in the
@@ -143,7 +143,7 @@
                         var lexer = new TemporalFormulaLexer(formulaBody);
                         while (b && !lexer.hasNoMoreChars()) {
                            if (lexer.isVarName()) {
-                              if (!scope.signals.bs.universe
+                              if (!scope.vm.signals.bs.universe
                                        .containsSignal(lexer.getCurrentToken())) {
                                  b = false;
                               }
@@ -151,7 +151,7 @@
                            lexer.goToNextToken();
                         }
                         if (b && lexer.isVarName()) {
-                           if (!scope.signals.bs.universe.containsSignal(lexer.getCurrentToken())) {
+                           if (!scope.vm.signals.bs.universe.containsSignal(lexer.getCurrentToken())) {
                               b = false;
                            }
                         }

@@ -2,7 +2,7 @@
    "use strict";
 
    // register all of the modules under one named module
-   var app = angular.module('alambic', ['alambic.controllers', 'alambic.services',
+   var app = angular.module('alambic', ['alambic.components', 'alambic.services',
             'alambic.filters', 'alambic.directives', 'nvd3ChartDirectives', 'LocalStorageModule',
             'ngRoute']);
 
@@ -25,7 +25,7 @@
             }]);
 
    // create modules
-   angular.module('alambic.controllers', []);
+   angular.module('alambic.components', []);
    angular.module('alambic.services', []);
    angular.module('alambic.filters', []);
    angular.module('alambic.directives', []);

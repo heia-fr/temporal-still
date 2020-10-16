@@ -1,224 +1,222 @@
-<div role="tabpanel" class="tab-pane" id="howTo" ng-controller="HowToController">
-    <div class="how-to-content">
-        <h1>Welcome to Alambic II Tool!</h1>
-        <p>This is a tool for evaluating temporal formulas, using boolean signals. These
-            formulas are a straight-forward way to illustrate what can sometimes become very
-            complicated in systems based on temporal logic. The features of this app are:</p>
-        <ul>
-            <li>Management of boolean signals</li>
-            <li>Management of temporal formulas</li>
-            <li>Evaluation of a temporal formula based on referenced boolean signals</li>
-            <li>Presentation of signals and formulas as graphical diagrams</li>
-        </ul>
+<div class="how-to-content">
+    <h1>Welcome to Alambic II Tool!</h1>
+    <p>This is a tool for evaluating temporal formulas, using boolean signals. These
+        formulas are a straight-forward way to illustrate what can sometimes become very
+        complicated in systems based on temporal logic. The features of this app are:</p>
+    <ul>
+        <li>Management of boolean signals</li>
+        <li>Management of temporal formulas</li>
+        <li>Evaluation of a temporal formula based on referenced boolean signals</li>
+        <li>Presentation of signals and formulas as graphical diagrams</li>
+    </ul>
 
-        <h2>Boolean signals</h2>
+    <h2>Boolean signals</h2>
 
-        <h3>Symbols</h3>
+    <h3>Symbols</h3>
 
-        <p>Below is the notation used to define a boolean signal:</p>
-        <table>
-            <tr>
-                <td>Equal sign &#40;{{symbols.equal}}&#41;&nbsp;</td>
-                <td>used to associate a boolean signal to its identifier</td>
-            </tr>
-            <tr>
-                <td>Slash &#40;{{symbols.slash}}&#41;&nbsp;</td>
-                <td>used to determine the periodic part of a signal</td>
-            </tr>
-            <tr>
-                <td>Semicolon &#40;{{symbols.semiColon}}&#41;&nbsp;</td>
-                <td>used to separate multiple boolean signals</td>
-            </tr>
-            <tr>
-                <td>Bits &#40;0,1&#41;</td>
-                <td>truth values (0=false, 1=true)</td>
-            </tr>
-        </table>
+    <p>Below is the notation used to define a boolean signal:</p>
+    <table>
+        <tr>
+            <td>Equal sign &#40;{{vm.symbols.equal}}&#41;&nbsp;</td>
+            <td>used to associate a boolean signal to its identifier</td>
+        </tr>
+        <tr>
+            <td>Slash &#40;{{vm.symbols.slash}}&#41;&nbsp;</td>
+            <td>used to determine the periodic part of a signal</td>
+        </tr>
+        <tr>
+            <td>Semicolon &#40;{{vm.symbols.semiColon}}&#41;&nbsp;</td>
+            <td>used to separate multiple boolean signals</td>
+        </tr>
+        <tr>
+            <td>Bits &#40;0,1&#41;</td>
+            <td>truth values (0=false, 1=true)</td>
+        </tr>
+    </table>
 
-        <h3>Parts of a boolean signal</h3>
+    <h3>Parts of a boolean signal</h3>
 
-        <p>We consider every boolean signal as being infinite and periodic.
-            Each signal is composed of three basic parts:</p>
-        <dl>
-            <dt>identifier</dt>
-            <dd>identifiers match an exact string of text in lower case and must be
-                unique. e.g. a, b, mysignal, etc.</dd>
+    <p>We consider every boolean signal as being infinite and periodic.
+        Each signal is composed of three basic parts:</p>
+    <dl>
+        <dt>identifier</dt>
+        <dd>identifiers match an exact string of text in lower case and must be
+            unique. e.g. a, b, mysignal, etc.</dd>
 
-            <dt>fixed part</dt>
-            <dd>every signal has a fixed part composed of 1s and 0s. e.g. 1011, 101, etc.</dd>
+        <dt>fixed part</dt>
+        <dd>every signal has a fixed part composed of 1s and 0s. e.g. 1011, 101, etc.</dd>
 
-            <dt>periodic part</dt>
-            <dd>every signal has an endlessly repeated part composed of 1s and 0s and
-                preceded by a slash. e.g. /01, /011, etc.</dd>
-        </dl>
-        <p>
-            So a boolean signal can be represented such as: a = 1001/11. One can provide
-            multiple boolean signals separated by semi-colons.
-            <br />
-            e.g. a = 1001/11;b = 101/10.
-            <br />
-        </p>
+        <dt>periodic part</dt>
+        <dd>every signal has an endlessly repeated part composed of 1s and 0s and
+            preceded by a slash. e.g. /01, /011, etc.</dd>
+    </dl>
+    <p>
+        So a boolean signal can be represented such as: a = 1001/11. One can provide
+        multiple boolean signals separated by semi-colons.
+        <br />
+        e.g. a = 1001/11;b = 101/10.
+        <br />
+    </p>
 
-        <h3>Boolean signals management</h3>
+    <h3>Boolean signals management</h3>
 
-        <p>Boolean signals must follow a strict syntax, i.e id1 =
-            fixedPart1/periodicPart1[;id2 = fixedPart2/periodicPart2...]</p>
-        <img src="images/caps/cap1.png" alt="Adding boolean signals" class="img-thumbnail" />
+    <p>Boolean signals must follow a strict syntax, i.e id1 =
+        fixedPart1/periodicPart1[;id2 = fixedPart2/periodicPart2...]</p>
+    <img src="images/caps/cap1.png" alt="Adding boolean signals" class="img-thumbnail" />
 
-        <p>A boolean signal can be altered by clicking on it in the list under the main
-            text field. Once a modification has occurred, its graphical representation is
-            updated and also the graphical representation of all of the formulas referencing
-            it</p>
-        <img src="images/caps/cap2.png" alt="Updating boolean signals" class="img-thumbnail" />
+    <p>A boolean signal can be altered by clicking on it in the list under the main
+        text field. Once a modification has occurred, its graphical representation is
+        updated and also the graphical representation of all of the formulas referencing
+        it</p>
+    <img src="images/caps/cap2.png" alt="Updating boolean signals" class="img-thumbnail" />
 
-        <p>Boolean signals can be removed from the list of signals by clicking on the
-            blue cross. However, once referenced a boolean signal cannot be deleted until it is
-            no longer the case.</p>
-        <p>If no boolean signal is referred by any formula, the list of boolean signal
-            can be cleared by clicking the red button above the text field</p>
-        <img src="images/caps/cap3.png" alt="Clearing the list of boolean signals"
-            class="img-thumbnail" />
+    <p>Boolean signals can be removed from the list of signals by clicking on the
+        blue cross. However, once referenced a boolean signal cannot be deleted until it is
+        no longer the case.</p>
+    <p>If no boolean signal is referred by any formula, the list of boolean signal
+        can be cleared by clicking the red button above the text field</p>
+    <img src="images/caps/cap3.png" alt="Clearing the list of boolean signals"
+        class="img-thumbnail" />
 
-        <h2>Temporal formulas</h2>
+    <h2>Temporal formulas</h2>
 
-        <h3>Symbols &amp; operators</h3>
+    <h3>Symbols &amp; operators</h3>
 
-        <p>Below is the notation used to define logical and temporal operators:</p>
-        <table class="operatorsTable">
-            <tr>
-                <th>Operator</th>
-                <th>Symbol</th>
-            </tr>
-            <tr>
-                <td>
-                    Material Implication &#40;
-                    <span ng-bind-html='symbols.prettyImplies'></span>
-                    &#41;:
-                </td>
-                <td>&minus;&gt;</td>
-            </tr>
-            <tr>
-                <td>
-                    logical OR &#40;
-                    <span ng-bind-html='symbols.prettyOr'></span>
-                    &#41;:
-                </td>
-                <td>&#124;</td>
-            </tr>
-            <tr>
-                <td>
-                    logical AND &#40;
-                    <span ng-bind-html='symbols.prettyAnd'></span>
-                    &#41;:
-                </td>
-                <td>&amp;</td>
-            </tr>
-            <tr>
-                <td>
-                    NOT &#40;
-                    <span ng-bind-html='symbols.prettyNot'></span>
-                    &#41;:
-                </td>
-                <td>&#33;</td>
-            </tr>
-            <tr>
-                <td>
-                    EVENTUALLY &#40;
-                    <span ng-bind-html='symbols.prettyEventually'></span>
-                    &#41;:
-                </td>
-                <td>&lt;&gt;</td>
-            </tr>
-            <tr>
-                <td>
-                    ALWAYS &#40;
-                    <span ng-bind-html='symbols.prettyAlways'></span>
-                    &#41;:
-                </td>
-                <td>&#91;&#93;</td>
-            </tr>
-            <tr>
-                <td>WEAK UNTIL &#40;W&#41;:</td>
-                <td>W</td>
-            </tr>
-            <tr>
-                <td>truth values:</td>
-                <td>0, 1</td>
-            </tr>
-            <tr>
-                <td>identifier:</td>
-                <td>a, b, abc, ...</td>
-            </tr>
-        </table>
+    <p>Below is the notation used to define logical and temporal operators:</p>
+    <table class="operatorsTable">
+        <tr>
+            <th>Operator</th>
+            <th>Symbol</th>
+        </tr>
+        <tr>
+            <td>
+                Material Implication &#40;
+                <span ng-bind-html='vm.symbols.prettyImplies'></span>
+                &#41;:
+            </td>
+            <td>&minus;&gt;</td>
+        </tr>
+        <tr>
+            <td>
+                logical OR &#40;
+                <span ng-bind-html='vm.symbols.prettyOr'></span>
+                &#41;:
+            </td>
+            <td>&#124;</td>
+        </tr>
+        <tr>
+            <td>
+                logical AND &#40;
+                <span ng-bind-html='vm.symbols.prettyAnd'></span>
+                &#41;:
+            </td>
+            <td>&amp;</td>
+        </tr>
+        <tr>
+            <td>
+                NOT &#40;
+                <span ng-bind-html='vm.symbols.prettyNot'></span>
+                &#41;:
+            </td>
+            <td>&#33;</td>
+        </tr>
+        <tr>
+            <td>
+                EVENTUALLY &#40;
+                <span ng-bind-html='vm.symbols.prettyEventually'></span>
+                &#41;:
+            </td>
+            <td>&lt;&gt;</td>
+        </tr>
+        <tr>
+            <td>
+                ALWAYS &#40;
+                <span ng-bind-html='vm.symbols.prettyAlways'></span>
+                &#41;:
+            </td>
+            <td>&#91;&#93;</td>
+        </tr>
+        <tr>
+            <td>WEAK UNTIL &#40;W&#41;:</td>
+            <td>W</td>
+        </tr>
+        <tr>
+            <td>truth values:</td>
+            <td>0, 1</td>
+        </tr>
+        <tr>
+            <td>identifier:</td>
+            <td>a, b, abc, ...</td>
+        </tr>
+    </table>
 
-        <h3>Operator precedence</h3>
+    <h3>Operator precedence</h3>
 
-        <p>Below is the order in which logical and temporal operators are evaluated
-            (but do put parentheses to make it clearer):</p>
+    <p>Below is the order in which logical and temporal operators are evaluated
+        (but do put parentheses to make it clearer):</p>
 
-        <ol>
-            <li>PARENTHESES &#40;&#41;</li>
-            <li>
-                NOT
-                <span ng-bind-html='symbols.prettyNot'></span>
-            </li>
-            <li>
-                EVENTUALLY
-                <span ng-bind-html='symbols.prettyEventually'></span>
-            </li>
-            <li>
-                ALWAYS
-                <span ng-bind-html='symbols.prettyAlways'></span>
-            </li>
-            <li>WEAK UNTIL W</li>
-            <li>
-                AND
-                <span ng-bind-html='symbols.prettyAnd'></span>
-            </li>
-            <li>
-                OR
-                <span ng-bind-html='symbols.prettyOr'></span>
-            </li>
-            <li>
-                IMPLIES
-                <span ng-bind-html='symbols.prettyImplies'></span>
-            </li>
-        </ol>
+    <ol>
+        <li>PARENTHESES &#40;&#41;</li>
+        <li>
+            NOT
+            <span ng-bind-html='vm.symbols.prettyNot'></span>
+        </li>
+        <li>
+            EVENTUALLY
+            <span ng-bind-html='vm.symbols.prettyEventually'></span>
+        </li>
+        <li>
+            ALWAYS
+            <span ng-bind-html='vm.symbols.prettyAlways'></span>
+        </li>
+        <li>WEAK UNTIL W</li>
+        <li>
+            AND
+            <span ng-bind-html='vm.symbols.prettyAnd'></span>
+        </li>
+        <li>
+            OR
+            <span ng-bind-html='vm.symbols.prettyOr'></span>
+        </li>
+        <li>
+            IMPLIES
+            <span ng-bind-html='vm.symbols.prettyImplies'></span>
+        </li>
+    </ol>
 
-        <h3>Temporal formulas management</h3>
-        <p>Temporal formulas refer to existing boolean signals such as a&#44; b&#44; etc.
-            For example&#44; the temporal formula f {{symbols.equal}} a W b refers to the
-            signals a and b. Thus, these two signals cannot be deleted as long as they are
-            referenced.</p>
-        <img src="images/caps/cap4.png" alt="Adding temporal formulas" class="img-thumbnail" />
+    <h3>Temporal formulas management</h3>
+    <p>Temporal formulas refer to existing boolean signals such as a&#44; b&#44; etc.
+        For example&#44; the temporal formula f {{vm.symbols.equal}} a W b refers to the
+        signals a and b. Thus, these two signals cannot be deleted as long as they are
+        referenced.</p>
+    <img src="images/caps/cap4.png" alt="Adding temporal formulas" class="img-thumbnail" />
 
-        <p>the relationship between temporal formulas and boolean signals is of type
-            many-to-many. That means, each boolean signal can be referenced by zero or many
-            temporal formulas, and a temporal formula can refer to one or many boolean
-            signals.</p>
+    <p>the relationship between temporal formulas and boolean signals is of type
+        many-to-many. That means, each boolean signal can be referenced by zero or many
+        temporal formulas, and a temporal formula can refer to one or many boolean
+        signals.</p>
 
-        <p>Temporal formulas can also be altered by clicking on them in the list below
-            the main text field.</p>
-        <img src="images/caps/cap5.png" alt="Updating temporal formulas"
-            class="img-thumbnail" />
+    <p>Temporal formulas can also be altered by clicking on them in the list below
+        the main text field.</p>
+    <img src="images/caps/cap5.png" alt="Updating temporal formulas"
+        class="img-thumbnail" />
 
-        <p>Temporal formulas can be removed by clicking on the blue cross in the list of
-            temporal formulas.</p>
-        <img src="images/caps/cap6.png" alt="Removing temporal formulas"
-            class="img-thumbnail" />
+    <p>Temporal formulas can be removed by clicking on the blue cross in the list of
+        temporal formulas.</p>
+    <img src="images/caps/cap6.png" alt="Removing temporal formulas"
+        class="img-thumbnail" />
 
-        <p>The red button above the temporal formulas text field can be used to clear the
-            list of formulas.</p>
-        <p>The blue button above the text field can be used to generate
-            a random signal or formula (maybe only useful for us during development...).</p>
+    <p>The red button above the temporal formulas text field can be used to clear the
+        list of formulas.</p>
+    <p>The blue button above the text field can be used to generate
+        a random signal or formula (maybe only useful for us during development...).</p>
 
-        <h2>Graphical presentation</h2>
+    <h2>Graphical presentation</h2>
 
-        <p>Both boolean signals and temporal formulas are presented by a boolean chart.
-            These graphical representations are updated each time a boolean signal changes
-            (added, updated or removed)</p>
-        <p>There is a small mark to highlight the start of the periodic part.</p>
-        <img src="images/caps/cap7-boolean-charts.png" alt="Graphical representation" class="img-thumbnail" />
+    <p>Both boolean signals and temporal formulas are presented by a boolean chart.
+        These graphical representations are updated each time a boolean signal changes
+        (added, updated or removed)</p>
+    <p>There is a small mark to highlight the start of the periodic part.</p>
+    <img src="images/caps/cap7-boolean-charts.png" alt="Graphical representation" class="img-thumbnail" />
 
-    </div>
 </div>

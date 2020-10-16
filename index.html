@@ -69,13 +69,13 @@
 
       <!-- Tab panes -->
       <div class="tab-content main-content">
-         <ng-include src="'js/app/components/home.component.html'" include-replace></ng-include>
+         <home role="tabpanel" class="tab-pane active" id="home"></home>
 
          <!-- How To Tab panel -->
-         <ng-include src="'js/app/components/howto.component.html'" include-replace></ng-include>
+         <howto role="tabpanel" class="tab-pane" id="howTo"></howto>
 
          <!-- About Tab panel -->
-         <ng-include src="'js/app/components/about.component.html'" include-replace></ng-include>
+         <about role="tabpanel" class="tab-pane" id="about"></about>
 
          <hr />
 
@@ -86,7 +86,6 @@
                   <p>Alambic &agrave; Formules Temporelles II - HEIA-FR 2016</p>
                </div>
             </div>
-
 
             <div class="scroll-top-wrapper ">
                <span>
@@ -112,9 +111,9 @@
    <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
 
    <!-- My JS scripts -->
-   <script type="text/javascript" src="js/app/controllers/mainController.js"></script>
-   <script type="text/javascript" src="js/app/controllers/howToController.js"></script>
-   <script type="text/javascript" src="js/app/controllers/aboutController.js"></script>
+   <script type="text/javascript" src="js/app/components/home.component.js"></script>
+   <script type="text/javascript" src="js/app/components/howto.component.js"></script>
+   <script type="text/javascript" src="js/app/components/about.component.js"></script>
    <script type="text/javascript" src="js/app/services/services.js"></script>
    <script type="text/javascript" src="js/app/directives/eventsDirectives.js"></script>
    <script type="text/javascript" src="js/app/directives/validationDirectives.js"></script>
