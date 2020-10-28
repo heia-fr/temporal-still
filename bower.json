@@ -10,7 +10,6 @@
     "nvd3": "latest",
     "angularjs-nvd3-directives": "latest",
     "random": "1.0.8",
-    "jasmine-core": "latest",
     "angular-local-storage": "latest",
     "angular-route": "1.8.0",
     "jquery": "2.2.4",
