@@ -1,0 +1,15 @@
+{
+	"name": "temporal-still",
+	"version": "2.0.0",
+	"description": "Tool to evaluate temporal formulas, using boolean signals.",
+	"repository": "https://gitlab.forge.hefr.ch/frederic.bapst/temporal-still",
+	"private": true,
+	"devDependencies": {
+		"bower": "latest",
+		"http-server": "latest"
+	},
+	"scripts": {
+		"postinstall": "bower install",
+		"start": "http-server . -a localhost -p 8000 -c-1"
+	}
+}
