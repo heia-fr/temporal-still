@@ -6,10 +6,16 @@
 	"private": true,
 	"devDependencies": {
 		"bower": "latest",
-		"http-server": "latest"
+		"http-server": "latest",
+		"jasmine-core": "latest",
+		"karma": "latest",
+		"karma-phantomjs-launcher": "latest",
+		"karma-jasmine": "latest"
 	},
 	"scripts": {
 		"postinstall": "bower install",
-		"start": "http-server . -a localhost -p 8000 -c-1"
+		"start": "http-server . -a localhost -p 8000 -c-1",
+		"test": "karma start karma.conf.js",
+		"test-single-run": "karma start karma.conf.js --single-run"
 	}
 }
