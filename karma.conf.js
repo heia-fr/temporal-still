@@ -6,16 +6,13 @@ module.exports = function(config) {
 			'bower_components/random/lib/random.min.js',
 			'bower_components/lodash/lodash.min.js',
 
-			// App files
-			'js/models/helpers/*.js',
-			'js/models/analysers/Lexer.js',
-			'js/models/operators/Operator.js',
-			'js/models/operators/TemporalOperator.js',
-			'js/models/**/*.js',
-
 			// Tests files
 			'test/**/*.js',
 		],
+		preprocessors: {
+			'js/**/*.js': ['webpack'],
+			'test/**/*.js': ['webpack'],
+		},
 		autoWatch: true,
 		frameworks: [
 			'jasmine',
@@ -26,6 +23,7 @@ module.exports = function(config) {
 		plugins: [
 			'karma-phantomjs-launcher',
 			'karma-jasmine',
+			'karma-webpack',
 		]
 	});
 };

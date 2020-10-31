@@ -27,6 +27,7 @@
 		"karma": "latest",
 		"karma-jasmine": "latest",
 		"karma-phantomjs-launcher": "latest",
+		"karma-webpack": "^3.0.0",
 		"node-sass": "^4.7.2",
 		"sass-loader": "^6.0.6",
 		"style-loader": "^0.19.1",

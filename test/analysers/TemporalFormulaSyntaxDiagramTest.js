@@ -1,3 +1,9 @@
+import Universe from '../../js/models/business/Universe';
+import BooleanSignal from '../../js/models/entities/BooleanSignal';
+import TemporalFormulaSyntaxDiagram from '../../js/models/analysers/TemporalFormulaSyntaxDiagram';
+import FormulaGenerator from '../../js/models/generators/FormulaGenerator';
+import Symbols from '../../js/models/helpers/Symbols';
+
 function generateCorrectFormulas(nbOfFormulas, universe) {
    var formulas = [];
    for (var i = 1; i <= nbOfFormulas; i++) {

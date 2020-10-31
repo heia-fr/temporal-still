@@ -1,3 +1,8 @@
+import Universe from '../../js/models/business/Universe';
+import BooleanSignal from '../../js/models/entities/BooleanSignal';
+import Operator from '../../js/models/operators/Operator';
+import Always from '../../js/models/operators/Always';
+
 describe('testing "Always" constructor', function() {
 
    var u = new Universe();
@@ -25,18 +30,18 @@ describe('testing "Always" constructor', function() {
       u.addSignal(new BooleanSignal("d = 1100/1"));
       Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
 
-      always = new Always(u.signalById("a"));
+      var always = new Always(u.signalById("a"));
       var r = always.performUnaryOperator();
       expect(r.getContent()).toEqual("a=00000/000000000000000");
 
       always = new Always(u.signalById("b"));
       r = always.performUnaryOperator();
       expect(r.getContent()).toEqual("b=00000/000000000000000");
-      
+
       always = new Always(u.signalById("c"));
       r = always.performUnaryOperator();
       expect(r.getContent()).toEqual("c=00000/000000000000000");
-      
+
       always = new Always(u.signalById("d"));
       r = always.performUnaryOperator();
       expect(r.getContent()).toEqual("d=00001/111111111111111");

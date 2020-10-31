@@ -1,3 +1,5 @@
+import Lexer from '../../js/models/analysers/Lexer';
+
 function TestData(nbTok, expr) {
    this.nbTokens = nbTok;
    this.expression = expr;
@@ -28,7 +30,7 @@ function testLexicalAnalyzer(expr) {
 function trimSpaces(s) {
    var res = "";
    var space = /\s/;
-   for (i = 0; i < s.length; i++) {
+   for (var i = 0; i < s.length; i++) {
       var c = s.charAt(i);
       if (!space.test(c)) res += c;
    }

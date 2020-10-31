@@ -1,3 +1,5 @@
+import Map from '../../js/models/business/Map';
+
 describe('testing Map constructor', function() {
 
    var m = new Map();

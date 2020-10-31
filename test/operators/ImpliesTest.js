@@ -1,3 +1,8 @@
+import Universe from '../../js/models/business/Universe';
+import BooleanSignal from '../../js/models/entities/BooleanSignal';
+import Operator from '../../js/models/operators/Operator';
+import Implies from '../../js/models/operators/Implies';
+
 describe('testing "Implies" constructor', function() {
 
    var u = new Universe();
@@ -24,7 +29,7 @@ describe('testing "Implies" constructor', function() {
       u.addSignal(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      implies = new Implies(u.signalById("a"), u.signalById("b"));
+      var implies = new Implies(u.signalById("a"), u.signalById("b"));
       var r = implies.performBinaryOperator();
 
       expect(r.getContent()).toEqual("ab=110/011");

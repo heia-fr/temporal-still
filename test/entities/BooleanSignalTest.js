@@ -1,3 +1,5 @@
+import BooleanSignal from '../../js/models/entities/BooleanSignal';
+
 describe('testing BooleanSignal constructor', function() {
 
    it('BooleanSignal constructor with uncorrect parameters should throw an exception', function() {
