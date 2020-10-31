@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Symbols from '../../models/helpers/Symbols';
 import FormulasManager from '../business/FormulasManager';
 

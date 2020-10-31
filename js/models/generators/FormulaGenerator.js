@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Universe from '../../models/business/Universe';
 import Symbols from '../../models/helpers/Symbols';
 import TemporalFormulaLexer from '../analysers/TemporalFormulaLexer';

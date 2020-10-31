@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Universe from '../business/Universe';
 import Symbols from '../helpers/Symbols';
 import Operator from '../operators/Operator';

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Universe from '../business/Universe';
 import Symbols from '../../models/helpers/Symbols';
 
