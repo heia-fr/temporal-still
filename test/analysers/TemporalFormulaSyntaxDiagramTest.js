@@ -1,4 +1,4 @@
-import Random from 'random-js';
+import { Random } from 'random-js';
 import Universe from '../../js/models/business/Universe';
 import BooleanSignal from '../../js/models/entities/BooleanSignal';
 import TemporalFormulaSyntaxDiagram from '../../js/models/analysers/TemporalFormulaSyntaxDiagram';

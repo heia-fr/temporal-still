@@ -1,3 +1,4 @@
+import PerfectScrollbar from 'perfect-scrollbar';
 import Symbols from '../../models/helpers/Symbols';
 import TemporalFormulaInterpreter from '../../models/analysers/TemporalFormulaInterpreter';
 import FormulaGenerator from '../../models/generators/FormulaGenerator';
@@ -29,6 +30,14 @@ import TemporalFormula from '../../models/entities/TemporalFormula';
 
                 vm.signals = signalsService; // hook data to the scope
 
+                vm.ps = {};
+                function initPerfectScrollbar(selector) {
+                    vm.ps[selector] = new PerfectScrollbar(selector, {
+                        wheelSpeed: 0.4,
+                        wheelPropagation: false,
+                    });
+                }
+
                 // configure bootstrap JavaScript components in the context of
                 // angularJS
                 $(function() {
@@ -36,9 +45,9 @@ import TemporalFormula from '../../models/entities/TemporalFormula';
                         'trigger': 'hover'
                     });
 
-                    $('#signalsList, #formulasList, .chart-grid').perfectScrollbar({
-                        wheelSpeed: 0.4
-                    });
+                    initPerfectScrollbar('#signalsList');
+                    initPerfectScrollbar('#formulasList');
+                    //initPerfectScrollbar('.chart-grid');
                 });
 
                 // variable
@@ -80,7 +89,9 @@ import TemporalFormula from '../../models/entities/TemporalFormula';
 
                 // update the scroll bar associated with provided element's selector
                 function updateScrollBar(selector) {
-                    $(selector).perfectScrollbar('update');
+                    var perfectScrollbar = vm.ps[selector];
+                    if (perfectScrollbar == null) return;
+                    perfectScrollbar.update();
                 }
 
                 // save the universe and formulas manager in the local storage

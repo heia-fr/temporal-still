@@ -1,20 +1,21 @@
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
-const extractSass = new ExtractTextPlugin({
-	filename: "bundle.css",
-	disable: process.env.NODE_ENV === "development"
-});
+const mode = process.env.NODE_ENV || "development";
+const isProduction = mode === "production";
 
-module.exports = {
+var webpackConfig = {
+	mode: mode,
 	entry: [
 		"./js/main.js",
 		"./css/main.scss",
 	],
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: "bundle.js",
+		filename: "[name].js",
+		chunkFilename: "[name].[id].js"
 	},
 	resolve: {
 		extensions: [
@@ -26,26 +27,54 @@ module.exports = {
 		]
 	},
 	module: {
-		loaders: [
-			{ test: /\.tsx?$/, loader: "ts-loader" },
+		rules: [
 			{
-				test: /\.scss$/,
-				use: extractSass.extract({
-					use: [{
-						loader: "css-loader"
-					}, {
-						loader: "sass-loader"
-					}],
-					fallback: "style-loader"
-				})
+				test: /\.m?js$/,
+				//exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [["@babel/preset-env", { targets: "defaults" }]]
+					}
+				},
+			},
+			{
+				test: /\.tsx?$/,
+				loader: "ts-loader"
+			},
+			{
+				test: /\.(css|sass|scss)$/,
+				use: [
+					//isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+					MiniCssExtractPlugin.loader,
+					{ loader: "css-loader", options: { sourceMap: true } },
+					{ loader: "sass-loader", options: { sourceMap: true } },
+				]
 			}
-		],
+		]
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery"
 		}),
-		extractSass,
-	]
+		new MiniCssExtractPlugin({
+			filename: "[name].css"
+		}),
+	],
+	optimization: {
+		minimize: false,
+	},
+	devtool: isProduction ? false: "source-map",
 };
+
+if (isProduction) {
+	// Override TerserPlugin config in production mode
+	webpackConfig.plugins.push(new TerserPlugin({
+		terserOptions: {
+			mangle: false,
+		},
+	}));
+}
+
+module.exports = webpackConfig;

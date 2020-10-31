@@ -1,3 +1,5 @@
+var webpackConfig = require("./webpack.config");
+
 module.exports = function(config) {
 	config.set({
 		basePath: '.',
@@ -19,6 +21,11 @@ module.exports = function(config) {
 			'karma-phantomjs-launcher',
 			'karma-jasmine',
 			'karma-webpack',
-		]
+		],
+		webpack: {
+			mode: 'production',
+			//devtool: 'inline-source-map',
+			module: webpackConfig.module
+		},
 	});
 };

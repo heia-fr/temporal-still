@@ -7,9 +7,7 @@ import './models/helpers/Symbols';
 import './models/helpers/Util';
 import './app/app';
 
-import mountJQuery from 'perfect-scrollbar/jquery';
-mountJQuery($);
-
+import 'perfect-scrollbar';
 import 'bootstrap';
 import 'angular-local-storage';
 import 'angular-route';

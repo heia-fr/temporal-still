@@ -1,4 +1,4 @@
-import Random from 'random-js';
+import { Random } from 'random-js';
 import BooleanSignalSyntaxDiagram from '../../js/models/analysers/BooleanSignalSyntaxDiagram';
 import BooleanSignalGenerator from '../../js/models/generators/BooleanSignalGenerator';
 import FormulasManager from '../../js/models/business/FormulasManager';
