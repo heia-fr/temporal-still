@@ -1,3 +1,7 @@
+import Universe from '../../models/business/Universe';
+import Symbols from '../../models/helpers/Symbols';
+import TemporalFormulaLexer from '../analysers/TemporalFormulaLexer';
+
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent
  * algorithm. The generator makes use of the universe to produce a formula that
@@ -149,3 +153,5 @@ var FormulaGenerator = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default FormulaGenerator;

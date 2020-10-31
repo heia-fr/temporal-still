@@ -134,3 +134,5 @@ var Symbols = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default Symbols;

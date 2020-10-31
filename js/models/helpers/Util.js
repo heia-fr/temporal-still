@@ -10,7 +10,7 @@ var Util = function() {
                 * This method calculates the greatest common divider of two
                 * positive integer values using The Euclidean Algorithm PRE: p
                 * and q must be positive integer values
-                * 
+                *
                 * @param number
                 *           p is the first positive integer value
                 * @param number
@@ -112,3 +112,5 @@ var Util = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default Util;

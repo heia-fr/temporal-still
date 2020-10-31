@@ -1,6 +1,8 @@
+import BooleanSignal from './BooleanSignal';
+
 /**
  * This class defines a TemporalFormula
- * 
+ *
  * @param id
  *           the identifier of the temporal formula
  * @param formulaString
@@ -26,7 +28,7 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
          throw new TypeError("TemporalFormula: Expected 'referredBS' to be 'Array' object");
 
       // the identifier of the temporal formula
-      this.id = id; 
+      this.id = id;
       // the string representation of the temporal formula
       this.content = formulaString;
       this.editable = false;
@@ -78,3 +80,5 @@ TemporalFormula.prototype = {
             return this.booleanSignal.getChartData();
          }
 };
+
+export default TemporalFormula;

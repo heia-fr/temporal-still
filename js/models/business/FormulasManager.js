@@ -1,7 +1,10 @@
+import Map from './Map';
+import TemporalFormula from '../entities/TemporalFormula';
+
 /**
  * This class represents a Formulas manager used to add, updated and remove
  * formulas.
- * 
+ *
  * @param other
  *           if it's provided, it must be a valid FormulasManager object.
  */
@@ -22,7 +25,7 @@ FormulasManager.prototype = {
          constructor: FormulasManager,
          /**
           * Returns all of the formulas
-          * 
+          *
           * @returns {Array}
           */
          getFormulas: function() {
@@ -30,7 +33,7 @@ FormulasManager.prototype = {
          },
          /**
           * Returns a temporal formula with an id matching the provided one
-          * 
+          *
           * @param id
           *           an ID of temporal formula to fetch
           * @returns {TemporalFormula}
@@ -41,7 +44,7 @@ FormulasManager.prototype = {
          /**
           * Checks whether a temporal formula with the provided ID exists in the
           * formulas manager
-          * 
+          *
           * @param id
           *           of the boolean signal to check
           * @returns {Boolean}
@@ -51,7 +54,7 @@ FormulasManager.prototype = {
          },
          /**
           * Adds a temporal formula to the formulas manager.
-          * 
+          *
           * @param formula
           *           is a TemporalFormula object to add to the formulas
           *           manager. if a object with the same ID exists, it gets
@@ -66,7 +69,7 @@ FormulasManager.prototype = {
          },
          /**
           * Updates an existing temporal formula.
-          * 
+          *
           * @param id
           *           is the id of the temporal formula to update
           * @param newFormula
@@ -82,7 +85,7 @@ FormulasManager.prototype = {
          },
          /**
           * Removes a temporal formula from the formulas manager.
-          * 
+          *
           * @param id
           *           is the ID of the temporal formula to remove
           */
@@ -91,7 +94,7 @@ FormulasManager.prototype = {
          },
          /**
           * Checks whether this formulas manager is empty
-          * 
+          *
           * @returns {Boolean}
           */
          isEmpty: function() {
@@ -104,3 +107,5 @@ FormulasManager.prototype = {
             this.dataStoreMap.clear();
          }
 };
+
+export default FormulasManager;

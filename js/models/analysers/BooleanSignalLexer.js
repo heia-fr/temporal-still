@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import Lexer from './Lexer';
+import inheritPrototype from '../helpers/Extend';
+
 /*******************************************************************************
  * Inheriting "Lexer" using Parasitic Combination Inheritance Pattern. Parasitic
  * combination inheritance is considered the most efficient way to implement
@@ -26,3 +30,5 @@ BooleanSignalLexer.prototype.isSlash = function() {
 BooleanSignalLexer.prototype.isSemiColon = function() {
    return this.getCurrentToken() === Symbols.getSemiColon();
 };
+
+export default BooleanSignalLexer;

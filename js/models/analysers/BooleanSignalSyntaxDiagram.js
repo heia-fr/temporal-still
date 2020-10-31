@@ -1,3 +1,5 @@
+import BooleanSignalLexer from './BooleanSignalLexer';
+
 /*******************************************************************************
  * Defining SyntaxDiagram for boolean signals using Combination
  * Constructor/Prototype Pattern
@@ -66,3 +68,5 @@ var BooleanSignalSyntaxDiagram = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default BooleanSignalSyntaxDiagram;

@@ -1,3 +1,6 @@
+import Universe from '../business/Universe';
+import Symbols from '../../models/helpers/Symbols';
+
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent
  * algorithm. The generator makes use of the universe to produce a formula that
@@ -103,3 +106,5 @@ var LTLFormulaGenerator = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default LTLFormulaGenerator;

@@ -1,3 +1,8 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import TemporalOperator from './TemporalOperator';
+import Always from './Always';
+
 /**
  * This class represents a 'WeakUntil' operator. it inherits from
  * TemporalOperator class and passes an eval() callback to be used it the
@@ -45,3 +50,5 @@ inheritPrototype(WeakUntil, TemporalOperator);
 WeakUntil.prototype.performUnaryOperator = function() {
    throw new Error("Not implemented method");
 };
+
+export default WeakUntil;

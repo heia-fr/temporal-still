@@ -1,3 +1,6 @@
+import BooleanSignal from '../entities/BooleanSignal';
+import TemporalFormula from '../entities/TemporalFormula';
+
 /**
  * This class represents a data structure using the concept of Map. The elements
  * stored are of nature (key, value). Multiple values are not allowed. PRE: This
@@ -35,7 +38,7 @@ Map.prototype = {
           * Associates the specified value with the specified key in this map.
           * If the map previously contained a mapping for the key, the old value
           * is replaced.
-          * 
+          *
           * @param key
           * @param value
           * @returns {Map}
@@ -47,7 +50,7 @@ Map.prototype = {
          /**
           * Removes an entry with the specified key from this map. Returns true
           * if the removal is successful
-          * 
+          *
           * @param key
           * @returns {Boolean}
           */
@@ -62,7 +65,7 @@ Map.prototype = {
          /**
           * Returns an array of objects. Each one contains two properties (key,
           * value) with there values
-          * 
+          *
           * @returns {Array}
           */
          entries: function() {
@@ -77,7 +80,7 @@ Map.prototype = {
          },
          /**
           * Checks whether this map is empty
-          * 
+          *
           * @returns {Boolean}
           */
          isEmpty: function() {
@@ -85,7 +88,7 @@ Map.prototype = {
          },
          /**
           * Returns the number of entries in this map
-          * 
+          *
           * @returns {Number}
           */
          size: function() {
@@ -93,7 +96,7 @@ Map.prototype = {
          },
          /**
           * Checks whether this Map contains an entry with the specified key
-          * 
+          *
           * @param key
           * @returns {Boolean}
           */
@@ -102,7 +105,7 @@ Map.prototype = {
          },
          /**
           * Returns an array containing the keys of this Map
-          * 
+          *
           * @returns {Array}
           */
          keys: function() {
@@ -110,7 +113,7 @@ Map.prototype = {
          },
          /**
           * Returns an array containing the values of this Map
-          * 
+          *
           * @returns {Array}
           */
          values: function() {
@@ -125,7 +128,7 @@ Map.prototype = {
           * index). A callback function must be provided by the user. The
           * returned value is this Map object to permit chained calls. This
           * method does nothing if 'callback' parameter is not a function
-          * 
+          *
           * @param callback(key,
           *           value, index) is a function to apply to each element of
           *           the Map
@@ -148,7 +151,7 @@ Map.prototype = {
          },
          /**
           * Indicates whether some other Map object is "equal to" this one.
-          * 
+          *
           * @param other
           * @returns {Boolean}
           */
@@ -159,3 +162,5 @@ Map.prototype = {
             return (JSON.stringify(this.data) === JSON.stringify(other.data));
          }
 };
+
+export default Map;

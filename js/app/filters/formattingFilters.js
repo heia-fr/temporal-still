@@ -1,3 +1,6 @@
+import Symbols from '../../models/helpers/Symbols';
+import TemporalFormulaLexer from '../../models/analysers/TemporalFormulaLexer';
+
 (function(angular, _) {
    "use strict";
 

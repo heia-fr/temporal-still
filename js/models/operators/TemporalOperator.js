@@ -1,10 +1,15 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import Operator from './Operator';
+import BooleanSignal from '../entities/BooleanSignal';
+
 /**
  * This class represents a base abstract class for all temporal operators used
  * in this application. It implements default behavior for both unary
  * (Eventually, Always) and binary (WeakUntil) temporal operators PRE:
  * operation() must be a valid callback function that handles the logic of one
  * of the temporal operators used in the application
- * 
+ *
  * @param function
  *           a function provided by derived temporal operators and used to
  *           evaluate the signal(s).
@@ -24,7 +29,7 @@ inheritPrototype(TemporalOperator, Operator);
 /**
  * Override the default behavior of the unary operators class in order to
  * implement the logic for both unary temporal operators
- * 
+ *
  * @returns {BooleanSignal}
  */
 TemporalOperator.prototype.performUnaryOperator = function() {
@@ -53,7 +58,7 @@ TemporalOperator.prototype.performUnaryOperator = function() {
    for (var i = 0; i < thisPeriod.length; ++i) {
       whole += this.eval(i, 0, thisPeriod, cutWrapper);
    }
-   
+
    // construct and return a fresh signal as a result of the operation
    whole = this.leftSignal.getId() + Symbols.getEqual() + whole;
    return new BooleanSignal(whole);
@@ -91,3 +96,5 @@ TemporalOperator.prototype.performBinaryOperator = function() {
    whole = this.leftSignal.getId() + this.rightSignal.getId() + Symbols.getEqual() + whole;
    return new BooleanSignal(whole);
 };
+
+export default TemporalOperator;

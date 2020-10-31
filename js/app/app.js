@@ -1,3 +1,5 @@
+import Util from '../models/helpers/Util';
+
 (function(angular) {
    "use strict";
 

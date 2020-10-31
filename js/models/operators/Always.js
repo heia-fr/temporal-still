@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import TemporalOperator from './TemporalOperator';
+
 /**
  * This class represents a 'Always' operator. it inherits from TemporalOperator
  * class and passes an eval() callback to be used it the evaluation of 'ALWAYS'
@@ -32,3 +36,5 @@ inheritPrototype(Always, TemporalOperator);
 Always.prototype.performBinaryOperator = function() {
    throw new Error("Always: Not implemented method");
 };
+
+export default Always;

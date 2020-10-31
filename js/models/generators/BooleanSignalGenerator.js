@@ -1,10 +1,13 @@
+import Symbols from '../../models/helpers/Symbols';
+import FormulasManager from '../business/FormulasManager';
+
 /**
  * Defining BooleanSignalGenerator using the concept of the recursive descent
  * algorithm. The generator makes use of the formulas manager to produce a signals
  * with IDs different from existing formulas
- * 
+ *
  * The maximum lengths of the signals are:
- * 
+ *
  * 1) maximum length of the signal's fixed part: 10
  * 2) maximum length of the signal's periodic part: 5
  * 3) maximum number of signals to generate: 5
@@ -64,7 +67,7 @@ var BooleanSignalGenerator = function() {
                throw new TypeError(
                         "BooleanSignalGenerator: Expecting 'fManager' to be a 'FormulasManager' object");
             formulasManager = fManager;
-            
+
             return generateSignals();
          }
       };
@@ -75,3 +78,5 @@ var BooleanSignalGenerator = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default BooleanSignalGenerator;

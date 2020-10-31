@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import Lexer from './Lexer';
+
 /*******************************************************************************
  * Inheriting "Lexer" using Parasitic Combination Inheritance Pattern. Parasitic
  * combination inheritance is considered the most efficient way to implement
@@ -46,3 +50,5 @@ TemporalFormulaLexer.prototype.isGreaterThanSign = function() {
 TemporalFormulaLexer.prototype.isWeaklyUntil = function() {
    return this.getCurrentToken() === Symbols.getWeakUntil();
 };
+
+export default TemporalFormulaLexer;

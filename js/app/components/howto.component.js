@@ -1,3 +1,5 @@
+import Symbols from '../../models/helpers/Symbols';
+
 (function(angular, _) {
     "use strict";
 

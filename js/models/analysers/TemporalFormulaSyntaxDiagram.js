@@ -1,3 +1,6 @@
+import Symbols from '../../models/helpers/Symbols';
+import TemporalFormulaLexer from './TemporalFormulaLexer';
+
 /*******************************************************************************
  * Defining SyntaxDiagram for boolean signals using Combination
  * Constructor/Prototype Pattern
@@ -34,7 +37,7 @@ var TemporalFormulaSyntaxDiagram = function() {
             parseComponent();
          }
       }
-      
+
       function parseComponent() {
          parseTerm();
 
@@ -124,3 +127,5 @@ var TemporalFormulaSyntaxDiagram = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default TemporalFormulaSyntaxDiagram;

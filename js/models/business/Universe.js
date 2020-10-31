@@ -1,8 +1,12 @@
+import Util from '../helpers/Util';
+import Map from './Map';
+import BooleanSignal from '../entities/BooleanSignal';
+
 /**
  * This class defines the universe regrouping all of the boolean signals
  * manipulated in the application. The universe updates itself every time a
  * boolean signal changes (added, updated or removed).
- * 
+ *
  * @param other
  *           is a another object to copy from. if it's provided, it must be a
  *           valid Universe object.
@@ -26,7 +30,7 @@ Universe.prototype = {
          constructor: Universe,
          /**
           * The length of the universe (fixed length and periodic length)
-          * 
+          *
           * @returns {Array}
           */
          getLength: function() {
@@ -34,7 +38,7 @@ Universe.prototype = {
          },
          /**
           * Returns an array of all the boolean signals' IDs
-          * 
+          *
           * @returns {Array}
           */
          getSignalsIds: function() {
@@ -42,7 +46,7 @@ Universe.prototype = {
          },
          /**
           * Returns an array of all the boolean signals objects
-          * 
+          *
           * @returns {Array}
           */
          getSignals: function() {
@@ -50,7 +54,7 @@ Universe.prototype = {
          },
          /**
           * Returns a boolean signal with an id matching the provided one
-          * 
+          *
           * @param id an ID of boolean signal to fetch
           * @returns {BooleanSignal}
           */
@@ -58,9 +62,9 @@ Universe.prototype = {
             return this.dataStoreMap.get(id);
          },
          /**
-          * Checks whether a boolean signal with the provided ID 
+          * Checks whether a boolean signal with the provided ID
           * exists in the universe
-          * 
+          *
           * @param id of the boolean signal to check
           * @returns {Boolean}
           */
@@ -69,7 +73,7 @@ Universe.prototype = {
          },
          /**
           * Checks whether this universe is empty
-          * 
+          *
           * @returns {Boolean}
           */
          isEmpty: function() {
@@ -78,10 +82,10 @@ Universe.prototype = {
          /**
           * Adds a boolean signal to the universe. The length of this later
           * is updated accordingly
-          * 
+          *
           * @param signal is a BooleanSignal object to add to the universe.
           *        if a object with the same ID exists, it gets overridden
-          *        by the new one. 
+          *        by the new one.
           */
          addSignal: function(signal) {
             if (!(signal instanceof BooleanSignal))
@@ -94,10 +98,10 @@ Universe.prototype = {
          /**
           * Updates an existing boolean signal. The length of this later
           * is updated accordingly
-          * 
+          *
           * @param id is the id of the boolean signal to update
-          * @param newSignal is a BooleanSignal object that overrides the old 
-          *        signal. 
+          * @param newSignal is a BooleanSignal object that overrides the old
+          *        signal.
           */
          updateSignal: function(id, newSignal) {
             if (!(newSignal instanceof BooleanSignal))
@@ -109,7 +113,7 @@ Universe.prototype = {
          /**
           * Removes a boolean signal from the universe. The length of this later
           * is updated accordingly
-          * 
+          *
           * @param id is the ID of the boolean signal to remove
           */
          removeSignal: function(id) {
@@ -123,7 +127,7 @@ Universe.prototype = {
             }
          },
          /**
-          * 
+          *
           * @param s is the boolean signal used to recalculate
           * the lengths of the universe
           */
@@ -138,8 +142,8 @@ Universe.prototype = {
                      * (this.length[1] / Util.gcd(s.getPeriodicPartLength(), this.length[1]));
          },
          /**
-          * Clears all of the referring temporal formulas arrays 
-          * 
+          * Clears all of the referring temporal formulas arrays
+          *
           */
          clearReferences: function() {
             this.dataStoreMap.each(function(key, s, i) {
@@ -154,3 +158,5 @@ Universe.prototype = {
             this.length = [0, 1];
          }
 };
+
+export default Universe;

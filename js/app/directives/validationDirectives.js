@@ -1,3 +1,8 @@
+import Symbols from '../../models/helpers/Symbols';
+import BooleanSignalSyntaxDiagram from '../../models/analysers/BooleanSignalSyntaxDiagram';
+import TemporalFormulaSyntaxDiagram from '../../models/analysers/TemporalFormulaSyntaxDiagram';
+import TemporalFormulaLexer from '../../models/analysers/TemporalFormulaLexer';
+
 (function(angular, _) {
    "use strict";
 

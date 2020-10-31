@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import TemporalOperator from './TemporalOperator';
+
 /**
  * This class represents a 'Eventually' operator. it inherits from
  * TemporalOperator class and passes an eval() callback to be used it the
@@ -33,3 +37,5 @@ inheritPrototype(Eventually, TemporalOperator);
 Eventually.prototype.performBinaryOperator = function() {
    throw new Error("Eventually: Not implemented method");
 };
+
+export default Eventually;

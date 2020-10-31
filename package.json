@@ -4,18 +4,36 @@
 	"description": "Tool to evaluate temporal formulas, using boolean signals.",
 	"repository": "https://gitlab.forge.hefr.ch/frederic.bapst/temporal-still",
 	"private": true,
+	"dependencies": {
+		"angular": "1.8.0",
+		"bootstrap": "3.4.1",
+		"lodash": "3.10.1",
+		"d3": "3.5.17",
+		"nvd3": "1.1.15",
+		"angularjs-nvd3-directives": "angularjs-nvd3-directives/angularjs-nvd3-directives#v0.0.7",
+		"random-js": "1.0.8",
+		"angular-local-storage": "0.7.1",
+		"angular-route": "1.8.0",
+		"jquery": "2.2.4",
+		"perfect-scrollbar": "0.6.14",
+		"@fortawesome/fontawesome-free": "5.15.0"
+	},
 	"devDependencies": {
 		"bower": "latest",
 		"http-server": "latest",
 		"jasmine-core": "latest",
 		"karma": "latest",
+		"karma-jasmine": "latest",
 		"karma-phantomjs-launcher": "latest",
-		"karma-jasmine": "latest"
+		"ts-loader": "^3.5",
+		"typescript": "^4.0.5",
+		"webpack": "^3.10.0"
 	},
 	"scripts": {
 		"postinstall": "bower install",
 		"start": "http-server . -a localhost -p 8000 -c-1",
 		"test": "karma start karma.conf.js",
-		"test-single-run": "karma start karma.conf.js --single-run"
+		"test-single-run": "karma start karma.conf.js --single-run",
+		"build": "webpack --bail --progress --profile"
 	}
 }

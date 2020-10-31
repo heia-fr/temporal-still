@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import Operator from './Operator';
+
 /**
  * This class represents a 'Not' operator. it inherits from Operator class and
  * passes an eval() callback to be used it the evaluation of 'NOT' operation.
@@ -13,7 +17,7 @@ function Not(lSignal) {
          return Symbols.getOne();
       } else if (bit1 === Symbols.getOne()) {
          return Symbols.getZero();
-      } 
+      }
       throw new Error("Not: bit1 must be 0 or 1");
    }, lSignal);
 }
@@ -24,3 +28,5 @@ inheritPrototype(Not, Operator);
 Not.prototype.performBinaryOperator = function() {
    throw new Error("Not implemented method");
 };
+
+export default Not;

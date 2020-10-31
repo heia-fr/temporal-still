@@ -1,3 +1,7 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import Operator from './Operator';
+
 /**
  * This class represents a 'And' operator. it inherits from Operator class and
  * passes an eval() callback to be used it the evaluation of 'AND' operation.
@@ -29,3 +33,5 @@ inheritPrototype(And, Operator);
 And.prototype.performUnaryOperator = function() {
    throw new Error("Not implemented method");
 };
+
+export default And;

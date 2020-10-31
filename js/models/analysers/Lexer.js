@@ -1,3 +1,5 @@
+import Symbols from '../../models/helpers/Symbols';
+
 /*******************************************************************************
  * Defining a base class "Lexer" using Combination Constructor/Prototype
  * Pattern. This is the most common way of defining custom types in JavaScript.
@@ -19,7 +21,7 @@ Lexer.prototype = {
          constructor: Lexer,
          /**
           * Returns the current token
-          * 
+          *
           * @returns {string}
           */
          getCurrentToken: function() {
@@ -27,7 +29,7 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the string has no more characters left to parse
-          * 
+          *
           * @returns {Boolean}
           */
          hasNoMoreChars: function() {
@@ -68,7 +70,7 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the current token is an variable name
-          * 
+          *
           * @returns {Boolean}
           */
          isVarName: function() {
@@ -76,7 +78,7 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the current token is an equal sign
-          * 
+          *
           * @returns {Boolean}
           */
          isEqualSign: function() {
@@ -84,7 +86,7 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the current token is an opening bracket
-          * 
+          *
           * @returns {Boolean}
           */
          isOpeningBracket: function() {
@@ -92,7 +94,7 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the current token is an closing bracket
-          * 
+          *
           * @returns {Boolean}
           */
          isClosingBracket: function() {
@@ -100,10 +102,12 @@ Lexer.prototype = {
          },
          /**
           * Checks whether the current token is an empty string
-          * 
+          *
           * @returns {Boolean}
           */
          isEmptyToken: function() {
             return this.currentToken === Symbols.getEmpty();
          }
 };
+
+export default Lexer;

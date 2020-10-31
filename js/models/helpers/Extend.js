@@ -1,6 +1,6 @@
 /**
  * This function makes a copy of the provided object
- * 
+ *
  * @param obj
  *           is the object to clone
  * @returns {Clone} a copy of the provided object
@@ -14,7 +14,7 @@ function createObject(obj) {
 
 /**
  * This function performs the inheritance of prototype process
- * 
+ *
  * @param subType
  *           an object of the subclass
  * @param superType
@@ -25,3 +25,5 @@ function inheritPrototype(subType, superType) {
    clonedPrototype.constructor = subType;
    subType.prototype = clonedPrototype;
 }
+
+export default inheritPrototype;

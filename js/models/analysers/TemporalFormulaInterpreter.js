@@ -1,3 +1,17 @@
+import Universe from '../business/Universe';
+import Symbols from '../helpers/Symbols';
+import Operator from '../operators/Operator';
+import TemporalFormulaLexer from '../analysers/TemporalFormulaLexer';
+import TemporalFormula from '../entities/TemporalFormula';
+
+import Always from '../operators/Always';
+import And from '../operators/And';
+import Eventually from '../operators/Eventually';
+import Implies from '../operators/Implies';
+import Not from '../operators/Not';
+import Or from '../operators/Or';
+import WeakUntil from '../operators/WeakUntil';
+
 /**
  * This class defines an interpreter of formulas. It uses the recursive descent
  * to evaluate each part of the formula. The universe is used to fetch the
@@ -38,7 +52,7 @@ var TemporalFormulaInterpreter = function() {
 
          return bs;
       }
-      
+
       function parseComponent() {
          var bs = parseTerm();
 
@@ -139,7 +153,7 @@ var TemporalFormulaInterpreter = function() {
       return {
          /**
           * Evaluates the formula represented by the provided string.
-          * 
+          *
           * @param expression
           *           is a string that represents the formula to evaluate
           * @param univ
@@ -166,7 +180,7 @@ var TemporalFormulaInterpreter = function() {
                ids = [];
                return tf;
             } catch (ex) {
-               console.log(ex.message);
+               console.error(ex);
                return null;
             }
          }
@@ -178,3 +192,5 @@ var TemporalFormulaInterpreter = function() {
 
    return Singleton.prototype.instance;
 }();
+
+export default TemporalFormulaInterpreter;

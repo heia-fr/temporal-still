@@ -1,3 +1,6 @@
+import Symbols from '../../models/helpers/Symbols';
+import inheritPrototype from '../helpers/Extend';
+import Operator from './Operator';
 /**
  * This class represents a 'Material implication' operator. it inherits from Operator class and
  * passes an eval() callback to be used it the evaluation of 'Implies' operation.
@@ -31,3 +34,5 @@ inheritPrototype(Implies, Operator);
 Implies.prototype.performUnaryOperator = function() {
    throw new Error("Not implemented method");
 };
+
+export default Implies;

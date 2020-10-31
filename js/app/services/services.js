@@ -1,3 +1,9 @@
+import Universe from '../../models/business/Universe';
+import FormulasManager from '../../models/business/FormulasManager';
+import BooleanSignal from '../../models/entities/BooleanSignal';
+import TemporalFormula from '../../models/entities/TemporalFormula';
+import TemporalFormulaInterpreter from '../../models/analysers/TemporalFormulaInterpreter';
+
 (function(angular, _) {
    "use strict";
 
@@ -18,7 +24,7 @@
 
                signals.bs.universe = null;
                signals.tf.formulasManager = null;
-               
+
                signals.universeKey = 'universe';
                signals.formulasManagerKey = 'formulasManager';
 

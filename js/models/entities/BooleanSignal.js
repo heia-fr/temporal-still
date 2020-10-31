@@ -1,3 +1,6 @@
+import Symbols from '../../models/helpers/Symbols';
+import Util from '../helpers/Util';
+
 /**
  * This class represents a Boolean Signal. The user must provide a string with a
  * specific format. e.g. b = 1010/01 where: 1) 'b' is the boolean signal's
@@ -7,7 +10,7 @@
  * its attributes. PRE: if provided, expressionString must be a valid
  * BooleanSignal string representation e.g. a = 100101/11 PRE: if provided,
  * other must be a valid BooleanSignal object
- * 
+ *
  * @param string
  *           expressionString a string representation of a BooleanSignal
  * @param BooleanSignal
@@ -111,7 +114,7 @@ BooleanSignal.prototype = {
           * this method calculates the new fixed part using the already
           * specified extension length. It must be called after
           * setFixedPartNewLength() method.
-          * 
+          *
           * @return the new fixed part with the extension added
           */
          calculateUpdatedFixedPart: function(fixedPartNewLength) {
@@ -129,7 +132,7 @@ BooleanSignal.prototype = {
           * this method calculates the new periodic part using the already
           * specified extension length. It must be called after
           * setPeriodicPartNewLength() method.
-          * 
+          *
           * @return the new periodic part with the extension added
           */
          calculateUpdatedPeriodicPart: function(periodicPartNewLength) {
@@ -216,11 +219,8 @@ BooleanSignal.prototype = {
           * @return An array containing data ready to be displayed
           */
          getChartData: function() {
-//        	console.log(this.signalChartData[0].key);
-//         	this.signalChartData[0].values.forEach(function(elt, i) {
-//         		console.log(elt);
-//         	});
-//        	console.log(this.signalChartData);
             return this.signalChartData;
          }
 };
+
+export default BooleanSignal;

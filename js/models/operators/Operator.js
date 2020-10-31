@@ -1,10 +1,13 @@
+import Symbols from '../../models/helpers/Symbols';
+import BooleanSignal from '../entities/BooleanSignal';
+
 /**
  * This class represents a base abstract class for all logical operators used in
  * this application. It implements default behavior for both unary (Not,
  * Eventually, Always) and binary (And, Or, WeakUntil) operators PRE:
  * operation() must be a valid callback function that handles the logic of one
  * of the logical operators used in the application
- * 
+ *
  * @param function
  *           a function provided by derived Operators and used to evaluate the
  *           signal(s).
@@ -100,3 +103,5 @@ Operator.prototype = {
             return new BooleanSignal(whole);
          }
 };
+
+export default Operator;
