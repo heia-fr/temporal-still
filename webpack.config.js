@@ -1,9 +1,20 @@
-var webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+	filename: "bundle.css",
+	disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
-	entry: "./js/main.js",
+	entry: [
+		"./js/main.js",
+		"./css/main.scss",
+	],
 	output: {
-		filename: "./dist/bundle.js"
+		path: path.resolve(__dirname, "dist"),
+		filename: "bundle.js",
 	},
 	resolve: {
 		extensions: [
@@ -16,13 +27,25 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.tsx?$/, loader: "ts-loader" }
-		]
+			{ test: /\.tsx?$/, loader: "ts-loader" },
+			{
+				test: /\.scss$/,
+				use: extractSass.extract({
+					use: [{
+						loader: "css-loader"
+					}, {
+						loader: "sass-loader"
+					}],
+					fallback: "style-loader"
+				})
+			}
+		],
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery"
-		})
+		}),
+		extractSass,
 	]
 };

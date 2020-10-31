@@ -1,5 +1,3 @@
-@CHARSET "UTF-8";
-
 .centered-img .circle, .centered-img .squircle {
 	border-top: 0.1em solid rgba(255, 255, 255, 0.4);
 	height: 12.5em;
@@ -214,7 +212,7 @@
 	animation: spin 20s linear infinite;
 }
 
-@keyframes spin { 
+@keyframes spin {
 0% {
 	-webkit-transform: rotateZ(0);
 	-moz-transform: rotateZ(0);
