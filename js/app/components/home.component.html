@@ -193,7 +193,7 @@
                     <nvd3-line-chart data="formula.getChartData()" showXAxis="true"
                         showYAxis="true" useinteractiveguideline="false" interactive="false"
                         clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-                        forcey="[0,1]" height="70"
+                        forcey="[0,1]" height="70" callback="vm.prepareChart()"
                         margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
                 </div>
                 <div
@@ -201,7 +201,7 @@
                     <nvd3-line-chart data="signal.getChartData()" showXAxis="true"
                         showYAxis="true" useinteractiveguideline="false" interactive="false"
                         clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-                        forcey="[0,1]" height="70"
+                        forcey="[0,1]" height="70" callback="vm.prepareChart()"
                         margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
                 </div>
             </div>

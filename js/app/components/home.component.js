@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import d3 from 'd3';
+
 import PerfectScrollbar from 'perfect-scrollbar';
 import Symbols from '../../models/helpers/Symbols';
 import TemporalFormulaInterpreter from '../../models/analysers/TemporalFormulaInterpreter';
@@ -27,6 +30,76 @@ import TemporalFormula from '../../models/entities/TemporalFormula';
             'signalsService',
             function HomeController($scope, $window, signalsService) {
                 var vm = this;
+
+                function nvd3WrapUpdate(chart, updateCallback) {
+                    var oldUpdate = chart.update;
+                    function Wrapper() {
+                        var args = Array(arguments);
+                        var update = oldUpdate.bind(this, args);
+                        args.unshift(update);
+                        args = [update].concat(args);
+                        updateCallback.apply(this, args);
+                        chart.update = Wrapper;
+                    }
+                    chart.update = Wrapper;
+                }
+
+                vm.prepareChart = function() {
+                    return function(chart) {
+                        var xMax = chart.xScale().domain().slice(-1)[0];
+                        chart.xAxis
+                            .ticks(null)
+                            .tickValues(d3.range(xMax + 1))
+                            .tickFormat(d3.format(",.0f"));
+
+                        chart.yAxis
+                            .ticks(null)
+                            .tickValues(d3.range(2))
+                            .tickFormat(d3.format(",.0f"));
+
+                        nvd3WrapUpdate(chart, function(update) {
+                            update();
+
+                            var fmt = this.xAxis.tickFormat();
+                            var scale = this.xAxis.scale();
+                            var container = d3.select(this.container).select('g.nv-x');
+                            var wrap = container.selectAll('g.nv-wrap.nv-axis');
+                            var g = wrap.select('g');
+                            var xTicks = g.selectAll('g').select("text");
+                            var axisMaxMin = wrap.selectAll('g.nv-axisMaxMin');
+
+                            var lastIdx = 0;
+                            xTicks.attr('transform', function(d,i) {
+                                lastIdx = i;
+                                if(i == 0) i = 1;
+                                return 'translate(' + -scale(d) / (2 * i) + ', 0)';
+                            }).text(function(d,i) {
+                                var v = fmt(d);
+                                return ('' + v).match('NaN') ? '' : (v - 1);
+                            });
+                            lastIdx++;
+
+                            axisMaxMin.select('text')
+                                .attr('transform', function(d,i) {
+                                    return 'translate(' + -scale(d) / (2 * lastIdx) + ', 0)';
+                                })
+                                .text(function(d,i) {
+                                    var v = fmt(d);
+                                    return (('' + v).match('NaN') || (v <= 0)) ? '' : (v - 1);
+                                });
+                        });
+
+                        chart.xAxis.ticks(d3.time.second, 1);
+
+                        chart.update();
+
+                        setTimeout(function() {
+                            chart.xAxis.axis.ticks(d3.time.second, 1);
+
+                            chart.update();
+                        }, 500);
+                    };
+                };
 
                 vm.signals = signalsService; // hook data to the scope
 
