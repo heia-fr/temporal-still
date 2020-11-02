@@ -148,14 +148,14 @@ describe('testing BooleanSignal constructor', function() {
       bs.calculateChartValues([6, 2]);
       var data = bs.getChartData();
       var expectedValues = [[0, 1], [1, 1], [1, 0], [2, 0], [2, 1], [3, 1], [3, 1], [4, 1], [4, 0],
-               [5, 0], [5, 1], [6, 1], [6, 1], [7, 1], [7, 0], [8, 0]];
+               [5, 0], [5, 1], [6, 1], [5.9, 0.5], [6.1, 0.5], [6, 1], [6, 1], [7, 1], [7, 0], [8, 0]];
 
       expect(data instanceof Array).toBe(true);
       expect(data.length).toEqual(1);
       expect(data[0] instanceof Object).toBe(true);
       expect(data[0].key).toEqual("Signal " + bs.getId());
       expect(data[0].values instanceof Array).toBe(true);
-      expect(data[0].values.length).toEqual(16);
+      expect(data[0].values.length).toEqual(expectedValues.length);
       expect(data[0].values).toEqual(expectedValues);
    });
 });

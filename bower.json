@@ -3,17 +3,17 @@
   "description": "Verification and validation of temporal formulas based on boolean signals",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "latest",
-    "bootstrap": "latest",
-    "lodash": "latest",
-    "d3": "latest",
+    "angular": "1.8.0",
+    "bootstrap": "3.4.1",
+    "lodash": "3.10.1",
+    "d3": "3.5.17",
     "nvd3": "latest",
-    "angularjs-nvd3-directives": "latest"
-    "random": "latest",
+    "angularjs-nvd3-directives": "latest",
+    "random": "1.0.8",
     "jasmine-core": "latest",
     "angular-local-storage": "latest",
-    "angular-route": "latest",
-    "jquery": "latest",
+    "angular-route": "1.8.0",
+    "jquery": "2.2.4",
     "perfect-scrollbar": "latest",
     "font-awesome": "latest"
   },
@@ -24,5 +24,9 @@
     "test",
     "tests"
   ],
-  "private": true
+  "private": true,
+  "resolutions": {
+    "angular": "1.8.0",
+    "d3": "3.5.17"
+  }
 }
