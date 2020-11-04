@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { AboutComponent } from './about/about.component';
+import { HowToComponent } from './howto/howto.component';
+
 import { SignalFormatterPipe } from './pipes/signal-formatter.pipe';
 import { FormulaFormatterPipe } from './pipes/formula-formatter.pipe';
 
@@ -19,6 +22,10 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 
 @NgModule({
 	declarations: [
+		// Components
+		AppComponent,
+		AboutComponent,
+		HowToComponent,
 		// Pipes
 		SignalFormatterPipe,
 		FormulaFormatterPipe,
