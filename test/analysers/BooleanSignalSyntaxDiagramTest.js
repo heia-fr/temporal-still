@@ -1,8 +1,8 @@
 import { Random } from 'random-js';
-import BooleanSignalSyntaxDiagram from '../../js/models/analysers/BooleanSignalSyntaxDiagram';
-import BooleanSignalGenerator from '../../js/models/generators/BooleanSignalGenerator';
-import FormulasManager from '../../js/models/business/FormulasManager';
-import Symbols from '../../js/models/helpers/Symbols';
+import BooleanSignalSyntaxDiagram from '../../src/engine/analysers/BooleanSignalSyntaxDiagram';
+import BooleanSignalGenerator from '../../src/engine/generators/BooleanSignalGenerator';
+import FormulasManager from '../../src/engine/business/FormulasManager';
+import Symbols from '../../src/engine/helpers/Symbols';
 
 function testCorrectSignals(nbrOfTests) {
    var result = true;

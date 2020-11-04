@@ -1,9 +1,9 @@
 import { Random } from 'random-js';
-import Universe from '../../js/models/business/Universe';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import TemporalFormulaSyntaxDiagram from '../../js/models/analysers/TemporalFormulaSyntaxDiagram';
-import FormulaGenerator from '../../js/models/generators/FormulaGenerator';
-import Symbols from '../../js/models/helpers/Symbols';
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import TemporalFormulaSyntaxDiagram from '../../src/engine/analysers/TemporalFormulaSyntaxDiagram';
+import FormulaGenerator from '../../src/engine/generators/FormulaGenerator';
+import Symbols from '../../src/engine/helpers/Symbols';
 
 function generateCorrectFormulas(nbOfFormulas, universe) {
    var formulas = [];

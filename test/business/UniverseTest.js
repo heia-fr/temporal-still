@@ -1,5 +1,5 @@
-import Universe from '../../js/models/business/Universe';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
 
 describe('testing Universe constructor', function() {
 

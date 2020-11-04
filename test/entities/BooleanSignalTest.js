@@ -1,4 +1,4 @@
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
 
 describe('testing BooleanSignal constructor', function() {
 

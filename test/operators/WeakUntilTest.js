@@ -1,7 +1,7 @@
-import Universe from '../../js/models/business/Universe';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import Operator from '../../js/models/operators/Operator';
-import WeakUntil from '../../js/models/operators/WeakUntil';
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import WeakUntil from '../../src/engine/operators/WeakUntil';
 
 describe('testing "WeakUntil" constructor', function() {
 

@@ -1,5 +1,5 @@
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import TemporalFormula from '../../js/models/entities/TemporalFormula';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import TemporalFormula from '../../src/engine/entities/TemporalFormula';
 
 describe('testing TemporalFormula constructor', function() {
 

@@ -1,4 +1,4 @@
-import Lexer from '../../js/models/analysers/Lexer';
+import Lexer from '../../src/engine/analysers/Lexer';
 
 function TestData(nbTok, expr) {
    this.nbTokens = nbTok;

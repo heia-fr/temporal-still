@@ -1,7 +1,7 @@
-import Universe from '../../js/models/business/Universe';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import Operator from '../../js/models/operators/Operator';
-import Always from '../../js/models/operators/Always';
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Always from '../../src/engine/operators/Always';
 
 describe('testing "Always" constructor', function() {
 

@@ -1,7 +1,7 @@
-import Universe from '../../js/models/business/Universe';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import Operator from '../../js/models/operators/Operator';
-import Eventually from '../../js/models/operators/Eventually';
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Eventually from '../../src/engine/operators/Eventually';
 
 describe('testing "Eventually" constructor', function() {
 

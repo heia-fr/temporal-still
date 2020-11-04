@@ -1,6 +1,6 @@
-import FormulasManager from '../../js/models/business/FormulasManager';
-import BooleanSignal from '../../js/models/entities/BooleanSignal';
-import TemporalFormula from '../../js/models/entities/TemporalFormula';
+import FormulasManager from '../../src/engine/business/FormulasManager';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import TemporalFormula from '../../src/engine/entities/TemporalFormula';
 
 describe('testing FormulasManager constructor', function() {
 

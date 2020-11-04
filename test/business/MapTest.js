@@ -1,4 +1,4 @@
-import Map from '../../js/models/business/Map';
+import Map from '../../src/engine/business/Map';
 
 describe('testing Map constructor', function() {
 
