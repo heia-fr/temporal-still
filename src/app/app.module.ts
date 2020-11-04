@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 import { HowToComponent } from './howto/howto.component';
 
 import { SignalFormatterPipe } from './pipes/signal-formatter.pipe';
@@ -25,6 +26,7 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		// Components
 		AppComponent,
 		AboutComponent,
+		HomeComponent,
 		HowToComponent,
 		// Pipes
 		SignalFormatterPipe,
