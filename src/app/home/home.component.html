@@ -181,22 +181,10 @@
 		<div class="panel panel-default chart-grid">
 			<div class="panel-body">
 				<div *ngFor="let formula of signalsService.formulasManager.getFormulas(); trackBy: trackById;">
-					<!--
-					<nvd3-line-chart data="formula.getChartData()" showXAxis="true"
-						showYAxis="true" useinteractiveguideline="false" interactive="false"
-						clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-						forcey="[0,1]" height="70" callback="prepareChart()"
-						margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
-					-->
+					<nvd3 [options]="nvd3Options" [data]="formula.getChartData()"></nvd3>
 				</div>
 				<div *ngFor="let signal of signalsService.universe.getSignals(); trackBy: trackById;">
-					<!--
-					<nvd3-line-chart data="signal.getChartData()" showXAxis="true"
-						showYAxis="true" useinteractiveguideline="false" interactive="false"
-						clipEdge="false" showlegend="true" legendradiobuttonmode="false"
-						forcey="[0,1]" height="70" callback="prepareChart()"
-						margin="{left:15,top:20,bottom:20,right:10}"> </nvd3-line-chart>
-					-->
+					<nvd3 [options]="nvd3Options" [data]="signal.getChartData()"></nvd3>
 				</div>
 			</div>
 		</div>

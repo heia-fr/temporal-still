@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { NvD3Module } from 'ng2-nvd3';
+import 'd3';
+import 'nvd3';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -45,6 +49,7 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
+		NvD3Module,
 	],
 	providers: [],
 	bootstrap: [AppComponent]

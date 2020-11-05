@@ -1,6 +1,5 @@
 declare var $: any;
 
-import * as d3 from 'd3';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -63,9 +62,39 @@ export class HomeComponent implements OnInit {
 	public signalsString = "";
 	public formulaString = "";
 
+	public nvd3Options: any = {
+		chart: {
+			type: 'lineChart',
+			height: 70,
+			margin: {
+				left: 15,
+				top: 20,
+				bottom: 20,
+				right: 10,
+			},
+			forceY: [0, 1],
+			clipEdge: false,
+			showXAxis: true,
+			showYAxis: true,
+			useInteractiveGuideline: false,
+			interactive: false,
+			showLegend: true,
+			legend: {
+				radioButtonMode: false,
+			},
+			x: function(d: any) {
+				return d[0];
+			},
+			y: function(d: any) {
+				return d[1];
+			},
+		}
+	};
+
 	constructor(signalsService: SignalsService) {
 		this.signalsService = signalsService;
 		this.perfectScrollbars = {};
+		this.nvd3Options.chart.callback = this.prepareChart();
 	}
 
 	ngOnInit(): void {
@@ -102,8 +131,6 @@ export class HomeComponent implements OnInit {
 				formula.setEditorEnabled(false);
 			}
 		}
-
-		// TODO: $scope.$apply();
 	};
 
 	prepareChart() {
@@ -151,12 +178,12 @@ export class HomeComponent implements OnInit {
 					});
 			});
 
-			chart.xAxis.ticks(d3.timeSecond, 1);
+			chart.xAxis.ticks(d3.time.second, 1);
 
 			chart.update();
 
 			setTimeout(function () {
-				chart.xAxis.axis.ticks(d3.timeSecond, 1);
+				chart.xAxis.axis.ticks(d3.time.second, 1);
 
 				chart.update();
 			}, 500);
@@ -265,7 +292,8 @@ export class HomeComponent implements OnInit {
 			signalsArray.splice(signalsArray.length - 1, 1);
 		}
 
-		signalsArray.forEach(function (signalStr) {
+
+		for (let signalStr of signalsArray) {
 			var id = signalStr.split(Symbols.getEqual())[0].trim();
 			var bs = null;
 			// add the current signal to the universe
@@ -284,7 +312,7 @@ export class HomeComponent implements OnInit {
 			} else {
 				this.signalsService.universe.addSignal(newS);
 			}
-		});
+		}
 
 		this.signalsString = Symbols.getEmpty();
 		// update the graphical charts and save the universe's and
