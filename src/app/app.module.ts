@@ -6,6 +6,8 @@ import { NvD3Module } from 'ng2-nvd3';
 import 'd3';
 import 'nvd3';
 
+import { RENDERER_PROVIDERS } from './providers/dom-renderer.factory';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -51,7 +53,7 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		FormsModule,
 		NvD3Module,
 	],
-	providers: [],
+	providers: [RENDERER_PROVIDERS],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
