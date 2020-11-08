@@ -1,3 +1,8 @@
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Eventually from '../../src/engine/operators/Eventually';
+
 describe('testing "Eventually" constructor', function() {
 
    var u = new Universe();
@@ -24,14 +29,14 @@ describe('testing "Eventually" constructor', function() {
       u.addSignal(new BooleanSignal("c = 11001/01100"));
       Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
 
-      eventually = new Eventually(u.signalById("a"));
+      var eventually = new Eventually(u.signalById("a"));
       var r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("a=11111/111111111111111");
 
       eventually = new Eventually(u.signalById("b"));
       r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("b=11000/000000000000000");
-      
+
       eventually = new Eventually(u.signalById("c"));
       r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("c=11111/111111111111111");

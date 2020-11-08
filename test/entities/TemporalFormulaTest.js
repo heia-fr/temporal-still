@@ -1,3 +1,6 @@
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import TemporalFormula from '../../src/engine/entities/TemporalFormula';
+
 describe('testing TemporalFormula constructor', function() {
 
    it('TemporalFormula constructor with uncorrect parameters should throw an exception',

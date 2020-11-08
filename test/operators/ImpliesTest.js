@@ -1,3 +1,8 @@
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Implies from '../../src/engine/operators/Implies';
+
 describe('testing "Implies" constructor', function() {
 
    var u = new Universe();
@@ -24,7 +29,7 @@ describe('testing "Implies" constructor', function() {
       u.addSignal(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      implies = new Implies(u.signalById("a"), u.signalById("b"));
+      var implies = new Implies(u.signalById("a"), u.signalById("b"));
       var r = implies.performBinaryOperator();
 
       expect(r.getContent()).toEqual("ab=110/011");

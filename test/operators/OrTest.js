@@ -1,3 +1,8 @@
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Or from '../../src/engine/operators/Or';
+
 describe('testing "Or" constructor', function() {
 
    var u = new Universe();
@@ -24,7 +29,7 @@ describe('testing "Or" constructor', function() {
       u.addSignal(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      and = new Or(u.signalById("a"), u.signalById("b"));
+      var and = new Or(u.signalById("a"), u.signalById("b"));
       var r = and.performBinaryOperator();
 
       expect(r.getContent()).toEqual("ab=111/111");

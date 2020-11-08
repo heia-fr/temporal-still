@@ -1,3 +1,9 @@
+import { Random } from 'random-js';
+import BooleanSignalSyntaxDiagram from '../../src/engine/analysers/BooleanSignalSyntaxDiagram';
+import BooleanSignalGenerator from '../../src/engine/generators/BooleanSignalGenerator';
+import FormulasManager from '../../src/engine/business/FormulasManager';
+import Symbols from '../../src/engine/helpers/Symbols';
+
 function testCorrectSignals(nbrOfTests) {
    var result = true;
    var signals = Symbols.getEmpty();
@@ -37,7 +43,7 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
 
    it('Correct signals are expected to be accepted', function() {
       var result = true;
-      
+
       result = BooleanSignalSyntaxDiagram.isValid("a = 100101/010;b = 00101/01;") && result;
       result = testCorrectSignals(nbrOfTest) && result;
       expect(result).toBe(true);
@@ -46,7 +52,7 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
    it('Uncorrect signals are expected to be refused', function() {
       var r = new Random();
       var result = false;
-      
+
       result = BooleanSignalSyntaxDiagram.isValid("v") || result;
       result = BooleanSignalSyntaxDiagram.isValid("x=") || result;
       result = BooleanSignalSyntaxDiagram.isValid(">=/;") || result;

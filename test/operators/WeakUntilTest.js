@@ -1,3 +1,8 @@
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import WeakUntil from '../../src/engine/operators/WeakUntil';
+
 describe('testing "WeakUntil" constructor', function() {
 
    var u = new Universe();
@@ -26,7 +31,7 @@ describe('testing "WeakUntil" constructor', function() {
       u.addSignal(new BooleanSignal("d = 1100/1"));      // 11001/111111111111111
       Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
 
-      weakUntil = new WeakUntil(u.signalById("a"), u.signalById("b"));
+      var weakUntil = new WeakUntil(u.signalById("a"), u.signalById("b"));
       var r = weakUntil.performBinaryOperator();
       expect(r.getContent()).toEqual("ab=11000/000000000000000");
 

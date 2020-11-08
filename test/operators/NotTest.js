@@ -1,3 +1,8 @@
+import Universe from '../../src/engine/business/Universe';
+import BooleanSignal from '../../src/engine/entities/BooleanSignal';
+import Operator from '../../src/engine/operators/Operator';
+import Not from '../../src/engine/operators/Not';
+
 describe('testing "Not" constructor', function() {
 
    var u = new Universe();
@@ -22,7 +27,7 @@ describe('testing "Not" constructor', function() {
       u.addSignal(new BooleanSignal("a = 101/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      not = new Not(u.signalById("a"));
+      var not = new Not(u.signalById("a"));
       var r = not.performUnaryOperator();
 
       expect(r.getContent()).toEqual("a=010/100");

@@ -1,0 +1,210 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	padding: 4px 40px;
+	margin-bottom: 10px;
+	background-color: #292c2f;
+	height: 58px;
+	box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+header .header-limiter {
+	max-width: 1200px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+header .header-limiter h1 {
+	display: block;
+	float: left;
+	margin: 0;
+	font: normal 28px Arial, Helvetica, sans-serif;
+}
+
+header .header-limiter h1 a {
+	position: relative;
+	top: 5px;
+}
+
+header .header-limiter h1 span {
+	color: #5383D3;
+}
+
+header .header-limiter h1 span:hover {
+	color: #7799D1;
+}
+
+header .header-limiter a {
+	color: #DEDFE0;
+	text-decoration: none;
+}
+
+header .header-limiter a:hover {
+	color: #FFFFFF;
+}
+
+@media all and (max-width: 600px) {
+	header {
+		padding: 20px 0;
+		height: 75px;
+	}
+	header .header-limiter h1 {
+		float: none;
+		margin: -8px 0 10px;
+		text-align: center;
+		font-size: 24px;
+		line-height: 1;
+	}
+}
+
+.main-content {
+	min-height: 520px;
+}
+
+.top-buffer {
+	margin-top: 10px;
+}
+
+.chart-grid {
+	position: relative;
+	min-height: 470px;
+	max-height: 1024px;
+	overflow: scroll;
+}
+
+.y-scroll {
+	position: relative;
+	max-height: 190px;
+	margin-bottom: 3px;
+	overflow: auto;
+}
+
+/** ******** BEGIN: Change padding property to the lists (signals/formulas) ******* */
+ul li.custom-item {
+	padding: 2px 11px !important;
+}
+/** ******** END: Change padding property to the lists (signals/formulas) ******* */
+
+/** ******** BEGIN: Change height of tab items *********** */
+.nav>li>a {
+	position: relative;
+	display: block;
+	padding: 2px 10px !important;
+	/* You can change the first part of the padding (2px) */
+}
+/** ******** END: Change height of tab items *********** */
+.fix-panel {
+	margin-bottom: 10px;
+}
+
+.fix-outline {
+	outline: 0;
+}
+
+.round {
+	width: 48px;
+	height: 47px;
+	-webkit-border-radius: 24px;
+	-moz-border-radius: 24px;
+	-ms-border-radius: 24px;
+	-o-border-radius: 24px;
+	border-radius: 24px;
+}
+
+.toggle {
+	outline: none !important;
+}
+
+.left-btn-group {
+	width: 100%;
+	margin: 10px 0 10px 15px;
+}
+
+.right-toggle, .fixed-right-toggle {
+	float: right !important;
+	margin: 0 30px 0 0;
+}
+
+.fixed-right-toggle {
+	margin: 0 5px 0 0;
+}
+
+.panel-body {
+	padding-top: 0;
+	padding-bottom: 2px;
+}
+
+p.about-text {
+	margin-bottom: 520px;
+}
+
+.about-content table {
+	margin-left: 10px;
+}
+
+.about-content table tr td:nth-child(1) {
+	text-align: right;
+}
+
+.about-content table.operatorsTable tr td:nth-child(2) {
+	padding-left: 5px;
+	text-align: center;
+}
+
+
+/** -------------------------------- BEGIN: Go Back Button */
+.scroll-top-wrapper {
+	position: fixed;
+	right: 30px;
+	bottom: 30px;
+	opacity: 0;
+	visibility: hidden;
+	overflow: hidden;
+	text-align: center;
+	z-index: 99999999;
+	background-color: #777777;
+	color: #eeeeee;
+	width: 50px;
+	height: 48px;
+	line-height: 48px;
+	padding-top: 2px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
+.scroll-top-wrapper:hover {
+	background-color: #888888;
+}
+
+.scroll-top-wrapper.show {
+	visibility: visible;
+	cursor: pointer;
+	opacity: 1.0;
+}
+
+.scroll-top-wrapper i.fa {
+	line-height: inherit;
+}
+/** ---------------------------------------- END: Go Back button */
+footer {
+	height: 70px;
+}
+
+[hidden] {
+	display: none !important;
+}
