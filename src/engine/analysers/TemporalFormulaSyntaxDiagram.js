@@ -1,4 +1,4 @@
-import Symbols from '../helpers/Symbols';
+import { Symbols } from 'src/engine/helpers';
 import TemporalFormulaLexer from './TemporalFormulaLexer';
 
 /*******************************************************************************

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import Symbols from '../helpers/Symbols';
-import FormulasManager from '../business/FormulasManager';
+import { Symbols } from 'src/engine/helpers';
+import { FormulasManager } from 'src/engine/business';
 
 /**
  * Defining BooleanSignalGenerator using the concept of the recursive descent

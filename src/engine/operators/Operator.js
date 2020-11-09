@@ -1,5 +1,5 @@
-import Symbols from '../helpers/Symbols';
-import BooleanSignal from '../entities/BooleanSignal';
+import { Symbols } from 'src/engine/helpers';
+import { BooleanSignal } from 'src/engine/entities';
 
 /**
  * This class represents a base abstract class for all logical operators used in

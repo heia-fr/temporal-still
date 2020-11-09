@@ -1,5 +1,4 @@
-import Symbols from '../helpers/Symbols';
-import inheritPrototype from '../helpers/Extend';
+import { Symbols, inheritPrototype } from 'src/engine/helpers';
 import TemporalOperator from './TemporalOperator';
 import Always from './Always';
 

@@ -1,17 +1,12 @@
 import _ from 'lodash';
-import Universe from '../business/Universe';
-import Symbols from '../helpers/Symbols';
-import Operator from '../operators/Operator';
-import TemporalFormulaLexer from '../analysers/TemporalFormulaLexer';
-import TemporalFormula from '../entities/TemporalFormula';
+import { Universe } from 'src/engine/business';
+import { Symbols } from 'src/engine/helpers';
+import TemporalFormulaLexer from './TemporalFormulaLexer';
+import { TemporalFormula } from 'src/engine/entities';
 
-import Always from '../operators/Always';
-import And from '../operators/And';
-import Eventually from '../operators/Eventually';
-import Implies from '../operators/Implies';
-import Not from '../operators/Not';
-import Or from '../operators/Or';
-import WeakUntil from '../operators/WeakUntil';
+import {
+   Operator, Always, And, Eventually, Implies, Not, Or, WeakUntil
+} from 'src/engine/operators';
 
 /**
  * This class defines an interpreter of formulas. It uses the recursive descent

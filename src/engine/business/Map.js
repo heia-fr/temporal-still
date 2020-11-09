@@ -1,5 +1,7 @@
-import BooleanSignal from '../entities/BooleanSignal';
-import TemporalFormula from '../entities/TemporalFormula';
+import {
+   BooleanSignal,
+   TemporalFormula,
+} from 'src/engine/entities';
 
 /**
  * This class represents a data structure using the concept of Map. The elements

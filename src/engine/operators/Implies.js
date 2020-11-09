@@ -1,5 +1,4 @@
-import Symbols from '../helpers/Symbols';
-import inheritPrototype from '../helpers/Extend';
+import { Symbols, inheritPrototype } from 'src/engine/helpers';
 import Operator from './Operator';
 /**
  * This class represents a 'Material implication' operator. it inherits from Operator class and

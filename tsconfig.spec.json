@@ -7,11 +7,11 @@
 		]
 	},
 	"files": [
-		"test/index.ts",
+		"src/tests.ts",
 		"src/polyfills.ts"
 	],
 	"include": [
-		"test/**/*.ts",
+		"src/**/index.ts",
 		"src/**/*.spec.ts",
 		"src/**/*.d.ts"
 	]
