@@ -1,10 +1,9 @@
 
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import Symbols from '../../engine/helpers/Symbols';
-import Universe from '../../engine/business/Universe';
-import TemporalFormulaLexer from '../../engine/analysers/TemporalFormulaLexer';
-import TemporalFormulaSyntaxDiagram from '../../engine/analysers/TemporalFormulaSyntaxDiagram';
+import Symbols from 'src/engine/helpers/Symbols';
+import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
+import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
 import { SignalsService } from '../services/signals.service';
 
 /**

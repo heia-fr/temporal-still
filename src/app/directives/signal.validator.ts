@@ -1,8 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
-import Symbols from '../../engine/helpers/Symbols';
-import BooleanSignalSyntaxDiagram from '../../engine/analysers/BooleanSignalSyntaxDiagram';
+import Symbols from 'src/engine/helpers/Symbols';
+import BooleanSignalSyntaxDiagram from 'src/engine/analysers/BooleanSignalSyntaxDiagram';
 
 /**
  * A directive to validate the entered signals before processing them in the

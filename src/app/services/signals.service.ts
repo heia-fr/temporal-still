@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import Universe from '../../engine/business/Universe';
-import FormulasManager from '../../engine/business/FormulasManager';
-import BooleanSignal from '../../engine/entities/BooleanSignal';
-import TemporalFormula from '../../engine/entities/TemporalFormula';
-import TemporalFormulaInterpreter from '../../engine/analysers/TemporalFormulaInterpreter';
+import {
+	Universe,
+	FormulasManager,
+} from 'src/engine/business';
+import TemporalFormulaInterpreter from 'src/engine/analysers/TemporalFormulaInterpreter';
+import {
+	BooleanSignal,
+	TemporalFormula,
+} from 'src/engine/entities';
 
 @Injectable({
 	providedIn: 'root'

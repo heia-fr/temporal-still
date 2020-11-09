@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import Symbols from '../../engine/helpers/Symbols';
-import TemporalFormulaLexer from '../../engine/analysers/TemporalFormulaLexer';
+import Symbols from 'src/engine/helpers/Symbols';
+import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
 
 @Pipe({
 	name: 'formulaFormatter'

@@ -4,12 +4,16 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { SignalsService } from '../services/signals.service';
-import Symbols from '../../engine/helpers/Symbols';
-import TemporalFormulaInterpreter from '../../engine/analysers/TemporalFormulaInterpreter';
-import FormulaGenerator from '../../engine/generators/FormulaGenerator';
-import BooleanSignalGenerator from '../../engine/generators/BooleanSignalGenerator';
-import BooleanSignal from '../../engine/entities/BooleanSignal';
-import TemporalFormula from '../../engine/entities/TemporalFormula';
+import Symbols from 'src/engine/helpers/Symbols';
+import TemporalFormulaInterpreter from 'src/engine/analysers/TemporalFormulaInterpreter';
+import {
+	FormulaGenerator,
+	BooleanSignalGenerator,
+} from 'src/engine/generators';
+import {
+	BooleanSignal,
+	TemporalFormula,
+} from 'src/engine/entities';
 
 function nvd3WrapUpdate(chart: any, updateCallback: any) {
 	var oldUpdate = chart.update;
