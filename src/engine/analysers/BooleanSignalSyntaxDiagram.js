@@ -1,5 +1,11 @@
 import BooleanSignalLexer from './BooleanSignalLexer';
 
+/** EBNF
+   Signal ::= VarName '=' Digits '/' Digits (';' Signal)?
+   Digits ::= ('0'|'1')+
+   VarName ::= Letter+
+   Letter ::= 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
+*/
 /*******************************************************************************
  * Defining SyntaxDiagram for boolean signals using Combination
  * Constructor/Prototype Pattern
