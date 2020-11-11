@@ -68,6 +68,6 @@ describe('testing TemporalFormula constructor', function() {
 
       expect(tf.getId()).toMatch("f");
       expect(tf.getContent()).toMatch("f = a & b");
-      expect(tf.getReferredBooleanSignalsIds()).toEqual(["a", "b"]);
+      expect(tf.getReferences()).toEqual(["a", "b"]);
    });
 });

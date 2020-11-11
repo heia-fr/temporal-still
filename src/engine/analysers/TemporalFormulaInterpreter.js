@@ -148,7 +148,7 @@ var TemporalFormulaInterpreter = function() {
          }
          // add a reference to the formula being evaluated to the current
          // boolean signal
-         bs.addReferringTemporalFormulaId(state.entityId);
+         bs.addReferencedBy(state.entityId);
          lexer.goToNextToken();
          return bs;
       }

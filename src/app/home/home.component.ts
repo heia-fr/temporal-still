@@ -236,21 +236,21 @@ export class HomeComponent implements OnInit {
 
 	// when removing a formula, release the referenced
 	// boolean signals
-	removeReferringFormula(tf: TemporalFormula) {
+	removeReferringFormula(tf: any) {
 		let universe = this.signalsService.universe;
-		for (let id of tf.getReferredBooleanSignalsIds()) {
-			var bs = universe.signalById(id);
-			bs.removeReferringTemporalFormulaId(tf.getId());
+		for (let id of tf.getReferences()) {
+			var bs: any = universe.signalById(id);
+			bs.removeReferencedBy(tf.getId());
 		}
 	}
 
 	// after updating a boolean signal, update temporal formulas
 	// that reference it
-	reevaluateReferringTemporalFormulas(s: BooleanSignal) {
+	reevaluateReferringTemporalFormulas(s: any) {
 		let formulasManager = this.signalsService.formulasManager;
 		let universe = this.signalsService.universe;
-		for (let fId of s.getReferringTemporalFormulasIds()) {
-			var tf = formulasManager.formulaById(fId);
+		for (let fId of s.getReferencedBy()) {
+			var tf: any = formulasManager.formulaById(fId);
 			tf = TemporalFormulaInterpreter.evaluate(tf.getContent(), universe);
 			if (tf instanceof TemporalFormula) {
 				formulasManager.updateFormula(fId, tf);
@@ -268,7 +268,7 @@ export class HomeComponent implements OnInit {
 			s.setEditorEnabled(false);
 		}
 
-		var s = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.signalById(id);
 		s.setEditorEnabled(true);
 		this.editableSignal.text = s.getContent();
 		this.editableSignal.id = id;
@@ -279,7 +279,7 @@ export class HomeComponent implements OnInit {
 
 	// method to disable the signals editors
 	disableSignalEditor(event: Event, id: any) {
-		var s = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.signalById(id);
 		s.setEditorEnabled(false);
 		this.editableSignal.text = s.getContent();
 		event.stopPropagation();
@@ -289,18 +289,18 @@ export class HomeComponent implements OnInit {
 	addSignals(form: NgForm) {
 		var signalStr = this.signalsString.trim();
 		var id = signalStr.split(Symbols.getEqual())[0].trim();
-		var bs = null;
+		var bs: any = null;
 		// add the current signal to the universe
 		if (this.signalsService.universe.containsSignal(id)) {
 			bs = this.signalsService.universe.signalById(id);
 			if (bs.getContent() === signalStr) { return; }
 		}
 
-		var newS = new BooleanSignal(signalStr, null);
+		var newS: any = new BooleanSignal(signalStr, null);
 		// if a boolean signal with the same ID exists, override it
 		// and update the referencing formulas
-		if (bs && bs.isReferred()) {
-			newS.setReferringTemporalFormulasIds(bs.getReferringTemporalFormulasIds());
+		if (bs && bs.isReferenced()) {
+			newS.setReferencedBy(bs.getReferencedBy());
 			this.signalsService.universe.updateSignal(id, newS);
 			this.reevaluateReferringTemporalFormulas(newS);
 		} else {
@@ -325,7 +325,7 @@ export class HomeComponent implements OnInit {
 
 	// update the boolean signal corresponding to the provided ID
 	updateSignal(event: Event, id: any) {
-		var s = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.signalById(id);
 		var str = this.editableSignal.text.trim();
 		// skip the processing if it's not necessary
 		if (s.getContent().trim() === str) {
@@ -334,8 +334,8 @@ export class HomeComponent implements OnInit {
 		}
 
 		// update the signal and reevaluate the referencing formulas
-		var newS = new BooleanSignal(str, null);
-		newS.setReferringTemporalFormulasIds(s.getReferringTemporalFormulasIds());
+		var newS: any = new BooleanSignal(str, null);
+		newS.setReferencedBy(s.getReferencedBy());
 		this.signalsService.universe.updateSignal(id, newS);
 		this.reevaluateReferringTemporalFormulas(newS);
 
@@ -397,7 +397,7 @@ export class HomeComponent implements OnInit {
 			f.setEditorEnabled(false);
 		}
 
-		var f = this.signalsService.formulasManager.formulaById(id);
+		var f: any = this.signalsService.formulasManager.formulaById(id);
 		f.setEditorEnabled(true);
 		this.editableFormula.text = f.getContent();
 		this.editableFormula.id = id;
@@ -408,7 +408,7 @@ export class HomeComponent implements OnInit {
 
 	// method to disable the formulas editor
 	disableFormulaEditor(event: Event, id: any) {
-		var f = this.signalsService.formulasManager.formulaById(id);
+		var f: any = this.signalsService.formulasManager.formulaById(id);
 		f.setEditorEnabled(false);
 		this.editableFormula.text = f.getContent();
 		event.stopPropagation();
@@ -447,7 +447,7 @@ export class HomeComponent implements OnInit {
 
 	// update the formula corresponding to the provided ID
 	updateFormula(event: Event, id: any) {
-		var tf = this.signalsService.formulasManager.formulaById(id);
+		var tf: any = this.signalsService.formulasManager.formulaById(id);
 		var str = this.editableFormula.text.trim();
 
 		// skip if updating is not necessary

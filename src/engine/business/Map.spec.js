@@ -72,7 +72,7 @@ describe('testing Map constructor', function() {
       }, ["val3"]]);
 
       var result = m.remove("key2");
-      expect(result).toBe(true);
+      expect(result).toBeTruthy();
       expect(m.isEmpty()).toBe(false);
       expect(m.size()).toEqual(2);
       expect(m.keys()).toEqual(["key1", "key3"]);
@@ -81,7 +81,7 @@ describe('testing Map constructor', function() {
       }, ["val3"]]);
 
       result = m.remove("key2");
-      expect(result).toBe(false);
+      expect(result).toBeFalsy();
       expect(m.isEmpty()).toBe(false);
       expect(m.size()).toEqual(2);
       expect(m.keys()).toEqual(["key1", "key3"]);
@@ -90,21 +90,21 @@ describe('testing Map constructor', function() {
       }, ["val3"]]);
 
       result = m.remove("key1");
-      expect(result).toBe(true);
+      expect(result).toBeTruthy();
       expect(m.isEmpty()).toBe(false);
       expect(m.size()).toEqual(1);
       expect(m.keys()).toEqual(["key3"]);
       expect(m.values()).toEqual([["val3"]]);
 
       result = m.remove("key3");
-      expect(result).toBe(true);
+      expect(result).toBeTruthy();
       expect(m.isEmpty()).toBe(true);
       expect(m.size()).toEqual(0);
       expect(m.keys()).toEqual([]);
       expect(m.values()).toEqual([]);
 
       result = m.remove("key3");
-      expect(result).toBe(false);
+      expect(result).toBeFalsy();
       expect(m.isEmpty()).toBe(true);
       expect(m.size()).toEqual(0);
       expect(m.keys()).toEqual([]);

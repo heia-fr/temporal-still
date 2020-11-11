@@ -147,7 +147,7 @@ Universe.prototype = {
           */
          clearReferences: function() {
             this.dataStoreMap.each(function(key, s, i) {
-               s.setReferringTemporalFormulasIds([]);
+               s.setReferencedBy([]);
             });
          },
          /**
