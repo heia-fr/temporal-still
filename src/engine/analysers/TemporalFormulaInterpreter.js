@@ -17,30 +17,27 @@ var TemporalFormulaInterpreter = function() {
 
    function Singleton() {
 
-      var lexer;
-      var universe;
-      var fId;
-      var ids = [];
-
-      function parseFormulaExpr() {
+      function parseFormulaExpr(lexer, state) {
          if (!lexer.isVarName()) throw new SyntaxError("TemporalFormulaInterpreter: Expected valid formula name");
          lexer.goToNextToken();
+
          if (!lexer.isEqualSign()) throw new SyntaxError("TemporalFormulaInterpreter: Expected equal sign");
          lexer.goToNextToken();
 
-         var bs = parseFormula();
-         return bs;
+         return parseFormula(lexer, state);
       }
 
-      function parseFormula() {
-         var bs = parseComponent();
+      function parseFormula(lexer, state) {
+         var bs = parseComponent(lexer, state);
 
          while (lexer.isDash()) {
             lexer.goToNextToken();
+
             if (!lexer.isGreaterThanSign())
                throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.isGreaterThanSign());
             lexer.goToNextToken();
-            var thatBs = parseComponent();
+
+            var thatBs = parseComponent(lexer, state);
             var op = new Implies(bs, thatBs);
             bs = op.performBinaryOperator();
          }
@@ -48,12 +45,13 @@ var TemporalFormulaInterpreter = function() {
          return bs;
       }
 
-      function parseComponent() {
-         var bs = parseTerm();
+      function parseComponent(lexer, state) {
+         var bs = parseTerm(lexer, state);
 
          while (lexer.isOr()) {
             lexer.goToNextToken();
-            var thatBs = parseTerm();
+
+            var thatBs = parseTerm(lexer, state);
             var op = new Or(bs, thatBs);
             bs = op.performBinaryOperator();
          }
@@ -61,12 +59,13 @@ var TemporalFormulaInterpreter = function() {
          return bs;
       }
 
-      function parseTerm() {
-         var bs = parseFactor();
+      function parseTerm(lexer, state) {
+         var bs = parseFactor(lexer, state);
 
          while (lexer.isAnd()) {
             lexer.goToNextToken();
-            var thatBs = parseFactor();
+
+            var thatBs = parseFactor(lexer, state);
             var op = new And(bs, thatBs);
             bs = op.performBinaryOperator();
          }
@@ -74,11 +73,13 @@ var TemporalFormulaInterpreter = function() {
          return bs;
       }
 
-      function parseFactor() {
-         var bs = parseAtom();
+      function parseFactor(lexer, state) {
+         var bs = parseAtom(lexer, state);
+
          if (lexer.isWeaklyUntil()) {
             lexer.goToNextToken();
-            var thatBs = parseAtom();
+
+            var thatBs = parseAtom(lexer, state);
             var op = new WeakUntil(bs, thatBs);
             bs = op.performBinaryOperator();
          }
@@ -86,61 +87,68 @@ var TemporalFormulaInterpreter = function() {
          return bs;
       }
 
-      function parseAtom() {
+      function parseAtom(lexer, state) {
 
          var bs = null;
 
          if (lexer.isOpeningBracket()) {
             lexer.goToNextToken();
-            bs = parseFormula();
+
+            bs = parseFormula(lexer, state);
+
             if (!lexer.isClosingBracket())
                throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
             lexer.goToNextToken();
-            bs = parseAtom();
+
+            bs = parseAtom(lexer, state);
             var op = new Not(bs);
             bs = op.performUnaryOperator();
 
          } else if (lexer.isOpeningSquareBracket()) {
             lexer.goToNextToken();
+
             if (!lexer.isClosingSquareBracket())
                throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingSquareBraket());
             lexer.goToNextToken();
-            bs = parseAtom();
+
+            bs = parseAtom(lexer, state);
             var op = new Always(bs);
             bs = op.performUnaryOperator();
 
          } else if (lexer.isLessThanSign()) {
             lexer.goToNextToken();
+
             if (!lexer.isGreaterThanSign())
                throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getGreaterThan());
             lexer.goToNextToken();
-            bs = parseAtom();
+
+            bs = parseAtom(lexer, state);
             var op = new Eventually(bs);
             bs = op.performUnaryOperator();
 
          } else {
-            bs = parseProp();
+            bs = parseProp(lexer, state);
          }
          return bs;
       }
 
-      function parseProp() {
+      function parseProp(lexer, state) {
          if (!lexer.isVarName()) {
             console.log(lexer.getCurrentToken());
             throw new SyntaxError("TemporalFormulaInterpreter: Expected valid variable name");
          }
-         var bs = universe.signalById(lexer.getCurrentToken());
+         var bs = state.universe.signalById(lexer.getCurrentToken());
          // if the boolean signal is not referenced by the temporal formula
          // that is being evaluated, then add it to the references array
-         if (ids.indexOf(bs.getId()) < 0) {
-            ids.push(bs.getId());
+         if (state.ids.indexOf(bs.getId()) < 0) {
+            state.ids.push(bs.getId());
          }
          // add a reference to the formula being evaluated to the current
          // boolean signal
-         bs.addReferringTemporalFormulaId(fId);
+         bs.addReferringTemporalFormulaId(state.entityId);
          lexer.goToNextToken();
          return bs;
       }
@@ -156,23 +164,24 @@ var TemporalFormulaInterpreter = function() {
           */
          evaluate: function(expression, univ) {
             if (typeof expression !== 'string')
-               throw new TypeError(
-                        "TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
+               throw new TypeError("TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
             if (!(univ instanceof Universe))
-               throw new TypeError(
-                        "TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
+               throw new TypeError("TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
 
             try {
-               universe = univ;
                // set the universe length so all the operators can have access
                // to the same lengths
-               Operator.prototype.setUniverseLength(universe.getLength());
-               lexer = new Lexer(expression);
+               Operator.prototype.setUniverseLength(univ.getLength());
+               var lexer = new Lexer(expression);
                lexer.goToNextToken();
-               fId = expression.split(Symbols.getEqual())[0].trim();
-               var bs = parseFormulaExpr();
-               var tf = new TemporalFormula(fId, expression, bs, ids);
-               ids = [];
+               var entityId = expression.split(Symbols.getEqual())[0].trim();
+               var state = {
+                  entityId: entityId,
+                  ids: [],
+                  universe: univ,
+               };
+               var bs = parseFormulaExpr(lexer, state);
+               var tf = new TemporalFormula(entityId, expression, bs, state.ids);
                return tf;
             } catch (ex) {
                console.error(ex);
