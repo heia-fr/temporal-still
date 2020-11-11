@@ -1,11 +1,9 @@
 import Lexer from './Lexer';
-import BooleanSignalSyntaxDiagram from './BooleanSignalSyntaxDiagram';
-import TemporalFormulaSyntaxDiagram from './TemporalFormulaSyntaxDiagram';
+import TemporalEntitySyntaxDiagram from './TemporalEntitySyntaxDiagram';
 import TemporalFormulaInterpreter from './TemporalFormulaInterpreter';
 
 export {
 	Lexer,
-	BooleanSignalSyntaxDiagram,
-	TemporalFormulaSyntaxDiagram,
+	TemporalEntitySyntaxDiagram,
 	TemporalFormulaInterpreter,
 };

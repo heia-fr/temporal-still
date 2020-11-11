@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
 import Symbols from 'src/engine/helpers/Symbols';
-import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import Lexer from 'src/engine/analysers/Lexer';
 
 /**
@@ -22,7 +22,7 @@ export class FormulaValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		let value = control.value as string;
 
-		if (!TemporalFormulaSyntaxDiagram.isValid(value)) {
+		if (!TemporalEntitySyntaxDiagram.isValidFormula(value)) {
 			return { formulas: "Invalid formula" };
 		}
 

@@ -3,7 +3,7 @@ import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import Symbols from 'src/engine/helpers/Symbols';
 import Lexer from 'src/engine/analysers/Lexer';
-import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { SignalsService } from '../services/signals.service';
 
 /**
@@ -25,8 +25,8 @@ export class EditableFormulaValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		let value = control.value as string;
 
-		if (!value || value.length == 0 || !TemporalFormulaSyntaxDiagram.isValid(value)) {
-			return { eformulas: "Invalid signal" };
+		if (!value || value.length == 0 || !TemporalEntitySyntaxDiagram.isValidFormula(value)) {
+			return { eformulas: "Invalid formula" };
 		}
 
 		var formulaArr = value.split(Symbols.getEqual());

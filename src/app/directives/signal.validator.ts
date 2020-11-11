@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
 import Symbols from 'src/engine/helpers/Symbols';
-import BooleanSignalSyntaxDiagram from 'src/engine/analysers/BooleanSignalSyntaxDiagram';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 
 /**
  * A directive to validate the entered signals before processing them in the
@@ -21,7 +21,7 @@ export class SignalValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		let value = control.value as string;
 
-		if (!BooleanSignalSyntaxDiagram.isValid(control.value)) {
+		if (!TemporalEntitySyntaxDiagram.isValidSignal(control.value)) {
 			return { signals: "Invalid signal" };
 		} else if (value.length != 0) {
 			// if the signals are correct, verify that the id

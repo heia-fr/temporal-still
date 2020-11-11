@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import Symbols from 'src/engine/helpers/Symbols';
-import BooleanSignalSyntaxDiagram from 'src/engine/analysers/BooleanSignalSyntaxDiagram';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 
 /**
  * Verifies the input signal and set the validity of the input element. The
@@ -22,7 +22,7 @@ export class EditableSignalValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		let value = control.value as string;
 
-		if (!value || value.length == 0 || !BooleanSignalSyntaxDiagram.isValid(value)) {
+		if (!value || value.length == 0 || !TemporalEntitySyntaxDiagram.isValidSignal(value)) {
 			return { esignals: "Invalid signal" };
 		}
 
