@@ -1,9 +1,9 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
-import Symbols from '../../engine/helpers/Symbols';
-import TemporalFormulaSyntaxDiagram from '../../engine/analysers/TemporalFormulaSyntaxDiagram';
-import TemporalFormulaLexer from '../../engine/analysers/TemporalFormulaLexer';
+import Symbols from 'src/engine/helpers/Symbols';
+import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
+import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
 
 /**
  * A directive to validate the formula entered before processing it in the

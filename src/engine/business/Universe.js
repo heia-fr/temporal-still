@@ -1,6 +1,6 @@
-import Util from '../helpers/Util';
+import { Util } from 'src/engine/helpers';
 import Map from './Map';
-import BooleanSignal from '../entities/BooleanSignal';
+import { BooleanSignal } from 'src/engine/entities';
 
 /**
  * This class defines the universe regrouping all of the boolean signals

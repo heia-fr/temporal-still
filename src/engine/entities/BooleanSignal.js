@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import Symbols from '../helpers/Symbols';
-import Util from '../helpers/Util';
+import { Symbols, Util } from 'src/engine/helpers';
 
 /**
  * This class represents a Boolean Signal. The user must provide a string with a

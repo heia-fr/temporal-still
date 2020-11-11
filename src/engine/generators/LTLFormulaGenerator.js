@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import Universe from '../business/Universe';
-import Symbols from '../helpers/Symbols';
+import { Universe } from 'src/engine/business';
+import { Symbols } from 'src/engine/helpers';
 
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent

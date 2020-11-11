@@ -18,5 +18,5 @@ getTestBed().initTestEnvironment(
 );
 
 // Search tests and load
-const context = require.context('./', true, /\.(ts|js)$/);
+const context = require.context('./', true, /\.spec\.(ts|js)$/);
 context.keys().map(context);

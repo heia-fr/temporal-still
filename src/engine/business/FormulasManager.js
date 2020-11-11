@@ -1,5 +1,5 @@
 import Map from './Map';
-import TemporalFormula from '../entities/TemporalFormula';
+import { TemporalFormula } from 'src/engine/entities';
 
 /**
  * This class represents a Formulas manager used to add, updated and remove

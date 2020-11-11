@@ -1,4 +1,4 @@
-import Symbols from '../helpers/Symbols';
+import { Symbols } from 'src/engine/helpers';
 
 /*******************************************************************************
  * Defining a base class "Lexer" using Combination Constructor/Prototype

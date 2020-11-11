@@ -1,6 +1,5 @@
-import Symbols from '../helpers/Symbols';
+import { Symbols, inheritPrototype } from 'src/engine/helpers';
 import Lexer from './Lexer';
-import inheritPrototype from '../helpers/Extend';
 
 /*******************************************************************************
  * Inheriting "Lexer" using Parasitic Combination Inheritance Pattern. Parasitic

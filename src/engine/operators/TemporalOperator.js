@@ -1,7 +1,6 @@
-import Symbols from '../helpers/Symbols';
-import inheritPrototype from '../helpers/Extend';
+import { Symbols, inheritPrototype } from 'src/engine/helpers';
 import Operator from './Operator';
-import BooleanSignal from '../entities/BooleanSignal';
+import { BooleanSignal } from 'src/engine/entities';
 
 /**
  * This class represents a base abstract class for all temporal operators used

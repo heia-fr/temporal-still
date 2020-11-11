@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import Universe from '../business/Universe';
-import Symbols from '../helpers/Symbols';
-import TemporalFormulaLexer from '../analysers/TemporalFormulaLexer';
+import { Universe } from 'src/engine/business';
+import { Symbols } from 'src/engine/helpers';
+import { TemporalFormulaLexer } from 'src/engine/analysers';
 
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent

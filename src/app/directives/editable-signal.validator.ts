@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import Symbols from '../../engine/helpers/Symbols';
-import BooleanSignalSyntaxDiagram from '../../engine/analysers/BooleanSignalSyntaxDiagram';
+import Symbols from 'src/engine/helpers/Symbols';
+import BooleanSignalSyntaxDiagram from 'src/engine/analysers/BooleanSignalSyntaxDiagram';
 
 /**
  * Verifies the input signal and set the validity of the input element. The
