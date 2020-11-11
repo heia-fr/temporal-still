@@ -287,35 +287,24 @@ export class HomeComponent implements OnInit {
 
 	// method used to add provided boolean signals to the universe
 	addSignals(form: NgForm) {
-		// split the string into an array of string representations
-		// of boolean signals
-		var signalsArray = this.signalsString.trim().split(Symbols.getSemiColon());
-		// remove the trailing empty string at the end of the array
-		// if necessary
-		if (signalsArray[signalsArray.length - 1] === Symbols.getEmpty()) {
-			signalsArray.splice(signalsArray.length - 1, 1);
+		var signalStr = this.signalsString.trim();
+		var id = signalStr.split(Symbols.getEqual())[0].trim();
+		var bs = null;
+		// add the current signal to the universe
+		if (this.signalsService.universe.containsSignal(id)) {
+			bs = this.signalsService.universe.signalById(id);
+			if (bs.getContent() === signalStr) { return; }
 		}
 
-
-		for (let signalStr of signalsArray) {
-			var id = signalStr.split(Symbols.getEqual())[0].trim();
-			var bs = null;
-			// add the current signal to the universe
-			if (this.signalsService.universe.containsSignal(id)) {
-				bs = this.signalsService.universe.signalById(id);
-				if (bs.getContent() === signalStr) { return; }
-			}
-
-			var newS = new BooleanSignal(signalStr, null);
-			// if a boolean signal with the same ID exists, override it
-			// and update the referencing formulas
-			if (bs && bs.isReferred()) {
-				newS.setReferringTemporalFormulasIds(bs.getReferringTemporalFormulasIds());
-				this.signalsService.universe.updateSignal(id, newS);
-				this.reevaluateReferringTemporalFormulas(newS);
-			} else {
-				this.signalsService.universe.addSignal(newS);
-			}
+		var newS = new BooleanSignal(signalStr, null);
+		// if a boolean signal with the same ID exists, override it
+		// and update the referencing formulas
+		if (bs && bs.isReferred()) {
+			newS.setReferringTemporalFormulasIds(bs.getReferringTemporalFormulasIds());
+			this.signalsService.universe.updateSignal(id, newS);
+			this.reevaluateReferringTemporalFormulas(newS);
+		} else {
+			this.signalsService.universe.addSignal(newS);
 		}
 
 		this.signalsString = Symbols.getEmpty();

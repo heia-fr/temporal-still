@@ -21,7 +21,6 @@ var BooleanSignalGenerator = function() {
 
       var maxBody = 10;
       var maxPeriod = 5;
-      var maxNbOfSignals = 1;
 
       function generateVarName(ids) {
          var i;
@@ -45,19 +44,15 @@ var BooleanSignalGenerator = function() {
 
       function generateSignals() {
          var signals = Symbols.getEmpty();
-         var nbOfSignals = _random(1, maxNbOfSignals);
          var varName, body, period;
          var ids = [];
 
-         for (var i = 1; i <= nbOfSignals; i++) {
-            varName = generateVarName(ids);
-            ids.push(varName);
-            body = generateDigits(maxBody);
-            period = generateDigits(maxPeriod);
+         varName = generateVarName(ids);
+         ids.push(varName);
+         body = generateDigits(maxBody);
+         period = generateDigits(maxPeriod);
 
-            signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash()
-                     + period + ((i == nbOfSignals) ? "" : Symbols.getSemiColon());
-         }
+         signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash() + period;
 
          return signals;
       }

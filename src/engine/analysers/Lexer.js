@@ -133,14 +133,6 @@ Lexer.prototype = {
             return this.getCurrentToken() === Symbols.getSlash();
          },
          /**
-          * Checks whether the current token is a semicolon
-          *
-          * @returns {Boolean}
-          */
-         isSemiColon: function() {
-            return this.getCurrentToken() === Symbols.getSemiColon();
-         },
-         /**
           * Checks whether the current token is an or ('|')
           *
           * @returns {Boolean}

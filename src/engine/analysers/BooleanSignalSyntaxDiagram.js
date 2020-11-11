@@ -1,7 +1,8 @@
 import Lexer from './Lexer';
 
 /** EBNF
-   Signal ::= VarName '=' Digits '/' Digits (';' Signal)?
+   SignalExpr ::= VarName '=' Signal
+   Signal ::= Digits '/' Digits
    Digits ::= ('0'|'1')+
    VarName ::= Letter+
    Letter ::= 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
@@ -16,7 +17,7 @@ var BooleanSignalSyntaxDiagram = function() {
 
       var lexer;
 
-      function parseSignal() {
+      function parseSignalExpr() {
          if (!lexer.isVarName())
             throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected valid variable name");
          lexer.goToNextToken();
@@ -25,6 +26,13 @@ var BooleanSignalSyntaxDiagram = function() {
             throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected equal sign");
          lexer.goToNextToken();
 
+         parseSignal();
+
+         if (!lexer.isEmptyToken())
+            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected end of signals");
+      }
+
+      function parseSignal() {
          parseDigits();
 
          if (!lexer.isSlash())
@@ -32,15 +40,6 @@ var BooleanSignalSyntaxDiagram = function() {
          lexer.goToNextToken();
 
          parseDigits();
-
-         if (lexer.isSemiColon()) {
-            lexer.goToNextToken();
-            if (lexer.isEmptyToken()) return;
-            parseSignal();
-         }
-
-         if (!lexer.isEmptyToken())
-            throw new SyntaxError("BooleanSignalSyntaxDiagram: Expected end of signals");
       }
 
       function parseDigits() {
@@ -60,7 +59,7 @@ var BooleanSignalSyntaxDiagram = function() {
             try {
                lexer = new Lexer(expression);
                lexer.goToNextToken();
-               parseSignal();
+               parseSignalExpr();
             } catch (ex) {
                return false;
             }

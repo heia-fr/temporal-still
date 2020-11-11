@@ -22,8 +22,7 @@ export class EditableSignalValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		let value = control.value as string;
 
-		if (!value || value.length == 0 || value.indexOf(Symbols.getSemiColon()) >= 0
-			|| !BooleanSignalSyntaxDiagram.isValid(value)) {
+		if (!value || value.length == 0 || !BooleanSignalSyntaxDiagram.isValid(value)) {
 			return { esignals: "Invalid signal" };
 		}
 

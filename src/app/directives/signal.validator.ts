@@ -24,18 +24,11 @@ export class SignalValidatorDirective implements Validator {
 		if (!BooleanSignalSyntaxDiagram.isValid(control.value)) {
 			return { signals: "Invalid signal" };
 		} else if (value.length != 0) {
-			// if the signals are correct, verify that the ids
+			// if the signals are correct, verify that the id
 			// doesn't conflict with the formulas IDs
-			var signalsArray = value.split(Symbols.getSemiColon());
-			if (signalsArray[signalsArray.length - 1] === Symbols.getEmpty()) {
-				signalsArray.splice(signalsArray.length - 1, 1);
-			}
-
-			for (let signalStr of signalsArray) {
-				var signalParts = signalStr.split(Symbols.getEqual())[0].trim();
-				if (this.signalsService.formulasManager.containsFormula(signalParts)) {
-					return { signals: "Signal name conflicts with a formula name" };
-				}
+			var signalParts = value.split(Symbols.getEqual())[0].trim();
+			if (this.signalsService.formulasManager.containsFormula(signalParts)) {
+				return { signals: "Signal name conflicts with a formula name" };
 			}
 		}
 

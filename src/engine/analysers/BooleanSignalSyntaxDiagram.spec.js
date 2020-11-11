@@ -44,7 +44,8 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
    it('Correct signals are expected to be accepted', function() {
       var result = true;
 
-      result = BooleanSignalSyntaxDiagram.isValid("a = 100101/010;b = 00101/01;") && result;
+      result = BooleanSignalSyntaxDiagram.isValid("a = 100101/010") && result;
+      result = BooleanSignalSyntaxDiagram.isValid("b = 00101/01") && result;
       result = testCorrectSignals(nbrOfTest) && result;
       expect(result).toBe(true);
    });

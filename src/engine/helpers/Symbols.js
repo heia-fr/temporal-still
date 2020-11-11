@@ -11,7 +11,6 @@ var Symbols = function() {
                zero: "0",
                one: "1",
                slash: "/",
-               semiColon: ";",
                openingBraket: "(",
                closingBraket: ")",
                openingSquareBracket: "[",
@@ -50,9 +49,6 @@ var Symbols = function() {
                },
                getSlash: function() {
                   return symbols.slash;
-               },
-               getSemiColon: function() {
-                  return symbols.semiColon;
                },
                getOpeningBraket: function() {
                   return symbols.openingBraket;
