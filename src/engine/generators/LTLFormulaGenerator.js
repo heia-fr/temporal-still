@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _random from 'lodash/random';
 import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
 
@@ -20,14 +20,14 @@ var LTLFormulaGenerator = function() {
          var i;
          var id = "";
          do {
-            i = _.random(0, Symbols.getCharSet().length - 1);
+            i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
          } while (universe.containsSignal(id));
          return id;
       }
 
       function generateUnaryOperator() {
-         var choice = _.random(1, 100);
+         var choice = _random(1, 100);
          var unaryOp;
          if (choice <= 33) {
             unaryOp = Symbols.getNot();
@@ -40,7 +40,7 @@ var LTLFormulaGenerator = function() {
       }
 
       function generateUnaryOrBinaryOperator() {
-         var choice = _.random(1, 100);
+         var choice = _random(1, 100);
          var op;
          if (choice <= 14) {
             op = Symbols.getNot();
@@ -62,7 +62,7 @@ var LTLFormulaGenerator = function() {
 
       function generateSignalId() {
          var ids = universe.getSignalsIds();
-         return ids[_.random(0, ids.length - 1)];
+         return ids[_random(0, ids.length - 1)];
       }
 
       function generateFormula(nbProps) {
@@ -79,7 +79,7 @@ var LTLFormulaGenerator = function() {
                var f = generateFormula(nbProps - 1);
                return op + f;
             } else {
-               var n = _.random(1, nbProps - 2);
+               var n = _random(1, nbProps - 2);
                var f1 = generateFormula(nbProps);
                var f2 = generateFormula(nbProps - n - 1);
                if (op === Symbols.getImplies()) { return Symbols.getOpeningBraket() + f1

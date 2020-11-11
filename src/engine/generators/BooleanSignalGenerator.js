@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _random from 'lodash/random';
 import { Symbols } from 'src/engine/helpers';
 import { FormulasManager } from 'src/engine/business';
 
@@ -27,17 +27,17 @@ var BooleanSignalGenerator = function() {
          var i;
          var id = "";
          do {
-            i = _.random(0, Symbols.getCharSet().length - 1);
+            i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (_.includes(ids, id) || formulasManager.containsFormula(id));
+         } while (ids.indexOf(id) >= 0 || formulasManager.containsFormula(id));
          return id;
       }
 
       function generateDigits(maxNbDigits) {
          var digits = Symbols.getEmpty();
-         var nbDigits = _.random(1, maxNbDigits);
+         var nbDigits = _random(1, maxNbDigits);
          for (var i = 0; i < nbDigits; i++) {
-            digits += (_.random() === 1 ? Symbols.getOne() : Symbols.getZero());
+            digits += (_random() === 1 ? Symbols.getOne() : Symbols.getZero());
          }
 
          return digits;
@@ -45,7 +45,7 @@ var BooleanSignalGenerator = function() {
 
       function generateSignals() {
          var signals = Symbols.getEmpty();
-         var nbOfSignals = _.random(1, maxNbOfSignals);
+         var nbOfSignals = _random(1, maxNbOfSignals);
          var varName, body, period;
          var ids = [];
 

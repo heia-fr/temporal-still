@@ -1,5 +1,11 @@
-import _ from 'lodash';
+import _random from 'lodash/random';
 import { Symbols, Util } from 'src/engine/helpers';
+
+function removeItem(arr, value) {
+   for (var i = arr.length - 1; i >= 0; i--) {
+      if (arr[i] === value) arr.splice(i, 1);
+   }
+}
 
 /**
  * This class represents a Boolean Signal. The user must provide a string with a
@@ -94,15 +100,14 @@ BooleanSignal.prototype = {
          },
          removeReferringTemporalFormulaId: function(tfId) {
             if (this.isReferredByTemporalFormula(tfId)) {
-               this.referringTemporalFormulasIds = _.without(this.referringTemporalFormulasIds,
-                        tfId);
+               removeItem(this.referringTemporalFormulasIds, tfId);
             }
          },
          isReferred: function() {
             return (this.referringTemporalFormulasIds.length != 0);
          },
          isReferredByTemporalFormula: function(tfId) {
-            return _.includes(this.referringTemporalFormulasIds, tfId);
+            return this.referringTemporalFormulasIds.indexOf(tfId) >= 0;
          },
          getFixedPartLength: function() {
             return this.body.length;
@@ -180,7 +185,7 @@ BooleanSignal.prototype = {
             values.push([nextX, oldZ]);
 
             // calculate points for the fixed part
-            _.times(newBody.length - 1, function(i) {
+            for (var i = 0, l = newBody.length - 1; i < l; i++) {
                x = i + 1;
                nextX = i + 2;
                z = parseInt(newBody.charAt(i + 1));
@@ -189,13 +194,13 @@ BooleanSignal.prototype = {
                // }
                values.push([nextX, z]);
                oldZ = z;
-            });
+            }
             //put a mark to visually show the beginning of the periodic part
             values.push([newBody.length-0.1, 0.5]);
             values.push([newBody.length+0.1, 0.5]);
             values.push([newBody.length, z]);
             // calculate points for one period
-            _.times(newPeriod.length, function(i) {
+            for (var i = 0, l = newPeriod.length; i < l; i++) {
                x = newBody.length + i;
                nextX = newBody.length + i + 1;
                z = parseInt(newPeriod.charAt(i));
@@ -204,14 +209,14 @@ BooleanSignal.prototype = {
                // }
                values.push([nextX, z]);
                oldZ = z;
-            });
+            }
 
             var label = legendLabel || "Signal";
             this.signalChartData = [
               {
                      "key": label + " " + this.getId(),
                      "values": values,
-                     "color": Util.colors[_.random(0, Util.colors.length - 1)]
+                     "color": Util.colors[_random(0, Util.colors.length - 1)]
               }
             ];
          },

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
 import TemporalFormulaLexer from './TemporalFormulaLexer';
@@ -136,7 +135,7 @@ var TemporalFormulaInterpreter = function() {
          var bs = universe.signalById(lexer.getCurrentToken());
          // if the boolean signal is not referenced by the temporal formula
          // that is being evaluated, then add it to the references array
-         if (!_.includes(ids, bs.getId())) {
+         if (ids.indexOf(bs.getId()) < 0) {
             ids.push(bs.getId());
          }
          // add a reference to the formula being evaluated to the current
