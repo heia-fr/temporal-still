@@ -1,5 +1,5 @@
 import { Symbols } from 'src/engine/helpers';
-import TemporalFormulaLexer from './TemporalFormulaLexer';
+import Lexer from './Lexer';
 
 /** EBNF
    FormulaExpr ::= VarName '=' Formula
@@ -122,7 +122,7 @@ var TemporalFormulaSyntaxDiagram = function() {
             if (expression === Symbols.getEmpty()) { return true; }
 
             try {
-               lexer = new TemporalFormulaLexer(expression);
+               lexer = new Lexer(expression);
                lexer.goToNextToken();
                parseFormulaExpr();
             } catch (ex) {

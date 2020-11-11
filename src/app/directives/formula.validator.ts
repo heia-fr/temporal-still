@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { SignalsService } from '../services/signals.service';
 import Symbols from 'src/engine/helpers/Symbols';
 import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
-import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
+import Lexer from 'src/engine/analysers/Lexer';
 
 /**
  * A directive to validate the formula entered before processing it in the
@@ -36,7 +36,7 @@ export class FormulaValidatorDirective implements Validator {
 
 			// Verify that all of the referenced signals exist
 			// in the universe
-			var lexer: any = new TemporalFormulaLexer(formulaArr[1].trim());
+			var lexer = new Lexer(formulaArr[1].trim());
 			while (!lexer.hasNoMoreChars()) {
 				if (lexer.isVarName() && !this.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
 					return { formulas: "Formula uses an unknown signal" };

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import Symbols from 'src/engine/helpers/Symbols';
-import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
+import Lexer from 'src/engine/analysers/Lexer';
 
 @Pipe({
 	name: 'formulaFormatter'
@@ -15,7 +15,7 @@ export class FormulaFormatterPipe implements PipeTransform {
 		if (formula === Symbols.getEmpty()) {
 			tranformed = Symbols.getEmpty();
 		} else {
-			let lexer: any = new TemporalFormulaLexer(formula);
+			let lexer = new Lexer(formula);
 			tranformed = Symbols.getEmpty();
 
 			while (!lexer.hasNoMoreChars()) {

@@ -107,7 +107,111 @@ Lexer.prototype = {
           */
          isEmptyToken: function() {
             return this.currentToken === Symbols.getEmpty();
-         }
+         },
+         /**
+          * Checks whether the current token is a zero
+          *
+          * @returns {Boolean}
+          */
+         isZero: function() {
+            return this.getCurrentToken() === Symbols.getZero();
+         },
+         /**
+          * Checks whether the current token is a one
+          *
+          * @returns {Boolean}
+          */
+         isOne: function() {
+            return this.getCurrentToken() === Symbols.getOne();
+         },
+         /**
+          * Checks whether the current token is a slash
+          *
+          * @returns {Boolean}
+          */
+         isSlash: function() {
+            return this.getCurrentToken() === Symbols.getSlash();
+         },
+         /**
+          * Checks whether the current token is a semicolon
+          *
+          * @returns {Boolean}
+          */
+         isSemiColon: function() {
+            return this.getCurrentToken() === Symbols.getSemiColon();
+         },
+         /**
+          * Checks whether the current token is an or ('|')
+          *
+          * @returns {Boolean}
+          */
+         isOr: function() {
+            return (this.getCurrentToken() === Symbols.getOr());
+         },
+         /**
+          * Checks whether the current token is an and ('&')
+          *
+          * @returns {Boolean}
+          */
+         isAnd: function() {
+            return (this.getCurrentToken() === Symbols.getAnd());
+         },
+         /**
+          * Checks whether the current token is a dash ('-')
+          *
+          * @returns {Boolean}
+          */
+         isDash: function() {
+            return this.getCurrentToken() === Symbols.getDash();
+         },
+         /**
+          * Checks whether the current token is a not ('!')
+          *
+          * @returns {Boolean}
+          */
+         isNot: function() {
+            return this.getCurrentToken() === Symbols.getNot();
+         },
+         /**
+          * Checks whether the current token is an opening square bracket
+          *
+          * @returns {Boolean}
+          */
+         isOpeningSquareBracket: function() {
+            return this.getCurrentToken() === Symbols.getOpeningSquareBraket();
+         },
+         /**
+          * Checks whether the current token is a closing square bracket
+          *
+          * @returns {Boolean}
+          */
+         isClosingSquareBracket: function() {
+            return this.getCurrentToken() === Symbols.getClosingSquareBraket();
+         },
+         /**
+          * Checks whether the current token is a less than sign
+          *
+          * @returns {Boolean}
+          */
+         isLessThanSign: function() {
+            return this.getCurrentToken() === Symbols.getLessThan();
+         },
+         /**
+          * Checks whether the current token is a greater than sign
+          *
+          * @returns {Boolean}
+          */
+         isGreaterThanSign: function() {
+            return this.getCurrentToken() === Symbols.getGreaterThan();
+         },
+         /**
+          * Checks whether the current token is a weak until sign
+          *
+          * @returns {Boolean}
+          */
+         isWeaklyUntil: function() {
+            return this.getCurrentToken() === Symbols.getWeakUntil();
+         },
 };
 
 export default Lexer;

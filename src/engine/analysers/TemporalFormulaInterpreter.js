@@ -1,6 +1,6 @@
 import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
-import TemporalFormulaLexer from './TemporalFormulaLexer';
+import Lexer from './Lexer';
 import { TemporalFormula } from 'src/engine/entities';
 
 import {
@@ -167,7 +167,7 @@ var TemporalFormulaInterpreter = function() {
                // set the universe length so all the operators can have access
                // to the same lengths
                Operator.prototype.setUniverseLength(universe.getLength());
-               lexer = new TemporalFormulaLexer(expression);
+               lexer = new Lexer(expression);
                lexer.goToNextToken();
                fId = expression.split(Symbols.getEqual())[0].trim();
                var bs = parseFormulaExpr();

@@ -1,4 +1,4 @@
-import BooleanSignalLexer from './BooleanSignalLexer';
+import Lexer from './Lexer';
 
 /** EBNF
    Signal ::= VarName '=' Digits '/' Digits (';' Signal)?
@@ -58,7 +58,7 @@ var BooleanSignalSyntaxDiagram = function() {
             // permit empty string (that's to be validated in the view)
             if (expression === "") return true;
             try {
-               lexer = new BooleanSignalLexer(expression);
+               lexer = new Lexer(expression);
                lexer.goToNextToken();
                parseSignal();
             } catch (ex) {

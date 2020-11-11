@@ -2,7 +2,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import Symbols from 'src/engine/helpers/Symbols';
-import TemporalFormulaLexer from 'src/engine/analysers/TemporalFormulaLexer';
+import Lexer from 'src/engine/analysers/Lexer';
 import TemporalFormulaSyntaxDiagram from 'src/engine/analysers/TemporalFormulaSyntaxDiagram';
 import { SignalsService } from '../services/signals.service';
 
@@ -39,7 +39,7 @@ export class EditableFormulaValidatorDirective implements Validator {
 
 		// Verify that all of the referenced signals exist in the
 		// universe
-		var lexer: any = new TemporalFormulaLexer(formulaArr[1].trim());
+		var lexer = new Lexer(formulaArr[1].trim());
 		while (!lexer.hasNoMoreChars()) {
 			if (lexer.isVarName() && !this.params.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
 				return { eformulas: "Formula uses an unknown signal" };

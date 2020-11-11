@@ -1,7 +1,7 @@
 import _random from 'lodash/random';
 import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
-import { TemporalFormulaLexer } from 'src/engine/analysers';
+import { Lexer } from 'src/engine/analysers';
 
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent
@@ -106,7 +106,7 @@ var FormulaGenerator = function() {
       function purgeSuccessiveDuplicateOps(formulaStr) {
          var newFormulaStr = "";
          var c = "";
-         var lexer = new TemporalFormulaLexer(formulaStr);
+         var lexer = new Lexer(formulaStr);
          lexer.goToNextToken();
          while (!lexer.hasNoMoreChars()) {
             if (lexer.isOpeningSquareBracket()) {
