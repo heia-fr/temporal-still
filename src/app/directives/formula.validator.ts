@@ -30,7 +30,7 @@ export class FormulaValidatorDirective implements Validator {
 			// if the the formula is correct, verify that its ID
 			// does'nt conflict with the signals IDs
 			var formulaArr = value.split(Symbols.getEqual());
-			if (this.signalsService.universe.containsSignal(formulaArr[0].trim())) {
+			if (this.signalsService.universe.containsEntity(formulaArr[0].trim())) {
 				return { formulas: "Formula name conflicts with a signal name" };
 			}
 
@@ -38,12 +38,12 @@ export class FormulaValidatorDirective implements Validator {
 			// in the universe
 			var lexer = new Lexer(formulaArr[1].trim());
 			while (!lexer.hasNoMoreChars()) {
-				if (lexer.isVarName() && !this.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
+				if (lexer.isVarName() && !this.signalsService.universe.containsEntity(lexer.getCurrentToken())) {
 					return { formulas: "Formula uses an unknown signal" };
 				}
 				lexer.goToNextToken();
 			}
-			if (lexer.isVarName() && !this.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
+			if (lexer.isVarName() && !this.signalsService.universe.containsEntity(lexer.getCurrentToken())) {
 				return { formulas: "Formula uses an unknown signal" };
 			}
 		}

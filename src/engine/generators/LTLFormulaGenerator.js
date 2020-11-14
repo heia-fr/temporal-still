@@ -22,7 +22,7 @@ var LTLFormulaGenerator = function() {
          do {
             i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (universe.containsSignal(id));
+         } while (universe.containsEntity(id));
          return id;
       }
 
@@ -61,7 +61,7 @@ var LTLFormulaGenerator = function() {
       }
 
       function generateSignalId() {
-         var ids = universe.getSignalsIds();
+         var ids = universe.getIds();
          return ids[_random(0, ids.length - 1)];
       }
 

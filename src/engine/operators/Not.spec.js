@@ -23,10 +23,10 @@ describe('testing "Not" constructor', function() {
    });
 
    it('Correct "Not" operation should pass', function() {
-      u.addSignal(new BooleanSignal("a = 101/011"));
+      u.putEntity(new BooleanSignal("a = 101/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      var not = new Not(u.signalById("a"));
+      var not = new Not(u.getEntity("a"));
       var r = not.performUnaryOperator();
 
       expect(r.getContent()).toEqual("a=010/100");

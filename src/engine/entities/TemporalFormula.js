@@ -40,7 +40,7 @@ function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
 inheritPrototype(TemporalFormula, TemporalEntity);
 
 TemporalFormula.prototype.calculateChartValues = function(universeLength) {
-   this.booleanSignal.calculateChartValues(universeLength, "Formula");
+   return this.booleanSignal.calculateChartValues(universeLength, "Formula");
 };
 
 TemporalFormula.prototype.getChartData = function() {
@@ -50,5 +50,13 @@ TemporalFormula.prototype.getChartData = function() {
 TemporalFormula.prototype.getAssociatedSignal = function() {
    return this.booleanSignal;
 };
+
+TemporalFormula.prototype.calculateUpdatedFixedPart = function (fixedPartNewLength) {
+   return this.booleanSignal.calculateUpdatedFixedPart(fixedPartNewLength);
+};
+
+TemporalFormula.prototype.calculateUpdatedPeriodicPart = function (periodicPartNewLength) {
+   return this.booleanSignal.calculateUpdatedPeriodicPart(periodicPartNewLength);
+}
 
 export default TemporalFormula;

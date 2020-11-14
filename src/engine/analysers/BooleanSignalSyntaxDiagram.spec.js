@@ -1,14 +1,14 @@
 import { Random } from 'random-js';
 import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { BooleanSignalGenerator } from 'src/engine/generators';
-import { FormulasManager } from 'src/engine/business';
+import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
 
 function testCorrectSignals(nbrOfTests) {
    var result = true;
    var signals = Symbols.getEmpty();
    for (var i = 0; i < nbrOfTests; i++) {
-      signals = BooleanSignalGenerator.generateBooleanSignals(new FormulasManager());
+      signals = BooleanSignalGenerator.generateBooleanSignals(new Universe());
       result = TemporalEntitySyntaxDiagram.isValidSignal(signals) && result;
    }
    return result;
@@ -22,7 +22,7 @@ function testUncorrectSignals(generator, nbrOfTests) {
       return this.substr(0, index) + character + this.substr(index + character.length);
    }
    for (var i = 0; i < nbrOfTests; i++) {
-      signals = BooleanSignalGenerator.generateBooleanSignals(new FormulasManager());
+      signals = BooleanSignalGenerator.generateBooleanSignals(new Universe());
 
       if (generator.bool()) {
          signals += generator.string(10, pool);

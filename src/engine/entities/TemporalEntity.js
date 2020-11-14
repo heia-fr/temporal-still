@@ -25,8 +25,8 @@ function TemporalEntity(id, content, other) {
     } else {
         this.id = other.id;
         this.content = other.content;
-        this.editable = other.editorEnabled;
-        this.references = other.referencesTo;
+        this.editable = other.editable;
+        this.references = other.references;
         this.referencedBy = other.referencedBy;
         this.signalChartData = other.signalChartData;
     }

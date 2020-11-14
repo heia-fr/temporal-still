@@ -32,7 +32,7 @@ var FormulaGenerator = function() {
          do {
             i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (universe.containsSignal(id));
+         } while (universe.containsEntity(id));
          return id;
       }
 
@@ -50,7 +50,7 @@ var FormulaGenerator = function() {
          }
 
          if (chance <= pathTwoPercent) {
-            var ids = universe.getSignalsIds();
+            var ids = universe.getIds();
             atom = ids[_random(0, ids.length - 1)];
          } else if (chance <= pathThreePercent) {
             atom = Symbols.getNot() + generateAtom();

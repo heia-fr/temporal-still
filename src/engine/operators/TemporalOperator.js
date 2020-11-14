@@ -1,6 +1,6 @@
 import { Symbols, inheritPrototype } from 'src/engine/helpers';
 import Operator from './Operator';
-import { BooleanSignal } from 'src/engine/entities';
+import { BooleanSignal, TemporalEntity } from 'src/engine/entities';
 
 /**
  * This class represents a base abstract class for all temporal operators used
@@ -12,9 +12,9 @@ import { BooleanSignal } from 'src/engine/entities';
  * @param function
  *           a function provided by derived temporal operators and used to
  *           evaluate the signal(s).
- * @param BooleanSignal
+ * @param TemporalEntity
  *           lSignal is the left operand
- * @param BooleanSignal
+ * @param TemporalEntity
  *           rSignal is the right operand
  */
 function TemporalOperator(operation, lSignal, rSignal) {
@@ -69,8 +69,8 @@ TemporalOperator.prototype.performUnaryOperator = function() {
  * performUnaryOperator() method)
  */
 TemporalOperator.prototype.performBinaryOperator = function() {
-   if (!(this.rightSignal instanceof BooleanSignal))
-      throw new TypeError("TemporalOperator: Expected 'rightSignal' to be a 'BooleanSignal' object");
+   if (!(this.rightSignal instanceof TemporalEntity))
+      throw new TypeError("TemporalOperator: Expected 'rightSignal' to be a 'TemporalEntity' object");
    var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
    var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 

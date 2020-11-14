@@ -41,12 +41,12 @@ export class EditableFormulaValidatorDirective implements Validator {
 		// universe
 		var lexer = new Lexer(formulaArr[1].trim());
 		while (!lexer.hasNoMoreChars()) {
-			if (lexer.isVarName() && !this.params.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
+			if (lexer.isVarName() && !this.params.signalsService.universe.containsEntity(lexer.getCurrentToken())) {
 				return { eformulas: "Formula uses an unknown signal" };
 			}
 			lexer.goToNextToken();
 		}
-		if (lexer.isVarName() && !this.params.signalsService.universe.containsSignal(lexer.getCurrentToken())) {
+		if (lexer.isVarName() && !this.params.signalsService.universe.containsEntity(lexer.getCurrentToken())) {
 			return { eformulas: "Formula uses an unknown signal" };
 		}
 

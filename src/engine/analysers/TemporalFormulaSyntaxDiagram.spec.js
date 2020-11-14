@@ -56,9 +56,9 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
    var nbrOfTests = 10;
    var r = new Random();
    var u = new Universe();
-   u.addSignal(new BooleanSignal("a = 100101/10"));
-   u.addSignal(new BooleanSignal("b = 1011/010"));
-   u.addSignal(new BooleanSignal("c = 1/10110"));
+   u.putEntity(new BooleanSignal("a = 100101/10"));
+   u.putEntity(new BooleanSignal("b = 1011/010"));
+   u.putEntity(new BooleanSignal("c = 1/10110"));
 
    it('Correct formulas are expected to be accepted', function() {
       var result = true;

@@ -23,20 +23,20 @@ describe('testing "Eventually" constructor', function() {
    });
 
    it('Correct "Eventually" operation should pass', function() {
-      u.addSignal(new BooleanSignal("a = 101/011"));
-      u.addSignal(new BooleanSignal("b = 11/0"));
-      u.addSignal(new BooleanSignal("c = 11001/01100"));
+      u.putEntity(new BooleanSignal("a = 101/011"));
+      u.putEntity(new BooleanSignal("b = 11/0"));
+      u.putEntity(new BooleanSignal("c = 11001/01100"));
       Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
 
-      var eventually = new Eventually(u.signalById("a"));
+      var eventually = new Eventually(u.getEntity("a"));
       var r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("a=11111/111111111111111");
 
-      eventually = new Eventually(u.signalById("b"));
+      eventually = new Eventually(u.getEntity("b"));
       r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("b=11000/000000000000000");
 
-      eventually = new Eventually(u.signalById("c"));
+      eventually = new Eventually(u.getEntity("c"));
       r = eventually.performUnaryOperator();
       expect(r.getContent()).toEqual("c=11111/111111111111111");
    });

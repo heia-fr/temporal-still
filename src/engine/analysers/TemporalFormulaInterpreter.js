@@ -1,4 +1,3 @@
-import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
 import Lexer from './Lexer';
 import { TemporalFormula } from 'src/engine/entities';
@@ -140,7 +139,7 @@ var TemporalFormulaInterpreter = function() {
             console.log(lexer.getCurrentToken());
             throw new SyntaxError("TemporalFormulaInterpreter: Expected valid variable name");
          }
-         var bs = state.universe.signalById(lexer.getCurrentToken());
+         var bs = state.universe.getEntity(lexer.getCurrentToken());
          // if the boolean signal is not referenced by the temporal formula
          // that is being evaluated, then add it to the references array
          if (state.ids.indexOf(bs.getId()) < 0) {
@@ -150,6 +149,9 @@ var TemporalFormulaInterpreter = function() {
          // boolean signal
          bs.addReferencedBy(state.entityId);
          lexer.goToNextToken();
+         if (bs instanceof TemporalFormula) {
+            return bs.getAssociatedSignal();
+         }
          return bs;
       }
 
@@ -164,9 +166,7 @@ var TemporalFormulaInterpreter = function() {
           */
          evaluate: function(expression, univ) {
             if (typeof expression !== 'string')
-               throw new TypeError("TemporalFormulaInterpreter: Expecting 'expression' to be a 'String' object");
-            if (!(univ instanceof Universe))
-               throw new TypeError("TemporalFormulaInterpreter: Expecting 'universe' to be a 'Universe' object");
+               throw new TypeError("TemporalEntityInterpreter: Expecting 'expression' to be a 'String' object");
 
             try {
                // set the universe length so all the operators can have access

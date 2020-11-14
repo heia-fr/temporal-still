@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
 		var editor = event.target as HTMLElement;
 		if (!editor || editor.classList.contains("alambic-editorField")) return;
 
-		for (let signal of this.signalsService.universe.getSignals()) {
+		for (let signal of this.signalsService.universe.getEntities()) {
 			if (signal.isEditorEnabled()) {
 				signal.setEditorEnabled(false);
 			}
@@ -222,7 +222,7 @@ export class HomeComponent implements OnInit {
 	// update boolean charts
 	updateSignalsCharts() {
 		let universe = this.signalsService.universe;
-		for (let signal of universe.getSignals()) {
+		for (let signal of universe.getEntities()) {
 			signal.calculateChartValues(universe.getLength());
 		}
 	}
@@ -239,7 +239,7 @@ export class HomeComponent implements OnInit {
 	removeReferringFormula(tf: any) {
 		let universe = this.signalsService.universe;
 		for (let id of tf.getReferences()) {
-			var bs: any = universe.signalById(id);
+			var bs: any = universe.getEntity(id);
 			bs.removeReferencedBy(tf.getId());
 		}
 	}
@@ -264,11 +264,11 @@ export class HomeComponent implements OnInit {
 
 	// method to enable the signals editor
 	enableSignalEditor(id: any, event: Event, form: NgForm) {
-		for (let s of this.signalsService.universe.getSignals()) {
+		for (let s of this.signalsService.universe.getEntities()) {
 			s.setEditorEnabled(false);
 		}
 
-		var s: any = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.getEntity(id);
 		s.setEditorEnabled(true);
 		this.editableSignal.text = s.getContent();
 		this.editableSignal.id = id;
@@ -279,7 +279,7 @@ export class HomeComponent implements OnInit {
 
 	// method to disable the signals editors
 	disableSignalEditor(event: Event, id: any) {
-		var s: any = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.getEntity(id);
 		s.setEditorEnabled(false);
 		this.editableSignal.text = s.getContent();
 		event.stopPropagation();
@@ -291,8 +291,8 @@ export class HomeComponent implements OnInit {
 		var id = signalStr.split(Symbols.getEqual())[0].trim();
 		var bs: any = null;
 		// add the current signal to the universe
-		if (this.signalsService.universe.containsSignal(id)) {
-			bs = this.signalsService.universe.signalById(id);
+		if (this.signalsService.universe.containsEntity(id)) {
+			bs = this.signalsService.universe.getEntity(id);
 			if (bs.getContent() === signalStr) { return; }
 		}
 
@@ -301,10 +301,10 @@ export class HomeComponent implements OnInit {
 		// and update the referencing formulas
 		if (bs && bs.isReferenced()) {
 			newS.setReferencedBy(bs.getReferencedBy());
-			this.signalsService.universe.updateSignal(id, newS);
+			this.signalsService.universe.putEntity(newS);
 			this.reevaluateReferringTemporalFormulas(newS);
 		} else {
-			this.signalsService.universe.addSignal(newS);
+			this.signalsService.universe.putEntity(newS);
 		}
 
 		this.signalsString = Symbols.getEmpty();
@@ -325,7 +325,7 @@ export class HomeComponent implements OnInit {
 
 	// update the boolean signal corresponding to the provided ID
 	updateSignal(event: Event, id: any) {
-		var s: any = this.signalsService.universe.signalById(id);
+		var s: any = this.signalsService.universe.getEntity(id);
 		var str = this.editableSignal.text.trim();
 		// skip the processing if it's not necessary
 		if (s.getContent().trim() === str) {
@@ -336,7 +336,7 @@ export class HomeComponent implements OnInit {
 		// update the signal and reevaluate the referencing formulas
 		var newS: any = new BooleanSignal(str, null);
 		newS.setReferencedBy(s.getReferencedBy());
-		this.signalsService.universe.updateSignal(id, newS);
+		this.signalsService.universe.putEntity(newS);
 		this.reevaluateReferringTemporalFormulas(newS);
 
 		// update the graphical charts and save the universe's and
@@ -352,7 +352,7 @@ export class HomeComponent implements OnInit {
 
 	// remove the boolean signal corresponding to the provided ID
 	removeSignal(id: any) {
-		this.signalsService.universe.removeSignal(id);
+		this.signalsService.universe.removeEntity(id);
 		// recalculate the universe's length by
 		// taking into account the formulas' associated
 		// boolean signals
@@ -499,7 +499,7 @@ export class HomeComponent implements OnInit {
 
 	// clear the formulas manager
 	clearFormulas() {
-		this.signalsService.universe.clearReferences();
+		//this.signalsService.universe.clearReferences();
 		this.signalsService.formulasManager.clear();
 		// update scroll bar
 		this.updateScrollBar('#formulasList');

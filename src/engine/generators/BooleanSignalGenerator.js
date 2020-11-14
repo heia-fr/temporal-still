@@ -1,6 +1,6 @@
 import _random from 'lodash/random';
 import { Symbols } from 'src/engine/helpers';
-import { FormulasManager } from 'src/engine/business';
+import { Universe } from 'src/engine/business';
 
 /**
  * Defining BooleanSignalGenerator using the concept of the recursive descent
@@ -28,7 +28,7 @@ var BooleanSignalGenerator = function() {
          do {
             i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (ids.indexOf(id) >= 0 || formulasManager.containsFormula(id));
+         } while (ids.indexOf(id) >= 0 || formulasManager.containsEntity(id));
          return id;
       }
 
@@ -59,9 +59,8 @@ var BooleanSignalGenerator = function() {
 
       return {
          generateBooleanSignals: function(fManager) {
-            if (!(fManager instanceof FormulasManager))
-               throw new TypeError(
-                        "BooleanSignalGenerator: Expecting 'fManager' to be a 'FormulasManager' object");
+            if (!(fManager instanceof Universe))
+               throw new TypeError("BooleanSignalGenerator: Expecting 'fManager' to be a 'Universe' object");
             formulasManager = fManager;
 
             return generateSignals();

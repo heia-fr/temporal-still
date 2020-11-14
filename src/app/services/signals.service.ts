@@ -55,7 +55,7 @@ export class SignalsService {
 			newUniverse = new Universe(null);
 			const signals = ["b = 111000100011/1", "a = 110000101000/0"];
 			for (let signal of signals) {
-				newUniverse.addSignal(new BooleanSignal(signal, null));
+				newUniverse.putEntity(new BooleanSignal(signal, null));
 			}
 		}
 		this.universe = newUniverse;
