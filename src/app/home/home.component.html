@@ -135,7 +135,7 @@
 				<form #alambicFormulaListForm="ngForm" class="top-buffer" role="form" novalidate>
 					<ul id="formulasList" class="list-group y-scroll">
 						<li class="list-group-item custom-item"
-							*ngFor='let formula of signalsService.formulasManager.getFormulas(); trackBy: trackById;'
+							*ngFor='let formula of signalsService.formulasManager.getEntities(); trackBy: trackById;'
 							id="formula{{formula.getId()}}">
 							<div class="row">
 								<div class="col-sm-8 col-md-8 col-lg-8 text-left">
@@ -180,7 +180,7 @@
 	<div class="col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-default chart-grid">
 			<div class="panel-body">
-				<div *ngFor="let formula of signalsService.formulasManager.getFormulas(); trackBy: trackById;">
+				<div *ngFor="let formula of signalsService.formulasManager.getEntities(); trackBy: trackById;">
 					<nvd3 [options]="nvd3Options" [data]="formula.getChartData()"></nvd3>
 				</div>
 				<div *ngFor="let signal of signalsService.universe.getEntities(); trackBy: trackById;">

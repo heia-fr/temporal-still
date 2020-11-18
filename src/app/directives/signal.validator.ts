@@ -27,7 +27,7 @@ export class SignalValidatorDirective implements Validator {
 			// if the signals are correct, verify that the id
 			// doesn't conflict with the formulas IDs
 			var signalParts = value.split(Symbols.getEqual())[0].trim();
-			if (this.signalsService.formulasManager.containsFormula(signalParts)) {
+			if (this.signalsService.formulasManager.containsEntity(signalParts)) {
 				return { signals: "Signal name conflicts with a formula name" };
 			}
 		}

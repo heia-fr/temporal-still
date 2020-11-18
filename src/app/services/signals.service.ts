@@ -70,7 +70,7 @@ export class SignalsService {
 		var formulasManagerAsJson = this.restore(this.formulasManagerKey);
 		if (formulasManagerAsJson) {
 			newFormulasManager = JSON.parse(formulasManagerAsJson, function (key, value) {
-				if (typeof (value) === 'object' && value.__type === 'FormulasManager')
+				if (typeof (value) === 'object' && value.__type === 'Universe')
 					return new FormulasManager(value);
 
 				return value;
@@ -81,7 +81,7 @@ export class SignalsService {
 			for (let formula of tfs) {
 				var tf = TemporalFormulaInterpreter.evaluate(formula, this.universe);
 				if (tf instanceof TemporalFormula) {
-					newFormulasManager.addFormula(tf);
+					newFormulasManager.putEntity(tf);
 				}
 			}
 		}

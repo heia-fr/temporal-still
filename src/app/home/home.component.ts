@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
 			}
 		}
 
-		for (let formula of this.signalsService.formulasManager.getFormulas()) {
+		for (let formula of this.signalsService.formulasManager.getEntities()) {
 			if (formula.isEditorEnabled()) {
 				formula.setEditorEnabled(false);
 			}
@@ -229,7 +229,7 @@ export class HomeComponent implements OnInit {
 	updateFormulasCharts() {
 		let formulasManager = this.signalsService.formulasManager;
 		let universe = this.signalsService.universe;
-		for (let formula of formulasManager.getFormulas()) {
+		for (let formula of formulasManager.getEntities()) {
 			formula.calculateChartValues(universe.getLength());
 		}
 	}
@@ -250,10 +250,10 @@ export class HomeComponent implements OnInit {
 		let formulasManager = this.signalsService.formulasManager;
 		let universe = this.signalsService.universe;
 		for (let fId of s.getReferencedBy()) {
-			var tf: any = formulasManager.formulaById(fId);
+			var tf: any = formulasManager.getEntity(fId);
 			tf = TemporalFormulaInterpreter.evaluate(tf.getContent(), universe);
 			if (tf instanceof TemporalFormula) {
-				formulasManager.updateFormula(fId, tf);
+				formulasManager.putEntity(tf);
 			}
 		}
 	}
@@ -356,7 +356,7 @@ export class HomeComponent implements OnInit {
 		// recalculate the universe's length by
 		// taking into account the formulas' associated
 		// boolean signals
-		for (let f of this.signalsService.formulasManager.getFormulas()) {
+		for (let f of this.signalsService.formulasManager.getEntities()) {
 			this.signalsService.universe.calculateMaxLength(f.getAssociatedSignal());
 		}
 
@@ -393,11 +393,11 @@ export class HomeComponent implements OnInit {
 
 	// method to enable the formulas editor
 	enableFormulaEditor(id: any, event: Event, form: NgForm) {
-		for (let f of this.signalsService.formulasManager.getFormulas()) {
+		for (let f of this.signalsService.formulasManager.getEntities()) {
 			f.setEditorEnabled(false);
 		}
 
-		var f: any = this.signalsService.formulasManager.formulaById(id);
+		var f: any = this.signalsService.formulasManager.getEntity(id);
 		f.setEditorEnabled(true);
 		this.editableFormula.text = f.getContent();
 		this.editableFormula.id = id;
@@ -408,7 +408,7 @@ export class HomeComponent implements OnInit {
 
 	// method to disable the formulas editor
 	disableFormulaEditor(event: Event, id: any) {
-		var f: any = this.signalsService.formulasManager.formulaById(id);
+		var f: any = this.signalsService.formulasManager.getEntity(id);
 		f.setEditorEnabled(false);
 		this.editableFormula.text = f.getContent();
 		event.stopPropagation();
@@ -418,8 +418,8 @@ export class HomeComponent implements OnInit {
 	addFormula(form: NgForm) {
 		var fId = this.formulaString.split(Symbols.getEqual())[0].trim();
 		// it a formula with the same ID exists, override it
-		if (this.signalsService.formulasManager.containsFormula(fId)) {
-			let tf = this.signalsService.formulasManager.formulaById(fId);
+		if (this.signalsService.formulasManager.containsEntity(fId)) {
+			let tf = this.signalsService.formulasManager.getEntity(fId);
 			this.removeReferringFormula(tf);
 		}
 
@@ -427,7 +427,7 @@ export class HomeComponent implements OnInit {
 		let tf = TemporalFormulaInterpreter.evaluate(this.formulaString,
 			this.signalsService.universe);
 		if (tf instanceof TemporalFormula) {
-			this.signalsService.formulasManager.addFormula(tf);
+			this.signalsService.formulasManager.putEntity(tf);
 
 			// update the graphical charts and save the universe's and
 			// formulas manager's states
@@ -447,7 +447,7 @@ export class HomeComponent implements OnInit {
 
 	// update the formula corresponding to the provided ID
 	updateFormula(event: Event, id: any) {
-		var tf: any = this.signalsService.formulasManager.formulaById(id);
+		var tf: any = this.signalsService.formulasManager.getEntity(id);
 		var str = this.editableFormula.text.trim();
 
 		// skip if updating is not necessary
@@ -461,7 +461,7 @@ export class HomeComponent implements OnInit {
 		// evaluate the formula
 		tf = TemporalFormulaInterpreter.evaluate(str, this.signalsService.universe);
 		if (tf instanceof TemporalFormula) {
-			this.signalsService.formulasManager.updateFormula(id, tf);
+			this.signalsService.formulasManager.putEntity(tf);
 
 			// update the graphical charts and save the universe's and
 			// formulas manager's states
@@ -474,11 +474,11 @@ export class HomeComponent implements OnInit {
 
 	// remove the formula corresponding to provided ID
 	removeFormula(id: any) {
-		var tf = this.signalsService.formulasManager.formulaById(id);
+		var tf = this.signalsService.formulasManager.getEntity(id);
 
 		this.removeReferringFormula(tf);
 
-		this.signalsService.formulasManager.removeFormula(id);
+		this.signalsService.formulasManager.removeEntity(id);
 
 		// update the graphical charts and save the universe's and
 		// formulas manager's states
