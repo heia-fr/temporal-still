@@ -1,6 +1,6 @@
 import { Symbols } from 'src/engine/helpers';
 import Lexer from './Lexer';
-import { TemporalFormula } from 'src/engine/entities';
+import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 
 import {
    Operator, Always, And, Eventually, Implies, Not, Or, WeakUntil
@@ -12,18 +12,51 @@ import {
  * corresponding signals. The result of the evaluation is a BooleanSignal object
  * that will be wrapped in a TemporalFormula object.
  */
-var TemporalFormulaInterpreter = function() {
+var TemporalEntityInterpreter = function() {
 
    function Singleton() {
 
       function parseFormulaExpr(lexer, state) {
-         if (!lexer.isVarName()) throw new SyntaxError("TemporalFormulaInterpreter: Expected valid formula name");
+         if (!lexer.isVarName()) throw new SyntaxError("TemporalEntityInterpreter: Expected valid formula name");
          lexer.goToNextToken();
 
-         if (!lexer.isEqualSign()) throw new SyntaxError("TemporalFormulaInterpreter: Expected equal sign");
+         if (!lexer.isEqualSign()) throw new SyntaxError("TemporalEntityInterpreter: Expected equal sign");
          lexer.goToNextToken();
 
-         return parseFormula(lexer, state);
+         if (lexer.isZero() || lexer.isOne()) {
+            return parseSignal(lexer, state);
+         } else {
+            var formula = parseFormula(lexer, state);
+            return new TemporalFormula(state.entityId, state.expression, formula, state.ids);
+         }
+      }
+
+      function parseSignal(lexer, state) {
+         var body = parseDigits(lexer, state);
+
+         if (!lexer.isSlash())
+            throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected slash sign");
+         lexer.goToNextToken();
+
+         var period = parseDigits(lexer, state);
+
+         return new BooleanSignal(state.entityId + "=" + body + "/" + period);
+      }
+
+      function parseDigits(lexer, state) {
+         var digits = "";
+
+         if (!(lexer.isZero() || lexer.isOne()))
+            throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected 0 or 1");
+         digits += lexer.getCurrentToken();
+         lexer.goToNextToken();
+
+         while (lexer.isZero() || lexer.isOne()) {
+            digits += lexer.getCurrentToken();
+            lexer.goToNextToken();
+         }
+
+         return digits;
       }
 
       function parseFormula(lexer, state) {
@@ -33,7 +66,7 @@ var TemporalFormulaInterpreter = function() {
             lexer.goToNextToken();
 
             if (!lexer.isGreaterThanSign())
-               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.isGreaterThanSign());
+               throw new SyntaxError("TemporalEntityInterpreter: Expected " + Symbols.isGreaterThanSign());
             lexer.goToNextToken();
 
             var thatBs = parseComponent(lexer, state);
@@ -93,10 +126,14 @@ var TemporalFormulaInterpreter = function() {
          if (lexer.isOpeningBracket()) {
             lexer.goToNextToken();
 
-            bs = parseFormula(lexer, state);
+            if (lexer.isZero() || lexer.isOne()) {
+               bs = parseSignal(lexer, state);
+            } else {
+               bs = parseFormula(lexer, state);
+            }
 
             if (!lexer.isClosingBracket())
-               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingBraket());
+               throw new SyntaxError("TemporalEntityInterpreter: Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
          } else if (lexer.isNot()) {
@@ -110,7 +147,7 @@ var TemporalFormulaInterpreter = function() {
             lexer.goToNextToken();
 
             if (!lexer.isClosingSquareBracket())
-               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getClosingSquareBraket());
+               throw new SyntaxError("TemporalEntityInterpreter: Expected " + Symbols.getClosingSquareBraket());
             lexer.goToNextToken();
 
             bs = parseAtom(lexer, state);
@@ -121,7 +158,7 @@ var TemporalFormulaInterpreter = function() {
             lexer.goToNextToken();
 
             if (!lexer.isGreaterThanSign())
-               throw new SyntaxError("TemporalFormulaInterpreter: Expected " + Symbols.getGreaterThan());
+               throw new SyntaxError("TemporalEntityInterpreter: Expected " + Symbols.getGreaterThan());
             lexer.goToNextToken();
 
             bs = parseAtom(lexer, state);
@@ -137,7 +174,7 @@ var TemporalFormulaInterpreter = function() {
       function parseProp(lexer, state) {
          if (!lexer.isVarName()) {
             console.log(lexer.getCurrentToken());
-            throw new SyntaxError("TemporalFormulaInterpreter: Expected valid variable name");
+            throw new SyntaxError("TemporalEntityInterpreter: Expected valid variable name");
          }
          var bs = state.universe.getEntity(lexer.getCurrentToken());
          // if the boolean signal is not referenced by the temporal formula
@@ -175,14 +212,12 @@ var TemporalFormulaInterpreter = function() {
                var lexer = new Lexer(expression);
                lexer.goToNextToken();
                var entityId = expression.split(Symbols.getEqual())[0].trim();
-               var state = {
+               return parseFormulaExpr(lexer, {
+                  expression: expression,
                   entityId: entityId,
                   ids: [],
                   universe: univ,
-               };
-               var bs = parseFormulaExpr(lexer, state);
-               var tf = new TemporalFormula(entityId, expression, bs, state.ids);
-               return tf;
+               });
             } catch (ex) {
                console.error(ex);
                return null;
@@ -197,4 +232,4 @@ var TemporalFormulaInterpreter = function() {
    return Singleton.prototype.instance;
 }();
 
-export default TemporalFormulaInterpreter;
+export default TemporalEntityInterpreter;

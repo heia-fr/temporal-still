@@ -97,7 +97,7 @@ var LTLFormulaGenerator = function() {
 
             universe = univ;
 
-            return generateProp() + Symbols.getEqual() + generateFormula(nbProps);
+            return generateProp() + " " + Symbols.getEqual() + " " + generateFormula(nbProps);
          }
       };
    }

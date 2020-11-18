@@ -66,6 +66,8 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
       result = TemporalEntitySyntaxDiagram.isValidFormula("f = []a | b & c") && result;
       result = TemporalEntitySyntaxDiagram.isValidFormula("f = []a | <>(b & c)") && result;
       result = TemporalEntitySyntaxDiagram.isValidFormula("f = !(b & c)") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = !((1001/01) & (11/0))") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = ((b) | (11/0))") && result;
       result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests, u) && result;
 
       expect(result).toBe(true);

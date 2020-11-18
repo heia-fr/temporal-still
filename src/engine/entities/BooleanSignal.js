@@ -74,13 +74,16 @@ BooleanSignal.prototype.getReferences = function () {
    return [];
 };
 BooleanSignal.prototype.setReferences = function (references) {
+   throw new Error("BooleanSignal cannot have references")
 };
 BooleanSignal.prototype.hasReference = function (entityId) {
    return false;
 };
 BooleanSignal.prototype.addReference = function (entityId) {
+   throw new Error("BooleanSignal cannot have references")
 };
 BooleanSignal.prototype.removeReference = function (entityId) {
+   throw new Error("BooleanSignal cannot have references")
 };
 
 /**
@@ -139,8 +142,7 @@ BooleanSignal.prototype.calculateUpdatedPeriodicPart = function (periodicPartNew
  */
 BooleanSignal.prototype.calculateChartValues = function (universeLength, legendLabel) {
    if (!(universeLength instanceof Array))
-      throw new TypeError(
-         "BooleanSignal: Expected 'universeLength' to be an 'Array' object");
+      throw new TypeError( "BooleanSignal: Expected 'universeLength' to be an 'Array' object");
    if (universeLength.length != 2)
       throw new Error("BooleanSignal: Expected 'universeLength' length to be 2");
 

@@ -13,7 +13,7 @@ import Lexer from './Lexer';
    Component ::= Term ('|' Term)*
    Term ::= Factor ('&' Factor)*
    Factor ::= Atom ('W' Atom)?
-   Atom ::= ('(' Formula ')')|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
+   Atom ::= ('(' (Formula|Signal) ')')|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
    Prop ::= VarName
 
    VarName ::= Letter+
@@ -142,7 +142,11 @@ var TemporalEntitySyntaxDiagram = (function() {
          if (lexer.isOpeningBracket()) {
             lexer.goToNextToken();
 
-            parseFormula(lexer);
+            if (lexer.isZero() || lexer.isOne()) {
+               parseSignal(lexer);
+            } else {
+               parseFormula(lexer);
+            }
 
             if (!lexer.isClosingBracket())
                throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected " + Symbols.getClosingBraket());

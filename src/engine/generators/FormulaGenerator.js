@@ -143,8 +143,8 @@ var FormulaGenerator = function() {
             universe = univ;
             formulaLevel = 2;
 
-            var f = generateFormula();
-            return generateProp() + Symbols.getEqual() + purgeSuccessiveDuplicateOps(f);
+            var f = purgeSuccessiveDuplicateOps(generateFormula());
+            return generateProp() + " " + Symbols.getEqual() + " " + f;
          }
       };
    }

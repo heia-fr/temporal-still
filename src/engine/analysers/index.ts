@@ -1,9 +1,9 @@
 import Lexer from './Lexer';
 import TemporalEntitySyntaxDiagram from './TemporalEntitySyntaxDiagram';
-import TemporalFormulaInterpreter from './TemporalFormulaInterpreter';
+import TemporalEntityInterpreter from './TemporalEntityInterpreter';
 
 export {
 	Lexer,
 	TemporalEntitySyntaxDiagram,
-	TemporalFormulaInterpreter,
+	TemporalEntityInterpreter,
 };
