@@ -15,8 +15,7 @@ import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { HowToComponent } from './howto/howto.component';
 
-import { SignalFormatterPipe } from './pipes/signal-formatter.pipe';
-import { FormulaFormatterPipe } from './pipes/formula-formatter.pipe';
+import { TemporalEntityFormatterPipe } from './pipes/temporal-entity-formatter.pipe';
 
 import { TemporalEntityValidatorDirective } from './directives/temporal-entity.validator';
 import { EditableTemporalEntityValidatorDirective } from './directives/editable-temporal-entity.validator';
@@ -33,8 +32,7 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		HomeComponent,
 		HowToComponent,
 		// Pipes
-		SignalFormatterPipe,
-		FormulaFormatterPipe,
+		TemporalEntityFormatterPipe,
 		// Validators
 		TemporalEntityValidatorDirective,
 		EditableTemporalEntityValidatorDirective,
