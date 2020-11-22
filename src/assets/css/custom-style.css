@@ -90,6 +90,7 @@ header .header-limiter a:hover {
 /** ******** BEGIN: Change padding property to the lists (signals/formulas) ******* */
 ul li.custom-item {
 	padding: 2px 11px !important;
+	border-radius: 0 !important;
 }
 /** ******** END: Change padding property to the lists (signals/formulas) ******* */
 
@@ -207,4 +208,9 @@ footer {
 
 [hidden] {
 	display: none !important;
+}
+
+#signalsList {
+	margin-right: 0;
+	margin-left: 0;
 }

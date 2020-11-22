@@ -18,10 +18,8 @@ import { HowToComponent } from './howto/howto.component';
 import { SignalFormatterPipe } from './pipes/signal-formatter.pipe';
 import { FormulaFormatterPipe } from './pipes/formula-formatter.pipe';
 
-import { SignalValidatorDirective } from './directives/signal.validator';
-import { FormulaValidatorDirective } from './directives/formula.validator';
-import { EditableSignalValidatorDirective } from './directives/editable-signal.validator';
-import { EditableFormulaValidatorDirective } from './directives/editable-formula.validator';
+import { TemporalEntityValidatorDirective } from './directives/temporal-entity.validator';
+import { EditableTemporalEntityValidatorDirective } from './directives/editable-temporal-entity.validator';
 
 import { GainFocusDirective } from './directives/gain-focus.directive';
 import { OnEnterDirective } from './directives/on-enter.directive';
@@ -38,10 +36,8 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		SignalFormatterPipe,
 		FormulaFormatterPipe,
 		// Validators
-		SignalValidatorDirective,
-		FormulaValidatorDirective,
-		EditableSignalValidatorDirective,
-		EditableFormulaValidatorDirective,
+		TemporalEntityValidatorDirective,
+		EditableTemporalEntityValidatorDirective,
 		// Directives
 		GainFocusDirective,
 		OnEnterDirective,
