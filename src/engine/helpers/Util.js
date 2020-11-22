@@ -7,6 +7,31 @@ var Util = function() {
 
       return {
                /**
+                * This method search the smallest repeated substring of the
+                * whole string
+                *
+                * @param string the string to analyse
+                */
+               getMinRepeatedSubstring: function(str) {
+                  var len = str.length;
+                  loop: for (var i = 2; i < len; i++) {
+                     if (len % i == 0) {
+                        var first = str.substr(0, i);
+                        // For each subparts, if one is not the same
+                        // check with the next (continue "loop")
+                        for (var offset = i; offset < len; offset += i) {
+                           if (first != str.substr(offset, i)) {
+                              continue loop;
+                           }
+                        }
+                        // Return the first found,
+                        // it's the smallest
+                        return first;
+                     }
+                  }
+                  return str;
+               },
+               /**
                 * This method calculates the greatest common divider of two
                 * positive integer values using The Euclidean Algorithm PRE: p
                 * and q must be positive integer values

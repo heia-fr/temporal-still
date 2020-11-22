@@ -53,6 +53,26 @@ function BooleanSignal(expressionString, other) {
 }
 inheritPrototype(BooleanSignal, TemporalEntity);
 
+BooleanSignal.prototype.minimizeSignal = function () {
+   // 1) Simplify Period
+   var period = Util.getMinRepeatedSubstring(this.period);
+
+   // 2) Simplify Body
+   var body = this.body;
+   var len = body.length;
+   while (body.endsWith(period, len)) {
+      len -= period.length;
+   }
+   if (len == 0) {
+      // We need at least one character
+      body = period;
+   } else {
+      body = body.substr(0, len);
+   }
+
+   return new BooleanSignal(this.id + "=" + body + "/" + period);
+}
+
 BooleanSignal.prototype.getBody = function () {
    return this.body;
 };
@@ -117,8 +137,7 @@ BooleanSignal.prototype.calculateUpdatedPeriodicPart = function (periodicPartNew
    // return what remains from the periodic part by taking into
    // account the offset periodStartIndex
    if (periodicPartNewLength <= 0) {
-      return this.period.substring(this.periodStartIndex,
-         this.period.length);
+      return this.period.substring(this.periodStartIndex, this.period.length);
    }
 
    var newPeriod = Symbols.getEmpty();
@@ -142,7 +161,7 @@ BooleanSignal.prototype.calculateUpdatedPeriodicPart = function (periodicPartNew
  */
 BooleanSignal.prototype.calculateChartValues = function (universeLength, legendLabel) {
    if (!(universeLength instanceof Array))
-      throw new TypeError( "BooleanSignal: Expected 'universeLength' to be an 'Array' object");
+      throw new TypeError("BooleanSignal: Expected 'universeLength' to be an 'Array' object");
    if (universeLength.length != 2)
       throw new Error("BooleanSignal: Expected 'universeLength' length to be 2");
 
