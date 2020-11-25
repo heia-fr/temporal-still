@@ -75,50 +75,50 @@ describe('testing BooleanSignal constructor', function() {
    it('New BooleanSignal should be referenced correctly', function() {
       var bs = new BooleanSignal("signal = 10110101/01");
 
-      expect(bs.getReferringTemporalFormulasIds()).toEqual([]);
-      expect(bs.isReferred()).toBe(false);
+      expect(bs.getReferencedBy()).toEqual([]);
+      expect(bs.isReferenced()).toBe(false);
 
-      bs.addReferringTemporalFormulaId("f");
+      bs.addReferencedBy("f");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(1);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["f"]);
+      expect(bs.getReferencedBy().length).toEqual(1);
+      expect(bs.getReferencedBy()).toEqual(["f"]);
 
-      bs.addReferringTemporalFormulaId("f");
+      bs.addReferencedBy("f");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(1);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["f"]);
-      expect(bs.isReferred()).toBe(true);
+      expect(bs.getReferencedBy().length).toEqual(1);
+      expect(bs.getReferencedBy()).toEqual(["f"]);
+      expect(bs.isReferenced()).toBe(true);
 
-      bs.addReferringTemporalFormulaId("y");
-      bs.addReferringTemporalFormulaId("q");
+      bs.addReferencedBy("y");
+      bs.addReferencedBy("q");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(3);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["f", "y", "q"]);
-      expect(bs.isReferred()).toBe(true);
+      expect(bs.getReferencedBy().length).toEqual(3);
+      expect(bs.getReferencedBy()).toEqual(["f", "y", "q"]);
+      expect(bs.isReferenced()).toBe(true);
 
-      bs.setReferringTemporalFormulasIds(["z", "t"]);
+      bs.setReferencedBy(["z", "t"]);
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(2);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["z", "t"]);
-      expect(bs.isReferred()).toBe(true);
+      expect(bs.getReferencedBy().length).toEqual(2);
+      expect(bs.getReferencedBy()).toEqual(["z", "t"]);
+      expect(bs.isReferenced()).toBe(true);
 
-      bs.removeReferringTemporalFormulaId("z");
+      bs.removeReferencedBy("z");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(1);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["t"]);
-      expect(bs.isReferred()).toBe(true);
+      expect(bs.getReferencedBy().length).toEqual(1);
+      expect(bs.getReferencedBy()).toEqual(["t"]);
+      expect(bs.isReferenced()).toBe(true);
 
-      bs.removeReferringTemporalFormulaId("z");
+      bs.removeReferencedBy("z");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(1);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual(["t"]);
-      expect(bs.isReferred()).toBe(true);
+      expect(bs.getReferencedBy().length).toEqual(1);
+      expect(bs.getReferencedBy()).toEqual(["t"]);
+      expect(bs.isReferenced()).toBe(true);
 
-      bs.removeReferringTemporalFormulaId("t");
+      bs.removeReferencedBy("t");
 
-      expect(bs.getReferringTemporalFormulasIds().length).toEqual(0);
-      expect(bs.getReferringTemporalFormulasIds()).toEqual([]);
-      expect(bs.isReferred()).toBe(false);
+      expect(bs.getReferencedBy().length).toEqual(0);
+      expect(bs.getReferencedBy()).toEqual([]);
+      expect(bs.isReferenced()).toBe(false);
    });
 
    it('BooleanSignal body and period should be as updated correctly', function() {

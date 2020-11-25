@@ -24,11 +24,11 @@ describe('testing "Or" constructor', function() {
    });
 
    it('Correct "Or" operation should pass', function() {
-      u.addSignal(new BooleanSignal("a = 101/101"));
-      u.addSignal(new BooleanSignal("b = 110/011"));
+      u.putEntity(new BooleanSignal("a = 101/101"));
+      u.putEntity(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      var and = new Or(u.signalById("a"), u.signalById("b"));
+      var and = new Or(u.getEntity("a"), u.getEntity("b"));
       var r = and.performBinaryOperator();
 
       expect(r.getContent()).toEqual("ab=111/111");

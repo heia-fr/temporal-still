@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import _random from 'lodash/random';
 import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
-import { TemporalFormulaLexer } from 'src/engine/analysers';
+import { Lexer } from 'src/engine/analysers';
 
 /**
  * Defining ForumlaGenerator using the concept of the recursive descent
@@ -30,28 +30,28 @@ var FormulaGenerator = function() {
          var i;
          var id = "";
          do {
-            i = _.random(0, Symbols.getCharSet().length - 1);
+            i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (universe.containsSignal(id));
+         } while (universe.containsEntity(id));
          return id;
       }
 
       function generateAtom() {
          var atom;
-         var chance = _.random(1, maxPercent);
+         var chance = _random(1, maxPercent);
 
          if (chance <= pathOnePercent) {
             if (formulaLevel > 0) {
                --formulaLevel;
                return Symbols.getOpeningBraket() + generateFormula() + Symbols.getClosingBraket();
             } else {
-               chance = _.random(pathOnePercent + 1, maxPercent);
+               chance = _random(pathOnePercent + 1, maxPercent);
             }
          }
 
          if (chance <= pathTwoPercent) {
-            var ids = universe.getSignalsIds();
-            atom = ids[_.random(0, ids.length - 1)];
+            var ids = universe.getIds();
+            atom = ids[_random(0, ids.length - 1)];
          } else if (chance <= pathThreePercent) {
             atom = Symbols.getNot() + generateAtom();
          } else if (chance <= pathFourPercent) {
@@ -65,7 +65,7 @@ var FormulaGenerator = function() {
       function generateFactor() {
          var factor = generateAtom();
 
-         if (_.random(0, 1) === 1) {
+         if (_random(0, 1) === 1) {
             factor += Symbols.getWeakUntil() + generateAtom();
          }
          return factor;
@@ -74,7 +74,7 @@ var FormulaGenerator = function() {
       function generateTerm() {
          var term = generateFactor();
 
-         if (_.random(0, 1) === 0) {
+         if (_random(0, 1) === 0) {
             for (var i = 1; i < maxNbFactors; i++) {
                term += " " + Symbols.getAnd() + " " + generateFactor();
             }
@@ -85,7 +85,7 @@ var FormulaGenerator = function() {
       function generateComponent() {
          var component = generateTerm();
 
-         if (_.random(0, 1) === 1) {
+         if (_random(0, 1) === 1) {
             for (var i = 1; i < maxNbTerms; i++) {
                component += " " + Symbols.getOr() + " " + generateTerm();
             }
@@ -96,7 +96,7 @@ var FormulaGenerator = function() {
       function generateFormula() {
          var formula = generateComponent();
 
-         var nbComponents = _.random(1, maxNbComponents);
+         var nbComponents = _random(1, maxNbComponents);
          for (var i = 1; i < nbComponents; i++) {
             formula += " " + Symbols.getImplies() + " " + generateComponent();
          }
@@ -106,7 +106,7 @@ var FormulaGenerator = function() {
       function purgeSuccessiveDuplicateOps(formulaStr) {
          var newFormulaStr = "";
          var c = "";
-         var lexer = new TemporalFormulaLexer(formulaStr);
+         var lexer = new Lexer(formulaStr);
          lexer.goToNextToken();
          while (!lexer.hasNoMoreChars()) {
             if (lexer.isOpeningSquareBracket()) {
@@ -122,14 +122,14 @@ var FormulaGenerator = function() {
                c = lexer.getCurrentToken();
             }
 
-            if (!_.endsWith(newFormulaStr, c) || !Symbols.isOperator(c)) {
+            if (!newFormulaStr.endsWith(c) || !Symbols.isOperator(c)) {
                newFormulaStr += c;
             }
 
             lexer.goToNextToken();
          }
          c = lexer.getCurrentToken();
-         if (!_.endsWith(newFormulaStr, c) || !Symbols.isOperator(c)) {
+         if (!newFormulaStr.endsWith(c) || !Symbols.isOperator(c)) {
             newFormulaStr += c;
          }
          return newFormulaStr;
@@ -143,8 +143,8 @@ var FormulaGenerator = function() {
             universe = univ;
             formulaLevel = 2;
 
-            var f = generateFormula();
-            return generateProp() + Symbols.getEqual() + purgeSuccessiveDuplicateOps(f);
+            var f = purgeSuccessiveDuplicateOps(generateFormula());
+            return generateProp() + " " + Symbols.getEqual() + " " + f;
          }
       };
    }

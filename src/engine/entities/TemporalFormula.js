@@ -1,3 +1,5 @@
+import { inheritPrototype } from 'src/engine/helpers';
+import TemporalEntity from './TemporalEntity';
 import BooleanSignal from './BooleanSignal';
 
 /**
@@ -16,69 +18,45 @@ import BooleanSignal from './BooleanSignal';
  *           TemporalFormula
  */
 function TemporalFormula(id, formulaString, booleanSignal, referredBS, other) {
+   TemporalEntity.call(this, id, formulaString, other);
+
    if (!other) {
-      if (typeof id !== "string")
-         throw new TypeError("TemporalFormula: Expected 'id' to be 'String' object");
-      if (typeof formulaString !== "string")
-         throw new TypeError("TemporalFormula: Expected 'formulaString' to be 'String' object");
       if (!(booleanSignal instanceof BooleanSignal))
-         throw new TypeError(
-                  "TemporalFormula: Expected 'booleanSignal' to be 'BooleanSignal' object");
+         throw new TypeError("TemporalFormula: Expected 'booleanSignal' to be 'BooleanSignal' object");
       if (!(referredBS instanceof Array))
          throw new TypeError("TemporalFormula: Expected 'referredBS' to be 'Array' object");
 
-      // the identifier of the temporal formula
-      this.id = id;
-      // the string representation of the temporal formula
-      this.content = formulaString;
-      this.editable = false;
       // Array of referenced boolean signals
-      this.referredBooleanSignalsIds = referredBS;
+      this.references = referredBS;
       // the evaluated representation of the temporal formula
       this.booleanSignal = new BooleanSignal(undefined, booleanSignal);
-      this.booleanSignal.setId(this.id);
+      this.booleanSignal.id = this.id;
    } else {
-      if (!(other instanceof Object) || other.__type !== 'TemporalFormula')
-         throw new TypeError("TemporalFormula: Expected other to be a 'TemporalFormula' object");
-      this.id = other.id;
-      this.content = other.content;
-      this.editable = other.editorEnabled;
-      this.referredBooleanSignalsIds = other.referredBooleanSignalsIds;
       this.booleanSignal = new BooleanSignal(undefined, other.booleanSignal);
    }
 
    this.__type = 'TemporalFormula';
 }
+inheritPrototype(TemporalFormula, TemporalEntity);
 
-TemporalFormula.prototype = {
-         constructor: TemporalFormula,
-         getId: function() {
-            return this.id;
-         },
-         getContent: function() {
-            return this.content;
-         },
-         getAssociatedSignal: function() {
-            return this.booleanSignal;
-         },
-         getReferredBooleanSignalsIds: function() {
-            return this.referredBooleanSignalsIds;
-         },
-         setReferredBooleanSignalsIds: function(bsIdsArray) {
-            this.referredBooleanSignalsIds = bsIdsArray;
-         },
-         isEditorEnabled: function() {
-            return this.editable;
-         },
-         setEditorEnabled: function(editorEnabled) {
-            this.editable = editorEnabled;
-         },
-         calculateChartValues: function(universeLength) {
-            this.booleanSignal.calculateChartValues(universeLength, "Formula");
-         },
-         getChartData: function() {
-            return this.booleanSignal.getChartData();
-         }
+TemporalFormula.prototype.calculateChartValues = function(universeLength) {
+   return this.booleanSignal.calculateChartValues(universeLength, "Formula");
 };
+
+TemporalFormula.prototype.getChartData = function() {
+   return this.booleanSignal.getChartData();
+};
+
+TemporalFormula.prototype.getAssociatedSignal = function() {
+   return this.booleanSignal;
+};
+
+TemporalFormula.prototype.calculateUpdatedFixedPart = function (fixedPartNewLength) {
+   return this.booleanSignal.calculateUpdatedFixedPart(fixedPartNewLength);
+};
+
+TemporalFormula.prototype.calculateUpdatedPeriodicPart = function (periodicPartNewLength) {
+   return this.booleanSignal.calculateUpdatedPeriodicPart(periodicPartNewLength);
+}
 
 export default TemporalFormula;

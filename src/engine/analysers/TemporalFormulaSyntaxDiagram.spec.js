@@ -1,7 +1,7 @@
 import { Random } from 'random-js';
 import { Universe } from 'src/engine/business';
 import { BooleanSignal } from 'src/engine/entities';
-import { TemporalFormulaSyntaxDiagram } from 'src/engine/analysers';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { FormulaGenerator } from 'src/engine/generators';
 import { Symbols } from 'src/engine/helpers';
 
@@ -21,7 +21,7 @@ function testCorrectFormulas(generator, maxNbFormulas, nbrOfTests, universe) {
       formulas = generateCorrectFormulas(nbOfFormulas, universe);
       formulas.forEach(function(formula) {
          console.log(formula);
-         result = TemporalFormulaSyntaxDiagram.isValid(formula) && result;
+         result = TemporalEntitySyntaxDiagram.isValidFormula(formula) && result;
       });
    }
    return result;
@@ -44,7 +44,7 @@ function testUncorrectFormulas(generator, maxNbFormulas, nbrOfTests, universe) {
          } else {
             formula = formula.substring(len, fLen - 1) + generator.string(10, pool);
          }
-         result = TemporalFormulaSyntaxDiagram.isValid(formula) || result;
+         result = TemporalEntitySyntaxDiagram.isValidFormula(formula) || result;
       });
    }
    return result;
@@ -56,16 +56,18 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
    var nbrOfTests = 10;
    var r = new Random();
    var u = new Universe();
-   u.addSignal(new BooleanSignal("a = 100101/10"));
-   u.addSignal(new BooleanSignal("b = 1011/010"));
-   u.addSignal(new BooleanSignal("c = 1/10110"));
+   u.putEntity(new BooleanSignal("a = 100101/10"));
+   u.putEntity(new BooleanSignal("b = 1011/010"));
+   u.putEntity(new BooleanSignal("c = 1/10110"));
 
    it('Correct formulas are expected to be accepted', function() {
       var result = true;
-      result = TemporalFormulaSyntaxDiagram.isValid("f = ((c | d) & (c -> e)) | (!(c | d) ) | (!(c -> e))") && result;
-      result = TemporalFormulaSyntaxDiagram.isValid("f = []a | b & c") && result;
-      result = TemporalFormulaSyntaxDiagram.isValid("f = []a | <>(b & c)") && result;
-      result = TemporalFormulaSyntaxDiagram.isValid("f = !(b & c)") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = ((c | d) & (c -> e)) | (!(c | d) ) | (!(c -> e))") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = []a | b & c") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = []a | <>(b & c)") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = !(b & c)") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = !((1001/01) & (11/0))") && result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("f = ((b) | (11/0))") && result;
       result = testCorrectFormulas(r, maxNbFormulas, nbrOfTests, u) && result;
 
       expect(result).toBe(true);
@@ -73,12 +75,12 @@ describe('testing TemporalFormulaSyntaxDiagram constructor', function() {
 
    it('Uncorrect formulas are expected to be refused', function() {
       var result = false;
-      result = TemporalFormulaSyntaxDiagram.isValid("") && result; // force
+      result = TemporalEntitySyntaxDiagram.isValidFormula("") && result; // force
       // false
-      result = TemporalFormulaSyntaxDiagram.isValid("g") || result;
-      result = TemporalFormulaSyntaxDiagram.isValid("oWdWp . [t") || result;
-      result = TemporalFormulaSyntaxDiagram.isValid("[]r(<>b + <o") || result;
-      result = TemporalFormulaSyntaxDiagram.isValid("x=j[e<>t") || result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("g") || result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("oWdWp . [t") || result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("[]r(<>b + <o") || result;
+      result = TemporalEntitySyntaxDiagram.isValidFormula("x=j[e<>t") || result;
 
       result = testUncorrectFormulas(r, maxNbFormulas, nbrOfTests, u) || result;
 

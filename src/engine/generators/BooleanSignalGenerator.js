@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import _random from 'lodash/random';
 import { Symbols } from 'src/engine/helpers';
-import { FormulasManager } from 'src/engine/business';
+import { Universe } from 'src/engine/business';
 
 /**
  * Defining BooleanSignalGenerator using the concept of the recursive descent
@@ -21,23 +21,22 @@ var BooleanSignalGenerator = function() {
 
       var maxBody = 10;
       var maxPeriod = 5;
-      var maxNbOfSignals = 1;
 
       function generateVarName(ids) {
          var i;
          var id = "";
          do {
-            i = _.random(0, Symbols.getCharSet().length - 1);
+            i = _random(0, Symbols.getCharSet().length - 1);
             id = Symbols.getCharSet().charAt(i);
-         } while (_.includes(ids, id) || formulasManager.containsFormula(id));
+         } while (ids.indexOf(id) >= 0 || formulasManager.containsEntity(id));
          return id;
       }
 
       function generateDigits(maxNbDigits) {
          var digits = Symbols.getEmpty();
-         var nbDigits = _.random(1, maxNbDigits);
+         var nbDigits = _random(1, maxNbDigits);
          for (var i = 0; i < nbDigits; i++) {
-            digits += (_.random() === 1 ? Symbols.getOne() : Symbols.getZero());
+            digits += (_random() === 1 ? Symbols.getOne() : Symbols.getZero());
          }
 
          return digits;
@@ -45,28 +44,23 @@ var BooleanSignalGenerator = function() {
 
       function generateSignals() {
          var signals = Symbols.getEmpty();
-         var nbOfSignals = _.random(1, maxNbOfSignals);
          var varName, body, period;
          var ids = [];
 
-         for (var i = 1; i <= nbOfSignals; i++) {
-            varName = generateVarName(ids);
-            ids.push(varName);
-            body = generateDigits(maxBody);
-            period = generateDigits(maxPeriod);
+         varName = generateVarName(ids);
+         ids.push(varName);
+         body = generateDigits(maxBody);
+         period = generateDigits(maxPeriod);
 
-            signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash()
-                     + period + ((i == nbOfSignals) ? "" : Symbols.getSemiColon());
-         }
+         signals += varName + " " + Symbols.getEqual() + " " + body + Symbols.getSlash() + period;
 
          return signals;
       }
 
       return {
          generateBooleanSignals: function(fManager) {
-            if (!(fManager instanceof FormulasManager))
-               throw new TypeError(
-                        "BooleanSignalGenerator: Expecting 'fManager' to be a 'FormulasManager' object");
+            if (!(fManager instanceof Universe))
+               throw new TypeError("BooleanSignalGenerator: Expecting 'fManager' to be a 'Universe' object");
             formulasManager = fManager;
 
             return generateSignals();

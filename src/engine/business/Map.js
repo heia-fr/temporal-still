@@ -54,15 +54,16 @@ Map.prototype = {
           * if the removal is successful
           *
           * @param key
-          * @returns {Boolean}
+          * @returns {Object | null}
           */
          remove: function(key) {
             'use strict';
             if (this.containsKey(key)) {
+               var value = this.data[key];
                delete this.data[key];
-               return true;
+               return value;
             }
-            return false;
+            return null;
          },
          /**
           * Returns an array of objects. Each one contains two properties (key,

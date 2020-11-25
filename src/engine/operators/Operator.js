@@ -1,5 +1,5 @@
 import { Symbols } from 'src/engine/helpers';
-import { BooleanSignal } from 'src/engine/entities';
+import { BooleanSignal, TemporalEntity } from 'src/engine/entities';
 
 /**
  * This class represents a base abstract class for all logical operators used in
@@ -11,9 +11,9 @@ import { BooleanSignal } from 'src/engine/entities';
  * @param function
  *           a function provided by derived Operators and used to evaluate the
  *           signal(s).
- * @param BooleanSignal
+ * @param TemporalEntity
  *           lSignal is the left operand
- * @param BooleanSignal
+ * @param TemporalEntity
  *           rSignal is the right operand
  */
 function Operator(operation, lSignal, rSignal) {
@@ -25,8 +25,8 @@ function Operator(operation, lSignal, rSignal) {
    // Be sure that the operation and the left operand are of the expected types
    if (typeof operation !== 'function')
       throw new TypeError("Operator: Expected a 'function' object");
-   if (!(lSignal instanceof BooleanSignal))
-      throw new TypeError("Operator: Expected 'lSignal' to be a 'BooleanSignal' object");
+   if (!(lSignal instanceof TemporalEntity))
+      throw new TypeError("Operator: Expected 'lSignal' to be a 'TemporalEntity' object");
 
    // this is a callback function that handles the logic
    // each concrete operator uses to evaluate its operand(s)
@@ -76,9 +76,8 @@ Operator.prototype = {
           * performUnaryOperator() method)
           */
          performBinaryOperator: function() {
-            if (!(this.rightSignal instanceof BooleanSignal))
-               throw new TypeError(
-                        "Operator: Expected 'rightSignal' to be a 'BooleanSignal' object");
+            if (!(this.rightSignal instanceof TemporalEntity))
+               throw new TypeError("Operator: Expected 'rightSignal' to be a 'TemporalEntity' object");
             var thisBody = this.leftSignal.calculateUpdatedFixedPart(this.universeLength[0]);
             var thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(this.universeLength[1]);
 

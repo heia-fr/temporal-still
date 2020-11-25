@@ -26,6 +26,9 @@
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "tsconfig.app.json",
 						"aot": true,
+						"allowedCommonJsDependencies": [
+							"lodash"
+						],
 						"assets": [
 							"src/assets/images/alambicon2.ico",
 							"src/assets"

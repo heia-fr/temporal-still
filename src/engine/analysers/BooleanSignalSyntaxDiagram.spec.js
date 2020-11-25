@@ -1,15 +1,15 @@
 import { Random } from 'random-js';
-import { BooleanSignalSyntaxDiagram } from 'src/engine/analysers';
+import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { BooleanSignalGenerator } from 'src/engine/generators';
-import { FormulasManager } from 'src/engine/business';
+import { Universe } from 'src/engine/business';
 import { Symbols } from 'src/engine/helpers';
 
 function testCorrectSignals(nbrOfTests) {
    var result = true;
    var signals = Symbols.getEmpty();
    for (var i = 0; i < nbrOfTests; i++) {
-      signals = BooleanSignalGenerator.generateBooleanSignals(new FormulasManager());
-      result = BooleanSignalSyntaxDiagram.isValid(signals) && result;
+      signals = BooleanSignalGenerator.generateBooleanSignals(new Universe());
+      result = TemporalEntitySyntaxDiagram.isValidSignal(signals) && result;
    }
    return result;
 }
@@ -22,7 +22,7 @@ function testUncorrectSignals(generator, nbrOfTests) {
       return this.substr(0, index) + character + this.substr(index + character.length);
    }
    for (var i = 0; i < nbrOfTests; i++) {
-      signals = BooleanSignalGenerator.generateBooleanSignals(new FormulasManager());
+      signals = BooleanSignalGenerator.generateBooleanSignals(new Universe());
 
       if (generator.bool()) {
          signals += generator.string(10, pool);
@@ -31,7 +31,7 @@ function testUncorrectSignals(generator, nbrOfTests) {
          signals = signals.replace(signals.substring(min, min + 11), generator.string(10, pool));
       }
 
-      result = BooleanSignalSyntaxDiagram.isValid(signals) || result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal(signals) || result;
    }
    String.prototype.replaceAt = null;
    return result;
@@ -44,7 +44,8 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
    it('Correct signals are expected to be accepted', function() {
       var result = true;
 
-      result = BooleanSignalSyntaxDiagram.isValid("a = 100101/010;b = 00101/01;") && result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal("a = 100101/010") && result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal("b = 00101/01") && result;
       result = testCorrectSignals(nbrOfTest) && result;
       expect(result).toBe(true);
    });
@@ -53,10 +54,10 @@ describe('testing BooleanSignalSyntaxDiagram constructor', function() {
       var r = new Random();
       var result = false;
 
-      result = BooleanSignalSyntaxDiagram.isValid("v") || result;
-      result = BooleanSignalSyntaxDiagram.isValid("x=") || result;
-      result = BooleanSignalSyntaxDiagram.isValid(">=/;") || result;
-      result = BooleanSignalSyntaxDiagram.isValid(">=10101/0101;") || result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal("v") || result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal("x=") || result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal(">=/;") || result;
+      result = TemporalEntitySyntaxDiagram.isValidSignal(">=10101/0101;") || result;
 
       result = testUncorrectSignals(r, nbrOfTest) || result;
 

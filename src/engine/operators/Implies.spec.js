@@ -24,11 +24,11 @@ describe('testing "Implies" constructor', function() {
    });
 
    it('Correct "Implies" operation should pass', function() {
-      u.addSignal(new BooleanSignal("a = 101/101"));
-      u.addSignal(new BooleanSignal("b = 110/011"));
+      u.putEntity(new BooleanSignal("a = 101/101"));
+      u.putEntity(new BooleanSignal("b = 110/011"));
       Operator.prototype.setUniverseLength(u.getLength());
 
-      var implies = new Implies(u.signalById("a"), u.signalById("b"));
+      var implies = new Implies(u.getEntity("a"), u.getEntity("b"));
       var r = implies.performBinaryOperator();
 
       expect(r.getContent()).toEqual("ab=110/011");

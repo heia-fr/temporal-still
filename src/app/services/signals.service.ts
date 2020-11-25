@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-	Universe,
-	FormulasManager,
-} from 'src/engine/business';
-import TemporalFormulaInterpreter from 'src/engine/analysers/TemporalFormulaInterpreter';
-import {
-	BooleanSignal,
-	TemporalFormula,
-} from 'src/engine/entities';
+import { Universe } from 'src/engine/business';
+import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,17 +10,13 @@ export class SignalsService {
 	private storage: Storage;
 
 	public universeKey: string = 'universe';
-	public formulasManagerKey: string = 'formulasManager';
 
 	public universe: Universe;
-	public formulasManager: FormulasManager;
 
 	constructor() {
 		this.storage = sessionStorage;
 		this.universe = new Universe(null);
-		this.formulasManager = new FormulasManager(null);
 		this.restoreUniverse();
-		this.restoreFormulasManager();
 	}
 
 	save(key: string, data: string) {
@@ -53,38 +42,23 @@ export class SignalsService {
 			});
 		} else {
 			newUniverse = new Universe(null);
-			const signals = ["b = 111000100011/1", "a = 110000101000/0"];
-			for (let signal of signals) {
-				newUniverse.addSignal(new BooleanSignal(signal, null));
-			}
-		}
-		this.universe = newUniverse;
-	}
-
-	saveFormulasManager() {
-		this.save(this.formulasManagerKey, JSON.stringify(this.formulasManager));
-	}
-
-	restoreFormulasManager() {
-		var newFormulasManager: FormulasManager;
-		var formulasManagerAsJson = this.restore(this.formulasManagerKey);
-		if (formulasManagerAsJson) {
-			newFormulasManager = JSON.parse(formulasManagerAsJson, function (key, value) {
-				if (typeof (value) === 'object' && value.__type === 'FormulasManager')
-					return new FormulasManager(value);
-
-				return value;
-			});
-		} else {
-			newFormulasManager = new FormulasManager(null);
-			const tfs = ["f = b W !a", "g = !a W b", "h = <>(a & b)", "i = b & []!a"];
-			for (let formula of tfs) {
-				var tf = TemporalFormulaInterpreter.evaluate(formula, this.universe);
-				if (tf instanceof TemporalFormula) {
-					newFormulasManager.addFormula(tf);
+			const entities = [
+				"b = 111000100011/1",
+				"a = 110000101000/0",
+				"f = b W !a",
+				"g = !a W b",
+				"h = <>(a & b)",
+				"i = b & []!a"
+			];
+			for (let entity of entities) {
+				var tf = TemporalEntityInterpreter.evaluate(entity, newUniverse);
+				if (tf == null) {
+					console.warn("Found invalid default entity: " + entity);
+				} else {
+					newUniverse.putEntity(tf)
 				}
 			}
 		}
-		this.formulasManager = newFormulasManager;
+		this.universe = newUniverse;
 	}
 }

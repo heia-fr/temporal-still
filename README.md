@@ -17,14 +17,6 @@ Projet de Semestre 5
 - https://gitlab.forge.hefr.ch/frederic.bapst/temporal-still/-/tree/develop
 - https://gitlab.forge.hefr.ch/frederic.bapst/temporal-still/-/tree/docs
 
-## Development server
+## Environnement de travail
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Build Production
-
-Run `npm run build:prod` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[ENVIRONMENT.md](ENVIRONMENT.md)

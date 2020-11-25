@@ -1,28 +1,34 @@
 <div class="row top-buffer">
-	<div class="col-sm-6 col-md-6 col-lg-6">
+	<div class="col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-default fix-panel">
 			<div class="input-group left-btn-group">
 				<button id="collapseButton" type="button"
 					class="btn btn-default toggle" data-toggle="collapse"
-					data-tooltip="tooltip" [attr.data-original-title]="buttonState.signalsTitle"
+					data-tooltip="tooltip" [attr.data-original-title]="buttonState.title"
 					data-target="#collapseSignals" aria-expanded="false"
 					aria-controls="collapseSignals" (click)="toggleSignalsPanel()">
-					<i [hidden]="!buttonState.signalsUp"
+					<i [hidden]="!buttonState.isExpanded"
 						class="glyphicon glyphicon-chevron-down"></i>
-					<i [hidden]="buttonState.signalsUp"
+					<i [hidden]="buttonState.isExpanded"
 						class="glyphicon glyphicon-chevron-right"></i>
 				</button>
 				<button type="button"
 					class="btn btn-primary right-toggle toggle"
 					data-tooltip="tooltip" title="Generate random signals"
-					[hidden]="!buttonState.signalsUp" (click)="generateSignals()">
+					[hidden]="!buttonState.isExpanded" (click)="generateSignals()">
+					<i class="fa fa-random"></i>
+				</button>
+				<button type="button"
+					class="btn btn-primary fixed-right-toggle toggle"
+					data-tooltip="tooltip" title="Generate random formula"
+					[hidden]="!buttonState.isExpanded" (click)="generateFormula()">
 					<i class="fa fa-random"></i>
 				</button>
 				<button type="button"
 					class="btn btn-danger  fixed-right-toggle toggle"
 					data-tooltip="tooltip" title="Clear signals" (click)="clearSignals()"
-					[hidden]="!buttonState.signalsUp"
-					[disabled]="signalsService.universe.isEmpty() || !signalsService.formulasManager.isEmpty()">
+					[hidden]="!buttonState.isExpanded"
+					[disabled]="signalsService.universe.isEmpty()">
 					<i class="fa fa-trash"></i>
 				</button>
 			</div>
@@ -32,7 +38,7 @@
 						[ngClass]="{'has-error has-feedback': inputDataS.invalid}">
 						<input type="text" class="form-control" name="inputDataS" #inputDataS="ngModel"
 							placeholder="  try maybe        s = 11011/01" [(ngModel)]="signalsString"
-							[appSignalValidator]="signalsService" />
+							appTemporalEntityValidator />
 						<div class="input-group-btn">
 							<button class="btn btn-default" type="submit" value="&#10140;"
 								[disabled]="alambicSignalsForm.invalid || !signalsString.length"
@@ -43,14 +49,14 @@
 					</div>
 				</form>
 				<form #alambicSignalsListForm="ngForm" class="top-buffer" role="form" novalidate>
-					<ul id="signalsList" class="list-group y-scroll">
-						<li class="list-group-item custom-item"
-							*ngFor="let sig of signalsService.universe.getSignals(); trackBy: trackById;"
+					<ul id="signalsList" class="list-group y-scroll row">
+						<li class="list-group-item custom-item col-xs-12 col-sm-6"
+							*ngFor="let sig of sortById(signalsService.universe.getEntities()); trackBy: trackById;"
 							id="signal{{sig.getId()}}">
 							<div class="row">
-								<div class="col-sm-8 col-md-8 col-lg-8 text-left">
+								<div class="col-xs-8 col-sm-8 text-left">
 									<a [hidden]="sig.isEditorEnabled()"
-										[innerHTML]="sig.getContent() | signalFormatter"
+										[innerHTML]="sig.getContent() | temporalEntityFormatter"
 										(click)="enableSignalEditor(sig.getId(), $event, alambicSignalsListForm)"></a>
 									<div class="input-group input-group-sm"
 										[ngClass]="{'has-error has-feedback': alambicSignalsListForm.invalid && alambicSignalsListForm.dirty}">
@@ -61,10 +67,10 @@
 											(appOnEcape)="disableSignalEditor($event, sig.getId())"
 											(appOnEnter)="alambicSignalsListForm.valid ? updateSignal($event, sig.getId()) : ''"
 											[appGainFocus]="sig.isEditorEnabled()"
-											[appEditableSignalValidator]="editableSignal" />
+											[appEditableTemporalEntityValidator]="editableSignal" />
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4 col-lg-4 text-right">
+								<div class="col-sx-4 col-sm-4 text-right">
 									<button class="btn-link"
 										[disabled]="alambicSignalsListForm.invalid"
 										[hidden]="!sig.isEditorEnabled()"
@@ -76,97 +82,8 @@
 										<span class="glyphicon glyphicon-chevron-right"></span>
 									</button>
 									<button class="btn-link" [hidden]="sig.isEditorEnabled()"
-										[disabled]="sig.isReferred()"
+										[disabled]="sig.isReferenced()"
 										(click)="removeSignal(sig.getId())">
-										<span class="glyphicon glyphicon-remove"></span>
-									</button>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-6 col-md-6 col-lg-6">
-		<div class="panel panel-default fix-panel">
-			<div class="input-group left-btn-group">
-				<button type="button" class="btn btn-default toggle"
-					data-toggle="collapse" data-tooltip="tooltip"
-					[attr.data-original-title]="buttonState.formulasTitle"
-					data-target="#collapseFormulas" aria-expanded="false"
-					aria-controls="collapseFormulas" (click)="toggleFormlasPanel()">
-					<i [hidden]="!buttonState.formulasUp"
-						class="glyphicon glyphicon-chevron-down"></i>
-					<i [hidden]="buttonState.formulasUp"
-						class="glyphicon glyphicon-chevron-right"></i>
-				</button>
-				<button type="button"
-					class="btn btn-primary right-toggle toggle"
-					data-tooltip="tooltip" title="Generate random formula"
-					[hidden]="!buttonState.formulasUp" (click)="generateFormula()"
-					[disabled]="signalsService.universe.isEmpty()">
-					<i class="fa fa-random"></i>
-				</button>
-				<button type="button"
-					class="btn btn-danger fixed-right-toggle toggle"
-					data-tooltip="tooltip" title="Clear formulas" (click)="clearFormulas()"
-					[hidden]="!buttonState.formulasUp"
-					[disabled]="signalsService.formulasManager.isEmpty()">
-					<i class="fa fa-trash"></i>
-				</button>
-			</div>
-			<div class="panel-body collapse in" id="collapseFormulas">
-				<form #alambicFormulaForm="ngForm" role="form" novalidate>
-					<div class="input-group"
-						[ngClass]="{'has-error has-feedback': inputDataF.invalid}">
-						<input type="text" class="form-control" name="inputDataF" #inputDataF="ngModel"
-							placeholder=" try maybe        f = []a | b" [(ngModel)]="formulaString"
-							[appFormulaValidator]="signalsService" />
-						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit" value="&#10140;"
-								[disabled]="alambicFormulaForm.invalid || !formulaString.length"
-								(click)="addFormula(alambicFormulaForm)">
-								<i class="glyphicon glyphicon-plus"></i>
-							</button>
-						</div>
-					</div>
-				</form>
-				<form #alambicFormulaListForm="ngForm" class="top-buffer" role="form" novalidate>
-					<ul id="formulasList" class="list-group y-scroll">
-						<li class="list-group-item custom-item"
-							*ngFor='let formula of signalsService.formulasManager.getFormulas(); trackBy: trackById;'
-							id="formula{{formula.getId()}}">
-							<div class="row">
-								<div class="col-sm-8 col-md-8 col-lg-8 text-left">
-									<a [hidden]="formula.isEditorEnabled()"
-										[innerHTML]='formula.getContent() | formulaFormatter'
-										(click)="enableFormulaEditor(formula.getId(), $event, alambicFormulaListForm)"></a>
-									<div class="input-group input-group-sm"
-										[ngClass]="{'has-error has-feedback': alambicFormulaListForm.invalid && alambicFormulaListForm.dirty}">
-										<input type="text" name="inputEditor"
-											class="form-control alambic-editorField"
-											[hidden]="!formula.isEditorEnabled()"
-											[(ngModel)]="editableFormula.text"
-											(appOnEcape)="disableFormulaEditor($event, formula.getId())"
-											(appOnEnter)="alambicFormulaListForm.valid ? updateFormula($event, formula.getId()) : ''"
-											[appGainFocus]="formula.isEditorEnabled()"
-											[appEditableFormulaValidator]="{editableFormula: editableFormula, signalsService: signalsService}" />
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4 col-lg-4 text-right">
-									<button class="btn-link"
-										[disabled]="alambicFormulaListForm.invalid"
-										[hidden]="!formula.isEditorEnabled()"
-										(click)="updateFormula($event, formula.getId())">
-										<span class="glyphicon glyphicon-ok"></span>
-									</button>
-									<button class="btn-link" [hidden]="!formula.isEditorEnabled()"
-										(click)="disableFormulaEditor($event, formula.getId())">
-										<span class="glyphicon glyphicon-chevron-right"></span>
-									</button>
-									<button class="btn-link" [hidden]="formula.isEditorEnabled()"
-										(click)="removeFormula(formula.getId())">
 										<span class="glyphicon glyphicon-remove"></span>
 									</button>
 								</div>
@@ -180,10 +97,7 @@
 	<div class="col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-default chart-grid">
 			<div class="panel-body">
-				<div *ngFor="let formula of signalsService.formulasManager.getFormulas(); trackBy: trackById;">
-					<nvd3 [options]="nvd3Options" [data]="formula.getChartData()"></nvd3>
-				</div>
-				<div *ngFor="let signal of signalsService.universe.getSignals(); trackBy: trackById;">
+				<div *ngFor="let signal of reverseSortById(signalsService.universe.getEntities()); trackBy: trackById;">
 					<nvd3 [options]="nvd3Options" [data]="signal.getChartData()"></nvd3>
 				</div>
 			</div>

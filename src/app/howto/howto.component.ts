@@ -23,7 +23,6 @@ export class HowToComponent implements OnInit {
 		this.symbols.prettyAlways = trustAsHtml(Symbols.getPrettyAlways());
 		this.symbols.equal = Symbols.getEqual();
 		this.symbols.slash = Symbols.getSlash();
-		this.symbols.semiColon = Symbols.getSemiColon();
 	}
 
 	ngOnInit(): void { }
