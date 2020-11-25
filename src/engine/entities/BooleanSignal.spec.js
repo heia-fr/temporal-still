@@ -160,4 +160,25 @@ describe('testing BooleanSignal constructor', function() {
       expect(data[0].values.length).toEqual(expectedValues.length);
       expect(data[0].values).toEqual(expectedValues);
    });
+
+   it('BooleanSignal minimizeSignal should be correct', function() {
+      var signals = [
+         { content: "A = 00101/01", body: "0", period: "01", },
+         { content: "B = 010101/01", body: "01", period: "01", },
+         { content: "C = 01010/01", body: "01010", period: "01", },
+         { content: "D = 01010/10101010", body: "0", period: "10", },
+         { content: "E = 0000/10101010", body: "0000", period: "10", },
+      ];
+
+      for (var i = 0; i < signals.length; i++) {
+         var signal = new BooleanSignal(signals[i].content);
+         var minimized = signal.minimizeSignal();
+
+         expect(signal).not.toBeNull();
+         expect(minimized).not.toBeNull();
+         expect(minimized.getId()).toEqual(signal.getId());
+         expect(minimized.getBody()).toEqual(signals[i].body);
+         expect(minimized.getPeriod()).toEqual(signals[i].period);
+      }
+   });
 });
