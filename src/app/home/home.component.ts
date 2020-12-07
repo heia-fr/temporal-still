@@ -3,6 +3,7 @@ declare var $: any;
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
+import { SATService } from '../services/sat.service';
 import Symbols from 'src/engine/helpers/Symbols';
 import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
 import {
@@ -33,8 +34,6 @@ function nvd3WrapUpdate(chart: any, updateCallback: any) {
 	templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
-	public signalsService: SignalsService;
 
 	public buttonState = {
 		// a toggle boolean used to change the icon of the signals
@@ -78,8 +77,7 @@ export class HomeComponent implements OnInit {
 		}
 	};
 
-	constructor(signalsService: SignalsService) {
-		this.signalsService = signalsService;
+	constructor(public signalsService: SignalsService, public satService: SATService) {
 		this.nvd3Options.chart.callback = this.prepareChart();
 	}
 
