@@ -8,6 +8,11 @@ function has<E extends IEquatable<E>>(set: Set<E>, search: E): boolean {
 	}
 	return false;
 }
+function addIfNotPresent<E extends IEquatable<E>>(set: Set<E>, item: E): boolean {
+	if (has(set, item)) return false;
+	set.add(item);
+	return true;
+}
 
 type NameGenerator = (this: any) => string;
 
@@ -37,8 +42,8 @@ export class BSymbol {
 
 function generateExpressions(op: Operator): Set<Operator> {
 	function func(op: Operator, set: Set<Operator>) {
-		set.add(op);
-		set.add(op.negate().toNNF());
+		addIfNotPresent(set, op);
+		addIfNotPresent(set, op.negate().toNNF());
 		if (op instanceof UnaryOperator) {
 			func(op.content, set);
 		} else if (op instanceof BinaryOperator) {
@@ -139,7 +144,7 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 			if (op instanceof Until) {
 				let newSet = new Set<BNode>();
 				for (let node of nodes) {
-					if (has(node.now, op.right) || !has(node.now, op)) {
+					if (node.now.has(op.right) || !node.now.has(op)) {
 						newSet.add(node);
 					}
 				}
