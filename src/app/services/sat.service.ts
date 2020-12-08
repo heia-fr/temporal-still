@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { spawn } from "threads"
+import { Injectable, OnDestroy } from '@angular/core';
+import { spawn, Thread } from "threads"
 
 export type SATReport = { isSatisfiable: boolean, isTautology: boolean };
 interface SATWorker {
@@ -9,7 +9,7 @@ interface SATWorker {
 @Injectable({
 	providedIn: 'root'
 })
-export class SATService {
+export class SATService implements OnDestroy {
 
 	private worker: SATWorker | null = null;
 	private readonly webWorkerAvailable: boolean;
@@ -33,6 +33,13 @@ export class SATService {
 			// Web Workers are not supported in this environment.
 			console.log("[SAT Worker] Web Workers not supported or disabled");
 			this.webWorkerLoaded = Promise.reject();
+		}
+	}
+
+	ngOnDestroy(): void {
+		if (this.worker != null) {
+			console.error("[SAT Worker] Stopping...");
+			Thread.terminate(this.worker as any);
 		}
 	}
 

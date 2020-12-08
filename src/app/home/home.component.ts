@@ -48,6 +48,8 @@ export class HomeComponent implements OnInit {
 
 	public signalsString = "";
 
+	private analyses: string[] = [];
+
 	public nvd3Options: any = {
 		chart: {
 			type: 'lineChart',
@@ -310,6 +312,43 @@ export class HomeComponent implements OnInit {
 		// save universe
 		this.signalsService.saveUniverse();
 	};
+
+	canBeAnalyzed(entity: any): boolean {
+		// Entity can't be analyzed if it contains static signal
+		let content = entity.content;
+		if (content.indexOf('0') >= 0 || content.indexOf('1') >= 0) return false;
+
+		return true;
+	}
+
+	isBeingAnalyzed(id: any) {
+		return this.analyses.indexOf(id) >= 0;
+	}
+
+	analyzeEntity(id: any) {
+		if (this.analyses.indexOf(id) >= 0) return;
+		let entity: any = this.signalsService.universe.getEntity(id);
+		if (entity == null || !this.canBeAnalyzed(entity)) return;
+
+		this.analyses.push(id);
+		this.satService.checkInformation(entity.content).then((report) => {
+			let index = this.analyses.indexOf(id);
+			if (index < 0) return;
+			this.analyses.splice(index, 1);
+
+			let sat;
+			if (report == null) {
+				sat = 'Unknown';
+			} else if (report.isTautology) {
+				sat = 'Tautology';
+			} else if (report.isSatisfiable) {
+				sat = 'Satisfiable';
+			} else {
+				sat = 'Insatisfiable';
+			}
+			entity.satisfiability = sat;
+		});
+	}
 
 	/**
 	 * ******************** ngForOf trackBy ********************
