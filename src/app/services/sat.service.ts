@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { spawn } from "threads"
 
+export type SATReport = { isSatisfiable: boolean, isTautology: boolean };
 interface SATWorker {
-	sayHello(str1: string, str2: string, str3: string): Promise<string>;
+	checkInformation(formula: string): Promise<SATReport>;
 }
 
 @Injectable({
@@ -48,9 +49,8 @@ export class SATService {
 		}
 	}
 
-	async sayHello(str: string) {
-		if (this.worker == null) return;
-
-		return this.worker.sayHello("Hello", "World", "!");
+	async checkInformation(formula: string): Promise<SATReport | null> {
+		if (this.worker == null) return null;
+		return await this.worker.checkInformation(formula);
 	}
 }

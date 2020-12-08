@@ -31,7 +31,8 @@ var Symbols = function() {
                prettyEventually: "&#9674;",
                prettyNot: "&#172;",
                prettyImplies: "&#8594;",
-               charSet: "abcdefghijklmnopqrstuvwxyz"
+               charSet: "abcdefghijklmnopqrstuvwxyz",
+               tautology: "&#8872;",
       };
 
       return {

@@ -1,6 +1,6 @@
 export {};
 
-Map.prototype.merge = function<K, V>(key: K, value: V, map: (first: V, second: V) => V) {
+Map.prototype.merge = function(key, value, map) {
 	let existing = this.get(key);
 	if (existing != null) {
 		value = map(existing, value);
