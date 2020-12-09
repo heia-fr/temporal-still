@@ -1,6 +1,8 @@
 import { Automata } from './Automata';
-import { BinaryOperator, Formula, Variable, Operator, UnaryOperator, And, Or, Next, Until, Release, Constant, Not } from "./Operators";
-import { IEquatable } from "./Operators";
+import {
+	IEquatable, BinaryOperator, Formula, Variable, Operator,
+	UnaryOperator, And, Or, Next, Until, Release, Constant, Not
+} from './Operators';
 
 function has<E extends IEquatable<E>>(set: Set<E>, search: E): boolean {
 	for (let item of set) {
@@ -14,7 +16,7 @@ function addIfNotPresent<E extends IEquatable<E>>(set: Set<E>, item: E): boolean
 	return true;
 }
 
-type NameGenerator = (this: any) => string;
+type NameGenerator = (this: void) => string;
 
 export class BNode {
 
@@ -40,7 +42,7 @@ export class BSymbol {
 	}
 }
 
-function generateExpressions(op: Operator): Set<Operator> {
+function generateExpressions(initOp: Operator): Set<Operator> {
 	function func(op: Operator, set: Set<Operator>) {
 		addIfNotPresent(set, op);
 		addIfNotPresent(set, op.negate().toNNF());
@@ -52,37 +54,37 @@ function generateExpressions(op: Operator): Set<Operator> {
 		}
 	}
 
-	let set = new Set<Operator>();
-	set.add(Constant.TRUE);
-	set.add(Constant.FALSE);
-	func(op, set);
-	return set;
+	let newSet = new Set<Operator>();
+	newSet.add(Constant.TRUE);
+	newSet.add(Constant.FALSE);
+	func(initOp, newSet);
+	return newSet;
 }
 
 function curr1(f: Operator): Set<Operator> {
-	if (f instanceof Until) return new Set<Operator>().add(f.left);
+	if (f instanceof Until) { return new Set<Operator>().add(f.left); }
 	if (f instanceof Release || f instanceof Or) return new Set<Operator>().add(f.right);
-	throw new Error("undefined for " + f);
+	throw new Error('undefined for ' + f);
 }
 
 function curr2(f: Operator): Set<Operator> {
 	if (f instanceof Until) return new Set<Operator>().add(f.right);
 	if (f instanceof Release) return new Set<Operator>().add(f.left).add(f.right);
 	if (f instanceof Or) return new Set<Operator>().add(f.left);
-	throw new Error("undefined for " + f);
+	throw new Error('undefined for ' + f);
 }
 
 function next1(f: Operator): Set<Operator> {
 	if (f instanceof Until || f instanceof Release) return new Set<Operator>().add(f);
 	if (f instanceof Or) return new Set<Operator>();
-	throw new Error("undefined for " + f);
+	throw new Error('undefined for ' + f);
 }
 
 function isBase(f: Operator): boolean {
 	return f instanceof Constant || f instanceof Variable || (f instanceof Not && f.content instanceof Variable);
 }
 
-function retrieveVariables(op: Operator, vars: Map<String, Variable>) {
+function retrieveVariables(op: Operator, vars: Map<string, Variable>): void {
 	if (op instanceof Variable) {
 		if (!vars.has(op.name)) vars.set(op.name, op);
 	} else if (op instanceof Formula) {
@@ -93,7 +95,6 @@ function retrieveVariables(op: Operator, vars: Map<String, Variable>) {
 		retrieveVariables(op.left, vars);
 		retrieveVariables(op.right, vars);
 	}
-	return vars;
 }
 
 export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
@@ -105,21 +106,21 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 	}
 
 	static fromLTL(op: Operator): GeneralizedBuchiAutomata {
-		let variables = new Map<String, Variable>();
+		let variables = new Map<string, Variable>();
 		retrieveVariables(op, variables);
 
 		let nodes = new Set<BNode>();
-		let init = new BNode("init");
+		let init = new BNode('init');
 
 		let counter = 0;
-		this.expand(new Set<Operator>().add(op), new Set(), new Set(), new Set<BNode>().add(init), function () {
-			return "node#" + (++counter);
+		this.expand(new Set<Operator>().add(op), new Set(), new Set(), new Set<BNode>().add(init), () => {
+			return 'node#' + (++counter);
 		}, nodes);
 
 		return this.fromNodes(op, nodes, init, [...variables.values()]);
 	}
 
-	static fromNodes(op: Operator, nodes: Set<BNode>, init: BNode, vars: Variable[]): GeneralizedBuchiAutomata {
+	static fromNodes(initOp: Operator, nodes: Set<BNode>, init: BNode, vars: Variable[]): GeneralizedBuchiAutomata {
 
 		let labels = new Map<BNode, BSymbol>();
 		for (let node of nodes) {
@@ -132,13 +133,13 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 		let delta = new Map<BNode, BNode[]>();
 		for (let node of nodes) {
 			for (let from of node.incoming) {
-				if (from == init) continue;
+				if (from === init) continue;
 				delta.merge(from, [node], (a, b) => [...a, ...b]);
 			}
 		}
 
 		let start = new Set([...nodes].filter(n => n.incoming.has(init)));
-		let expressions = generateExpressions(op);
+		let expressions = generateExpressions(initOp);
 		let finish: Set<BNode>[] = [];
 		for (let op of expressions) {
 			if (op instanceof Until) {
@@ -159,8 +160,9 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 	 * Source: https://en.wikipedia.org/wiki/Linear_temporal_logic_to_Büchi_automaton#Gerth_et_al._algorithm
 	 * Date: 02.12.2020
 	 */
-	private static expand(curr: Set<Operator>, old: Set<Operator>, next: Set<Operator>, incoming: Set<BNode>, nameGenerator: NameGenerator, nodes: Set<BNode>) {
-		if (curr.size == 0) {
+	private static expand(curr: Set<Operator>, old: Set<Operator>, next: Set<Operator>, incoming: Set<BNode>,
+							nameGenerator: NameGenerator, nodes: Set<BNode>): void {
+		if (curr.size === 0) {
 			let r = null;
 			for (let n of nodes) {
 				if (n.next.contentEquals(next) && n.now.contentEquals(old)) {
@@ -189,7 +191,7 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 			old = new Set(old).add(f);
 
 			if (isBase(f)) {
-				if (f == Constant.FALSE || has(old, f.negate())) return;
+				if (f === Constant.FALSE || has(old, f.negate())) return;
 				this.expand(curr, old, next, incoming, nameGenerator, nodes);
 
 			} else if (f instanceof And) {
@@ -217,7 +219,7 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 				this.expand(curr2Set, old, next, incoming, nameGenerator, nodes);
 
 			} else {
-				throw new Error("Not in Negative Normal Form");
+				throw new Error('Not in Negative Normal Form');
 			}
 		}
 	}
