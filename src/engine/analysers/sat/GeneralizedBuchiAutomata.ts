@@ -1,4 +1,3 @@
-import { Automata } from './Automata';
 import {
 	IEquatable, BinaryOperator, Formula, Variable, Operator,
 	UnaryOperator, And, Or, Next, Until, Release, Constant, Not
@@ -16,7 +15,7 @@ function addIfNotPresent<E extends IEquatable<E>>(set: Set<E>, item: E): boolean
 	return true;
 }
 
-type NameGenerator = (this: void) => string;
+type IdGenerator = (this: void) => number;
 
 export class BNode {
 
@@ -24,7 +23,7 @@ export class BNode {
 	public readonly now: Set<Operator> = new Set();
 	public readonly next: Set<Operator> = new Set();
 
-	constructor(public readonly label: string) { }
+	constructor(public readonly id: number) { }
 
 }
 
@@ -62,7 +61,7 @@ function generateExpressions(initOp: Operator): Set<Operator> {
 }
 
 function curr1(f: Operator): Set<Operator> {
-	if (f instanceof Until) { return new Set<Operator>().add(f.left); }
+	if (f instanceof Until) return new Set<Operator>().add(f.left);
 	if (f instanceof Release || f instanceof Or) return new Set<Operator>().add(f.right);
 	throw new Error('undefined for ' + f);
 }
@@ -97,24 +96,26 @@ function retrieveVariables(op: Operator, vars: Map<string, Variable>): void {
 	}
 }
 
-export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 
-	private constructor(public readonly labels: Map<BNode, BSymbol>,
-		states: Set<BNode>, transitions: Map<BNode, BNode[]>,
-		start: Set<BNode>, finish: Set<BNode>[]) {
-		super(states, transitions, start, finish);
-	}
+export class GeneralizedBuchiAutomata {
+
+    public constructor(public readonly labels: Map<BNode, BSymbol>,
+        public readonly states: Set<BNode>,
+        public readonly transitions: Map<BNode, BNode[]>,
+        public readonly start: Set<BNode>,
+        public readonly finish: Set<BNode>[]) {
+    }
 
 	static fromLTL(op: Operator): GeneralizedBuchiAutomata {
 		let variables = new Map<string, Variable>();
 		retrieveVariables(op, variables);
 
-		let nodes = new Set<BNode>();
-		let init = new BNode('init');
-
 		let counter = 0;
+		let nodes = new Set<BNode>();
+		let init = new BNode(counter++);
+
 		this.expand(new Set<Operator>().add(op), new Set(), new Set(), new Set<BNode>().add(init), () => {
-			return 'node#' + (++counter);
+			return counter++;
 		}, nodes);
 
 		return this.fromNodes(op, nodes, init, [...variables.values()]);
@@ -160,8 +161,7 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 	 * Source: https://en.wikipedia.org/wiki/Linear_temporal_logic_to_Büchi_automaton#Gerth_et_al._algorithm
 	 * Date: 02.12.2020
 	 */
-	private static expand(curr: Set<Operator>, old: Set<Operator>, next: Set<Operator>, incoming: Set<BNode>,
-							nameGenerator: NameGenerator, nodes: Set<BNode>): void {
+	private static expand(curr: Set<Operator>, old: Set<Operator>, next: Set<Operator>, incoming: Set<BNode>, idGenerator: IdGenerator, nodes: Set<BNode>): void {
 		if (curr.size === 0) {
 			let r = null;
 			for (let n of nodes) {
@@ -174,12 +174,12 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 			if (r != null) {
 				r.incoming.addAll(incoming);
 			} else {
-				r = new BNode(nameGenerator());
+				r = new BNode(idGenerator());
 				nodes.add(r);
 				r.incoming.addAll(incoming);
 				r.now.addAll(old);
 				r.next.addAll(next);
-				this.expand(r.next, new Set(), new Set(), new Set<BNode>().add(r), nameGenerator, nodes);
+				this.expand(r.next, new Set(), new Set(), new Set<BNode>().add(r), idGenerator, nodes);
 			}
 		} else {
 			let f = curr.first();
@@ -192,18 +192,18 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 
 			if (isBase(f)) {
 				if (f === Constant.FALSE || has(old, f.negate())) return;
-				this.expand(curr, old, next, incoming, nameGenerator, nodes);
+				this.expand(curr, old, next, incoming, idGenerator, nodes);
 
 			} else if (f instanceof And) {
 				let additional = new Set<Operator>().add(f.left).add(f.right);
 				additional.deleteAll(old);
 				curr.addAll(additional);
-				this.expand(curr, old, next, incoming, nameGenerator, nodes);
+				this.expand(curr, old, next, incoming, idGenerator, nodes);
 
 			} else if (f instanceof Next) {
 				let newNext = new Set(next);
 				newNext.add(f.content);
-				this.expand(curr, old, newNext, incoming, nameGenerator, nodes);
+				this.expand(curr, old, newNext, incoming, idGenerator, nodes);
 
 			} else if (f instanceof Or || f instanceof Until || f instanceof Release) {
 				let curr1Set = curr1(f);
@@ -211,12 +211,12 @@ export class GeneralizedBuchiAutomata extends Automata<BNode, BNode[]> {
 				curr1Set.addAll(curr);
 				let newNext = new Set(next);
 				newNext.addAll(next1(f));
-				this.expand(curr1Set, old, newNext, incoming, nameGenerator, nodes);
+				this.expand(curr1Set, old, newNext, incoming, idGenerator, nodes);
 
 				let curr2Set = curr2(f);
 				curr2Set.deleteAll(old);
 				curr2Set.addAll(curr);
-				this.expand(curr2Set, old, next, incoming, nameGenerator, nodes);
+				this.expand(curr2Set, old, next, incoming, idGenerator, nodes);
 
 			} else {
 				throw new Error('Not in Negative Normal Form');
