@@ -27,20 +27,6 @@ export class BNode {
 
 }
 
-export class BSymbol {
-	public readonly min: Set<Operator>;
-	public readonly max: Set<Operator>;
-
-	constructor(min: Set<Operator>, max: Set<Operator> | null = null) {
-		this.min = min;
-		this.max = max ?? min;
-	}
-
-	subsetOf(other: BSymbol): boolean {
-		return this.min.containsAll(other.min) && other.max.containsAll(this.max);
-	}
-}
-
 function generateExpressions(initOp: Operator): Set<Operator> {
 	function func(op: Operator, set: Set<Operator>) {
 		addIfNotPresent(set, op);
@@ -83,33 +69,16 @@ function isBase(f: Operator): boolean {
 	return f instanceof Constant || f instanceof Variable || (f instanceof Not && f.content instanceof Variable);
 }
 
-function retrieveVariables(op: Operator, vars: Map<string, Variable>): void {
-	if (op instanceof Variable) {
-		if (!vars.has(op.name)) vars.set(op.name, op);
-	} else if (op instanceof Formula) {
-		retrieveVariables(op.content, vars);
-	} else if (op instanceof UnaryOperator) {
-		retrieveVariables(op.content, vars);
-	} else if (op instanceof BinaryOperator) {
-		retrieveVariables(op.left, vars);
-		retrieveVariables(op.right, vars);
-	}
-}
-
 
 export class GeneralizedBuchiAutomata {
 
-    public constructor(public readonly labels: Map<BNode, BSymbol>,
-        public readonly states: Set<BNode>,
+    public constructor(public readonly states: Set<BNode>,
         public readonly transitions: Map<BNode, BNode[]>,
         public readonly start: Set<BNode>,
         public readonly finish: Set<BNode>[]) {
     }
 
 	static fromLTL(op: Operator): GeneralizedBuchiAutomata {
-		let variables = new Map<string, Variable>();
-		retrieveVariables(op, variables);
-
 		let counter = 0;
 		let nodes = new Set<BNode>();
 		let init = new BNode(counter++);
@@ -118,19 +87,10 @@ export class GeneralizedBuchiAutomata {
 			return counter++;
 		}, nodes);
 
-		return this.fromNodes(op, nodes, init, [...variables.values()]);
+		return this.fromNodes(op, nodes, init);
 	}
 
-	static fromNodes(initOp: Operator, nodes: Set<BNode>, init: BNode, vars: Variable[]): GeneralizedBuchiAutomata {
-
-		let labels = new Map<BNode, BSymbol>();
-		for (let node of nodes) {
-			let minSet = new Set(node.now);
-			minSet.retainAll(vars);
-			let maxSet = new Set(vars.filter(v => has(node.now, v.negate())));
-			labels.set(node, new BSymbol(minSet, maxSet));
-		}
-
+	static fromNodes(initOp: Operator, nodes: Set<BNode>, init: BNode): GeneralizedBuchiAutomata {
 		let delta = new Map<BNode, BNode[]>();
 		for (let node of nodes) {
 			for (let from of node.incoming) {
@@ -154,7 +114,7 @@ export class GeneralizedBuchiAutomata {
 			}
 		}
 
-		return new GeneralizedBuchiAutomata(labels, nodes, delta, start, finish);
+		return new GeneralizedBuchiAutomata(nodes, delta, start, finish);
 	}
 
 	/**

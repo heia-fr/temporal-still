@@ -13,10 +13,16 @@ var SAT = function () {
 			// Step #2) Transform LTL NNF to GBA
 			let gba = GeneralizedBuchiAutomata.fromLTL(nnf);
 
-			// Step #3) Transform GBA to BA
-
-			// Step #4) Decide SAT
-			return false;
+            // Step #3) Decide SAT
+            if (gba.finish.length > 0) {
+                for (let arr of gba.finish) {
+                    if (arr.size == 0) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+			return gba.states.size > 0;
 		}
 
 		function parse(ast: Operator | string): Operator {
