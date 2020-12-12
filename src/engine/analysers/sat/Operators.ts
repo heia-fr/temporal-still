@@ -20,6 +20,10 @@ export abstract class Operator implements IEquatable<Operator> {
 		return false;
 	}
 
+    processUntils(current: number): number {
+        return current;
+    }
+
 	negate(): Operator {
 		return new Not(this);
 	}
@@ -33,6 +37,10 @@ export abstract class UnaryOperator extends Operator {
 	constructor(public readonly content: Operator) {
 		super();
 	}
+
+    processUntils(current: number): number {
+        return this.content.processUntils(current);
+    }
 
 	describe(): string {
 		return super.describe() + '(' + this.content.describe() + ')';
@@ -49,6 +57,12 @@ export abstract class BinaryOperator extends Operator {
 		super();
 	}
 
+    processUntils(current: number): number {
+        current = this.left.processUntils(current);
+        current = this.right.processUntils(current);
+        return current;
+    }
+
 	describe(): string {
 		return super.describe() + '(' + this.left.describe() + ', ' + this.right.describe() + ')';
 	}
@@ -64,6 +78,10 @@ export class Formula extends Operator {
 	constructor(public readonly name: string, public readonly content: Operator) {
 		super();
 	}
+
+    processUntils(current: number): number {
+        return this.content.processUntils(current);
+    }
 
 	toNNF(): NNFOperator {
 		return new Formula(this.name, this.content.toNNF());
@@ -240,6 +258,13 @@ export class Implies extends BinaryOperator {
 }
 
 export class Until extends BinaryOperator {
+    public UntilsIndex: number = -1;
+
+    processUntils(current: number): number {
+        this.UntilsIndex = current;
+        return super.processUntils(++current);
+    }
+
 	toNNF(): NNFOperator {
 		// a U FALSE => FALSE
 		if (this.right == Constant.FALSE) return Constant.FALSE;
