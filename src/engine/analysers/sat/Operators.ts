@@ -230,8 +230,8 @@ export class Not extends UnaryOperator {
 		if (this.content instanceof Implies) return new Not(this.content.toNNF()).toNNF();
 
 		// In NNF, Not can only be in front of Variables
-		console.error("Unknown Operator '" + this.content.constructor.name + "' encountered in Not.toNNF()", this);
-		throw new Error("Unknown Operator '" + this.content.constructor.name + "' encountered in Not.toNNF()");
+		console.error('Unknown Operator \'' + this.content.constructor.name + '\' encountered in Not.toNNF()', this);
+		throw new Error('Unknown Operator \'' + this.content.constructor.name + '\' encountered in Not.toNNF()');
 	}
 
 	isValidNNF(): boolean {
@@ -258,7 +258,7 @@ export class Implies extends BinaryOperator {
 }
 
 export class Until extends BinaryOperator {
-    public UntilsIndex: number = -1;
+    public UntilsIndex = -1;
 
     processUntils(current: number): number {
         this.UntilsIndex = current;
@@ -267,7 +267,7 @@ export class Until extends BinaryOperator {
 
 	toNNF(): NNFOperator {
 		// a U FALSE => FALSE
-		if (this.right == Constant.FALSE) return Constant.FALSE;
+		if (this.right === Constant.FALSE) return Constant.FALSE;
 
 		return new Until(this.left.toNNF(), this.right.toNNF());
 	}

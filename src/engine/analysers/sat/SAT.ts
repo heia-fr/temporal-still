@@ -1,8 +1,9 @@
 import AST from '../TemporalEntitySyntaxTree';
 import { GeneralizedBuchiAutomata } from './GeneralizedBuchiAutomata';
 import { Operator, Formula } from './Operators';
+import { reduce } from './SCCReduction';
 
-var SAT = function () {
+let SAT = function () {
 
     function Singleton() {
 
@@ -17,6 +18,7 @@ var SAT = function () {
             let graph = gba.toGraph(gba.toStates());
 
             // Step #4) Reduce Strongly Connected Components
+            graph = reduce(graph);
 
             // Step #5) Decide SAT
             return graph.Nodes.size > 0;
