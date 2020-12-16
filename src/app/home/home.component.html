@@ -81,6 +81,21 @@
 										(click)="disableSignalEditor($event, sig.getId())">
 										<span class="glyphicon glyphicon-chevron-right"></span>
 									</button>
+									<container-element [hidden]="sig.isEditorEnabled()" [ngSwitch]="$any(sig).satisfiability ">
+										<span *ngSwitchCase="'Tautology'" class="text-success">Tautology</span>
+										<span *ngSwitchCase="'Satisfiable'" class="text-primary">Satisfiable</span>
+										<span *ngSwitchCase="'Insatisfiable'" class="text-danger">Insatisfiable</span>
+										<span *ngSwitchCase="'Unknown'" class="text-danger">Unknown</span>
+										<button *ngSwitchDefault class="btn btn-link btn-xs" type="button"
+											data-original-title="Check satisfiability and tautology" (click)="analyzeEntity(sig.getId())"
+											[hidden]="sig.isEditorEnabled() || !this.satService.isWebWorkerAvailable() || !canBeAnalyzed(sig)"
+											data-tooltip="tooltip" data-placement="left">
+											<span [hidden]="isBeingAnalyzed(sig.getId())"
+												class="glyphicon glyphicon-flash"></span>
+											<span [hidden]="!isBeingAnalyzed(sig.getId())"
+												class="glyphicon glyphicon-refresh spinning"></span>
+										</button>
+									</container-element>
 									<button class="btn-link" [hidden]="sig.isEditorEnabled()"
 										[disabled]="sig.isReferenced()"
 										(click)="removeSignal(sig.getId())">

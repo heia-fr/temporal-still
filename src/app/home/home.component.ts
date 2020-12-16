@@ -3,6 +3,7 @@ declare var $: any;
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
+import { SATService } from '../services/sat.service';
 import Symbols from 'src/engine/helpers/Symbols';
 import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
 import {
@@ -34,8 +35,6 @@ function nvd3WrapUpdate(chart: any, updateCallback: any) {
 })
 export class HomeComponent implements OnInit {
 
-	public signalsService: SignalsService;
-
 	public buttonState = {
 		// a toggle boolean used to change the icon of the signals
 		// and formulas collapse button
@@ -48,6 +47,8 @@ export class HomeComponent implements OnInit {
 	public editableSignal = { text: "", id: "", };
 
 	public signalsString = "";
+
+	private analyses: string[] = [];
 
 	public nvd3Options: any = {
 		chart: {
@@ -78,8 +79,7 @@ export class HomeComponent implements OnInit {
 		}
 	};
 
-	constructor(signalsService: SignalsService) {
-		this.signalsService = signalsService;
+	constructor(public signalsService: SignalsService, public satService: SATService) {
 		this.nvd3Options.chart.callback = this.prepareChart();
 	}
 
@@ -312,6 +312,43 @@ export class HomeComponent implements OnInit {
 		// save universe
 		this.signalsService.saveUniverse();
 	};
+
+	canBeAnalyzed(entity: any): boolean {
+		// Entity can't be analyzed if it contains static signal
+		let content = entity.content;
+		if (content.indexOf('0') >= 0 || content.indexOf('1') >= 0) return false;
+
+		return true;
+	}
+
+	isBeingAnalyzed(id: any) {
+		return this.analyses.indexOf(id) >= 0;
+	}
+
+	analyzeEntity(id: any) {
+		if (this.analyses.indexOf(id) >= 0) return;
+		let entity: any = this.signalsService.universe.getEntity(id);
+		if (entity == null || !this.canBeAnalyzed(entity)) return;
+
+		this.analyses.push(id);
+		this.satService.checkInformation(entity.content).then((report) => {
+			let index = this.analyses.indexOf(id);
+			if (index < 0) return;
+			this.analyses.splice(index, 1);
+
+			let sat;
+			if (report == null) {
+				sat = 'Unknown';
+			} else if (report.isTautology) {
+				sat = 'Tautology';
+			} else if (report.isSatisfiable) {
+				sat = 'Satisfiable';
+			} else {
+				sat = 'Insatisfiable';
+			}
+			entity.satisfiability = sat;
+		});
+	}
 
 	/**
 	 * ******************** ngForOf trackBy ********************

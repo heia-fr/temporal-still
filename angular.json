@@ -27,6 +27,12 @@
 						"tsConfig": "tsconfig.app.json",
 						"aot": true,
 						"allowedCommonJsDependencies": [
+							"is-observable",
+							"debug",
+							"d3",
+							"nvd3",
+							"ng2-nvd3",
+							"bitset",
 							"lodash"
 						],
 						"assets": [
@@ -39,7 +45,8 @@
 						"scripts": [
 							"node_modules/jquery/dist/jquery.js",
 							"node_modules/bootstrap/dist/js/bootstrap.js"
-						]
+						],
+						"webWorkerTsConfig": "tsconfig.worker.json"
 					},
 					"configurations": {
 						"production": {
@@ -114,7 +121,8 @@
 					"options": {
 						"tsConfig": [
 							"tsconfig.app.json",
-							"tsconfig.spec.json"
+							"tsconfig.spec.json",
+							"tsconfig.worker.json"
 						],
 						"exclude": [
 							"**/node_modules/**"

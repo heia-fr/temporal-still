@@ -6,13 +6,15 @@
 	"rules": {
 		"align": {
 			"options": [
-				"parameters",
 				"statements"
 			]
 		},
 		"array-type": false,
 		"arrow-return-shorthand": true,
-		"curly": true,
+		"curly": [
+			true,
+			"ignore-same-line"
+		],
 		"deprecation": {
 			"severity": "warning"
 		},
@@ -24,7 +26,9 @@
 		"import-spacing": true,
 		"indent": {
 			"options": [
-				"spaces"
+				true,
+				"tabs",
+				4
 			]
 		},
 		"max-classes-per-file": false,
@@ -65,6 +69,7 @@
 			true,
 			"as-needed"
 		],
+		"prefer-const": false,
 		"quotemark": [
 			true,
 			"single"
