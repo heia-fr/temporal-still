@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NvD3Module } from 'ng2-nvd3';
 import 'd3';
 import 'nvd3';
@@ -45,7 +46,8 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
-		NvD3Module,
+        NvD3Module,
+        SweetAlert2Module.forRoot(),
 	],
 	providers: [RENDERER_PROVIDERS],
 	bootstrap: [AppComponent]

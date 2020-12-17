@@ -214,11 +214,4 @@ BooleanSignal.prototype.calculateChartValues = function (universeLength, legendL
    ];
 };
 
-/**
- * @return An array containing data ready to be displayed
- */
-BooleanSignal.prototype.getChartData = function () {
-   return this.signalChartData;
-};
-
 export default BooleanSignal;

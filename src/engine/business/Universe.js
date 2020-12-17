@@ -260,8 +260,11 @@ Universe.prototype = {
      * - Signal #2: 01100/0
      */
     minimize: function() {
+        var entities = this.getEntities();
+        if (entities.length == 0) return;
+
         // Compute minimized signals for the universe
-        var signals = minimize(this.getEntities(), this.getLength());
+        var signals = minimize(entities, this.getLength());
 
         // Reset universe length to minimum
         this.length = [0, 1];
