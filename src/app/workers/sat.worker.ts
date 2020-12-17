@@ -1,6 +1,5 @@
 /// <reference lib="webworker" />
 import { expose } from "threads/worker";
-import "src/engine/polyfills/MapExtension";
 import "src/engine/polyfills/SetExtension";
 import { SAT, TemporalEntitySyntaxTree } from "src/engine/analysers";
 
