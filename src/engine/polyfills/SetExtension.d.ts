@@ -6,7 +6,6 @@ declare global {
 		deleteAll(items: Iterable<T>): void;
 		containsAll(items: Iterable<T>): boolean;
 		contentEquals(others: Set<T>): boolean;
-		retainAll(items: T[]): void;
 		first(): T | null;
 	}
 }

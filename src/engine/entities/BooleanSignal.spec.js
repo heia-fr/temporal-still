@@ -168,6 +168,7 @@ describe('testing BooleanSignal constructor', function() {
          { content: "C = 01010/01", body: "01010", period: "01", },
          { content: "D = 01010/10101010", body: "0", period: "10", },
          { content: "E = 0000/10101010", body: "0000", period: "10", },
+         { content: "F = 10011/11111111", body: "100", period: "1", },
       ];
 
       for (var i = 0; i < signals.length; i++) {

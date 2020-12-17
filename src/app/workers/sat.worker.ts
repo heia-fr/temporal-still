@@ -1,6 +1,5 @@
 /// <reference lib="webworker" />
 import { expose } from "threads/worker";
-import "src/engine/polyfills/MapExtension";
 import "src/engine/polyfills/SetExtension";
 import { SAT, TemporalEntitySyntaxTree } from "src/engine/analysers";
 
@@ -17,11 +16,14 @@ const worker = {
 	},
 
 	checkInformation(formula: string): SATReport {
-		let ast = TemporalEntitySyntaxTree.parse(formula).content;
-		return {
-			isSatisfiable: SAT.isSatisfiable(ast),
-			isTautology: SAT.isTautology(ast),
-		};
+        let ast = TemporalEntitySyntaxTree.parse(formula).content;
+        let isSatisfiable = SAT.isSatisfiable(ast);
+        // Check Tautology only if formula is Satisfiable
+        let isTautology = isSatisfiable && SAT.isTautology(ast);
+        return {
+            isSatisfiable,
+            isTautology,
+        };
 	},
 }
 

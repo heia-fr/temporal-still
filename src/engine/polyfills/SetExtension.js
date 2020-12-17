@@ -26,14 +26,6 @@ Set.prototype.contentEquals = function(other) {
 	return this.containsAll(other);
 }
 
-Set.prototype.retainAll = function(items) {
-	for (let item of items) {
-		if (items.indexOf(item) < 0) {
-			this.delete(item);
-		}
-	}
-}
-
 Set.prototype.first = function() {
 	for (let item of this) {
 		return item;

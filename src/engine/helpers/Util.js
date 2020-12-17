@@ -14,7 +14,7 @@ var Util = function() {
                 */
                getMinRepeatedSubstring: function(str) {
                   var len = str.length;
-                  loop: for (var i = 2; i < len; i++) {
+                  loop: for (var i = 1; i < len; i++) {
                      if (len % i == 0) {
                         var first = str.substr(0, i);
                         // For each subparts, if one is not the same
