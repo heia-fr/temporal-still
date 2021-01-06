@@ -216,3 +216,13 @@ footer {
 	margin-right: 0;
 	margin-left: 0;
 }
+
+.swal2-popup {
+	font-size: 1.6rem !important;
+}
+
+.swal2-icon {
+	width: 5em !important;
+	height: 5em !important;
+	border-width: .25em !important;
+}

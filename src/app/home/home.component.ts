@@ -2,6 +2,7 @@ declare var $: any;
 
 import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { SweetAlertOptions } from 'sweetalert2';
 import { SignalsService } from '../services/signals.service';
 import { SATService } from '../services/sat.service';
 import Symbols from 'src/engine/helpers/Symbols';
@@ -11,7 +12,6 @@ import {
 	BooleanSignalGenerator,
 } from 'src/engine/generators';
 import {
-	BooleanSignal,
 	TemporalEntity,
 	TemporalFormula,
 } from 'src/engine/entities';
@@ -34,6 +34,22 @@ function nvd3WrapUpdate(chart: any, updateCallback: any) {
 	templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+
+	public minimizeSwalOptions: SweetAlertOptions = {
+		title: 'Are you sure?',
+		text: 'By minimizing the signals, the existing ones will be replaced and you won\'t be able to revert the changes without modifying the signals!',
+		confirmButtonText: 'Minimize!',
+		denyButtonText: 'Cancel',
+		showCancelButton: true,
+		showClass: {
+			popup: 'swal2-noanimation',
+			backdrop: 'swal2-noanimation',
+		},
+		hideClass: {
+			popup: '',
+			backdrop: '',
+		},
+	};
 
 	public buttonState = {
 		// a toggle boolean used to change the icon of the signals
@@ -348,6 +364,12 @@ export class HomeComponent implements OnInit {
 			}
 			entity.satisfiability = sat;
 		});
+	}
+
+	minimizeUniverse() {
+		this.signalsService.universe.minimize();
+		this.updateSignalsCharts();
+		this.signalsService.saveUniverse();
 	}
 
 	/**

@@ -54,6 +54,12 @@ TemporalEntity.prototype = {
     getChartData: function () {
         return this.signalChartData;
     },
+    calculateUpdatedFixedPart: function (fixedPartNewLength) {
+        throw new Error("Not implemented method");
+    },
+    calculateUpdatedPeriodicPart: function (periodicPartNewLength) {
+        throw new Error("Not implemented method");
+    },
 
     // Manage references from me
     getReferences: function () {

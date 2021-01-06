@@ -25,6 +25,13 @@
 					<i class="fa fa-random"></i>
 				</button>
 				<button type="button"
+					class="btn btn-warning  fixed-right-toggle toggle"
+					data-tooltip="tooltip" title="Minimize signals" (confirm)="minimizeUniverse()"
+					[hidden]="!buttonState.isExpanded" [swal]="minimizeSwalOptions"
+					[disabled]="signalsService.universe.isEmpty()">
+					<i class="fas fa-compress-alt"></i>
+				</button>
+				<button type="button"
 					class="btn btn-danger  fixed-right-toggle toggle"
 					data-tooltip="tooltip" title="Clear signals" (click)="clearSignals()"
 					[hidden]="!buttonState.isExpanded"

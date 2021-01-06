@@ -2,6 +2,7 @@ import { Util } from 'src/engine/helpers';
 import Map from './Map';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
+import { minimize } from './Minimize';
 
 function recursiveDependencies(universe, entity) {
     var itr = (function() {
@@ -243,6 +244,39 @@ Universe.prototype = {
         this.length[1] = s.getPeriodicPartLength()
             * (this.length[1] / Util.gcd(s.getPeriodicPartLength(), this.length[1]));
     },
+    /**
+     * Minimize the universe. The resulting universe has only one
+     * step between each transition while keeping the correction
+     * transitions order.
+     *
+     * Warning: This method modify the current Universe and the
+     * state cannot be reverted.
+     *
+     * For example:
+     * - Signal #1: 0110011/1
+     * - Signal #2: 0111000/0
+     * Will become:
+     * - Signal #1: 01001/1
+     * - Signal #2: 01100/0
+     */
+    minimize: function() {
+        var entities = this.getEntities();
+        if (entities.length == 0) return;
+
+        // Compute minimized signals for the universe
+        var signals = minimize(entities, this.getLength());
+
+        // Reset universe length to minimum
+        this.length = [0, 1];
+
+        // Overwrite old signals with minified ones
+        for (let signal of signals) {
+            this.putEntity(signal);
+        }
+
+        // Recompute formula and universe length
+        this.reevaluateAllEntities();
+    }
 };
 
 export default Universe;
