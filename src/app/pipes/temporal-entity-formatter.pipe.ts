@@ -37,6 +37,8 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 				} else if (lexer.isLessThanSign()) {
 					lexer.goToNextToken();
 					tranformed += Symbols.getPrettyEventually();
+				} else if (lexer.isNext()) {
+					tranformed += Symbols.getPrettyNext();
 				} else if (lexer.isWeaklyUntil() || lexer.isEqualSign()) {
 					tranformed += " " + lexer.getCurrentToken() + " ";
 				} else {

@@ -204,6 +204,14 @@ Lexer.prototype = {
          isWeaklyUntil: function() {
             return this.getCurrentToken() === Symbols.getWeakUntil();
          },
+         /**
+          * Checks whether the current token is a next sign
+          *
+          * @returns {Boolean}
+          */
+         isNext: function() {
+            return this.getCurrentToken() === Symbols.getNext();
+         },
 };
 
 export default Lexer;

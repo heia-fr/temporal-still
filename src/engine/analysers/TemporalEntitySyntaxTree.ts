@@ -11,6 +11,7 @@ import {
 	Or,
 	And,
 	Formula,
+    Next,
 } from './sat/Operators';
 
 var TemporalEntitySyntaxTree = function () {
@@ -102,6 +103,12 @@ var TemporalEntitySyntaxTree = function () {
 
 				bs = parseAtom(lexer);
 				bs = new Not(bs);
+
+            } else if (lexer.isNext()) {
+                lexer.goToNextToken();
+
+                bs = parseAtom(lexer);
+                bs = new Next(bs);
 
 			} else if (lexer.isOpeningSquareBracket()) {
 				lexer.goToNextToken();

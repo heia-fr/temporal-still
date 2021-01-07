@@ -152,6 +152,11 @@ var TemporalEntitySyntaxDiagram = (function() {
                throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
 
+         } else if (lexer.isNext()) {
+            lexer.goToNextToken();
+
+            parseAtom(lexer);
+
          } else if (lexer.isNot()) {
             lexer.goToNextToken();
 

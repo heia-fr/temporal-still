@@ -10,6 +10,7 @@ import Eventually from './Eventually';
 import Implies from './Implies';
 import WeakUntil from './WeakUntil';
 
+export { Next } from './Next';
 
 export {
 	Operator,

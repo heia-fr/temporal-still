@@ -3,7 +3,7 @@ import Lexer from './Lexer';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 
 import {
-   Operator, Always, And, Eventually, Implies, Not, Or, WeakUntil
+   Operator, Always, And, Eventually, Implies, Not, Or, WeakUntil, Next
 } from 'src/engine/operators';
 
 /**
@@ -141,6 +141,13 @@ var TemporalEntityInterpreter = function() {
 
             bs = parseAtom(lexer, state);
             var op = new Not(bs);
+            bs = op.performUnaryOperator();
+
+         } else if (lexer.isNext()) {
+            lexer.goToNextToken();
+
+            bs = parseAtom(lexer, state);
+            var op = new Next(bs);
             bs = op.performUnaryOperator();
 
          } else if (lexer.isOpeningSquareBracket()) {

@@ -21,6 +21,7 @@ export class HowToComponent implements OnInit {
 		this.symbols.prettyNot = trustAsHtml(Symbols.getPrettyNot());
 		this.symbols.prettyEventually = trustAsHtml(Symbols.getPrettyEventually());
 		this.symbols.prettyAlways = trustAsHtml(Symbols.getPrettyAlways());
+		this.symbols.prettyNext = trustAsHtml(Symbols.getPrettyNext());
 		this.symbols.equal = Symbols.getEqual();
 		this.symbols.slash = Symbols.getSlash();
 	}

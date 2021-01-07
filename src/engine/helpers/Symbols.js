@@ -21,6 +21,7 @@ var Symbols = function() {
                implies: "->",
                not: "!",
                eventually: "<>",
+               next: "X",
                always: "[]",
                weakUntil: "W",
                and: "&",
@@ -78,6 +79,9 @@ var Symbols = function() {
                getEventually: function() {
                   return symbols.eventually;
                },
+               getNext: function() {
+                  return symbols.next;
+               },
                getAlways: function() {
                   return symbols.always;
                },
@@ -104,6 +108,10 @@ var Symbols = function() {
                },
                getPrettyEventually: function() {
                   return symbols.prettyEventually;
+               },
+               getPrettyNext: function() {
+                  // Real pretty next: &#9711;
+                  return symbols.next;
                },
                getPrettyImplies: function() {
                   return symbols.prettyImplies;
