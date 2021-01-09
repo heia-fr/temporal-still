@@ -23,6 +23,8 @@ var Symbols = function() {
                eventually: "<>",
                next: "X",
                always: "[]",
+               release: "R",
+               until: "U",
                weakUntil: "W",
                and: "&",
                or: "|",
@@ -82,6 +84,12 @@ var Symbols = function() {
                getNext: function() {
                   return symbols.next;
                },
+               getUntil: function() {
+                  return symbols.until;
+               },
+               getRelease: function() {
+                  return symbols.release;
+               },
                getAlways: function() {
                   return symbols.always;
                },
@@ -112,6 +120,12 @@ var Symbols = function() {
                getPrettyNext: function() {
                   // Real pretty next: &#9711;
                   return symbols.next;
+               },
+               getPrettyUntil: function() {
+                  return symbols.until;
+               },
+               getPrettyRelease: function() {
+                  return symbols.release;
                },
                getPrettyImplies: function() {
                   return symbols.prettyImplies;

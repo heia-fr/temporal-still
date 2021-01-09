@@ -11,6 +11,8 @@ import Implies from './Implies';
 import WeakUntil from './WeakUntil';
 
 export { Next } from './Next';
+export { Until } from './Until';
+export { Release } from './Release';
 
 export {
 	Operator,

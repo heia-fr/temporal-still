@@ -12,8 +12,8 @@ import Lexer from './Lexer';
    Formula ::= Component ('-' '>' Component)*
    Component ::= Term ('|' Term)*
    Term ::= Factor ('&' Factor)*
-   Factor ::= Atom ('W' Atom)?
-   Atom ::= ('(' (Formula|Signal) ')')|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
+   Factor ::= Atom (('W' Atom)|('U' Atom)|('R' Atom))?
+   Atom ::= ('(' (Formula|Signal) ')')('X' Atom)|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
    Prop ::= VarName
 
    VarName ::= Letter+
@@ -133,6 +133,12 @@ var TemporalEntitySyntaxDiagram = (function() {
          parseAtom(lexer);
 
          if (lexer.isWeaklyUntil()) {
+            lexer.goToNextToken();
+            parseAtom(lexer);
+         } else if (lexer.isUntil()) {
+            lexer.goToNextToken();
+            parseAtom(lexer);
+         } else if (lexer.isRelease()) {
             lexer.goToNextToken();
             parseAtom(lexer);
          }

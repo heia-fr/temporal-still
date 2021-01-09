@@ -15,7 +15,7 @@ export class Next extends (TemporalOperator as any) {
         }, entity);
     }
 
-    performBinaryOperator() {
+    performBinaryOperator(): never {
         // Next is not a Binary Operator
         throw new Error('Next: Not implemented method');
     }

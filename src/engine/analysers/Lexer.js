@@ -212,6 +212,22 @@ Lexer.prototype = {
          isNext: function() {
             return this.getCurrentToken() === Symbols.getNext();
          },
+         /**
+          * Checks whether the current token is a until sign
+          *
+          * @returns {Boolean}
+          */
+         isUntil: function() {
+            return this.getCurrentToken() === Symbols.getUntil();
+         },
+         /**
+          * Checks whether the current token is a release sign
+          *
+          * @returns {Boolean}
+          */
+         isRelease: function() {
+            return this.getCurrentToken() === Symbols.getRelease();
+         },
 };
 
 export default Lexer;

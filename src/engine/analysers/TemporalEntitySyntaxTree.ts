@@ -12,6 +12,8 @@ import {
 	And,
 	Formula,
     Next,
+    Until,
+    Release,
 } from './sat/Operators';
 
 var TemporalEntitySyntaxTree = function () {
@@ -80,6 +82,16 @@ var TemporalEntitySyntaxTree = function () {
 
 				var thatBs = parseAtom(lexer);
 				bs = new WeakUntil(bs, thatBs);
+            } else if (lexer.isUntil()) {
+                lexer.goToNextToken();
+
+                var thatBs = parseAtom(lexer);
+                bs = new Until(bs, thatBs);
+            } else if (lexer.isRelease()) {
+                lexer.goToNextToken();
+
+                var thatBs = parseAtom(lexer);
+                bs = new Release(bs, thatBs);
 			}
 
 			return bs;
