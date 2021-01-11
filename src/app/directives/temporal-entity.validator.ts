@@ -20,44 +20,41 @@ export class TemporalEntityValidatorDirective implements Validator {
 	validate(control: AbstractControl): ValidationErrors | null {
 		if (control.value == null) return null;
 		let value = (control.value as string).trim();
-		if (value.length == 0) return null;
+		if (value.length === 0) return null;
 
 		if (!TemporalEntitySyntaxDiagram.isValid(value)) {
-			return { entity: "Invalid signal or formula" };
+			return { entity: 'Invalid signal or formula' };
 		}
 
 		// Verify that all of the referenced signals exist
 		// in the universe
 		let entityInfo = value.split(Symbols.getEqual(), 2);
 		let entityId = entityInfo[0].trim();
-		var lexer = new Lexer(entityInfo[1].trim());
+		let lexer = new Lexer(entityInfo[1].trim());
 		while (!lexer.hasNoMoreChars()) {
 			let errs = this.validateIfVariable(entityId, lexer);
 			if (errs) return errs;
 			lexer.goToNextToken();
 		}
-		let errs = this.validateIfVariable(entityId, lexer);
-		if (errs) return errs;
-
-		return null;
+		return this.validateIfVariable(entityId, lexer);
 	}
 
 	validateIfVariable(formulaId: string, lexer: Lexer): ValidationErrors | null {
 		if (!lexer.isVarName()) return null;
 
-		var entityId = lexer.getCurrentToken();
+		let entityId = lexer.getCurrentToken();
 
-		if (entityId == formulaId) {
-			return { entity: "Formula cannot directly depends on itself" };
+		if (entityId === formulaId) {
+			return { entity: 'Formula cannot directly depends on itself' };
 		}
 
 		if (!this.signalsService.universe.containsEntity(entityId)) {
-			return { entity: "Formula uses an unknown signal or formula" };
+			return { entity: 'Formula uses an unknown signal or formula' };
 		}
 
 		let deps = this.signalsService.universe.getAllDependencies(entityId);
 		if (deps.indexOf(formulaId) >= 0) {
-			return { entity: "Formula cannot indirectly depends on itself" };
+			return { entity: 'Formula cannot indirectly depends on itself' };
 		}
 
 		return null;

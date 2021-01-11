@@ -15,16 +15,18 @@ function Map(other) {
       if (!(other instanceof Object) || other.__type !== 'Map')
          throw new TypeError("Map: Expected 'other' to be a 'Map' object");
       this.data = {};
-      for ( var k in other.data) {
-         var obj = other.data[k];
-         if (typeof obj === 'object') {
-            if (obj.__type === 'BooleanSignal') {
-               obj = new BooleanSignal(undefined, obj);
-            } else if (obj.__type === 'TemporalFormula') {
-               obj = new TemporalFormula(undefined, undefined, undefined, undefined, obj);
+      for (var k in other.data) {
+         if (other.data.hasOwnProperty(k)) {
+            var obj = other.data[k];
+            if (typeof obj === 'object') {
+               if (obj.__type === 'BooleanSignal') {
+                  obj = new BooleanSignal(undefined, obj);
+               } else if (obj.__type === 'TemporalFormula') {
+                  obj = new TemporalFormula(undefined, undefined, undefined, undefined, obj);
+               }
             }
-         }
-         this.data[k] = obj;
+            this.data[k] = obj;
+        }
       }
    }
 
@@ -73,11 +75,13 @@ Map.prototype = {
           */
          entries: function() {
             var entrys = [];
-            for ( var k in this.data) {
-               entrys.push({
-                        key: k,
-                        value: this.data[k]
-               });
+            for (var k in this.data) {
+               if (this.data.hasOwnProperty(k)) {
+                  entrys.push({
+                     key: k,
+                     value: this.data[k]
+                  });
+               }
             }
             return entrys;
          },
@@ -121,8 +125,10 @@ Map.prototype = {
           */
          values: function() {
             var vals = [];
-            for ( var k in this.data) {
-               vals.push(this.data[k]);
+            for (var k in this.data) {
+               if (this.data.hasOwnProperty(k)) {
+                  vals.push(this.data[k]);
+               }
             }
             return vals;
          },
@@ -141,8 +147,10 @@ Map.prototype = {
             if (typeof callback !== 'function') { return; }
             var i = 0;
             for ( var k in this.data) {
-               callback(k, this.data[k], i);
-               ++i;
+               if (this.data.hasOwnProperty(k)) {
+                  callback(k, this.data[k], i);
+                  ++i;
+               }
             }
             return this;
          },

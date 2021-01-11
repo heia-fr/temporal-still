@@ -52,12 +52,12 @@ export class Transition {
 
     public transform(nodes: GNode[], node: GNode): void {
         let e = new GEdge(node, nodes[this.destination]);
-        if (this.acceptingConds == 0) {
-            e.Attributes.set("acc0", true);
+        if (this.acceptingConds === 0) {
+            e.Attributes.set('acc0', true);
         } else {
             for (let i = 0; i < this.acceptingConds; i++) {
                 if (!this.accepting.get(i)) {
-                    e.Attributes.set("acc" + i, true);
+                    e.Attributes.set('acc' + i, true);
                 }
             }
         }
@@ -90,13 +90,13 @@ export class GeneralizedBuchiAutomata {
         let nodes: GNode[] = [];
         for (let i = 0; i < automata.length; i++) {
             if (automata[i] == null) continue;
-            if (i != automata[i].RepresentativeId) continue;
-            nodes[i] = new GNode(g, "S" + automata[i].RepresentativeId);
+            if (i !== automata[i].RepresentativeId) continue;
+            nodes[i] = new GNode(g, 'S' + automata[i].RepresentativeId);
         }
 
         for (let i = 0; i < automata.length; i++) {
             if (automata[i] == null) continue;
-            if (i != automata[i].RepresentativeId) continue;
+            if (i !== automata[i].RepresentativeId) continue;
 
             for (let t of automata[i].Transitions) {
                 t.transform(nodes, nodes[i]);
@@ -104,7 +104,7 @@ export class GeneralizedBuchiAutomata {
         }
 
         let acceptingConds = this.Nodes[0].AcceptingConds;
-        g.Attributes.set("nsets", acceptingConds == 0 ? 1 : acceptingConds);
+        g.Attributes.set('nsets', acceptingConds === 0 ? 1 : acceptingConds);
         return g;
     }
 
@@ -140,7 +140,7 @@ export class BNode {
         if (this.Current.size === 0) {
             let r = null;
             for (let n of nodes) {
-                if (n.Next.contentEquals(this.Next) && ((n.Id == 0 && !n.InitCollapsed) || n.Accepting.equals(this.Accepting))) {
+                if (n.Next.contentEquals(this.Next) && ((n.Id === 0 && !n.InitCollapsed) || n.Accepting.equals(this.Accepting))) {
                     r = n;
                     break;
                 }
@@ -210,7 +210,7 @@ export class BNode {
         }
     }
 
-    public indexEquivalence(equivalenceClasses: BNode[]) {
+    public indexEquivalence(equivalenceClasses: BNode[]): number {
         let i;
         for (i = 0; i < equivalenceClasses.length; i++) {
             if (equivalenceClasses[i] == null) {
@@ -223,7 +223,7 @@ export class BNode {
         return (equivalenceClasses[i] = this).Id;
     }
 
-    public transform(automata: State[]) {
+    public transform(automata: State[]): void {
         if (automata[this.Id] == null) automata[this.Id] = new State();
         automata[this.Id].RepresentativeId = this.EquivalenceId;
 
@@ -238,8 +238,8 @@ export class BNode {
         }
     }
 
-    private modify(other: BNode) {
-        if (this.Id == 0 && !this.InitCollapsed) {
+    private modify(other: BNode): void {
+        if (this.Id === 0 && !this.InitCollapsed) {
             this.Accepting = other.Accepting.clone();
             this.InitCollapsed = true;
         }

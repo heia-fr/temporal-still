@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
 
 /**
  * Create a directive the gives focus to the update editor being enabled
@@ -6,7 +6,7 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 @Directive({
 	selector: '[appGainFocus]',
 })
-export class GainFocusDirective implements OnInit {
+export class GainFocusDirective implements OnInit, OnChanges {
 
 	@Input('appGainFocus') isFocused!: boolean;
 
@@ -14,10 +14,10 @@ export class GainFocusDirective implements OnInit {
 
 	ngOnInit(): void { }
 
-	ngOnChanges() {
+	ngOnChanges(): void {
 		if (this.isFocused) {
 			let element = this.hostElement.nativeElement;
-			setTimeout(function () {
+			setTimeout(() => {
 				element.focus();
 			});
 		}

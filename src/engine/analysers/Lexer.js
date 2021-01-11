@@ -9,7 +9,7 @@ import { Symbols } from 'src/engine/helpers';
  * share references to methods, conserving memory.
  ******************************************************************************/
 function Lexer(expressionString) {
-   if (typeof expressionString != "string")
+   if (typeof expressionString !== "string")
       throw new TypeError("Lexer: 'expressionString' is expected to be a String object");
    this.expressionString = expressionString.trim();
    this.currentToken = Symbols.getEmpty();

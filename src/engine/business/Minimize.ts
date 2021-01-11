@@ -1,6 +1,6 @@
 import { BooleanSignal, TemporalEntity } from 'src/engine/entities';
 
-export function minimize(entities: TemporalEntity[], length: [number, number]) {
+export function minimize(entities: TemporalEntity[], length: [number, number]): BooleanSignal[] {
     const tmp = [];
 
     // Transform String Signals to Array of 0 and 1
