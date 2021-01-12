@@ -1,6 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Universe } from 'src/engine/business';
 import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
+import { JSONHelper as JSON, Reviver } from 'src/engine/helpers';
+import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
+
+JSON.register('Universe', (data: any) => {
+    return new Universe(data);
+});
+JSON.register('BooleanSignal', (data: any) => {
+    return new BooleanSignal(undefined, data);
+});
+JSON.register('TemporalFormula', (data: any) => {
+    return new TemporalFormula(undefined, undefined, undefined, undefined, data);
+});
 
 @Injectable({
 	providedIn: 'root'
@@ -35,12 +47,7 @@ export class SignalsService {
 		let newUniverse: Universe;
 		let data = this.restore(this.universeKey);
 		if (data) {
-			newUniverse = JSON.parse(data, function(key, value): any {
-				if (typeof (value) === 'object' && value.__type === 'Universe') {
-					return new Universe(value);
-				}
-				return value;
-			});
+			newUniverse = JSON.parse(data);
 		} else {
 			newUniverse = new Universe(null);
 			const entities = [
