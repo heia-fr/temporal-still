@@ -80,7 +80,7 @@ Universe.prototype = {
      * Returns a temporal entity with an id matching the provided one
      *
      * @param id an ID of enitity to fetch
-     * @returns {BooleanSignal | TemporalFormula}
+     * @returns {TemporalEntity}
      */
     getEntity: function (id) {
         return this.dataStoreMap.get(id);

@@ -28,8 +28,10 @@ describe('testing "WeakUntil" constructor', function() {
       u.putEntity(new BooleanSignal("b = 11/0"));        // 11000/000000000000000
       u.putEntity(new BooleanSignal("c = 11001/01100")); // 11001/011000110001100
       u.putEntity(new BooleanSignal("d = 1100/1"));      // 11001/111111111111111
+      u.putEntity(new BooleanSignal('e = 0/0', null));   // 00000/000000000000000
       Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
 
+      // Same as Until
       var weakUntil = new WeakUntil(u.getEntity("a"), u.getEntity("b"));
       var r = weakUntil.performBinaryOperator();
       expect(r.getContent()).toEqual("ab=11000/000000000000000");
@@ -49,5 +51,10 @@ describe('testing "WeakUntil" constructor', function() {
       weakUntil = new WeakUntil(u.getEntity("c"), u.getEntity("d"));
       var r = weakUntil.performBinaryOperator();
       expect(r.getContent()).toEqual("cd=11001/111111111111111");
+
+      // Different from Until
+      weakUntil = new WeakUntil(u.getEntity('d'), u.getEntity('e'));
+      r = weakUntil.performBinaryOperator();
+      expect(r.getContent()).toEqual('de=00001/111111111111111');
    });
 });
