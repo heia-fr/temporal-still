@@ -9,7 +9,7 @@ import { Symbols } from 'src/engine/helpers';
  * share references to methods, conserving memory.
  ******************************************************************************/
 function Lexer(expressionString) {
-   if (typeof expressionString != "string")
+   if (typeof expressionString !== "string")
       throw new TypeError("Lexer: 'expressionString' is expected to be a String object");
    this.expressionString = expressionString.trim();
    this.currentToken = Symbols.getEmpty();
@@ -203,6 +203,30 @@ Lexer.prototype = {
           */
          isWeaklyUntil: function() {
             return this.getCurrentToken() === Symbols.getWeakUntil();
+         },
+         /**
+          * Checks whether the current token is a next sign
+          *
+          * @returns {Boolean}
+          */
+         isNext: function() {
+            return this.getCurrentToken() === Symbols.getNext();
+         },
+         /**
+          * Checks whether the current token is a until sign
+          *
+          * @returns {Boolean}
+          */
+         isUntil: function() {
+            return this.getCurrentToken() === Symbols.getUntil();
+         },
+         /**
+          * Checks whether the current token is a release sign
+          *
+          * @returns {Boolean}
+          */
+         isRelease: function() {
+            return this.getCurrentToken() === Symbols.getRelease();
          },
 };
 

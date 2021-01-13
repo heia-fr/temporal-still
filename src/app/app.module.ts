@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NvD3Module } from 'ng2-nvd3';
-import 'd3';
-import 'nvd3';
 
 import { RENDERER_PROVIDERS } from './providers/dom-renderer.factory';
 

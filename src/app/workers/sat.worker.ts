@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
-import { expose } from "threads/worker";
-import "src/engine/polyfills/SetExtension";
-import { SAT, TemporalEntitySyntaxTree } from "src/engine/analysers";
+import { expose } from 'threads/worker';
+import 'src/engine/polyfills/SetExtension';
+import { SAT, TemporalEntitySyntaxTree } from 'src/engine/analysers';
 
 export type SATReport = { isSatisfiable: boolean, isTautology: boolean };
 
@@ -25,7 +25,7 @@ const worker = {
             isTautology,
         };
 	},
-}
+};
 
 export type SATWorker = typeof worker;
 

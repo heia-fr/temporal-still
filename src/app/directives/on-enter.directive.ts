@@ -16,7 +16,7 @@ export class OnEnterDirective {
 	@HostListener('keypress', ['$event'])
 	@HostListener('keydown', ['$event'])
 	@HostListener('keyup', ['$event'])
-	onKeyEvent(event: KeyboardEvent) {
+	onKeyEvent(event: KeyboardEvent): void {
 		let key;
 		if (event.keyCode != undefined) {
 			key = event.keyCode;

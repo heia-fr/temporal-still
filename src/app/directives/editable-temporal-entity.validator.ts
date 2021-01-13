@@ -27,32 +27,29 @@ export class EditableTemporalEntityValidatorDirective extends TemporalEntityVali
 		if (control.value == null) return null;
 
 		let value = (control.value as string).trim();
-		if (value.length == 0) return null;
+		if (value.length === 0) return null;
 
 		if (!TemporalEntitySyntaxDiagram.isValid(value)) {
-			return { entity: "Invalid signal or formula" };
+			return { entity: 'Invalid signal or formula' };
 		}
 
 		let entityInfo = value.split(Symbols.getEqual(), 2);
 
 		// the ID must not be changed
 		let entityId = entityInfo[0].trim();
-		if (entityId != this.editableEntity.id) {
-			return { entity: "Formula or Signal name must not change" };
+		if (entityId !== this.editableEntity.id) {
+			return { entity: 'Formula or Signal name must not change' };
 		}
 
 		// Verify that all of the referenced signals exist
 		// in the universe
-		var lexer = new Lexer(entityInfo[1].trim());
+		let lexer = new Lexer(entityInfo[1].trim());
 		while (!lexer.hasNoMoreChars()) {
 			let errs = this.validateIfVariable(entityId, lexer);
 			if (errs) return errs;
 			lexer.goToNextToken();
 		}
-		let errs = this.validateIfVariable(entityId, lexer);
-		if (errs) return errs;
-
-		return null;
+		return this.validateIfVariable(entityId, lexer);
 	}
 
 }

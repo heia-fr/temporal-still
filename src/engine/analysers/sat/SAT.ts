@@ -3,7 +3,7 @@ import { GeneralizedBuchiAutomata } from './GeneralizedBuchiAutomata';
 import { Operator, Formula } from './Operators';
 import { reduce } from './SCCReduction';
 
-let SAT = function () {
+const SAT = function() {
 
     function Singleton() {
 
@@ -31,10 +31,10 @@ let SAT = function () {
         }
 
         return {
-            isSatisfiable: function (ast: Operator | string) {
+            isSatisfiable(ast: Operator | string): boolean {
                 return isSatisfiable(parse(ast));
             },
-            isTautology: function (ast: Operator | string) {
+            isTautology(ast: Operator | string): boolean {
                 return !isSatisfiable(parse(ast).negate());
             },
         };

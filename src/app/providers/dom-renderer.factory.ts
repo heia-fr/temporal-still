@@ -21,9 +21,9 @@ const delegateSetProperty = Symbol('DELEGATE_SET_PROPERTY');
  * Fix inputs for Safari.
  * @see https://github.com/angular/angular/issues/21782
  */
-function setProperty(this: Renderer2, el: any, name: string, value: any) {
+function setProperty(this: Renderer2, el: any, name: string, value: any): void {
 	if (name !== 'value' || el.value !== value) {
-		(<any>this)[delegateSetProperty].apply(this, <any>arguments);
+		(this as any)[delegateSetProperty].apply(this, arguments);
 	}
 }
 

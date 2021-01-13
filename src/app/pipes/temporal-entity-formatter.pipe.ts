@@ -11,7 +11,7 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 	constructor(protected sanitizer: DomSanitizer) { }
 
 	transform(formula: string, ...args: unknown[]): SafeHtml {
-		var tranformed: string;
+		let tranformed: string;
 		if (formula === Symbols.getEmpty()) {
 			tranformed = Symbols.getEmpty();
 		} else {
@@ -23,12 +23,12 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 					tranformed += this.transformSignal(lexer);
 				}
 				if (lexer.isAnd()) {
-					tranformed += " " + Symbols.getPrettyAnd() + " ";
+					tranformed += ' ' + Symbols.getPrettyAnd() + ' ';
 				} else if (lexer.isOr()) {
-					tranformed += " " + Symbols.getPrettyOr() + " ";
+					tranformed += ' ' + Symbols.getPrettyOr() + ' ';
 				} else if (lexer.isDash()) {
 					lexer.goToNextToken();
-					tranformed += " " + Symbols.getPrettyImplies() + " ";
+					tranformed += ' ' + Symbols.getPrettyImplies() + ' ';
 				} else if (lexer.isNot()) {
 					tranformed += Symbols.getPrettyNot();
 				} else if (lexer.isOpeningSquareBracket()) {
@@ -37,8 +37,10 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 				} else if (lexer.isLessThanSign()) {
 					lexer.goToNextToken();
 					tranformed += Symbols.getPrettyEventually();
-				} else if (lexer.isWeaklyUntil() || lexer.isEqualSign()) {
-					tranformed += " " + lexer.getCurrentToken() + " ";
+				} else if (lexer.isNext()) {
+					tranformed += Symbols.getPrettyNext();
+				} else if (lexer.isWeaklyUntil() || lexer.isEqualSign() || lexer.isUntil() || lexer.isRelease()) {
+					tranformed += ' ' + lexer.getCurrentToken() + ' ';
 				} else {
 					tranformed += lexer.getCurrentToken();
 				}
@@ -60,10 +62,10 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 
 		// After body part there must be a /
 		if (!lexer.isSlash())
-			throw new SyntaxError("Expected slash sign");
+			throw new SyntaxError('Expected slash sign');
 		lexer.goToNextToken();
 
-		formatted += "<span style='text-decoration: overline;'>";
+		formatted += '<span style="text-decoration: overline;">';
 
 		// Iterate all 0 and 1
 		while (lexer.isOne() || lexer.isZero()) {
@@ -71,7 +73,7 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 			lexer.goToNextToken();
 		}
 
-		formatted += "</span>";
+		formatted += '</span>';
 
 		return formatted;
 	}

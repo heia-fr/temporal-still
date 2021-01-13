@@ -1,4 +1,4 @@
-import TemporalEntity from './TemporalEntity'
+import TemporalEntity from './TemporalEntity';
 import BooleanSignal from './BooleanSignal';
 import TemporalFormula from './TemporalFormula';
 

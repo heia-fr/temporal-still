@@ -1,5 +1,4 @@
 import { Util } from 'src/engine/helpers';
-import Map from './Map';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { minimize } from './Minimize';
@@ -67,7 +66,7 @@ Universe.prototype = {
      * @returns {Array}
      */
     getIds: function () {
-        return this.dataStoreMap.keys();
+        return [...this.dataStoreMap.keys()];
     },
     /**
      * Returns an array of all the temporal entities
@@ -75,13 +74,13 @@ Universe.prototype = {
      * @returns {Array}
      */
     getEntities: function () {
-        return this.dataStoreMap.values();
+        return [...this.dataStoreMap.values()];
     },
     /**
      * Returns a temporal entity with an id matching the provided one
      *
      * @param id an ID of enitity to fetch
-     * @returns {BooleanSignal | TemporalFormula}
+     * @returns {TemporalEntity}
      */
     getEntity: function (id) {
         return this.dataStoreMap.get(id);
@@ -94,7 +93,7 @@ Universe.prototype = {
      * @returns {Boolean}
      */
     containsEntity: function (id) {
-        return this.dataStoreMap.containsKey(id);
+        return this.dataStoreMap.has(id);
     },
     /**
      * Checks whether this universe is empty
@@ -102,7 +101,7 @@ Universe.prototype = {
      * @returns {Boolean}
      */
     isEmpty: function () {
-        return this.dataStoreMap.isEmpty();
+        return this.dataStoreMap.size == 0;
     },
     /**
      * Adds a temporal entity to the universe. The length of this later
@@ -123,7 +122,7 @@ Universe.prototype = {
             }
         }
 
-        if (this.dataStoreMap.containsKey(entityId)) {
+        if (this.dataStoreMap.has(entityId)) {
             var oldEntity = this.getEntity(entityId);
             // Move References to Old to New entity
             entity.setReferencedBy(oldEntity.getReferencedBy());
@@ -135,7 +134,7 @@ Universe.prototype = {
             }
         }
 
-        this.dataStoreMap.put(entityId, entity);
+        this.dataStoreMap.set(entityId, entity);
 
         // Add References from New to others
         for (var id of entity.getReferences()) {
@@ -159,7 +158,7 @@ Universe.prototype = {
             throw new TypeError("Universe: Entity referenced by other entities");
 
         // Remove entity
-        this.dataStoreMap.remove(id);
+        this.dataStoreMap.delete(id);
 
         // Remove references from the entity
         for (var rid of entity.getReferences()) {
@@ -223,10 +222,9 @@ Universe.prototype = {
      */
     recalculateMaxLength: function () {
         this.length = [0, 1];
-        var that = this;
-        this.dataStoreMap.each(function (key, s, i) {
-            that.calculateMaxLength(s);
-        });
+        for (var value of this.dataStoreMap.values()) {
+            this.calculateMaxLength(value);
+        }
     },
     /**
      *
@@ -276,6 +274,12 @@ Universe.prototype = {
 
         // Recompute formula and universe length
         this.reevaluateAllEntities();
+    },
+
+    toJSON() {
+        var copy = Object.assign({}, this);
+        copy.dataStoreMap = [...copy.dataStoreMap];
+        return copy;
     }
 };
 

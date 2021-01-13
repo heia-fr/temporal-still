@@ -11,34 +11,37 @@ import {
 	Or,
 	And,
 	Formula,
+    Next,
+    Until,
+    Release,
 } from './sat/Operators';
 
-var TemporalEntitySyntaxTree = function () {
+const TemporalEntitySyntaxTree = function() {
 
 	function Singleton() {
 
 		function parseFormulaExpr(lexer: Lexer, state: any): Formula {
-			if (!lexer.isVarName()) throw new SyntaxError("TemporalEntitySyntaxTree: Expected valid formula name");
+			if (!lexer.isVarName()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid formula name');
 			let name = lexer.getCurrentToken();
 			lexer.goToNextToken();
 
-			if (!lexer.isEqualSign()) throw new SyntaxError("TemporalEntitySyntaxTree: Expected equal sign");
+			if (!lexer.isEqualSign()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected equal sign');
 			lexer.goToNextToken();
 
 			return new Formula(name, parseFormula(lexer));
 		}
 
 		function parseFormula(lexer: Lexer): Operator {
-			var bs = parseComponent(lexer);
+			let bs = parseComponent(lexer);
 
 			while (lexer.isDash()) {
 				lexer.goToNextToken();
 
 				if (!lexer.isGreaterThanSign())
-					throw new SyntaxError("TemporalEntitySyntaxTree: Expected " + Symbols.isGreaterThanSign());
+					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.isGreaterThanSign());
 				lexer.goToNextToken();
 
-				var thatBs = parseComponent(lexer);
+				let thatBs = parseComponent(lexer);
 				bs = new Implies(bs, thatBs);
 			}
 
@@ -46,12 +49,12 @@ var TemporalEntitySyntaxTree = function () {
 		}
 
 		function parseComponent(lexer: Lexer): Operator {
-			var bs = parseTerm(lexer);
+			let bs = parseTerm(lexer);
 
 			while (lexer.isOr()) {
 				lexer.goToNextToken();
 
-				var thatBs = parseTerm(lexer);
+				let thatBs = parseTerm(lexer);
 				bs = new Or(bs, thatBs);
 			}
 
@@ -59,12 +62,12 @@ var TemporalEntitySyntaxTree = function () {
 		}
 
 		function parseTerm(lexer: Lexer): Operator {
-			var bs = parseFactor(lexer);
+			let bs = parseFactor(lexer);
 
 			while (lexer.isAnd()) {
 				lexer.goToNextToken();
 
-				var thatBs = parseFactor(lexer);
+				let thatBs = parseFactor(lexer);
 				bs = new And(bs, thatBs);
 			}
 
@@ -72,13 +75,23 @@ var TemporalEntitySyntaxTree = function () {
 		}
 
 		function parseFactor(lexer: Lexer): Operator {
-			var bs = parseAtom(lexer);
+			let bs = parseAtom(lexer);
 
 			if (lexer.isWeaklyUntil()) {
 				lexer.goToNextToken();
 
-				var thatBs = parseAtom(lexer);
+				let thatBs = parseAtom(lexer);
 				bs = new WeakUntil(bs, thatBs);
+            } else if (lexer.isUntil()) {
+                lexer.goToNextToken();
+
+                let thatBs = parseAtom(lexer);
+                bs = new Until(bs, thatBs);
+            } else if (lexer.isRelease()) {
+                lexer.goToNextToken();
+
+                let thatBs = parseAtom(lexer);
+                bs = new Release(bs, thatBs);
 			}
 
 			return bs;
@@ -86,7 +99,7 @@ var TemporalEntitySyntaxTree = function () {
 
 		function parseAtom(lexer: Lexer): Operator {
 
-			var bs = null;
+			let bs = null;
 
 			if (lexer.isOpeningBracket()) {
 				lexer.goToNextToken();
@@ -94,7 +107,7 @@ var TemporalEntitySyntaxTree = function () {
 				bs = parseFormula(lexer);
 
 				if (!lexer.isClosingBracket())
-					throw new SyntaxError("TemporalEntitySyntaxTree: Expected " + Symbols.getClosingBraket());
+					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingBraket());
 				lexer.goToNextToken();
 
 			} else if (lexer.isNot()) {
@@ -103,11 +116,17 @@ var TemporalEntitySyntaxTree = function () {
 				bs = parseAtom(lexer);
 				bs = new Not(bs);
 
+            } else if (lexer.isNext()) {
+                lexer.goToNextToken();
+
+                bs = parseAtom(lexer);
+                bs = new Next(bs);
+
 			} else if (lexer.isOpeningSquareBracket()) {
 				lexer.goToNextToken();
 
 				if (!lexer.isClosingSquareBracket())
-					throw new SyntaxError("TemporalEntitySyntaxTree: Expected " + Symbols.getClosingSquareBraket());
+					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingSquareBraket());
 				lexer.goToNextToken();
 
 				bs = parseAtom(lexer);
@@ -117,7 +136,7 @@ var TemporalEntitySyntaxTree = function () {
 				lexer.goToNextToken();
 
 				if (!lexer.isGreaterThanSign())
-					throw new SyntaxError("TemporalEntitySyntaxTree: Expected " + Symbols.getGreaterThan());
+					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
 				lexer.goToNextToken();
 
 				bs = parseAtom(lexer);
@@ -132,17 +151,17 @@ var TemporalEntitySyntaxTree = function () {
 		function parseProp(lexer: Lexer): Operator {
 			if (!lexer.isVarName()) {
 				console.log(lexer.getCurrentToken());
-				throw new SyntaxError("TemporalEntitySyntaxTree: Expected valid variable name");
+				throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid variable name');
 			}
 
-			var prop = new Variable(lexer.getCurrentToken());
+			let prop = new Variable(lexer.getCurrentToken());
 			lexer.goToNextToken();
 
 			return prop;
 		}
 
 		return {
-			parse: function(expression: string): Formula {
+			parse(expression: string): Formula {
 				let lexer = new Lexer(expression);
 				lexer.goToNextToken();
 				return parseFormulaExpr(lexer, {});

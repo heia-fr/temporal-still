@@ -56,8 +56,7 @@
 
 	<h3>Boolean signals management</h3>
 
-	<p>Boolean signals must follow a strict syntax, i.e id1 =
-		fixedPart1/periodicPart1[;id2 = fixedPart2/periodicPart2...]</p>
+	<p>Boolean signals must follow a strict syntax, i.e id = fixedPart/periodicPart</p>
 	<img src="assets/images/caps/cap1.png" alt="Adding boolean signals" class="img-thumbnail" />
 
 	<p>A boolean signal can be altered by clicking on it in the list under the main
@@ -125,6 +124,14 @@
 		</tr>
 		<tr>
 			<td>
+				NEXT &#40;
+				<span [innerHTML]='symbols.prettyNext'></span>
+				&#41;:
+			</td>
+			<td>X</td>
+		</tr>
+		<tr>
+			<td>
 				ALWAYS &#40;
 				<span [innerHTML]='symbols.prettyAlways'></span>
 				&#41;:
@@ -155,6 +162,10 @@
 		<li>
 			NOT
 			<span [innerHTML]='symbols.prettyNot'></span>
+		</li>
+		<li>
+			NEXT
+			<span [innerHTML]='symbols.prettyNext'></span>
 		</li>
 		<li>
 			EVENTUALLY

@@ -44,7 +44,9 @@
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.js",
-							"node_modules/bootstrap/dist/js/bootstrap.js"
+							"node_modules/bootstrap/dist/js/bootstrap.js",
+							"node_modules/d3/d3.js",
+							"node_modules/nvd3/build/nv.d3.js"
 						],
 						"webWorkerTsConfig": "tsconfig.worker.json"
 					},
@@ -59,7 +61,6 @@
 							"optimization": true,
 							"outputHashing": "all",
 							"sourceMap": false,
-							"extractCss": true,
 							"namedChunks": false,
 							"extractLicenses": true,
 							"vendorChunk": false,
@@ -112,7 +113,9 @@
 						],
 						"scripts": [
 							"node_modules/jquery/dist/jquery.js",
-							"node_modules/bootstrap/dist/js/bootstrap.js"
+							"node_modules/bootstrap/dist/js/bootstrap.js",
+							"node_modules/d3/d3.js",
+							"node_modules/nvd3/build/nv.d3.js"
 						]
 					}
 				},

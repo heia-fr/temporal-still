@@ -80,7 +80,7 @@ TemporalOperator.prototype.performBinaryOperator = function() {
    var lFlattenedSignal = thisBody.concat(thisPeriod);
    var rFlattenedSignal = thatBody.concat(thatPeriod);
 
-   if (lFlattenedSignal.length != rFlattenedSignal.length)
+   if (lFlattenedSignal.length !== rFlattenedSignal.length)
       throw new Error("TemporalOperator: Incompatible signals lengths");
 
    var whole = Symbols.getEmpty();

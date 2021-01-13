@@ -1,24 +1,25 @@
 import { Symbols } from 'src/engine/helpers';
 import Lexer from './Lexer';
 
-/** EBNF
-   Expression ::= VarName '=' (Formula|Signal)
-   FormulaExpr ::= VarName '=' Formula
-   SignalExpr ::= VarName '=' Signal
-
-   Signal ::= Digits '/' Digits
-   Digits ::= ('0'|'1')+
-
-   Formula ::= Component ('-' '>' Component)*
-   Component ::= Term ('|' Term)*
-   Term ::= Factor ('&' Factor)*
-   Factor ::= Atom ('W' Atom)?
-   Atom ::= ('(' (Formula|Signal) ')')|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
-   Prop ::= VarName
-
-   VarName ::= Letter+
-   Letter ::= 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
-*/
+/**
+ * EBNF:
+ * Expression ::= VarName '=' (Formula|Signal)
+ * FormulaExpr ::= VarName '=' Formula
+ * SignalExpr ::= VarName '=' Signal
+ *
+ * Signal ::= Digits '/' Digits
+ * Digits ::= ('0'|'1')+
+ *
+ * Formula ::= Component ('-' '>' Component)*
+ * Component ::= Term ('|' Term)*
+ * Term ::= Factor ('&' Factor)*
+ * Factor ::= Atom (('W' Atom)|('U' Atom)|('R' Atom))?
+ * Atom ::= ('(' (Formula|Signal) ')')('X' Atom)|('!' Atom)|('[' ']' Atom)|('<' '>' Atom)|(Prop)
+ * Prop ::= VarName
+ *
+ * VarName ::= Letter+
+ * Letter ::= 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z'
+ */
 /*******************************************************************************
  * Defining SyntaxDiagram for boolean signals using Combination
  * Constructor/Prototype Pattern
@@ -35,7 +36,6 @@ var TemporalEntitySyntaxDiagram = (function() {
          if (!lexer.isEqualSign())
             throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected " + Symbols.getEqual());
          lexer.goToNextToken();
-
 
          if (lexer.isZero() || lexer.isOne()) {
             parseSignal(lexer);
@@ -135,6 +135,12 @@ var TemporalEntitySyntaxDiagram = (function() {
          if (lexer.isWeaklyUntil()) {
             lexer.goToNextToken();
             parseAtom(lexer);
+         } else if (lexer.isUntil()) {
+            lexer.goToNextToken();
+            parseAtom(lexer);
+         } else if (lexer.isRelease()) {
+            lexer.goToNextToken();
+            parseAtom(lexer);
          }
       }
 
@@ -151,6 +157,11 @@ var TemporalEntitySyntaxDiagram = (function() {
             if (!lexer.isClosingBracket())
                throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected " + Symbols.getClosingBraket());
             lexer.goToNextToken();
+
+         } else if (lexer.isNext()) {
+            lexer.goToNextToken();
+
+            parseAtom(lexer);
 
          } else if (lexer.isNot()) {
             lexer.goToNextToken();
@@ -185,7 +196,6 @@ var TemporalEntitySyntaxDiagram = (function() {
             throw new SyntaxError("TemporalEntitySyntaxDiagram: Expected valid variable name");
          lexer.goToNextToken();
       }
-
 
       function isValid(expression, parser) {
          // permit empty string (that's to be validated in the view)

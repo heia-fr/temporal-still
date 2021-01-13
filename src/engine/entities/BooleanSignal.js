@@ -171,7 +171,7 @@ BooleanSignal.prototype.calculateChartValues = function (universeLength, legendL
    var values = [];
    var x = 0;
    var nextX = 1;
-   var oldZ = parseInt(newBody.charAt(0));
+   var oldZ = Number(newBody.charAt(0));
    var z = oldZ;
 
    values.push([x, oldZ]);
@@ -181,7 +181,7 @@ BooleanSignal.prototype.calculateChartValues = function (universeLength, legendL
    for (var i = 0, l = newBody.length - 1; i < l; i++) {
       x = i + 1;
       nextX = i + 2;
-      z = parseInt(newBody.charAt(i + 1));
+      z = Number(newBody.charAt(i + 1));
       // if (z != oldZ) {
       values.push([x, z]);
       // }
@@ -196,7 +196,7 @@ BooleanSignal.prototype.calculateChartValues = function (universeLength, legendL
    for (var i = 0, l = newPeriod.length; i < l; i++) {
       x = newBody.length + i;
       nextX = newBody.length + i + 1;
-      z = parseInt(newPeriod.charAt(i));
+      z = Number(newPeriod.charAt(i));
       // if (z != oldZ) {
       values.push([x, z]);
       // }

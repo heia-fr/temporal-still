@@ -45,16 +45,16 @@ describe('testing Minimize function', () => {
     it('Universe.minimize should work', () => {
         // Prepare Universe
         const entities = [
-            "b = 111000100011/1",
-            "a = 110000101000/0",
-            "f = b W !a",
-            "g = !a W b",
-            "h = <>(a & b)",
-            "i = b & []!a"
+            'b = 111000100011/1',
+            'a = 110000101000/0',
+            'f = b W !a',
+            'g = !a W b',
+            'h = <>(a & b)',
+            'i = b & []!a'
         ];
 
         for (let entity of entities) {
-            var tf = TemporalEntityInterpreter.evaluate(entity, u);
+            let tf = TemporalEntityInterpreter.evaluate(entity, u);
             expect(tf).not.toBeUndefined();
             expect(tf).not.toBeNull();
             u.putEntity(tf);
