@@ -5,10 +5,10 @@ import { reduce } from './SCCReduction';
 
 function isSatisfiable(ast: Operator): boolean {
     // Step #1) Transform LTL to NOT(LTL) NNF
-    let nnf = ast.toNNF();
+    const nnf = ast.toNNF();
 
     // Step #2) Transform LTL NNF to GBA
-    let gba = GeneralizedBuchiAutomata.fromLTL(nnf);
+    const gba = GeneralizedBuchiAutomata.fromLTL(nnf);
 
     // Step #3) Transform Automata to Graph
     let graph = gba.toGraph(gba.toStates());

@@ -12,7 +12,7 @@ export function getMinRepeatedSubstring(str: string): string {
     const len = str.length;
     loop: for (let i = 1; i < len; i++) {
         if (len % i === 0) {
-            let first = str.substr(0, i);
+            const first = str.substr(0, i);
             // For each subparts, if one is not the same
             // check with the next (continue "loop")
             for (let offset = i; offset < len; offset += i) {
@@ -38,7 +38,7 @@ export function getMinRepeatedSubstring(str: string): string {
  */
 export function gcd(p: number, q: number): number {
     while (q !== 0) {
-        let r = p % q;
+        const r = p % q;
         p = q;
         q = r;
     }

@@ -4,16 +4,16 @@ import { Operator, Or } from 'src/engine/operators';
 
 describe('testing "Or" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"Or" Operator Should Not Have "performUnaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 101/101');
-        let s2 = new BooleanSignal('b = 110/011');
-        let or = new Or(s1, s2);
+        const s1 = new BooleanSignal('a = 101/101');
+        const s2 = new BooleanSignal('b = 110/011');
+        const or = new Or(s1, s2);
 
         expect(() => {
             or.performUnaryOperator();
@@ -28,8 +28,8 @@ describe('testing "Or" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let and = new Or(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
-        let r = and.performBinaryOperator();
+        const and = new Or(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
+        const r = and.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=111/111');
     });

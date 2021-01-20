@@ -31,7 +31,7 @@ export class Release extends TemporalOperator {
         let and: any = new And(this.rightSignal!, this.leftSignal);
         and = and.performBinaryOperator();
 
-        let awb: any = new WeakUntil(this.rightSignal!, and);
+        const awb: any = new WeakUntil(this.rightSignal!, and);
         return awb.performBinaryOperator();
     }
 }

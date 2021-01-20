@@ -100,7 +100,7 @@ export class TemporalEntity {
     }
 
     removeReference(entityId: string): void {
-        let index = this.references.indexOf(entityId);
+        const index = this.references.indexOf(entityId);
         if (index !== -1) this.references.splice(index, 1);
     }
 
@@ -128,7 +128,7 @@ export class TemporalEntity {
     }
 
     removeReferencedBy(entityId: string): void {
-        let index = this.referencedBy.indexOf(entityId);
+        const index = this.referencedBy.indexOf(entityId);
         if (index !== -1) this.referencedBy.splice(index, 1);
     }
 }

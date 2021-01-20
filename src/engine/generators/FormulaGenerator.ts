@@ -19,7 +19,7 @@ interface Context {
 function generateProp(universe: Universe): string {
     let id: string;
     do {
-        let i = _random(0, Symbols.getCharSet().length - 1);
+        const i = _random(0, Symbols.getCharSet().length - 1);
         id = Symbols.getCharSet().charAt(i);
     } while (universe.containsEntity(id));
     return id;
@@ -39,7 +39,7 @@ function generateAtom(universe: Universe, ctx: Context): string {
     }
 
     if (chance <= PATH_TWO_PERCENT) {
-        let ids = universe.getIds();
+        const ids = universe.getIds();
         atom = ids[_random(0, ids.length - 1)];
     } else if (chance <= PATH_THREE_PERCENT) {
         atom = Symbols.getNot() + generateAtom(universe, ctx);
@@ -85,7 +85,7 @@ function generateComponent(universe: Universe, ctx: Context): string {
 function generateFormula(universe: Universe, ctx: Context): string {
     let formula = generateComponent(universe, ctx);
 
-    let nbComponents = _random(1, MAX_NB_COMPONENTS);
+    const nbComponents = _random(1, MAX_NB_COMPONENTS);
     for (let i = 1; i < nbComponents; i++) {
         formula += ' ' + Symbols.getImplies() + ' ' + generateComponent(universe, ctx);
     }
@@ -94,7 +94,7 @@ function generateFormula(universe: Universe, ctx: Context): string {
 
 function purgeSuccessiveDuplicateOps(formulaStr: string): string {
     let newFormulaStr = '';
-    let lexer = new Lexer(formulaStr);
+    const lexer = new Lexer(formulaStr);
     lexer.goToNextToken();
     let c: string;
     while (!lexer.hasNoMoreChars()) {

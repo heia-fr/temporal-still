@@ -15,9 +15,9 @@ describe('testing Universe constructor', () => {
     });
 
     it('putEntity method should work', () => {
-        let s1 = new BooleanSignal('a = 100101/10');
-        let s2 = new BooleanSignal('b = 1011/010');
-        let s3 = new BooleanSignal('c = 1/10110');
+        const s1 = new BooleanSignal('a = 100101/10');
+        const s2 = new BooleanSignal('b = 1011/010');
+        const s3 = new BooleanSignal('c = 1/10110');
 
         expect(() => {
             u.putEntity({} as any);
@@ -38,8 +38,8 @@ describe('testing Universe constructor', () => {
 
     it('updateSignal method should work', () => {
         let s1 = new BooleanSignal('a = 100101/10');
-        let s2 = new BooleanSignal('b = 1011/010');
-        let s3 = new BooleanSignal('c = 1/10110');
+        const s2 = new BooleanSignal('b = 1011/010');
+        const s3 = new BooleanSignal('c = 1/10110');
 
         u.putEntity(s1);
         u.putEntity(s2);
@@ -56,9 +56,9 @@ describe('testing Universe constructor', () => {
     });
 
     it('removeEntity method should work', () => {
-        let s1 = new BooleanSignal('a = 100101/10');
-        let s2 = new BooleanSignal('b = 1011/010');
-        let s3 = new BooleanSignal('c = 1/10110');
+        const s1 = new BooleanSignal('a = 100101/10');
+        const s2 = new BooleanSignal('b = 1011/010');
+        const s3 = new BooleanSignal('c = 1/10110');
 
         u.putEntity(s1);
         u.putEntity(s2);
@@ -82,9 +82,9 @@ describe('testing Universe constructor', () => {
     });
 
     it('clear method should work', () => {
-        let s1 = new BooleanSignal('a = 100101/10');
-        let s2 = new BooleanSignal('b = 1011/010');
-        let s3 = new BooleanSignal('c = 1/10110');
+        const s1 = new BooleanSignal('a = 100101/10');
+        const s2 = new BooleanSignal('b = 1011/010');
+        const s3 = new BooleanSignal('c = 1/10110');
 
         u.putEntity(s1);
         u.putEntity(s2);

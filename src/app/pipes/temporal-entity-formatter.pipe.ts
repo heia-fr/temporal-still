@@ -15,7 +15,7 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 		if (formula === Symbols.getEmpty()) {
 			tranformed = Symbols.getEmpty();
 		} else {
-			let lexer = new Lexer(formula);
+			const lexer = new Lexer(formula);
 			tranformed = Symbols.getEmpty();
 
 			while (!lexer.hasNoMoreChars()) {
@@ -61,8 +61,9 @@ export class TemporalEntityFormatterPipe implements PipeTransform {
 		}
 
 		// After body part there must be a /
-		if (!lexer.isSlash())
+		if (!lexer.isSlash()) {
 			throw new SyntaxError('Expected slash sign');
+		}
 		lexer.goToNextToken();
 
 		formatted += '<span style="text-decoration: overline;">';

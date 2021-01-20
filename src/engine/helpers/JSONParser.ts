@@ -41,7 +41,7 @@ export class JSONParser {
     public readonly reviver = (key: string, value: any): any => {
         if (typeof value === 'object' &&
             typeof value.__type === 'string') {
-            let reviver = this.revivers.get(value.__type);
+            const reviver = this.revivers.get(value.__type);
             if (typeof reviver === 'function') {
                 value = reviver(value);
             }

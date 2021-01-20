@@ -23,7 +23,7 @@ describe('testing BooleanSignal constructor', () => {
     });
 
     it('BooleanSignal state should be as expected', () => {
-        let bs = new BooleanSignal('signal = 10110101/01');
+        const bs = new BooleanSignal('signal = 10110101/01');
 
         expect(bs.getId()).toMatch('signal');
         expect(bs.getContent()).toMatch('signal = 10110101/01');
@@ -34,7 +34,7 @@ describe('testing BooleanSignal constructor', () => {
     });
 
     it('New BooleanSignal should be referenced correctly', () => {
-        let bs = new BooleanSignal('signal = 10110101/01');
+        const bs = new BooleanSignal('signal = 10110101/01');
 
         expect(bs.getReferencedBy()).toEqual([]);
         expect(bs.isReferenced()).toBe(false);
@@ -83,7 +83,7 @@ describe('testing BooleanSignal constructor', () => {
     });
 
     it('BooleanSignal body and period should be as updated correctly', () => {
-        let bs = new BooleanSignal('signal = 10110101/01');
+        const bs = new BooleanSignal('signal = 10110101/01');
 
         expect(bs.getBody()).toMatch('10110101');
         expect(bs.getPeriod()).toMatch('01');
@@ -106,11 +106,11 @@ describe('testing BooleanSignal constructor', () => {
     });
 
     it('BooleanSignal chart data should be calculated correctly', () => {
-        let bs = new BooleanSignal('signal = 101101/10');
+        const bs = new BooleanSignal('signal = 101101/10');
 
         bs.calculateChartValues([6, 2]);
-        let data = bs.getChartData();
-        let expectedValues = [[0, 1], [1, 1], [1, 0], [2, 0], [2, 1], [3, 1], [3, 1], [4, 1], [4, 0],
+        const data = bs.getChartData();
+        const expectedValues = [[0, 1], [1, 1], [1, 0], [2, 0], [2, 1], [3, 1], [3, 1], [4, 1], [4, 0],
         [5, 0], [5, 1], [6, 1], [5.9, 0.5], [6.1, 0.5], [6, 1], [6, 1], [7, 1], [7, 0], [8, 0]];
 
         expect(data instanceof Array).toBe(true);

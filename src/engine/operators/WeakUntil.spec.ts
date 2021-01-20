@@ -4,16 +4,16 @@ import { Operator, WeakUntil } from 'src/engine/operators';
 
 describe('testing "WeakUntil" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"WeakUntil" Operator Should Not Have "performUnaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 1011/011010');
-        let s2 = new BooleanSignal('b = 0100/001011');
-        let weakUntil = new WeakUntil(s1, s2);
+        const s1 = new BooleanSignal('a = 1011/011010');
+        const s2 = new BooleanSignal('b = 0100/001011');
+        const weakUntil = new WeakUntil(s1, s2);
 
         expect(() => {
             weakUntil.performUnaryOperator();

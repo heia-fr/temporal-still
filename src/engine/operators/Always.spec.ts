@@ -4,15 +4,15 @@ import { Operator, Always } from 'src/engine/operators';
 
 describe('testing "Always" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"Always" Operator Should Not Have "performBinaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 1011/01101');
-        let not = new Always(s1);
+        const s1 = new BooleanSignal('a = 1011/01101');
+        const not = new Always(s1);
 
         expect(() => {
             not.performBinaryOperator();

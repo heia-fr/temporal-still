@@ -23,7 +23,7 @@ describe('testing TemporalFormula constructor', () => {
     });
 
     it('TemporalFormula state should be as expected', () => {
-        let tf = new TemporalFormula('f', 'f = a & b', new BooleanSignal('f = 100101/10'), ['a', 'b']);
+        const tf = new TemporalFormula('f', 'f = a & b', new BooleanSignal('f = 100101/10'), ['a', 'b']);
 
         expect(tf.getId()).toMatch('f');
         expect(tf.getContent()).toMatch('f = a & b');

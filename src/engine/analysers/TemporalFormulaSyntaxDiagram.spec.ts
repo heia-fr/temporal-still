@@ -6,7 +6,7 @@ import { generateTemporalFormula } from 'src/engine/generators';
 import { Symbols } from 'src/engine/helpers';
 
 function generateCorrectFormulas(nbOfFormulas: number, universe: Universe): string[] {
-    let formulas = [];
+    const formulas = [];
     for (let i = 1; i <= nbOfFormulas; i++) {
         formulas.push(generateTemporalFormula(universe));
     }
@@ -16,7 +16,7 @@ function generateCorrectFormulas(nbOfFormulas: number, universe: Universe): stri
 function testCorrectFormulas(generator: Random, maxNbFormulas: number, nbrOfTests: number, universe: Universe): boolean {
     let result = true;
     let formulas;
-    let nbOfFormulas = generator.integer(1, maxNbFormulas);
+    const nbOfFormulas = generator.integer(1, maxNbFormulas);
     for (let i = 0; i < nbrOfTests; i++) {
         formulas = generateCorrectFormulas(nbOfFormulas, universe);
         formulas.forEach((formula) => {
@@ -29,15 +29,15 @@ function testCorrectFormulas(generator: Random, maxNbFormulas: number, nbrOfTest
 
 function testUncorrectFormulas(generator: Random, maxNbFormulas: number, nbrOfTests: number, universe: Universe): boolean {
     let result = false;
-    let nbOfFormulas = generator.integer(1, maxNbFormulas);
+    const nbOfFormulas = generator.integer(1, maxNbFormulas);
     let formulas;
-    let pool = '[<à$]!?)(\>.:@,-_*+"\'/&2345%6789' + Symbols.getCharSet();
+    const pool = '[<à$]!?)(\>.:@,-_*+"\'/&2345%6789' + Symbols.getCharSet();
     for (let i = 0; i < nbrOfTests; i++) {
         formulas = generateCorrectFormulas(nbOfFormulas, universe);
 
         formulas.forEach((formula) => {
-            let fLen = formula.length;
-            let len = generator.integer(0, fLen - 1);
+            const fLen = formula.length;
+            const len = generator.integer(0, fLen - 1);
             if (generator.bool()) {
                 formula = formula.substring(0, len) + generator.string(10, pool);
             } else {
@@ -51,10 +51,10 @@ function testUncorrectFormulas(generator: Random, maxNbFormulas: number, nbrOfTe
 
 describe('testing TemporalFormulaSyntaxDiagram constructor', () => {
 
-    let maxNbFormulas = 10;
-    let nbrOfTests = 10;
-    let r = new Random();
-    let u = new Universe();
+    const maxNbFormulas = 10;
+    const nbrOfTests = 10;
+    const r = new Random();
+    const u = new Universe();
     u.putEntity(new BooleanSignal('a = 100101/10'));
     u.putEntity(new BooleanSignal('b = 1011/010'));
     u.putEntity(new BooleanSignal('c = 1/10110'));

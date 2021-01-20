@@ -4,15 +4,15 @@ import { Operator, Eventually } from 'src/engine/operators';
 
 describe('testing "Eventually" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"Eventually" Operator Should Not Have "performBinaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 1011/01101');
-        let not = new Eventually(s1);
+        const s1 = new BooleanSignal('a = 1011/01101');
+        const not = new Eventually(s1);
 
         expect(() => {
             not.performBinaryOperator();

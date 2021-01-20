@@ -18,7 +18,7 @@ import {
 
 function parseFormulaExpr(lexer: Lexer, state: any): Formula {
     if (!lexer.isVarName()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid formula name');
-    let name = lexer.getCurrentToken();
+    const name = lexer.getCurrentToken();
     lexer.goToNextToken();
 
     if (!lexer.isEqualSign()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected equal sign');
@@ -38,7 +38,7 @@ function parseFormula(lexer: Lexer): Operator {
         }
         lexer.goToNextToken();
 
-        let thatBs = parseComponent(lexer);
+        const thatBs = parseComponent(lexer);
         bs = new Implies(bs, thatBs);
     }
 
@@ -51,7 +51,7 @@ function parseComponent(lexer: Lexer): Operator {
     while (lexer.isOr()) {
         lexer.goToNextToken();
 
-        let thatBs = parseTerm(lexer);
+        const thatBs = parseTerm(lexer);
         bs = new Or(bs, thatBs);
     }
 
@@ -64,7 +64,7 @@ function parseTerm(lexer: Lexer): Operator {
     while (lexer.isAnd()) {
         lexer.goToNextToken();
 
-        let thatBs = parseFactor(lexer);
+        const thatBs = parseFactor(lexer);
         bs = new And(bs, thatBs);
     }
 
@@ -77,17 +77,17 @@ function parseFactor(lexer: Lexer): Operator {
     if (lexer.isWeaklyUntil()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer);
+        const thatBs = parseAtom(lexer);
         bs = new WeakUntil(bs, thatBs);
     } else if (lexer.isUntil()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer);
+        const thatBs = parseAtom(lexer);
         bs = new Until(bs, thatBs);
     } else if (lexer.isRelease()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer);
+        const thatBs = parseAtom(lexer);
         bs = new Release(bs, thatBs);
     }
 
@@ -154,7 +154,7 @@ function parseProp(lexer: Lexer): Operator {
         throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid variable name');
     }
 
-    let prop = new Variable(lexer.getCurrentToken());
+    const prop = new Variable(lexer.getCurrentToken());
     lexer.goToNextToken();
 
     return prop;
@@ -162,7 +162,7 @@ function parseProp(lexer: Lexer): Operator {
 
 export const TemporalEntitySyntaxTree = {
     parse(expression: string): Formula {
-        let lexer = new Lexer(expression);
+        const lexer = new Lexer(expression);
         lexer.goToNextToken();
         return parseFormulaExpr(lexer, {});
     },

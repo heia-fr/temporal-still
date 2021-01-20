@@ -2,10 +2,10 @@ import { Graph, GNode } from './Graph';
 import { tarjan } from './SCC';
 
 function clearAccepting(scc: GNode[], g: Graph): void {
-    let nsets = g.Attributes.get('nsets') as number;
+    const nsets = g.Attributes.get('nsets') as number;
     for (let j = 0; j < nsets; j++) {
-        for (let n of scc) {
-            for (let e of n.OutgoingEdges) {
+        for (const n of scc) {
+            for (const e of n.OutgoingEdges) {
                 e.Attributes.delete('acc' + j);
             }
         }
@@ -13,10 +13,10 @@ function clearAccepting(scc: GNode[], g: Graph): void {
 }
 
 function isAccepting(scc: GNode[], g: Graph): boolean {
-    let nsets = g.Attributes.get('nsets') as number;
+    const nsets = g.Attributes.get('nsets') as number;
     loop: for (let j = 0; j < nsets; j++) {
-        for (let n of scc) {
-            for (let e of n.OutgoingEdges) {
+        for (const n of scc) {
+            for (const e of n.OutgoingEdges) {
                 if (e.Attributes.get('acc' + j)) {
                     continue loop;
                 }
@@ -28,8 +28,8 @@ function isAccepting(scc: GNode[], g: Graph): boolean {
 }
 
 function isTerminal(scc: GNode[]): boolean {
-    for (let n of scc) {
-        for (let e of n.OutgoingEdges) {
+    for (const n of scc) {
+        for (const e of n.OutgoingEdges) {
             if (scc.indexOf(e.Destination) < 0) {
                 return false;
             }
@@ -42,8 +42,8 @@ function isTransient(scc: GNode[]): boolean {
     if (scc.length !== 1) {
         return false;
     }
-    let n = scc[0];
-    for (let e of n.OutgoingEdges) {
+    const n = scc[0];
+    for (const e of n.OutgoingEdges) {
         if (e.Destination === n) {
             return false;
         }
@@ -52,9 +52,9 @@ function isTransient(scc: GNode[]): boolean {
 }
 
 function clearExternalEdges(scc: GNode[], g: Graph): void {
-    let nsets = g.Attributes.get('nsets') as number;
-    for (let n of scc) {
-        for (let e of n.OutgoingEdges) {
+    const nsets = g.Attributes.get('nsets') as number;
+    for (const n of scc) {
+        for (const e of n.OutgoingEdges) {
             if (scc.indexOf(e.Destination) < 0) {
                 for (let k = 0; k < nsets; k++) {
                     e.Attributes.delete('acc' + k);
@@ -66,18 +66,18 @@ function clearExternalEdges(scc: GNode[], g: Graph): void {
 
 
 export function reduce(g: Graph): Graph {
-    for (let l of tarjan(g)) {
+    for (const l of tarjan(g)) {
         clearExternalEdges(l, g);
     }
 
     let changed: boolean;
     do {
         changed = false;
-        for (let scc of tarjan(g)) {
-            let accepting = isAccepting(scc, g);
+        for (const scc of tarjan(g)) {
+            const accepting = isAccepting(scc, g);
             if (!accepting && isTerminal(scc)) {
                 changed = true;
-                for (let n of scc) n.delete();
+                for (const n of scc) n.delete();
             } else if (isTransient(scc) || !accepting) {
                 clearAccepting(scc, g);
             }

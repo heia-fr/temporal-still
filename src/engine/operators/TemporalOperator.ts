@@ -29,20 +29,20 @@ export class TemporalOperator extends Operator {
     performUnaryOperator(): BooleanSignal {
         // update both the fixed and periodic parts to
         // evaluate the signal using the universe's length
-        let thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
         // concatenate the fixed and the periodic parts
         // and form a flattened signal. The formed string
         // makes it possible to check the value of each bit by checking the bits in
         // front
-        let flattenedSignal = thisBody.concat(thisPeriod);
+        const flattenedSignal = thisBody.concat(thisPeriod);
 
         // Parse the signal bit by bit and use the evaluate() callback
         // to calculate the result for both parts (fixed and periodic)
         // for example: Always(110/01) == 000/01
         let whole = Symbols.getEmpty();
-        let cutWrapper = {
+        const cutWrapper = {
             cut: false
         };
         for (let i = 0; i < thisBody.length; ++i) {
@@ -67,14 +67,14 @@ export class TemporalOperator extends Operator {
         if (!(this.rightSignal instanceof TemporalEntity)) {
             throw new TypeError('TemporalOperator: Expected "rightSignal" to be a "TemporalEntity" object');
         }
-        let thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
-        let thatBody = this.rightSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thatBody = this.rightSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
-        let lFlattenedSignal = thisBody.concat(thisPeriod);
-        let rFlattenedSignal = thatBody.concat(thatPeriod);
+        const lFlattenedSignal = thisBody.concat(thisPeriod);
+        const rFlattenedSignal = thatBody.concat(thatPeriod);
 
         if (lFlattenedSignal.length !== rFlattenedSignal.length) {
             throw new Error('TemporalOperator: Incompatible signals lengths');

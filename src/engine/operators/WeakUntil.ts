@@ -24,7 +24,7 @@ export class WeakUntil extends TemporalOperator {
 
             let i;
             let j;
-            let l = rbitStr.length;
+            const l = rbitStr.length;
             // search the time t+k when the right boolean signal becomes 1
             for (i = start, j = index; i < l; ++i, ++j) {
                 if (rbitStr.charAt(j % l) === Symbols.getOne()) break;
@@ -38,8 +38,8 @@ export class WeakUntil extends TemporalOperator {
                     if (lbitStr.charAt(j % l) === Symbols.getZero()) return Symbols.getZero();
                 }
             } else { // otherwise, lSignal must ALWAYS be 1 at time t
-                let bs = (new Always(lSignal)).performUnaryOperator();
-                let flattenedSignal = bs.getBody().concat(bs.getPeriod());
+                const bs = (new Always(lSignal)).performUnaryOperator();
+                const flattenedSignal = bs.getBody().concat(bs.getPeriod());
 
                 if (flattenedSignal.charAt(index + offset) === Symbols.getZero()) {
                     return Symbols.getZero();

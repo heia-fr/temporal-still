@@ -34,10 +34,10 @@ export class BooleanSignal extends TemporalEntity {
             // holds the the start of the periodic part after extending the fixed part
             this.periodStartIndex = 0;
 
-            let parts = this.content.split(Symbols.getEqual());
+            const parts = this.content.split(Symbols.getEqual());
             this.id = parts[0].trim();
 
-            let signal = parts[1].split(Symbols.getSlash());
+            const signal = parts[1].split(Symbols.getSlash());
             // the fixed part of the signal
             this.body = signal[0].trim();
             // the periodic part of the signal
@@ -55,7 +55,7 @@ export class BooleanSignal extends TemporalEntity {
 
     minimizeSignal(): BooleanSignal {
         // 1) Simplify Period
-        let period = getMinRepeatedSubstring(this.period);
+        const period = getMinRepeatedSubstring(this.period);
 
         // 2) Simplify Body
         let body = this.body;
@@ -160,10 +160,10 @@ export class BooleanSignal extends TemporalEntity {
      * 0])
      */
     calculateChartValues(universeLength: [number, number], legendLabel: string | null = null): any {
-        let newBody = this.calculateUpdatedFixedPart(universeLength[0]);
-        let newPeriod = this.calculateUpdatedPeriodicPart(universeLength[1]);
+        const newBody = this.calculateUpdatedFixedPart(universeLength[0]);
+        const newPeriod = this.calculateUpdatedPeriodicPart(universeLength[1]);
 
-        let values = [];
+        const values = [];
         let x = 0;
         let nextX = 1;
         let oldZ = Number(newBody.charAt(0));
@@ -199,7 +199,7 @@ export class BooleanSignal extends TemporalEntity {
             oldZ = z;
         }
 
-        let label = legendLabel || 'Signal';
+        const label = legendLabel || 'Signal';
         this.signalChartData = [
             {
                 key: label + ' ' + this.getId(),

@@ -4,14 +4,14 @@ import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { minimize } from './Minimize';
 
 function recursiveDependencies(universe: Universe, entity: TemporalEntity): any {
-    let itr: any = (() => {
+    const itr: any = (() => {
         while (itr.queue.length > 0) {
-            let currentId = itr.queue.shift();
+            const currentId = itr.queue.shift();
 
             if (itr.done.indexOf(currentId) >= 0) continue;
             itr.done.push(currentId);
 
-            let current = universe.getEntity(currentId);
+            const current = universe.getEntity(currentId);
             if (!current) continue;
             itr.queue.push.apply(itr.queue, current.getReferences());
 
@@ -121,9 +121,9 @@ export class Universe {
      *        by the new one.
      */
     putEntity(entity: TemporalEntity): void {
-        let entityId = entity.getId();
+        const entityId = entity.getId();
 
-        let next = recursiveDependencies(this, entity);
+        const next = recursiveDependencies(this, entity);
         let value;
         while ((value = next()) != null) {
             if (value[0] === entityId) {
@@ -131,14 +131,14 @@ export class Universe {
             }
         }
 
-        let oldEntity = this.getEntity(entityId);
+        const oldEntity = this.getEntity(entityId);
         if (oldEntity) {
             // Move References to Old to New entity
             entity.setReferencedBy(oldEntity.getReferencedBy());
 
             // Remove References from Old to others
-            for (let id of oldEntity.getReferences()) {
-                let other = this.getEntity(id);
+            for (const id of oldEntity.getReferences()) {
+                const other = this.getEntity(id);
                 if (other) other.removeReferencedBy(entityId);
             }
         }
@@ -146,8 +146,8 @@ export class Universe {
         this.dataStoreMap.set(entityId, entity);
 
         // Add References from New to others
-        for (let id of entity.getReferences()) {
-            let other = this.getEntity(id);
+        for (const id of entity.getReferences()) {
+            const other = this.getEntity(id);
             if (other) other.addReferencedBy(entityId);
         }
 
@@ -161,7 +161,7 @@ export class Universe {
      * @param id is the ID of the temporal entity to remove
      */
     removeEntity(id: string): void {
-        let entity = this.getEntity(id);
+        const entity = this.getEntity(id);
         if (!entity) return;
 
         if (entity.getReferencedBy().length > 0) {
@@ -172,8 +172,8 @@ export class Universe {
         this.dataStoreMap.delete(id);
 
         // Remove references from the entity
-        for (let rid of entity.getReferences()) {
-            let other = this.getEntity(rid);
+        for (const rid of entity.getReferences()) {
+            const other = this.getEntity(rid);
             if (other) other.removeReferencedBy(id);
         }
 
@@ -196,11 +196,11 @@ export class Universe {
      */
     getAllDependencies(entity: TemporalEntity | string): string[] {
         if (typeof entity === 'string') {
-            let tmp = this.getEntity(entity);
+            const tmp = this.getEntity(entity);
             if (!tmp) return [];
             entity = tmp;
         }
-        let next = recursiveDependencies(this, entity);
+        const next = recursiveDependencies(this, entity);
         while (next() != null) { }
         return next.done;
     }
@@ -210,9 +210,9 @@ export class Universe {
      */
     reevaluateAllEntities(todo: string[] | null = null): void {
         if (!todo) todo = this.getIds();
-        let done: string[] = [];
+        const done: string[] = [];
 
-        for (let entityId of todo) {
+        for (const entityId of todo) {
             this.reevaluateChildrenAndEntity(entityId, done);
         }
     }
@@ -226,15 +226,15 @@ export class Universe {
         if (done.indexOf(entityId) >= 0) return;
         done.push(entityId);
 
-        let entity = this.getEntity(entityId);
+        const entity = this.getEntity(entityId);
         if (!entity) return;
-        let references = entity.getReferences();
+        const references = entity.getReferences();
 
-        for (let reference of references) {
+        for (const reference of references) {
             this.reevaluateChildrenAndEntity(reference, done);
         }
 
-        let tf = TemporalEntityInterpreter.evaluate(entity.getContent(), this);
+        const tf = TemporalEntityInterpreter.evaluate(entity.getContent(), this);
         if (tf) this.putEntity(tf);
     }
 
@@ -243,7 +243,7 @@ export class Universe {
      */
     recalculateMaxLength(): void {
         this.length = [0, 1];
-        for (let value of this.dataStoreMap.values()) {
+        for (const value of this.dataStoreMap.values()) {
             this.calculateMaxLength(value);
         }
     }
@@ -281,17 +281,17 @@ export class Universe {
      * - Signal #2: 01100/0
      */
     minimize(): void {
-        let entities = this.getEntities();
+        const entities = this.getEntities();
         if (entities.length === 0) return;
 
         // Compute minimized signals for the universe
-        let signals = minimize(entities, this.getLength());
+        const signals = minimize(entities, this.getLength());
 
         // Reset universe length to minimum
         this.length = [0, 1];
 
         // Overwrite old signals with minified ones
-        for (let signal of signals) {
+        for (const signal of signals) {
             this.putEntity(signal);
         }
 
@@ -300,7 +300,7 @@ export class Universe {
     }
 
     toJSON(): any {
-        let copy: any = Object.assign({}, this);
+        const copy: any = Object.assign({}, this);
         copy.dataStoreMap = [...copy.dataStoreMap];
         return copy;
     }

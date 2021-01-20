@@ -6,7 +6,7 @@ import { GNode, Graph } from './Graph';
  * Date: 13.12.2020
  */
 export function tarjan(graph: Graph): GNode[][] {
-    let init = graph.Init;
+    const init = graph.Init;
     if (init == null) {
         return [];
     }
@@ -23,7 +23,7 @@ export function tarjan(graph: Graph): GNode[][] {
         low.set(p, index);
         index++;
 
-        for (let { Destination: q } of p.OutgoingEdges) {
+        for (const { Destination: q } of p.OutgoingEdges) {
             if (!low.has(q)) {
                 visit(q);
                 low.set(p, Math.min(low.get(p)!, low.get(q)!));
@@ -33,7 +33,7 @@ export function tarjan(graph: Graph): GNode[][] {
         }
 
         if (low.get(p)! === dfsnum.get(p)!) {
-            let current: GNode[] = [];
+            const current: GNode[] = [];
             let v: GNode;
             do {
                 v = stack.shift()!;

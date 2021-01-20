@@ -27,31 +27,31 @@ describe('testing "JSONParser"', () => {
     JSON.registerClass('Entity2', new Entity2Reviver());
 
     it('Entity1 should be correctly revived', () => {
-        let entities = [
+        const entities = [
             { json: '{"__type":"Entity1","value":456}', value: 456 },
             { json: '{"__type":"Entity1","value":123}', value: 123 },
         ];
 
         for (const values of entities) {
-            let object = JSON.parse(values.json);
+            const object = JSON.parse(values.json);
             expect(object).toBeInstanceOf(Entity1);
 
-            let entity = object as Entity1;
+            const entity = object as Entity1;
             expect(entity.value).toEqual(entity.value);
         }
     });
 
     it('Entity2 should be correctly revived', () => {
-        let entities = [
+        const entities = [
             { json: '{"__type":"Entity2","value":456,"second":"Hello World!"}', first: 456, second: 'Hello World!' },
             { json: '{"__type":"Entity2","value":123,"second":[1,2,"3"]}', first: 123, second: [1, 2, '3'] },
         ];
 
         for (const values of entities) {
-            let object = JSON.parse(values.json);
+            const object = JSON.parse(values.json);
             expect(object).toBeInstanceOf(Entity2);
 
-            let entity = object as Entity2;
+            const entity = object as Entity2;
             expect(entity.first).toEqual(values.first);
             expect(entity.second).toEqual(values.second);
         }
@@ -94,7 +94,7 @@ describe('testing "JSONParser"', () => {
         object = entity2.second;
         expect(object).toBeInstanceOf(Entity1);
 
-        let entity1 = object as Entity1;
+        const entity1 = object as Entity1;
         expect(entity1.value).toEqual(789);
     });
 });

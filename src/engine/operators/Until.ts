@@ -35,7 +35,7 @@ export class Until extends TemporalOperator {
         let awb: any = new WeakUntil(this.leftSignal, this.rightSignal!);
         awb = awb.performBinaryOperator();
 
-        let and: any = new And(eb, awb);
+        const and: any = new And(eb, awb);
         return and.performBinaryOperator();
     }
 }

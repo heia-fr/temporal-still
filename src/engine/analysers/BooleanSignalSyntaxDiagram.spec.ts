@@ -17,14 +17,14 @@ function testCorrectSignals(nbrOfTests: number): boolean {
 function testUncorrectSignals(generator: Random, nbrOfTests: number): boolean {
     let result = false;
     let signals = Symbols.getEmpty();
-    let pool = '[<à$]!?)(\>.:@,-_*+"\'/&2345%6789' + Symbols.getCharSet();
+    const pool = '[<à$]!?)(\>.:@,-_*+"\'/&2345%6789' + Symbols.getCharSet();
     for (let i = 0; i < nbrOfTests; i++) {
         signals = generateBooleanSignals(new Universe());
 
         if (generator.bool()) {
             signals += generator.string(10, pool);
         } else {
-            let min = generator.integer(0, signals.length / 2);
+            const min = generator.integer(0, signals.length / 2);
             signals = signals.replace(signals.substring(min, min + 11), generator.string(10, pool));
         }
 

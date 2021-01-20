@@ -28,20 +28,20 @@ function parseFormulaExpr(lexer: Lexer, state: Context): TemporalEntity {
     if (lexer.isZero() || lexer.isOne()) {
         return parseSignal(lexer, state);
     } else {
-        let formula = parseFormula(lexer, state);
+        const formula = parseFormula(lexer, state);
         return new TemporalFormula(state.entityId, state.expression, formula, state.ids);
     }
 }
 
 function parseSignal(lexer: Lexer, state: Context): TemporalEntity {
-    let body = parseDigits(lexer, state);
+    const body = parseDigits(lexer, state);
 
     if (!lexer.isSlash()) {
         throw new SyntaxError('TemporalEntitySyntaxDiagram: Expected slash sign');
     }
     lexer.goToNextToken();
 
-    let period = parseDigits(lexer, state);
+    const period = parseDigits(lexer, state);
 
     return new BooleanSignal(state.entityId + '=' + body + '/' + period);
 }
@@ -74,8 +74,8 @@ function parseFormula(lexer: Lexer, state: Context): TemporalEntity {
         }
         lexer.goToNextToken();
 
-        let thatBs = parseComponent(lexer, state);
-        let op = new Implies(bs, thatBs);
+        const thatBs = parseComponent(lexer, state);
+        const op = new Implies(bs, thatBs);
         bs = op.performBinaryOperator();
     }
 
@@ -88,8 +88,8 @@ function parseComponent(lexer: Lexer, state: Context): TemporalEntity {
     while (lexer.isOr()) {
         lexer.goToNextToken();
 
-        let thatBs = parseTerm(lexer, state);
-        let op = new Or(bs, thatBs);
+        const thatBs = parseTerm(lexer, state);
+        const op = new Or(bs, thatBs);
         bs = op.performBinaryOperator();
     }
 
@@ -102,8 +102,8 @@ function parseTerm(lexer: Lexer, state: Context): TemporalEntity {
     while (lexer.isAnd()) {
         lexer.goToNextToken();
 
-        let thatBs = parseFactor(lexer, state);
-        let op = new And(bs, thatBs);
+        const thatBs = parseFactor(lexer, state);
+        const op = new And(bs, thatBs);
         bs = op.performBinaryOperator();
     }
 
@@ -116,20 +116,20 @@ function parseFactor(lexer: Lexer, state: Context): TemporalEntity {
     if (lexer.isWeaklyUntil()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer, state);
-        let op = new WeakUntil(bs, thatBs);
+        const thatBs = parseAtom(lexer, state);
+        const op = new WeakUntil(bs, thatBs);
         bs = op.performBinaryOperator();
     } else if (lexer.isUntil()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer, state);
-        let op = new Until(bs, thatBs);
+        const thatBs = parseAtom(lexer, state);
+        const op = new Until(bs, thatBs);
         bs = op.performBinaryOperator();
     } else if (lexer.isRelease()) {
         lexer.goToNextToken();
 
-        let thatBs = parseAtom(lexer, state);
-        let op = new Release(bs, thatBs);
+        const thatBs = parseAtom(lexer, state);
+        const op = new Release(bs, thatBs);
         bs = op.performBinaryOperator();
     }
 
@@ -158,14 +158,14 @@ function parseAtom(lexer: Lexer, state: Context): TemporalEntity {
         lexer.goToNextToken();
 
         bs = parseAtom(lexer, state);
-        let op = new Not(bs);
+        const op = new Not(bs);
         bs = op.performUnaryOperator();
 
     } else if (lexer.isNext()) {
         lexer.goToNextToken();
 
         bs = parseAtom(lexer, state);
-        let op = new Next(bs);
+        const op = new Next(bs);
         bs = op.performUnaryOperator();
 
     } else if (lexer.isOpeningSquareBracket()) {
@@ -177,7 +177,7 @@ function parseAtom(lexer: Lexer, state: Context): TemporalEntity {
         lexer.goToNextToken();
 
         bs = parseAtom(lexer, state);
-        let op = new Always(bs);
+        const op = new Always(bs);
         bs = op.performUnaryOperator();
 
     } else if (lexer.isLessThanSign()) {
@@ -189,7 +189,7 @@ function parseAtom(lexer: Lexer, state: Context): TemporalEntity {
         lexer.goToNextToken();
 
         bs = parseAtom(lexer, state);
-        let op = new Eventually(bs);
+        const op = new Eventually(bs);
         bs = op.performUnaryOperator();
 
     } else {
@@ -203,7 +203,7 @@ function parseProp(lexer: Lexer, state: Context): TemporalEntity {
         console.log(lexer.getCurrentToken());
         throw new SyntaxError('TemporalEntityInterpreter: Expected valid variable name');
     }
-    let bs = state.universe.getEntity(lexer.getCurrentToken())!;
+    const bs = state.universe.getEntity(lexer.getCurrentToken())!;
     // if the boolean signal is not referenced by the temporal formula
     // that is being evaluated, then add it to the references array
     if (state.ids.indexOf(bs.getId()) < 0) {
@@ -239,9 +239,9 @@ export const TemporalEntityInterpreter = {
             // set the universe length so all the operators can have access
             // to the same lengths
             Operator.setUniverseLength(universe.getLength());
-            let lexer = new Lexer(expression);
+            const lexer = new Lexer(expression);
             lexer.goToNextToken();
-            let entityId = expression.split(Symbols.getEqual())[0].trim();
+            const entityId = expression.split(Symbols.getEqual())[0].trim();
             return parseFormulaExpr(lexer, {
                 expression,
                 entityId,

@@ -52,8 +52,8 @@ describe('testing Minimize function', () => {
             'i = b & []!a'
         ];
 
-        for (let entity of entities) {
-            let tf = TemporalEntityInterpreter.evaluate(entity, u);
+        for (const entity of entities) {
+            const tf = TemporalEntityInterpreter.evaluate(entity, u);
             expect(tf).not.toBeUndefined();
             expect(tf).not.toBeNull();
             u.putEntity(tf!);

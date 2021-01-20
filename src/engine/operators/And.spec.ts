@@ -4,16 +4,16 @@ import { Operator, And } from 'src/engine/operators';
 
 describe('testing "And" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"And" Operator Should Not Have "performUnaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 101/101');
-        let s2 = new BooleanSignal('b = 110/011');
-        let and = new And(s1, s2);
+        const s1 = new BooleanSignal('a = 101/101');
+        const s2 = new BooleanSignal('b = 110/011');
+        const and = new And(s1, s2);
 
         expect(() => {
             and.performUnaryOperator();
@@ -28,8 +28,8 @@ describe('testing "And" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let and = new And(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
-        let r = and.performBinaryOperator();
+        const and = new And(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
+        const r = and.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=100/001');
     });

@@ -11,8 +11,8 @@ describe('testing "Next" constructor', () => {
     });
 
     it('"Next" Operator Should Next Have "performBinaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 101/101', null);
-        let not = new Next(s1);
+        const s1 = new BooleanSignal('a = 101/101', null);
+        const not = new Next(s1);
 
         expect(() => {
             not.performBinaryOperator();
@@ -26,8 +26,8 @@ describe('testing "Next" constructor', () => {
         u.putEntity(new BooleanSignal('a = 101/011', null));
         Operator.setUniverseLength(u.getLength());
 
-        let not = new Next(u.getEntityOrThrow('a'));
-        let r = not.performUnaryOperator();
+        const not = new Next(u.getEntityOrThrow('a'));
+        const r = not.performUnaryOperator();
 
         expect(r.getContent()).toEqual('a=010/110');
     });

@@ -17,10 +17,10 @@ import {
 } from 'src/engine/entities';
 
 function nvd3WrapUpdate(chart: any, updateCallback: any): void {
-	let oldUpdate = chart.update;
+	const oldUpdate = chart.update;
 	function Wrapper(): void {
 		let args = Array(arguments);
-		let update = oldUpdate.bind(this, args);
+		const update = oldUpdate.bind(this, args);
 		args.unshift(update);
 		args = [update].concat(args);
 		updateCallback.apply(this, args);
@@ -114,10 +114,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	// clicks outside the editor text field, it will be hidden
 	@HostListener('document:click', ['$event'])
 	onDocumentClick(event: MouseEvent): void {
-		let editor = event.target as HTMLElement;
+		const editor = event.target as HTMLElement;
 		if (!editor || editor.classList.contains('alambic-editorField')) return;
 
-		for (let signal of this.signalsService.universe.getEntities()) {
+		for (const signal of this.signalsService.universe.getEntities()) {
 			if (signal.isEditorEnabled()) {
 				signal.setEditorEnabled(false);
 			}
@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	prepareChart(): (chart: any) => void {
 		return function(chart: any): void {
-			let xMax = chart.xScale().domain().slice(-1)[0];
+			const xMax = chart.xScale().domain().slice(-1)[0];
 			chart.xAxis
 				.ticks(null)
 				.tickValues(d3.range(xMax + 1))
@@ -140,13 +140,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 			nvd3WrapUpdate(chart, function(update: any): void {
 				update();
 
-				let fmt = this.xAxis.tickFormat();
-				let scale = this.xAxis.scale();
-				let container = d3.select(this.container).select('g.nv-x');
-				let wrap = container.selectAll('g.nv-wrap.nv-axis');
-				let g = wrap.select('g');
-				let xTicks = g.selectAll('g').select('text');
-				let axisMaxMin = wrap.selectAll('g.nv-axisMaxMin');
+				const fmt = this.xAxis.tickFormat();
+				const scale = this.xAxis.scale();
+				const container = d3.select(this.container).select('g.nv-x');
+				const wrap = container.selectAll('g.nv-wrap.nv-axis');
+				const g = wrap.select('g');
+				const xTicks = g.selectAll('g').select('text');
+				const axisMaxMin = wrap.selectAll('g.nv-axisMaxMin');
 
 				let lastIdx = 0;
 				xTicks.attr('transform', (d: any, i: any) => {
@@ -154,7 +154,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 					if (i === 0) i = 1;
 					return 'translate(' + -scale(d) / (2 * i) + ', 0)';
 				}).text((d: any, i: any) => {
-					let v = fmt(d);
+					const v = fmt(d);
 					return ('' + v).match('NaN') ? '' : (v - 1);
 				});
 				lastIdx++;
@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 						return 'translate(' + -scale(d) / (2 * lastIdx) + ', 0)';
 					})
 					.text((d: any, i: any) => {
-						let v = fmt(d);
+						const v = fmt(d);
 						return (('' + v).match('NaN') || (v <= 0)) ? '' : (v - 1);
 					});
 			});
@@ -196,8 +196,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	// update boolean charts
 	updateSignalsCharts(): void {
-		let universe = this.signalsService.universe;
-		for (let signal of universe.getEntities()) {
+		const universe = this.signalsService.universe;
+		for (const signal of universe.getEntities()) {
 			signal.calculateChartValues(universe.getLength());
 		}
 	}
@@ -205,8 +205,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	// after updating a boolean signal, update temporal formulas
 	// that reference it
 	reevaluateReferringTemporalFormulas(s: any): void {
-		let universe = this.signalsService.universe;
-		for (let fId of s.getReferencedBy()) {
+		const universe = this.signalsService.universe;
+		for (const fId of s.getReferencedBy()) {
 			let tf: any = universe.getEntity(fId);
 			tf = TemporalEntityInterpreter.evaluate(tf.getContent(), universe);
 			if (tf instanceof TemporalFormula) {
@@ -221,11 +221,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	// method to enable the signals/formulas editor
 	enableSignalEditor(id: any, event: Event, form: NgForm): void {
-		for (let s of this.signalsService.universe.getEntities()) {
+		for (const s of this.signalsService.universe.getEntities()) {
 			s.setEditorEnabled(false);
 		}
 
-		let s: any = this.signalsService.universe.getEntity(id);
+		const s: any = this.signalsService.universe.getEntity(id);
 		s.setEditorEnabled(true);
 		this.editableSignal.text = s.getContent();
 		this.editableSignal.id = id;
@@ -236,7 +236,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	// method to disable the signals editors
 	disableSignalEditor(event: Event, id: any): void {
-		let s: any = this.signalsService.universe.getEntity(id);
+		const s: any = this.signalsService.universe.getEntity(id);
 		s.setEditorEnabled(false);
 		this.editableSignal.text = s.getContent();
 		event.stopPropagation();
@@ -244,16 +244,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	// method used to add provided boolean signals to the universe
 	addSignals(form: NgForm): void {
-		let signalStr = this.signalsString.trim();
-		let id = signalStr.split(Symbols.getEqual())[0].trim();
+		const signalStr = this.signalsString.trim();
+		const id = signalStr.split(Symbols.getEqual())[0].trim();
 		// add the current signal to the universe
 		if (this.signalsService.universe.containsEntity(id)) {
-			let bs: any = this.signalsService.universe.getEntity(id);
+			const bs: any = this.signalsService.universe.getEntity(id);
 			if (bs.getContent() === signalStr) { return; }
 		}
 
 		// evaluate the formula
-		let tf = TemporalEntityInterpreter.evaluate(signalStr, this.signalsService.universe);
+		const tf = TemporalEntityInterpreter.evaluate(signalStr, this.signalsService.universe);
 		// if entity is valid, add it to the universe
 		if (tf) this.signalsService.universe.putEntity(tf);
 
@@ -271,7 +271,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	// update the boolean signal corresponding to the provided ID
 	updateSignal(event: Event, id: any): void {
 		let s: any = this.signalsService.universe.getEntity(id);
-		let str = this.editableSignal.text.trim();
+		const str = this.editableSignal.text.trim();
 		// skip the processing if it's not necessary
 		if (s.getContent().trim() === str) {
 			this.disableSignalEditor(event, id);
@@ -329,7 +329,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	canBeAnalyzed(entity: any): boolean {
 		// Entity can't be analyzed if it contains static signal
-		let content = entity.content;
+		const content = entity.content;
 		if (content.indexOf('0') >= 0 || content.indexOf('1') >= 0) return false;
 
 		return true;
@@ -341,12 +341,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	analyzeEntity(id: any): void {
 		if (this.analyses.indexOf(id) >= 0) return;
-		let entity: any = this.signalsService.universe.getEntity(id);
+		const entity: any = this.signalsService.universe.getEntity(id);
 		if (entity == null || !this.canBeAnalyzed(entity)) return;
 
 		this.analyses.push(id);
 		this.satService.checkInformation(entity.content).then((report) => {
-			let index = this.analyses.indexOf(id);
+			const index = this.analyses.indexOf(id);
 			if (index < 0) return;
 			this.analyses.splice(index, 1);
 
@@ -380,16 +380,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	reverseSortById(array: TemporalEntity[]): TemporalEntity[] {
 		return array.sort((a, b) => {
-			let p1 = a.getId();
-			let p2 = b.getId();
+			const p1 = a.getId();
+			const p2 = b.getId();
 			return p1 > p2 ? -1 : (p1 < p2 ? 1 : 0);
 		});
 	}
 
 	sortById(array: TemporalEntity[]): TemporalEntity[] {
 		return array.sort((a, b) => {
-			let p1 = a.getId();
-			let p2 = b.getId();
+			const p1 = a.getId();
+			const p2 = b.getId();
 			return p1 > p2 ? 1 : (p1 < p2 ? -1 : 0);
 		});
 	}

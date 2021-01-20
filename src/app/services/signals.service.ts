@@ -45,7 +45,7 @@ export class SignalsService {
 
 	restoreUniverse(): void {
 		let newUniverse: Universe;
-		let data = this.restore(this.universeKey);
+		const data = this.restore(this.universeKey);
 		if (data) {
 			newUniverse = JSON.parse(data);
 		} else {
@@ -58,8 +58,8 @@ export class SignalsService {
 				'h = <>(a & b)',
 				'i = b & []!a'
 			];
-			for (let entity of entities) {
-				let tf = TemporalEntityInterpreter.evaluate(entity, newUniverse);
+			for (const entity of entities) {
+				const tf = TemporalEntityInterpreter.evaluate(entity, newUniverse);
 				if (tf == null) {
 					console.warn('Found invalid default entity: ' + entity);
 				} else {

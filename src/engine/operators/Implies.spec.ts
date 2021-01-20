@@ -4,16 +4,16 @@ import { Operator, Implies } from 'src/engine/operators';
 
 describe('testing "Implies" constructor', () => {
 
-    let u = new Universe(null);
+    const u = new Universe(null);
 
     afterEach(() => {
         u.clear();
     });
 
     it('"Implies" Operator Should Not Have "performUnaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 101/101');
-        let s2 = new BooleanSignal('b = 110/011');
-        let implies = new Implies(s1, s2);
+        const s1 = new BooleanSignal('a = 101/101');
+        const s2 = new BooleanSignal('b = 110/011');
+        const implies = new Implies(s1, s2);
 
         expect(() => {
             implies.performUnaryOperator();
@@ -28,8 +28,8 @@ describe('testing "Implies" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let implies = new Implies(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
-        let r = implies.performBinaryOperator();
+        const implies = new Implies(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
+        const r = implies.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=110/011');
     });

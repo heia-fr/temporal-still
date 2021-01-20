@@ -37,9 +37,9 @@ function testLexicalAnalyzer(expr: string): TestData {
 
 function trimSpaces(s: string): string {
     let res = '';
-    let space = /\s/;
+    const space = /\s/;
     for (let i = 0; i < s.length; i++) {
-        let c = s.charAt(i);
+        const c = s.charAt(i);
         if (!space.test(c)) res += c;
     }
     return res;

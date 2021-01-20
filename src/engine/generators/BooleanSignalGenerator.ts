@@ -8,7 +8,7 @@ export const MAX_PERIOD = 5;
 function generateVarName(universe: Universe): string {
     let id: string;
     do {
-        let i = _random(0, Symbols.getCharSet().length - 1);
+        const i = _random(0, Symbols.getCharSet().length - 1);
         id = Symbols.getCharSet().charAt(i);
     } while (universe.containsEntity(id));
     return id;

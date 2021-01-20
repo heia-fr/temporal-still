@@ -36,8 +36,8 @@ export class Operator {
     performUnaryOperator(): BooleanSignal {
         // update both the fixed and periodic parts of the signal to
         // evaluate using the universe's length
-        let thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
         // Parse the signal bit by bit and use the.evaluate() callback
         // to calculate the result for both parts (fixed and periodic)
@@ -66,11 +66,11 @@ export class Operator {
             throw new TypeError('Operator: Expected "rightSignal" to be a "TemporalEntity" object');
         }
 
-        let thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thisBody = this.leftSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thisPeriod = this.leftSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
-        let thatBody = this.rightSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
-        let thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
+        const thatBody = this.rightSignal.calculateUpdatedFixedPart(Operator.universeLength[0]);
+        const thatPeriod = this.rightSignal.calculateUpdatedPeriodicPart(Operator.universeLength[1]);
 
         if (thisBody.length !== thatBody.length) {
             throw new Error('Operator: Incompatible fixed part lengths');

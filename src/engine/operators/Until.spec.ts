@@ -11,9 +11,9 @@ describe('testing "Until" constructor', () => {
     });
 
     it('"Until" Operator Should Not Have "performUnaryOperator" Implemented', () => {
-        let s1 = new BooleanSignal('a = 1011/011010', null);
-        let s2 = new BooleanSignal('b = 0100/001011', null);
-        let until = new Until(s1, s2);
+        const s1 = new BooleanSignal('a = 1011/011010', null);
+        const s2 = new BooleanSignal('b = 0100/001011', null);
+        const until = new Until(s1, s2);
 
         expect(() => {
             until.performUnaryOperator();
