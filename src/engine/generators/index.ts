@@ -1,7 +1,7 @@
-import BooleanSignalGenerator from './BooleanSignalGenerator';
-import FormulaGenerator from './FormulaGenerator';
+export {
+    generateBooleanSignals,
+} from './BooleanSignalGenerator';
 
 export {
-	BooleanSignalGenerator,
-	FormulaGenerator,
-};
+    generateTemporalFormula,
+} from './FormulaGenerator';

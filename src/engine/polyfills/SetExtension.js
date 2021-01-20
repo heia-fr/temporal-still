@@ -22,7 +22,7 @@ Set.prototype.containsAll = function(items) {
 }
 
 Set.prototype.contentEquals = function(other) {
-	if (this.size != other.size) return false;
+	if (this.size !== other.size) return false;
 	return this.containsAll(other);
 }
 

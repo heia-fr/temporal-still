@@ -8,8 +8,8 @@ import { SATService } from '../services/sat.service';
 import { Symbols } from 'src/engine/helpers';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import {
-	FormulaGenerator,
-	BooleanSignalGenerator,
+	generateTemporalFormula,
+	generateBooleanSignals,
 } from 'src/engine/generators';
 import {
 	TemporalEntity,
@@ -311,15 +311,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	// generate random boolean signals
 	generateSignals(): void {
-		this.signalsString = BooleanSignalGenerator
-			.generateBooleanSignals(this.signalsService.universe);
+		this.signalsString = generateBooleanSignals(this.signalsService.universe);
 	}
 
 	// generate a random temporal formulas
 	generateFormula(): void {
 		// LTLFormulaGenerator
-		this.signalsString = FormulaGenerator
-			.generateTemporalFormula(this.signalsService.universe);
+		this.signalsString = generateTemporalFormula(this.signalsService.universe);
 	}
 
 	// clear the universe

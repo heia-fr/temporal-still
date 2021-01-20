@@ -2,13 +2,13 @@ import { Random } from 'random-js';
 import { Universe } from 'src/engine/business';
 import { BooleanSignal } from 'src/engine/entities';
 import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
-import { FormulaGenerator } from 'src/engine/generators';
+import { generateTemporalFormula } from 'src/engine/generators';
 import { Symbols } from 'src/engine/helpers';
 
 function generateCorrectFormulas(nbOfFormulas, universe) {
     var formulas = [];
     for (var i = 1; i <= nbOfFormulas; i++) {
-        formulas.push(FormulaGenerator.generateTemporalFormula(universe));
+        formulas.push(generateTemporalFormula(universe));
     }
     return formulas;
 }
