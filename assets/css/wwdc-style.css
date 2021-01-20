@@ -1,0 +1,232 @@
+.centered-img .circle, .centered-img .squircle {
+	border-top: 0.1em solid rgba(255, 255, 255, 0.4);
+	height: 12.5em;
+	position: absolute;
+	width: 12.5em;
+}
+
+.centered-img .circle {
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	-webkit-box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
+	box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
+	left: calc(50% - 6.25em);
+	top: calc(50% - 12.5em);
+	-webkit-transform-origin: 50% 12.5em;
+	-moz-transform-origin: 50% 12.5em;
+	transform-origin: 50% 12.5em;
+}
+
+.centered-img .one {
+	background: rgba(16, 63, 236, 0.75);
+	-webkit-transform: rotateZ(225deg);
+	-moz-transform: rotateZ(225deg);
+	transform: rotateZ(225deg);
+}
+
+.centered-img .two {
+	background: rgba(37, 172, 162, 0.75);
+	-webkit-transform: rotateZ(180deg);
+	-moz-transform: rotateZ(180deg);
+	transform: rotateZ(180deg);
+}
+
+.centered-img .three {
+	background: rgba(233, 124, 32, 0.75);
+	-webkit-transform: rotateZ(135deg);
+	-moz-transform: rotateZ(135deg);
+	transform: rotateZ(135deg);
+}
+
+.centered-img .four {
+	background: rgba(235, 67, 35, 0.75);
+	-webkit-transform: rotateZ(90deg);
+	-moz-transform: rotateZ(90deg);
+	transform: rotateZ(90deg);
+}
+
+.centered-img .five {
+	background: rgba(190, 28, 65, 0.75);
+	-webkit-transform: rotateZ(45deg);
+	-moz-transform: rotateZ(45deg);
+	transform: rotateZ(45deg);
+}
+
+.centered-img .six {
+	background: rgba(208, 57, 159, 0.75);
+	-webkit-transform: rotateZ(0);
+	-moz-transform: rotateZ(0);
+	transform: rotateZ(0);
+}
+
+.centered-img .seven {
+	background: rgba(150, 32, 198, 0.75);
+	-webkit-transform: rotateZ(-45deg);
+	-moz-transform: rotateZ(-45deg);
+	transform: rotateZ(-45deg);
+}
+
+.centered-img .eight {
+	background: rgba(95, 33, 203, 0.75);
+	-webkit-transform: rotateZ(-90deg);
+	-moz-transform: rotateZ(-90deg);
+	transform: rotateZ(-90deg);
+}
+
+.centered-img .squircle {
+	border-radius: 25%;
+	-webkit-border-radius: 25%;
+	-moz-border-radius: 25%;
+}
+
+.centered-img .small {
+	width: 4em;
+	height: 4em;
+	left: calc(50% - 2em);
+	top: calc(50% - 15em);
+	transform-origin: 50% 15em;
+	-webkit-transform-origin: 50% 15em;
+	-moz-transform-origin: 50% 15em;
+	-webkit-box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.2);
+}
+
+.centered-img .small.squircle {
+	background: none;
+	border: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.centered-img .small.squircle::after {
+	background: red;
+	-webkit-border-radius: 25%;
+	-moz-border-radius: 25%;
+	border-radius: 25%;
+	-webkit-box-shadow: -0.25em 0.25em 0.5em rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: -0.25em 0.25em 0.5em rgba(0, 0, 0, 0.2);
+	box-shadow: -0.25em 0.25em 0.5em rgba(0, 0, 0, 0.2);
+	content: "";
+	height: 100%;
+	position: absolute;
+	-webkit-transform: rotateZ(-45deg);
+	-moz-transform: rotateZ(-45deg);
+	transform: rotateZ(-45deg);
+	width: 100%;
+}
+
+.centered-img .small.squircle.two::after {
+	background: rgba(37, 172, 162, 0.75);
+}
+
+.centered-img .small.squircle.four::after {
+	background: rgba(235, 67, 35, 0.75);
+}
+
+.centered-img .small.squircle.six::after {
+	background: rgba(208, 57, 159, 0.75);
+}
+
+.centered-img .small.squircle.eight::after {
+	background: rgba(95, 33, 203, 0.75);
+}
+
+.centered-img .large.squircle {
+	background: rgba(30, 7, 66, 0.65);
+	border: none;
+	height: 15em;
+	left: calc(50% - 7.5em);
+	position: absolute;
+	top: calc(50% - 7.5em);
+	-webkit-transform: none;
+	-moz-transform: none;
+	-webkit-transform: none;
+	-moz-transform: none;
+	transform: none;
+	width: 15em;
+}
+
+.centered-img .large.squircle.one {
+	-webkit-transform: rotateZ(45deg);
+	-moz-transform: rotateZ(45deg);
+	transform: rotateZ(45deg);
+}
+
+.centered-img .content .image-wrap {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -64px;
+	margin-left: -80px;
+}
+
+.centered-img .content .image-wrap img {
+	width: 128px;
+	height: 128px;
+}
+
+.centered-img .content h1 {
+	font-weight: lighter;
+	font-size: 1.75em;
+	margin: 0.25em auto 1em;
+	max-width: 6em;
+}
+
+/*
+** ***************** Animation **********************
+*/
+.centered-img span {
+	display: block;
+	margin-top: 50px;
+	height: 20em;
+	left: calc(50% - 10em);
+	position: absolute;
+	top: calc(50% - 10em);
+	width: 20em;
+	height: 20em;
+}
+
+.centered-img .large-squircle-two-content {
+	margin-top: 50px;
+}
+
+.centered-img .large-circles {
+	-webkit-animation: spin 10s linear infinite;
+	-moz-animation: spin 10s linear infinite;
+	animation: spin 10s linear infinite;
+}
+
+.centered-img .small-shapes {
+	-webkit-animation: spin 30s linear infinite;
+	-moz-animation: spin 30s linear infinite;
+	animation: spin 30s linear infinite;
+}
+
+.centered-img .content-squircle {
+	-webkit-animation: spin 20s linear infinite;
+	-moz-animation: spin 20s linear infinite;
+	animation: spin 20s linear infinite;
+}
+
+.glyphicon.spinning {
+	-webkit-animation: spin 2s linear infinite;
+	-moz-animation: spin 2s linear infinite;
+	animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+0% {
+	-webkit-transform: rotateZ(0);
+	-moz-transform: rotateZ(0);
+	transform: rotateZ(0);
+}
+100% {
+   -webkit-transform: rotateZ(360deg);
+   -moz-transform: rotateZ(360deg);
+   transform: rotateZ(360deg);
+}
+}
