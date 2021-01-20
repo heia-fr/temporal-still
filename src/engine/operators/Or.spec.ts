@@ -28,7 +28,7 @@ describe('testing "Or" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let and = new Or(u.getEntity('a'), u.getEntity('b'));
+        let and = new Or(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
         let r = and.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=111/111');

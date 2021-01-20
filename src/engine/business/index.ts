@@ -1,5 +1,3 @@
-import Universe from './Universe';
-
 export {
-	Universe,
-};
+    Universe,
+} from './Universe';

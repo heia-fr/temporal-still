@@ -1,17 +1,18 @@
 import { gcd } from 'src/engine/helpers';
-import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
+import { TemporalEntity, TemporalFormula } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { minimize } from './Minimize';
 
-function recursiveDependencies(universe, entity) {
-    var itr = (function() {
+function recursiveDependencies(universe: Universe, entity: TemporalEntity): any {
+    let itr: any = (() => {
         while (itr.queue.length > 0) {
-            var currentId = itr.queue.shift();
+            let currentId = itr.queue.shift();
 
             if (itr.done.indexOf(currentId) >= 0) continue;
             itr.done.push(currentId);
 
-            var current = universe.getEntity(currentId);
+            let current = universe.getEntity(currentId);
+            if (!current) continue;
             itr.queue.push.apply(itr.queue, current.getReferences());
 
             return [currentId, current];
@@ -35,101 +36,109 @@ function recursiveDependencies(universe, entity) {
  *           is a another object to copy from. if it's provided, it must be a
  *           valid Universe object.
  */
-function Universe(other) {
-    if (!other) {
-        this.dataStoreMap = new Map();
-        this.length = [0, 1];
-    } else {
-        if (!(other instanceof Object) || other.__type !== 'Universe')
-            throw new TypeError("Universe: Expected other to be a 'Universe' object");
+export class Universe {
 
-        this.dataStoreMap = new Map(other.dataStoreMap);
-        this.length = other.length;
+    public readonly __type = 'Universe';
+
+    private readonly dataStoreMap: Map<string, TemporalEntity>;
+    private length: [number, number];
+
+    constructor(other: Universe | null = null) {
+        if (!other) {
+            this.dataStoreMap = new Map();
+            this.length = [0, 1];
+        } else {
+            if (!(other instanceof Object) || other.__type !== 'Universe') {
+                throw new TypeError('Universe: Expected other to be a "Universe" object');
+            }
+
+            this.dataStoreMap = new Map(other.dataStoreMap);
+            this.length = other.length;
+        }
     }
 
-    this.__type = 'Universe';
-}
-
-Universe.prototype = {
-    constructor: Universe,
     /**
      * The length of the universe (fixed length and periodic length)
-     *
-     * @returns {[number, number]}
      */
-    getLength: function () {
+    getLength(): [number, number] {
         return this.length;
-    },
+    }
+
     /**
      * Returns an array of all the temporal entities IDs
-     *
-     * @returns {Array}
      */
-    getIds: function () {
+    getIds(): string[] {
         return [...this.dataStoreMap.keys()];
-    },
+    }
+
     /**
      * Returns an array of all the temporal entities
-     *
-     * @returns {Array}
      */
-    getEntities: function () {
+    getEntities(): TemporalEntity[] {
         return [...this.dataStoreMap.values()];
-    },
+    }
+
     /**
      * Returns a temporal entity with an id matching the provided one
      *
      * @param id an ID of enitity to fetch
-     * @returns {TemporalEntity}
      */
-    getEntity: function (id) {
+    getEntity(id: string): TemporalEntity | undefined {
         return this.dataStoreMap.get(id);
-    },
+    }
+
+    getEntityOrThrow(id: string): TemporalEntity {
+        const entity = this.getEntity(id);
+        if (!entity) {
+            throw new Error('TemporalEntity "' + id + '" doesn\'t exist');
+        }
+        return entity;
+    }
+
     /**
      * Checks whether a temporal entity with the provided ID
      * exists in the universe
      *
      * @param id of the temporal entity to check
-     * @returns {Boolean}
      */
-    containsEntity: function (id) {
+    containsEntity(id: string): boolean {
         return this.dataStoreMap.has(id);
-    },
+    }
+
     /**
      * Checks whether this universe is empty
-     *
-     * @returns {Boolean}
      */
-    isEmpty: function () {
-        return this.dataStoreMap.size == 0;
-    },
+    isEmpty(): boolean {
+        return this.dataStoreMap.size === 0;
+    }
+
     /**
      * Adds a temporal entity to the universe. The length of this later
      * is updated accordingly
      *
-     * @param signal is a TemporalEntity object to add to the universe.
+     * @param entity is a TemporalEntity object to add to the universe.
      *        if a object with the same ID exists, it gets overridden
      *        by the new one.
      */
-    putEntity: function (entity) {
-        var entityId = entity.getId();
+    putEntity(entity: TemporalEntity): void {
+        let entityId = entity.getId();
 
-        var next = recursiveDependencies(this, entity);
-        var value;
+        let next = recursiveDependencies(this, entity);
+        let value;
         while ((value = next()) != null) {
-            if (value[0] == entityId) {
-                throw new TypeError("Universe: Entity must not depend on itself (directly or indirectly)");
+            if (value[0] === entityId) {
+                throw new TypeError('Universe: Entity must not depend on itself (directly or indirectly)');
             }
         }
 
-        if (this.dataStoreMap.has(entityId)) {
-            var oldEntity = this.getEntity(entityId);
+        let oldEntity = this.getEntity(entityId);
+        if (oldEntity) {
             // Move References to Old to New entity
             entity.setReferencedBy(oldEntity.getReferencedBy());
 
             // Remove References from Old to others
-            for (var id of oldEntity.getReferences()) {
-                var other = this.getEntity(id);
+            for (let id of oldEntity.getReferences()) {
+                let other = this.getEntity(id);
                 if (other) other.removeReferencedBy(entityId);
             }
         }
@@ -137,101 +146,114 @@ Universe.prototype = {
         this.dataStoreMap.set(entityId, entity);
 
         // Add References from New to others
-        for (var id of entity.getReferences()) {
-            var other = this.getEntity(id);
+        for (let id of entity.getReferences()) {
+            let other = this.getEntity(id);
             if (other) other.addReferencedBy(entityId);
         }
 
         this.calculateMaxLength(entity);
-    },
+    }
+
     /**
      * Removes a temporal entity from the universe. The length of this later
      * is updated accordingly
      *
      * @param id is the ID of the temporal entity to remove
      */
-    removeEntity: function (id) {
-        var entity = this.getEntity(id);
+    removeEntity(id: string): void {
+        let entity = this.getEntity(id);
         if (!entity) return;
 
-        if (entity.getReferencedBy().length > 0)
-            throw new TypeError("Universe: Entity referenced by other entities");
+        if (entity.getReferencedBy().length > 0) {
+            throw new TypeError('Universe: Entity referenced by other entities');
+        }
 
         // Remove entity
         this.dataStoreMap.delete(id);
 
         // Remove references from the entity
-        for (var rid of entity.getReferences()) {
-            var other = this.getEntity(rid);
+        for (let rid of entity.getReferences()) {
+            let other = this.getEntity(rid);
             if (other) other.removeReferencedBy(id);
         }
 
         this.recalculateMaxLength();
-    },
+    }
+
     /**
      * Clears the universe and resets the initial state
      */
-    clear: function () {
+    clear(): void {
         this.dataStoreMap.clear();
         this.length = [0, 1];
-    },
+    }
+
     /**
      * Get all the direct and indirect dependencies
      * of the entity passed in parameter
      *
      * @param entity the TemporalEntity or id of the entity
      */
-    getAllDependencies: function (entity) {
-        if (typeof entity === "string") entity = this.getEntity(entity);
-        var next = recursiveDependencies(this, entity);
-        while (next() != null) {}
+    getAllDependencies(entity: TemporalEntity | string): string[] {
+        if (typeof entity === 'string') {
+            let tmp = this.getEntity(entity);
+            if (!tmp) return [];
+            entity = tmp;
+        }
+        let next = recursiveDependencies(this, entity);
+        while (next() != null) { }
         return next.done;
-    },
+    }
+
     /**
      * Reevaluate all entities in the universe
      */
-    reevaluateAllEntities: function(todo) {
+    reevaluateAllEntities(todo: string[] | null = null): void {
         if (!todo) todo = this.getIds();
-        var done = [];
+        let done: string[] = [];
 
-        for (var entityId of todo) {
+        for (let entityId of todo) {
             this.reevaluateChildrenAndEntity(entityId, done);
         }
-    },
+    }
+
     /**
      * Reevaluate an entity and all it's children entities
      * (direct and indirect)
      */
-    reevaluateChildrenAndEntity: function(entityId, done) {
+    reevaluateChildrenAndEntity(entityId: string, done: string[]): void {
         if (!done) done = [];
         if (done.indexOf(entityId) >= 0) return;
         done.push(entityId);
 
-        var entity = this.getEntity(entityId);
-        var references = entity.getReferences();
+        let entity = this.getEntity(entityId);
+        if (!entity) return;
+        let references = entity.getReferences();
 
-        for (var reference of references) {
+        for (let reference of references) {
             this.reevaluateChildrenAndEntity(reference, done);
         }
 
         let tf = TemporalEntityInterpreter.evaluate(entity.getContent(), this);
         if (tf) this.putEntity(tf);
-    },
+    }
+
     /**
      * Recalculate the max length of the universe for every signals
      */
-    recalculateMaxLength: function () {
+    recalculateMaxLength(): void {
         this.length = [0, 1];
-        for (var value of this.dataStoreMap.values()) {
+        for (let value of this.dataStoreMap.values()) {
             this.calculateMaxLength(value);
         }
-    },
+    }
+
     /**
      *
      * @param s is the boolean signal used to recalculate
      * the lengths of the universe
      */
-    calculateMaxLength: function (s) {
+    calculateMaxLength(s: any): void {
         if (s instanceof TemporalFormula) {
             s = s.getAssociatedSignal();
         }
@@ -241,7 +263,8 @@ Universe.prototype = {
         }
         this.length[1] = s.getPeriodicPartLength()
             * (this.length[1] / gcd(s.getPeriodicPartLength(), this.length[1]));
-    },
+    }
+
     /**
      * Minimize the universe. The resulting universe has only one
      * step between each transition while keeping the correction
@@ -257,12 +280,12 @@ Universe.prototype = {
      * - Signal #1: 01001/1
      * - Signal #2: 01100/0
      */
-    minimize: function() {
-        var entities = this.getEntities();
-        if (entities.length == 0) return;
+    minimize(): void {
+        let entities = this.getEntities();
+        if (entities.length === 0) return;
 
         // Compute minimized signals for the universe
-        var signals = minimize(entities, this.getLength());
+        let signals = minimize(entities, this.getLength());
 
         // Reset universe length to minimum
         this.length = [0, 1];
@@ -274,13 +297,11 @@ Universe.prototype = {
 
         // Recompute formula and universe length
         this.reevaluateAllEntities();
-    },
+    }
 
-    toJSON() {
-        var copy = Object.assign({}, this);
+    toJSON(): any {
+        let copy: any = Object.assign({}, this);
         copy.dataStoreMap = [...copy.dataStoreMap];
         return copy;
     }
-};
-
-export default Universe;
+}

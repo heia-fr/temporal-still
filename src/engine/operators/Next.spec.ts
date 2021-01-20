@@ -26,7 +26,7 @@ describe('testing "Next" constructor', () => {
         u.putEntity(new BooleanSignal('a = 101/011', null));
         Operator.setUniverseLength(u.getLength());
 
-        let not = new Next(u.getEntity('a'));
+        let not = new Next(u.getEntityOrThrow('a'));
         let r = not.performUnaryOperator();
 
         expect(r.getContent()).toEqual('a=010/110');

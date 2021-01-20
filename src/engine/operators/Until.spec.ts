@@ -32,28 +32,28 @@ describe('testing "Until" constructor', () => {
         Operator.setUniverseLength(u.getLength()); // length [5, 15]
 
         // Same as Weak Until
-        let until = new Until(u.getEntity('a'), u.getEntity('b'));
+        let until = new Until(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
         let r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('bab=11000/000000000000000');
 
-        until = new Until(u.getEntity('b'), u.getEntity('a'));
+        until = new Until(u.getEntityOrThrow('b'), u.getEntityOrThrow('a'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('aba=11101/101101101101101');
 
-        until = new Until(u.getEntity('a'), u.getEntity('c'));
+        until = new Until(u.getEntityOrThrow('a'), u.getEntityOrThrow('c'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('cac=11001/111001110001101');
 
-        until = new Until(u.getEntity('a'), u.getEntity('d'));
+        until = new Until(u.getEntityOrThrow('a'), u.getEntityOrThrow('d'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('dad=11001/111111111111111');
 
-        until = new Until(u.getEntity('c'), u.getEntity('d'));
+        until = new Until(u.getEntityOrThrow('c'), u.getEntityOrThrow('d'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('dcd=11001/111111111111111');
 
         // Different from Weak Until
-        until = new Until(u.getEntity('d'), u.getEntity('e'));
+        until = new Until(u.getEntityOrThrow('d'), u.getEntityOrThrow('e'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('ede=00000/000000000000000');
     });

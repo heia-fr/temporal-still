@@ -29,19 +29,19 @@ describe('testing "Always" constructor', () => {
         u.putEntity(new BooleanSignal('d = 1100/1'));
         Operator.setUniverseLength(u.getLength()); // length [5, 15]
 
-        let always = new Always(u.getEntity('a'));
+        let always = new Always(u.getEntityOrThrow('a'));
         let r = always.performUnaryOperator();
         expect(r.getContent()).toEqual('a=00000/000000000000000');
 
-        always = new Always(u.getEntity('b'));
+        always = new Always(u.getEntityOrThrow('b'));
         r = always.performUnaryOperator();
         expect(r.getContent()).toEqual('b=00000/000000000000000');
 
-        always = new Always(u.getEntity('c'));
+        always = new Always(u.getEntityOrThrow('c'));
         r = always.performUnaryOperator();
         expect(r.getContent()).toEqual('c=00000/000000000000000');
 
-        always = new Always(u.getEntity('d'));
+        always = new Always(u.getEntityOrThrow('d'));
         r = always.performUnaryOperator();
         expect(r.getContent()).toEqual('d=00001/111111111111111');
     });

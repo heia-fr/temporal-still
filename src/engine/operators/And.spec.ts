@@ -28,7 +28,7 @@ describe('testing "And" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let and = new And(u.getEntity('a'), u.getEntity('b'));
+        let and = new And(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
         let r = and.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=100/001');

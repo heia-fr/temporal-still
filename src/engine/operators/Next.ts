@@ -1,4 +1,4 @@
-import { TemporalEntity } from '../entities/TemporalEntity';
+import { TemporalEntity } from '../entities';
 import { TemporalOperator } from './TemporalOperator';
 
 /**

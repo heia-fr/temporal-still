@@ -31,27 +31,27 @@ describe('testing "Release" constructor', () => {
         u.putEntity(new BooleanSignal('e = 0/0', null));
         Operator.setUniverseLength(u.getLength()); // length [5, 15]
 
-        let until = new Release(u.getEntity('a'), u.getEntity('b'));
+        let until = new Release(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
         let r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('bba=10000/000000000000000');
 
-        until = new Release(u.getEntity('b'), u.getEntity('a'));
+        until = new Release(u.getEntityOrThrow('b'), u.getEntityOrThrow('a'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('aab=10000/000000000000000');
 
-        until = new Release(u.getEntity('a'), u.getEntity('c'));
+        until = new Release(u.getEntityOrThrow('a'), u.getEntityOrThrow('c'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('cca=10001/011000100001100');
 
-        until = new Release(u.getEntity('a'), u.getEntity('d'));
+        until = new Release(u.getEntityOrThrow('a'), u.getEntityOrThrow('d'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('dda=10001/111111111111111');
 
-        until = new Release(u.getEntity('c'), u.getEntity('d'));
+        until = new Release(u.getEntityOrThrow('c'), u.getEntityOrThrow('d'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('ddc=11001/111111111111111');
 
-        until = new Release(u.getEntity('d'), u.getEntity('e'));
+        until = new Release(u.getEntityOrThrow('d'), u.getEntityOrThrow('e'));
         r = until.performBinaryOperator();
         expect(r.getContent()).toEqual('eed=00000/000000000000000');
     });

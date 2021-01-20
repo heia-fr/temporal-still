@@ -28,7 +28,7 @@ describe('testing "Implies" constructor', () => {
         u.putEntity(new BooleanSignal('b = 110/011'));
         Operator.setUniverseLength(u.getLength());
 
-        let implies = new Implies(u.getEntity('a'), u.getEntity('b'));
+        let implies = new Implies(u.getEntityOrThrow('a'), u.getEntityOrThrow('b'));
         let r = implies.performBinaryOperator();
 
         expect(r.getContent()).toEqual('ab=110/011');

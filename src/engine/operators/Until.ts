@@ -1,9 +1,8 @@
-import { TemporalEntity } from '../entities/TemporalEntity';
+import { TemporalEntity, BooleanSignal } from '../entities';
 import { TemporalOperator } from './TemporalOperator';
 import { Eventually } from './Eventually';
 import { WeakUntil } from './WeakUntil';
 import { And } from './And';
-import { BooleanSignal } from '../entities';
 
 /**
  * This class represents a 'Until' operator. it inherits from TemporalOperator
