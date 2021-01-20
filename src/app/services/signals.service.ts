@@ -8,10 +8,10 @@ JSON.register('Universe', (data: any) => {
     return new Universe(data);
 });
 JSON.register('BooleanSignal', (data: any) => {
-    return new BooleanSignal(undefined, data);
+    return new BooleanSignal(null, data);
 });
 JSON.register('TemporalFormula', (data: any) => {
-    return new TemporalFormula(undefined, undefined, undefined, undefined, data);
+    return new TemporalFormula(null, null, null, null, data);
 });
 
 @Injectable({

@@ -1,9 +1,11 @@
-import TemporalEntity from './TemporalEntity';
-import BooleanSignal from './BooleanSignal';
-import TemporalFormula from './TemporalFormula';
+export {
+    TemporalEntity,
+} from './TemporalEntity';
 
 export {
-	TemporalEntity,
-	BooleanSignal,
-	TemporalFormula,
-};
+    BooleanSignal,
+} from './BooleanSignal';
+
+export {
+    TemporalFormula,
+} from './TemporalFormula';
