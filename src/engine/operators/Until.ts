@@ -1,8 +1,9 @@
 import { TemporalEntity } from '../entities/TemporalEntity';
-import TemporalOperator from './TemporalOperator';
-import Eventually from './Eventually';
-import WeakUntil from './WeakUntil';
-import And from './And';
+import { TemporalOperator } from './TemporalOperator';
+import { Eventually } from './Eventually';
+import { WeakUntil } from './WeakUntil';
+import { And } from './And';
+import { BooleanSignal } from '../entities';
 
 /**
  * This class represents a 'Until' operator. it inherits from TemporalOperator
@@ -12,7 +13,7 @@ import And from './And';
  * @see WeakUntil
  * @see And
  */
-export class Until extends (TemporalOperator as any) {
+export class Until extends TemporalOperator {
 
     constructor(left: TemporalEntity, right: TemporalEntity) {
         super(() => {
@@ -25,14 +26,14 @@ export class Until extends (TemporalOperator as any) {
         throw new Error('Until: Not implemented method');
     }
 
-    performBinaryOperator(): TemporalEntity {
+    performBinaryOperator(): BooleanSignal {
         // Use existing operators to compute current value of the signal:
         //  a U b = <>b & (a W b)
 
-        let eb: any = new Eventually(this.rightSignal);
+        let eb: any = new Eventually(this.rightSignal!);
         eb = eb.performUnaryOperator();
 
-        let awb: any = new WeakUntil(this.leftSignal, this.rightSignal);
+        let awb: any = new WeakUntil(this.leftSignal, this.rightSignal!);
         awb = awb.performBinaryOperator();
 
         let and: any = new And(eb, awb);

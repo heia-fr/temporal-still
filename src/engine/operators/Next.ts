@@ -1,18 +1,18 @@
 import { TemporalEntity } from '../entities/TemporalEntity';
-import TemporalOperator from './TemporalOperator';
+import { TemporalOperator } from './TemporalOperator';
 
 /**
  * This class represents a 'Next' operator. it inherits from TemporalOperator
- * class and passes an eval() callback to be used it the evaluation of 'NEXT'
+ * class and passes an evaluate() callback to be used it the evaluation of 'NEXT'
  * operation.
  */
-export class Next extends (TemporalOperator as any) {
+export class Next extends TemporalOperator {
 
     constructor(entity: TemporalEntity) {
-        super((index: number, _start: number, bitStr: string) => {
+        super((index: number, start: number, bitStr: string) => {
             // return the signal at time t+1 (either 0 or 1)
             return bitStr[(index + 1) % bitStr.length];
-        }, entity);
+        }, entity, null);
     }
 
     performBinaryOperator(): never {

@@ -2,34 +2,34 @@ import { Universe } from 'src/engine/business';
 import { BooleanSignal } from 'src/engine/entities';
 import { Operator, Release } from 'src/engine/operators';
 
-describe('testing "Release" constructor', function() {
+describe('testing "Release" constructor', () => {
 
     const u = new Universe(null);
 
-    afterEach(function() {
+    afterEach(() => {
         u.clear();
     });
 
-    it('"Release" Operator Should Not Have "performUnaryOperator" Implemented', function() {
-        let s1: any = new BooleanSignal('a = 1011/011010', null);
-        let s2: any = new BooleanSignal('b = 0100/001011', null);
+    it('"Release" Operator Should Not Have "performUnaryOperator" Implemented', () => {
+        let s1 = new BooleanSignal('a = 1011/011010', null);
+        let s2 = new BooleanSignal('b = 0100/001011', null);
         let until = new Release(s1, s2);
 
-        expect(function() {
+        expect(() => {
             until.performUnaryOperator();
         }).toThrow();
-        expect(function() {
+        expect(() => {
             until.performBinaryOperator();
         }).not.toThrow();
     });
 
-    it('Correct "Release" operation should pass', function() {
+    it('Correct "Release" operation should pass', () => {
         u.putEntity(new BooleanSignal('a = 101/011', null));
         u.putEntity(new BooleanSignal('b = 11/0', null));
         u.putEntity(new BooleanSignal('c = 11001/01100', null));
         u.putEntity(new BooleanSignal('d = 1100/1', null));
         u.putEntity(new BooleanSignal('e = 0/0', null));
-        Operator.prototype.setUniverseLength(u.getLength()); // length [5, 15]
+        Operator.setUniverseLength(u.getLength()); // length [5, 15]
 
         let until = new Release(u.getEntity('a'), u.getEntity('b'));
         let r = until.performBinaryOperator();

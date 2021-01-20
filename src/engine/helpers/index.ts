@@ -13,6 +13,3 @@ export {
     Revivable,
     Reviver,
 } from './JSONParser';
-
-import inheritPrototype from './Extend';
-export { inheritPrototype };

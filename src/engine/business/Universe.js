@@ -55,7 +55,7 @@ Universe.prototype = {
     /**
      * The length of the universe (fixed length and periodic length)
      *
-     * @returns {Array}
+     * @returns {[number, number]}
      */
     getLength: function () {
         return this.length;

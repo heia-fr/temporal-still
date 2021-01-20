@@ -228,7 +228,7 @@ var TemporalEntityInterpreter = function() {
             try {
                // set the universe length so all the operators can have access
                // to the same lengths
-               Operator.prototype.setUniverseLength(univ.getLength());
+               Operator.setUniverseLength(univ.getLength());
                var lexer = new Lexer(expression);
                lexer.goToNextToken();
                var entityId = expression.split(Symbols.getEqual())[0].trim();
