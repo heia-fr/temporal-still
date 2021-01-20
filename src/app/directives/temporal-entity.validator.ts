@@ -1,9 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { SignalsService } from '../services/signals.service';
-import Symbols from 'src/engine/helpers/Symbols';
-import Lexer from 'src/engine/analysers/Lexer';
-import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
+import { Symbols } from 'src/engine/helpers';
+import { Lexer, TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 
 /**
  * A directive to validate the entered signals or formula before

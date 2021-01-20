@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Symbols from 'src/engine/helpers/Symbols';
+import { Symbols } from 'src/engine/helpers';
 
 function trustAsHtml(str: string): string {
 	return str;

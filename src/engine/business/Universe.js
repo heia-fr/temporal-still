@@ -1,4 +1,4 @@
-import { Util } from 'src/engine/helpers';
+import { gcd } from 'src/engine/helpers';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { minimize } from './Minimize';
@@ -240,7 +240,7 @@ Universe.prototype = {
             this.length[0] = s.getFixedPartLength();
         }
         this.length[1] = s.getPeriodicPartLength()
-            * (this.length[1] / Util.gcd(s.getPeriodicPartLength(), this.length[1]));
+            * (this.length[1] / gcd(s.getPeriodicPartLength(), this.length[1]));
     },
     /**
      * Minimize the universe. The resulting universe has only one

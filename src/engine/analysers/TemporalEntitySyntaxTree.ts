@@ -38,7 +38,7 @@ const TemporalEntitySyntaxTree = function() {
 				lexer.goToNextToken();
 
 				if (!lexer.isGreaterThanSign())
-					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.isGreaterThanSign());
+					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
 				lexer.goToNextToken();
 
 				let thatBs = parseComponent(lexer);

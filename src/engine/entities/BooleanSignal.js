@@ -1,5 +1,5 @@
 import _random from 'lodash/random';
-import { Symbols, Util, inheritPrototype } from 'src/engine/helpers';
+import { Symbols, colors, getMinRepeatedSubstring, inheritPrototype } from 'src/engine/helpers';
 import TemporalEntity from './TemporalEntity';
 
 function removeItem(arr, value) {
@@ -55,7 +55,7 @@ inheritPrototype(BooleanSignal, TemporalEntity);
 
 BooleanSignal.prototype.minimizeSignal = function () {
    // 1) Simplify Period
-   var period = Util.getMinRepeatedSubstring(this.period);
+   var period = getMinRepeatedSubstring(this.period);
 
    // 2) Simplify Body
    var body = this.body;
@@ -209,7 +209,7 @@ BooleanSignal.prototype.calculateChartValues = function (universeLength, legendL
       {
          "key": label + " " + this.getId(),
          "values": values,
-         "color": Util.colors[_random(0, Util.colors.length - 1)]
+         "color": colors[_random(0, colors.length - 1)]
       }
    ];
 };

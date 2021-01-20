@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import Symbols from 'src/engine/helpers/Symbols';
-import Lexer from 'src/engine/analysers/Lexer';
+import { Symbols } from 'src/engine/helpers';
+import { Lexer } from 'src/engine/analysers';
 
 @Pipe({
 	name: 'temporalEntityFormatter'

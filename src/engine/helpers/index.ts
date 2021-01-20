@@ -1,11 +1,18 @@
-import inheritPrototype from './Extend';
-import Symbols from './Symbols';
-import Util from './Util';
-
-export { JSONHelper, Revivable, Reviver } from './JSONParser';
+export {
+    Symbols
+} from './Symbols';
 
 export {
-	inheritPrototype,
-	Symbols,
-	Util,
-};
+    getMinRepeatedSubstring,
+    gcd,
+    colors,
+} from './Util';
+
+export {
+    JSONHelper,
+    Revivable,
+    Reviver,
+} from './JSONParser';
+
+import inheritPrototype from './Extend';
+export { inheritPrototype };

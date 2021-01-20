@@ -2,7 +2,8 @@
 	"compileOnSave": false,
 	"compilerOptions": {
 		"baseUrl": "./",
-		"forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
 		"allowJs": true,
 		"strict": true,
 		"noImplicitReturns": true,

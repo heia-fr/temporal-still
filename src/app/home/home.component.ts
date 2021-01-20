@@ -5,8 +5,8 @@ import { NgForm } from '@angular/forms';
 import { SweetAlertOptions } from 'sweetalert2';
 import { SignalsService } from '../services/signals.service';
 import { SATService } from '../services/sat.service';
-import Symbols from 'src/engine/helpers/Symbols';
-import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
+import { Symbols } from 'src/engine/helpers';
+import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import {
 	FormulaGenerator,
 	BooleanSignalGenerator,
