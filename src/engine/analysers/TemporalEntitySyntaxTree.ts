@@ -1,175 +1,169 @@
 import { Symbols } from 'src/engine/helpers';
-import Lexer from './Lexer';
+import { Lexer } from './Lexer';
 import {
-	Operator,
-	Always,
-	Eventually,
-	Not,
-	Variable,
-	Implies,
-	WeakUntil,
-	Or,
-	And,
-	Formula,
+    Operator,
+    Always,
+    Eventually,
+    Not,
+    Variable,
+    Implies,
+    WeakUntil,
+    Or,
+    And,
+    Formula,
     Next,
     Until,
     Release,
 } from './sat/Operators';
 
-const TemporalEntitySyntaxTree = function() {
+function parseFormulaExpr(lexer: Lexer, state: any): Formula {
+    if (!lexer.isVarName()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid formula name');
+    let name = lexer.getCurrentToken();
+    lexer.goToNextToken();
 
-	function Singleton() {
+    if (!lexer.isEqualSign()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected equal sign');
+    lexer.goToNextToken();
 
-		function parseFormulaExpr(lexer: Lexer, state: any): Formula {
-			if (!lexer.isVarName()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid formula name');
-			let name = lexer.getCurrentToken();
-			lexer.goToNextToken();
+    return new Formula(name, parseFormula(lexer));
+}
 
-			if (!lexer.isEqualSign()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected equal sign');
-			lexer.goToNextToken();
+function parseFormula(lexer: Lexer): Operator {
+    let bs = parseComponent(lexer);
 
-			return new Formula(name, parseFormula(lexer));
-		}
+    while (lexer.isDash()) {
+        lexer.goToNextToken();
 
-		function parseFormula(lexer: Lexer): Operator {
-			let bs = parseComponent(lexer);
+        if (!lexer.isGreaterThanSign()) {
+            throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
+        }
+        lexer.goToNextToken();
 
-			while (lexer.isDash()) {
-				lexer.goToNextToken();
+        let thatBs = parseComponent(lexer);
+        bs = new Implies(bs, thatBs);
+    }
 
-				if (!lexer.isGreaterThanSign())
-					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
-				lexer.goToNextToken();
+    return bs;
+}
 
-				let thatBs = parseComponent(lexer);
-				bs = new Implies(bs, thatBs);
-			}
+function parseComponent(lexer: Lexer): Operator {
+    let bs = parseTerm(lexer);
 
-			return bs;
-		}
+    while (lexer.isOr()) {
+        lexer.goToNextToken();
 
-		function parseComponent(lexer: Lexer): Operator {
-			let bs = parseTerm(lexer);
+        let thatBs = parseTerm(lexer);
+        bs = new Or(bs, thatBs);
+    }
 
-			while (lexer.isOr()) {
-				lexer.goToNextToken();
+    return bs;
+}
 
-				let thatBs = parseTerm(lexer);
-				bs = new Or(bs, thatBs);
-			}
+function parseTerm(lexer: Lexer): Operator {
+    let bs = parseFactor(lexer);
 
-			return bs;
-		}
+    while (lexer.isAnd()) {
+        lexer.goToNextToken();
 
-		function parseTerm(lexer: Lexer): Operator {
-			let bs = parseFactor(lexer);
+        let thatBs = parseFactor(lexer);
+        bs = new And(bs, thatBs);
+    }
 
-			while (lexer.isAnd()) {
-				lexer.goToNextToken();
+    return bs;
+}
 
-				let thatBs = parseFactor(lexer);
-				bs = new And(bs, thatBs);
-			}
+function parseFactor(lexer: Lexer): Operator {
+    let bs = parseAtom(lexer);
 
-			return bs;
-		}
+    if (lexer.isWeaklyUntil()) {
+        lexer.goToNextToken();
 
-		function parseFactor(lexer: Lexer): Operator {
-			let bs = parseAtom(lexer);
+        let thatBs = parseAtom(lexer);
+        bs = new WeakUntil(bs, thatBs);
+    } else if (lexer.isUntil()) {
+        lexer.goToNextToken();
 
-			if (lexer.isWeaklyUntil()) {
-				lexer.goToNextToken();
+        let thatBs = parseAtom(lexer);
+        bs = new Until(bs, thatBs);
+    } else if (lexer.isRelease()) {
+        lexer.goToNextToken();
 
-				let thatBs = parseAtom(lexer);
-				bs = new WeakUntil(bs, thatBs);
-            } else if (lexer.isUntil()) {
-                lexer.goToNextToken();
+        let thatBs = parseAtom(lexer);
+        bs = new Release(bs, thatBs);
+    }
 
-                let thatBs = parseAtom(lexer);
-                bs = new Until(bs, thatBs);
-            } else if (lexer.isRelease()) {
-                lexer.goToNextToken();
+    return bs;
+}
 
-                let thatBs = parseAtom(lexer);
-                bs = new Release(bs, thatBs);
-			}
+function parseAtom(lexer: Lexer): Operator {
 
-			return bs;
-		}
+    let bs = null;
 
-		function parseAtom(lexer: Lexer): Operator {
+    if (lexer.isOpeningBracket()) {
+        lexer.goToNextToken();
 
-			let bs = null;
+        bs = parseFormula(lexer);
 
-			if (lexer.isOpeningBracket()) {
-				lexer.goToNextToken();
+        if (!lexer.isClosingBracket()) {
+            throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingBraket());
+        }
+        lexer.goToNextToken();
 
-				bs = parseFormula(lexer);
+    } else if (lexer.isNot()) {
+        lexer.goToNextToken();
 
-				if (!lexer.isClosingBracket())
-					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingBraket());
-				lexer.goToNextToken();
+        bs = parseAtom(lexer);
+        bs = new Not(bs);
 
-			} else if (lexer.isNot()) {
-				lexer.goToNextToken();
+    } else if (lexer.isNext()) {
+        lexer.goToNextToken();
 
-				bs = parseAtom(lexer);
-				bs = new Not(bs);
+        bs = parseAtom(lexer);
+        bs = new Next(bs);
 
-            } else if (lexer.isNext()) {
-                lexer.goToNextToken();
+    } else if (lexer.isOpeningSquareBracket()) {
+        lexer.goToNextToken();
 
-                bs = parseAtom(lexer);
-                bs = new Next(bs);
+        if (!lexer.isClosingSquareBracket()) {
+            throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingSquareBraket());
+        }
+        lexer.goToNextToken();
 
-			} else if (lexer.isOpeningSquareBracket()) {
-				lexer.goToNextToken();
+        bs = parseAtom(lexer);
+        bs = new Always(bs);
 
-				if (!lexer.isClosingSquareBracket())
-					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getClosingSquareBraket());
-				lexer.goToNextToken();
+    } else if (lexer.isLessThanSign()) {
+        lexer.goToNextToken();
 
-				bs = parseAtom(lexer);
-				bs = new Always(bs);
+        if (!lexer.isGreaterThanSign()) {
+            throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
+        }
+        lexer.goToNextToken();
 
-			} else if (lexer.isLessThanSign()) {
-				lexer.goToNextToken();
+        bs = parseAtom(lexer);
+        bs = new Eventually(bs);
 
-				if (!lexer.isGreaterThanSign())
-					throw new SyntaxError('TemporalEntitySyntaxTree: Expected ' + Symbols.getGreaterThan());
-				lexer.goToNextToken();
+    } else {
+        bs = parseProp(lexer);
+    }
+    return bs;
+}
 
-				bs = parseAtom(lexer);
-				bs = new Eventually(bs);
+function parseProp(lexer: Lexer): Operator {
+    if (!lexer.isVarName()) {
+        console.log(lexer.getCurrentToken());
+        throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid variable name');
+    }
 
-			} else {
-				bs = parseProp(lexer);
-			}
-			return bs;
-		}
+    let prop = new Variable(lexer.getCurrentToken());
+    lexer.goToNextToken();
 
-		function parseProp(lexer: Lexer): Operator {
-			if (!lexer.isVarName()) {
-				console.log(lexer.getCurrentToken());
-				throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid variable name');
-			}
+    return prop;
+}
 
-			let prop = new Variable(lexer.getCurrentToken());
-			lexer.goToNextToken();
-
-			return prop;
-		}
-
-		return {
-			parse(expression: string): Formula {
-				let lexer = new Lexer(expression);
-				lexer.goToNextToken();
-				return parseFormulaExpr(lexer, {});
-			},
-		};
-	}
-
-	return Singleton();
-}();
-
-export default TemporalEntitySyntaxTree;
+export const TemporalEntitySyntaxTree = {
+    parse(expression: string): Formula {
+        let lexer = new Lexer(expression);
+        lexer.goToNextToken();
+        return parseFormulaExpr(lexer, {});
+    },
+};

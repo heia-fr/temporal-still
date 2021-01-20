@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Universe } from 'src/engine/business';
-import TemporalEntityInterpreter from 'src/engine/analysers/TemporalEntityInterpreter';
+import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { JSONHelper as JSON, Reviver } from 'src/engine/helpers';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 
