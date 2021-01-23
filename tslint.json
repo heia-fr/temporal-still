@@ -6,6 +6,7 @@
 	"rules": {
 		"align": {
 			"options": [
+				"parameters",
 				"statements"
 			]
 		},
