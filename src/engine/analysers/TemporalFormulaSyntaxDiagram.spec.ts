@@ -6,7 +6,7 @@ import { generateTemporalFormula } from 'src/engine/generators';
 import { Symbols } from 'src/engine/helpers';
 
 function generateCorrectFormulas(nbOfFormulas: number, universe: Universe): string[] {
-    const formulas = [];
+    const formulas: string[] = [];
     for (let i = 1; i <= nbOfFormulas; i++) {
         formulas.push(generateTemporalFormula(universe));
     }

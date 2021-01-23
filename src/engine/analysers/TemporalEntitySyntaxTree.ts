@@ -96,7 +96,7 @@ function parseFactor(lexer: Lexer): Operator {
 
 function parseAtom(lexer: Lexer): Operator {
 
-    let bs = null;
+    let bs: Operator;
 
     if (lexer.isOpeningBracket()) {
         lexer.goToNextToken();

@@ -163,7 +163,7 @@ export class BooleanSignal extends TemporalEntity {
         const newBody = this.calculateUpdatedFixedPart(universeLength[0]);
         const newPeriod = this.calculateUpdatedPeriodicPart(universeLength[1]);
 
-        const values = [];
+        const values: number[][] = [];
         let x = 0;
         let nextX = 1;
         let oldZ = Number(newBody.charAt(0));

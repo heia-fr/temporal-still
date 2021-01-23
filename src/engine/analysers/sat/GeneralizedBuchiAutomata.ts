@@ -138,7 +138,7 @@ export class BNode {
      */
     public expand(nodes: BNode[], pool: IdGenerator): void {
         if (this.Current.size === 0) {
-            let r = null;
+            let r: BNode | null = null;
             for (const n of nodes) {
                 if (n.Next.contentEquals(this.Next) && ((n.Id === 0 && !n.InitCollapsed) || n.Accepting.equals(this.Accepting))) {
                     r = n;

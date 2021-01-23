@@ -34,7 +34,7 @@ export function minimize(entities: TemporalEntity[], length: [number, number]): 
 
     const minimizeSignal = BooleanSignal.prototype.minimizeSignal;
 
-    const newEntities = [];
+    const newEntities: BooleanSignal[] = [];
     for (const entity of tmp) {
         if (entity.length < 3) continue;
         // Directly call minimizeSignal without

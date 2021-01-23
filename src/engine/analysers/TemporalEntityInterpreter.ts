@@ -138,7 +138,7 @@ function parseFactor(lexer: Lexer, state: Context): TemporalEntity {
 
 function parseAtom(lexer: Lexer, state: Context): TemporalEntity {
 
-    let bs = null;
+    let bs: TemporalEntity;
 
     if (lexer.isOpeningBracket()) {
         lexer.goToNextToken();
