@@ -27,11 +27,13 @@ export class Release extends TemporalOperator {
     performBinaryOperator(): BooleanSignal {
         // Use existing operators to compute current value of the signal:
         //  a R b = b W (b & a)
-
-        let and: any = new And(this.rightSignal!, this.leftSignal);
-        and = and.performBinaryOperator();
-
-        const awb: any = new WeakUntil(this.rightSignal!, and);
-        return awb.performBinaryOperator();
+        const rightSignal = this.rightSignal!;
+        return new WeakUntil(
+            rightSignal,
+            new And(
+                rightSignal,
+                this.leftSignal
+            ).performBinaryOperator()
+        ).performBinaryOperator();
     }
 }

@@ -1,3 +1,9 @@
+export interface ChartData {
+    key: string;
+    values: number[][];
+    color: string;
+}
+
 /**
  * This class defines a Temporal entity
  *
@@ -17,7 +23,7 @@ export class TemporalEntity {
     protected editable: boolean;
     protected references: string[];
     protected referencedBy: string[];
-    protected signalChartData: any;
+    protected signalChartData: ChartData[];
 
     constructor(id: string | null, content: string | null, other: TemporalEntity | null = null) {
         if (!other) {
@@ -65,7 +71,7 @@ export class TemporalEntity {
         throw new Error('Not implemented method');
     }
 
-    getChartData(): any {
+    getChartData(): ChartData[] {
         return this.signalChartData;
     }
 

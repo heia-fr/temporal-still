@@ -1,4 +1,4 @@
-import { TemporalEntity } from './TemporalEntity';
+import { ChartData, TemporalEntity } from './TemporalEntity';
 import { BooleanSignal } from './BooleanSignal';
 
 /**
@@ -53,7 +53,7 @@ export class TemporalFormula extends TemporalEntity {
         return this.booleanSignal.calculateChartValues(universeLength, 'Formula');
     }
 
-    getChartData(): any {
+    getChartData(): ChartData[] {
         return this.booleanSignal.getChartData();
     }
 

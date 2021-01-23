@@ -203,7 +203,10 @@ function parseProp(lexer: Lexer, state: Context): TemporalEntity {
         console.log(lexer.getCurrentToken());
         throw new SyntaxError('TemporalEntityInterpreter: Expected valid variable name');
     }
-    const bs = state.universe.getEntity(lexer.getCurrentToken())!;
+    const bs = state.universe.getEntity(lexer.getCurrentToken());
+    if (!bs) {
+        throw new SyntaxError('TemporalEntityInterpreter: Expected a variable present in the Universe');
+    }
     // if the boolean signal is not referenced by the temporal formula
     // that is being evaluated, then add it to the references array
     if (state.ids.indexOf(bs.getId()) < 0) {

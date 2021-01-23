@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Universe } from 'src/engine/business';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
-import { JSONHelper as JSON, Reviver } from 'src/engine/helpers';
+import { JSONHelper as JSON } from 'src/engine/helpers';
 import { BooleanSignal, TemporalFormula } from 'src/engine/entities';
 
 JSON.register('Universe', (data: any) => {

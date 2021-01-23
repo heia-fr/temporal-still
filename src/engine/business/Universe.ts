@@ -1,5 +1,5 @@
 import { gcd } from 'src/engine/helpers';
-import { TemporalEntity, TemporalFormula } from 'src/engine/entities';
+import { BooleanSignal, TemporalEntity, TemporalFormula } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 import { minimize } from './Minimize';
 
@@ -253,11 +253,13 @@ export class Universe {
      * @param s is the boolean signal used to recalculate
      * the lengths of the universe
      */
-    calculateMaxLength(s: any): void {
+    calculateMaxLength(s: TemporalEntity): void {
         if (s instanceof TemporalFormula) {
             s = s.getAssociatedSignal();
         }
-
+        if (!(s instanceof BooleanSignal)) {
+            return;
+        }
         if (s.getFixedPartLength() > this.length[0]) {
             this.length[0] = s.getFixedPartLength();
         }
@@ -299,7 +301,7 @@ export class Universe {
         this.reevaluateAllEntities();
     }
 
-    toJSON(): any {
+    toJSON(): object {
         const copy: any = Object.assign({}, this);
         copy.dataStoreMap = [...copy.dataStoreMap];
         return copy;

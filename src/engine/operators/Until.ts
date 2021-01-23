@@ -29,13 +29,15 @@ export class Until extends TemporalOperator {
         // Use existing operators to compute current value of the signal:
         //  a U b = <>b & (a W b)
 
-        let eb: any = new Eventually(this.rightSignal!);
-        eb = eb.performUnaryOperator();
-
-        let awb: any = new WeakUntil(this.leftSignal, this.rightSignal!);
-        awb = awb.performBinaryOperator();
-
-        const and: any = new And(eb, awb);
-        return and.performBinaryOperator();
+        const rightSignal = this.rightSignal!;
+        return new And(
+            new Eventually(
+                rightSignal
+            ).performUnaryOperator(),
+            new WeakUntil(
+                this.leftSignal,
+                rightSignal
+            ).performBinaryOperator()
+        ).performBinaryOperator();
     }
 }

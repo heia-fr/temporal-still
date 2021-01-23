@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { Symbols } from 'src/engine/helpers';
 import { Lexer, TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { SignalsService } from '../services/signals.service';
@@ -16,7 +16,7 @@ import { TemporalEntityValidatorDirective } from './temporal-entity.validator';
 })
 export class EditableTemporalEntityValidatorDirective extends TemporalEntityValidatorDirective {
 
-	@Input('appEditableTemporalEntityValidator') editableEntity!: any;
+	@Input('appEditableTemporalEntityValidator') editableEntity!: { id: string };
 
 	constructor(signalsService: SignalsService) {
 		super(signalsService);

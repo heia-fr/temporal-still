@@ -159,7 +159,7 @@ export class BooleanSignal extends TemporalEntity {
      * [1, 1]) and the bit 0 that follows is represented as ([1, 0], [2,
      * 0])
      */
-    calculateChartValues(universeLength: [number, number], legendLabel: string | null = null): any {
+    calculateChartValues(universeLength: [number, number], legendLabel: string | null = null): void {
         const newBody = this.calculateUpdatedFixedPart(universeLength[0]);
         const newPeriod = this.calculateUpdatedPeriodicPart(universeLength[1]);
 

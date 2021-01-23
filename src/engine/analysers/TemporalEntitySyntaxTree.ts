@@ -16,7 +16,7 @@ import {
     Release,
 } from './sat/Operators';
 
-function parseFormulaExpr(lexer: Lexer, state: any): Formula {
+function parseFormulaExpr(lexer: Lexer): Formula {
     if (!lexer.isVarName()) throw new SyntaxError('TemporalEntitySyntaxTree: Expected valid formula name');
     const name = lexer.getCurrentToken();
     lexer.goToNextToken();
@@ -164,6 +164,6 @@ export const TemporalEntitySyntaxTree = {
     parse(expression: string): Formula {
         const lexer = new Lexer(expression);
         lexer.goToNextToken();
-        return parseFormulaExpr(lexer, {});
+        return parseFormulaExpr(lexer);
     },
 };

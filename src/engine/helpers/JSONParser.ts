@@ -1,12 +1,14 @@
+type JSONData = any;
+
 export interface Revivable {
     readonly __type: string;
 }
 
 export interface Reviver<R extends Revivable> {
-    revive(data: any): R | null;
+    revive(data: JSONData): R | null;
 }
 
-export type ReviverFunction<R extends Revivable> = (data: any) => R | null;
+export type ReviverFunction<R extends Revivable> = (data: JSONData) => R | null;
 
 export class JSONParser {
 
@@ -30,15 +32,15 @@ export class JSONParser {
         return this.revivers.delete(type);
     }
 
-    public parse(value: any): any {
+    public parse(value: string): JSONData {
         return JSON.parse(value, this.reviver);
     }
 
-    public stringify(value: any): string {
+    public stringify(value: JSONData): string {
         return JSON.stringify(value);
     }
 
-    public readonly reviver = (key: string, value: any): any => {
+    public readonly reviver = (key: string, value: JSONData): JSONData => {
         if (typeof value === 'object' &&
             typeof value.__type === 'string') {
             const reviver = this.revivers.get(value.__type);

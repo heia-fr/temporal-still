@@ -1,17 +1,23 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { spawn, Thread } from 'threads';
+import { ModuleThread, spawn, Thread } from 'threads';
 
-export type SATReport = { isSatisfiable: boolean, isTautology: boolean };
-interface SATWorker {
-	checkInformation(formula: string): Promise<SATReport>;
-}
+export type SATReport = {
+    isSatisfiable: boolean;
+    isTautology: boolean;
+};
+
+type SATWorker = {
+    checkSatisfiable(formula: string): boolean;
+    checkTautology(formula: string): boolean;
+    checkInformation(formula: string): SATReport;
+};
 
 @Injectable({
 	providedIn: 'root'
 })
 export class SATService implements OnDestroy {
 
-	private worker: SATWorker | null = null;
+	private worker: ModuleThread<SATWorker> | null = null;
 	private readonly webWorkerAvailable: boolean;
 	private readonly webWorkerLoaded: Promise<void>;
 
@@ -23,8 +29,8 @@ export class SATService implements OnDestroy {
 		if (this.webWorkerAvailable) {
 			console.log('[SAT Worker] Starting...');
 			const worker = new Worker('../workers/sat.worker', { type: 'module' });
-			this.webWorkerLoaded = spawn<any>(worker).then((worker) => {
-				this.worker = worker as any as SATWorker;
+			this.webWorkerLoaded = spawn<SATWorker>(worker).then((thread) => {
+				this.worker = thread;
 				console.log('[SAT Worker] Started');
 			}, (error) => {
 				console.error('[SAT Worker] Unable to start', error);
@@ -36,10 +42,10 @@ export class SATService implements OnDestroy {
 		}
 	}
 
-	ngOnDestroy(): void {
+	async ngOnDestroy(): Promise<void> {
 		if (this.worker != null) {
 			console.error('[SAT Worker] Stopping...');
-			Thread.terminate(this.worker as any);
+			await Thread.terminate(this.worker);
 		}
 	}
 
@@ -58,6 +64,6 @@ export class SATService implements OnDestroy {
 
 	async checkInformation(formula: string): Promise<SATReport | null> {
 		if (this.worker == null) return null;
-		return await this.worker.checkInformation(formula);
+		return this.worker.checkInformation(formula);
 	}
 }
