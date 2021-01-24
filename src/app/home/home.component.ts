@@ -74,12 +74,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 			legend: {
 				radioButtonMode: false,
 			},
-			x: (d: any[]) => {
-				return d[0];
-			},
-			y: (d: any[]) => {
-				return d[1];
-			},
+			x: (d: number[]) => d[0],
+			y: (d: number[]) => d[1],
 		}
 	};
 
@@ -311,21 +307,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	trackById(index: number, entity: TemporalEntity): string {
 		return entity.getId();
-	}
-
-	reverseSortById(array: TemporalEntity[]): TemporalEntity[] {
-		return array.sort((a, b) => {
-			const p1 = a.getId();
-			const p2 = b.getId();
-			return p1 > p2 ? -1 : (p1 < p2 ? 1 : 0);
-		});
-	}
-
-	sortById(array: TemporalEntity[]): TemporalEntity[] {
-		return array.sort((a, b) => {
-			const p1 = a.getId();
-			const p2 = b.getId();
-			return p1 > p2 ? 1 : (p1 < p2 ? -1 : 0);
-		});
 	}
 }

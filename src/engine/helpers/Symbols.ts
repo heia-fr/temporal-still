@@ -154,7 +154,7 @@ export const Symbols = {
     isBinaryOp(op: string): boolean {
         return BINARY_OPS.indexOf(op) >= 0;
     },
-    isOperator(symbol: string): string {
+    isOperator(symbol: string): boolean {
         return (this.isUnaryOp(symbol) || this.isBinaryOp(symbol));
     }
 };
