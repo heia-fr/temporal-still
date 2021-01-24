@@ -1,4 +1,6 @@
-declare let $: any;
+/// <reference types="jquery"/>
+/// <reference types="bootstrap"/>
+/// <reference types="nvd3"/>
 
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -16,16 +18,11 @@ import {
 	TemporalFormula,
 } from 'src/engine/entities';
 
-type NVD3Chart = any;
-
-function nvd3WrapUpdate(chart: NVD3Chart, updateCallback: (update: () => void) => void): void {
+function nvd3WrapUpdate(chart: nv.Nvd3Element, updateCallback: (update: () => void) => void): void {
 	const oldUpdate = chart.update;
 	function Wrapper(): void {
-		let args = Array(arguments);
-		const update = oldUpdate.bind(this, args);
-		args.unshift(update);
-		args = [update].concat(args);
-		updateCallback.apply(this, args as any);
+		const update = oldUpdate.bind(this);
+		updateCallback.call(this, update);
 		chart.update = Wrapper;
 	}
 	chart.update = Wrapper;
@@ -128,8 +125,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	prepareChart(): (chart: NVD3Chart) => void {
-		return (chart: NVD3Chart) => {
+	prepareChart(): (chart: nv.LineChart) => void {
+		return (chart: nv.LineChart) => {
 			const xMax = chart.xScale().domain().slice(-1)[0];
 			chart.xAxis
 				.ticks(null)
@@ -176,12 +173,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 			chart.xAxis.ticks(d3.time.second, 1);
 
 			chart.update();
-
-			setTimeout(() => {
-				chart.xAxis.axis.ticks(d3.time.second, 1);
-
-				chart.update();
-			}, 500);
 		};
 	}
 
