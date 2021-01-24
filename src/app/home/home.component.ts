@@ -1,6 +1,5 @@
 /// <reference types="jquery"/>
 /// <reference types="bootstrap"/>
-/// <reference types="nvd3"/>
 
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -17,16 +16,6 @@ import {
 	TemporalEntity,
 	TemporalFormula,
 } from 'src/engine/entities';
-
-function nvd3WrapUpdate(chart: nv.Nvd3Element, updateCallback: (update: () => void) => void): void {
-	const oldUpdate = chart.update;
-	function Wrapper(): void {
-		const update = oldUpdate.bind(this);
-		updateCallback.call(this, update);
-		chart.update = Wrapper;
-	}
-	chart.update = Wrapper;
-}
 
 @Component({
 	selector: 'app-home',
@@ -67,7 +56,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	public nvd3Options = {
 		chart: {
-			callback: this.prepareChart(),
 			type: 'lineChart',
 			height: 70,
 			margin: {
@@ -123,57 +111,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 				signal.setEditorEnabled(false);
 			}
 		}
-	}
-
-	prepareChart(): (chart: nv.LineChart) => void {
-		return (chart: nv.LineChart) => {
-			const xMax = chart.xScale().domain().slice(-1)[0];
-			chart.xAxis
-				.ticks(null)
-				.tickValues(d3.range(xMax + 1))
-				.tickFormat(d3.format(',.0f'));
-
-			chart.yAxis
-				.ticks(null)
-				.tickValues(d3.range(2))
-				.tickFormat(d3.format(',.0f'));
-
-			nvd3WrapUpdate(chart, function(update: () => void): void {
-				update();
-
-				const fmt = this.xAxis.tickFormat();
-				const scale = this.xAxis.scale();
-				const container = d3.select(this.container).select('g.nv-x');
-				const wrap = container.selectAll('g.nv-wrap.nv-axis');
-				const g = wrap.select('g');
-				const xTicks = g.selectAll('g').select('text');
-				const axisMaxMin = wrap.selectAll('g.nv-axisMaxMin');
-
-				let lastIdx = 0;
-				xTicks.attr('transform', (d: any, i: number) => {
-					lastIdx = i;
-					if (i === 0) i = 1;
-					return 'translate(' + -scale(d) / (2 * i) + ', 0)';
-				}).text((d: any) => {
-					const v = fmt(d);
-					return ('' + v).match('NaN') ? '' : (v - 1);
-				});
-				lastIdx++;
-
-				axisMaxMin.select('text')
-					.attr('transform', (d: any) => {
-						return 'translate(' + -scale(d) / (2 * lastIdx) + ', 0)';
-					})
-					.text((d: any) => {
-						const v = fmt(d);
-						return (('' + v).match('NaN') || (v <= 0)) ? '' : (v - 1);
-					});
-			});
-
-			chart.xAxis.ticks(d3.time.second, 1);
-
-			chart.update();
-		};
 	}
 
 	/**

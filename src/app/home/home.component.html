@@ -120,7 +120,7 @@
 		<div class="panel panel-default chart-grid">
 			<div class="panel-body">
 				<div *ngFor="let signal of reverseSortById(signalsService.universe.getEntities()); trackBy: trackById;">
-					<nvd3 [options]="nvd3Options" [data]="signal.getChartData()"></nvd3>
+					<app-nvd3 [options]="nvd3Options" [data]="signal.getChartData()"></app-nvd3>
 				</div>
 			</div>
 		</div>
