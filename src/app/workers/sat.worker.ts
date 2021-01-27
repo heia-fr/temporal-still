@@ -16,10 +16,10 @@ const worker = {
 	},
 
 	checkInformation(formula: string): SATReport {
-        let ast = TemporalEntitySyntaxTree.parse(formula).content;
-        let isSatisfiable = SAT.isSatisfiable(ast);
+        const ast = TemporalEntitySyntaxTree.parse(formula).content;
+        const isSatisfiable = SAT.isSatisfiable(ast);
         // Check Tautology only if formula is Satisfiable
-        let isTautology = isSatisfiable && SAT.isTautology(ast);
+        const isTautology = isSatisfiable && SAT.isTautology(ast);
         return {
             isSatisfiable,
             isTautology,

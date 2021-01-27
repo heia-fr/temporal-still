@@ -69,7 +69,7 @@ export abstract class BinaryOperator extends Operator {
 
 	equals(op: Operator): boolean {
 		if (!(op instanceof this.constructor)) return false;
-		let bop = op as BinaryOperator;
+		const bop = op as BinaryOperator;
 		return this.left.equals(bop.left) && this.right.equals(bop.right);
 	}
 }
@@ -101,7 +101,7 @@ export class Formula extends Operator {
 
 	equals(op: Operator): boolean {
 		if (!(op instanceof this.constructor)) return false;
-		let formula = op as Formula;
+		const formula = op as Formula;
 		return this.name === formula.name && this.content.equals(formula.content);
 	}
 }

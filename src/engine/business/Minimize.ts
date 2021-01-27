@@ -1,7 +1,7 @@
 import { BooleanSignal, TemporalEntity } from 'src/engine/entities';
 
 export function minimize(entities: TemporalEntity[], length: [number, number]): BooleanSignal[] {
-    const tmp = [];
+    const tmp: ([string[], string[]] | [string[], string[], string])[] = [];
 
     // Transform String Signals to Array of 0 and 1
     for (const entity of entities) {
@@ -27,14 +27,14 @@ export function minimize(entities: TemporalEntity[], length: [number, number]): 
             }
 
             for (const entity of tmp) {
-                entity[j].splice(i, 1);
+                (entity[j] as any).splice(i, 1);
             }
         }
     }
 
     const minimizeSignal = BooleanSignal.prototype.minimizeSignal;
 
-    const newEntities = [];
+    const newEntities: BooleanSignal[] = [];
     for (const entity of tmp) {
         if (entity.length < 3) continue;
         // Directly call minimizeSignal without

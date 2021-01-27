@@ -1,5 +1,4 @@
 import { Universe } from 'src/engine/business';
-import { BooleanSignal, TemporalEntity } from 'src/engine/entities';
 import { TemporalEntityInterpreter } from 'src/engine/analysers';
 
 function getTransitions(universe: Universe): string[][] {
@@ -53,11 +52,11 @@ describe('testing Minimize function', () => {
             'i = b & []!a'
         ];
 
-        for (let entity of entities) {
-            let tf = TemporalEntityInterpreter.evaluate(entity, u);
+        for (const entity of entities) {
+            const tf = TemporalEntityInterpreter.evaluate(entity, u);
             expect(tf).not.toBeUndefined();
             expect(tf).not.toBeNull();
-            u.putEntity(tf);
+            u.putEntity(tf!);
         }
 
         // Execute minimize and keep old/new transitions

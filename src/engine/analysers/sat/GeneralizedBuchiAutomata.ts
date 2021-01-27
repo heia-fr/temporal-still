@@ -6,7 +6,7 @@ import {
 } from './Operators';
 
 function has<E extends IEquatable<E>>(set: Set<E>, search: E): boolean {
-    for (let item of set) {
+    for (const item of set) {
         if (search.equals(item)) return true;
     }
     return false;
@@ -51,7 +51,7 @@ export class Transition {
     }
 
     public transform(nodes: GNode[], node: GNode): void {
-        let e = new GEdge(node, nodes[this.destination]);
+        const e = new GEdge(node, nodes[this.destination]);
         if (this.acceptingConds === 0) {
             e.Attributes.set('acc0', true);
         } else {
@@ -70,14 +70,14 @@ export class GeneralizedBuchiAutomata {
     public static fromLTL(op: Operator): GeneralizedBuchiAutomata {
         // Create Initial node
         let counter = 0;
-        let init = new BNode(counter++, op.processUntils(0));
+        const init = new BNode(counter++, op.processUntils(0));
         if (!(op instanceof Constant) || op === Constant.FALSE) {
             init.Next.add(op);
         }
 
         // Create Automata and expand Init node
         // using Gerth et al. algorithm
-        let automata = new GeneralizedBuchiAutomata();
+        const automata = new GeneralizedBuchiAutomata();
         init.expand(automata.Nodes, () => {
             return counter++;
         });
@@ -86,8 +86,8 @@ export class GeneralizedBuchiAutomata {
     }
 
     public toGraph(automata: State[]): Graph {
-        let g = new Graph();
-        let nodes: GNode[] = [];
+        const g = new Graph();
+        const nodes: GNode[] = [];
         for (let i = 0; i < automata.length; i++) {
             if (automata[i] == null) continue;
             if (i !== automata[i].RepresentativeId) continue;
@@ -98,20 +98,20 @@ export class GeneralizedBuchiAutomata {
             if (automata[i] == null) continue;
             if (i !== automata[i].RepresentativeId) continue;
 
-            for (let t of automata[i].Transitions) {
+            for (const t of automata[i].Transitions) {
                 t.transform(nodes, nodes[i]);
             }
         }
 
-        let acceptingConds = this.Nodes[0].AcceptingConds;
+        const acceptingConds = this.Nodes[0].AcceptingConds;
         g.Attributes.set('nsets', acceptingConds === 0 ? 1 : acceptingConds);
         return g;
     }
 
     public toStates(): State[] {
-        let states: State[] = [];
-        let equivalenceClasses: BNode[] = [];
-        for (let node of this.Nodes) {
+        const states: State[] = [];
+        const equivalenceClasses: BNode[] = [];
+        for (const node of this.Nodes) {
             node.EquivalenceId = node.indexEquivalence(equivalenceClasses);
             node.transform(states);
         }
@@ -138,8 +138,8 @@ export class BNode {
      */
     public expand(nodes: BNode[], pool: IdGenerator): void {
         if (this.Current.size === 0) {
-            let r = null;
-            for (let n of nodes) {
+            let r: BNode | null = null;
+            for (const n of nodes) {
                 if (n.Next.contentEquals(this.Next) && ((n.Id === 0 && !n.InitCollapsed) || n.Accepting.equals(this.Accepting))) {
                     r = n;
                     break;
@@ -156,7 +156,7 @@ export class BNode {
                 r.expand(nodes, pool);
             }
         } else {
-            let f = this.Current.first();
+            const f = this.Current.first();
             if (f == null) throw new Error('Empty Set');
 
             this.Current.delete(f);
@@ -171,7 +171,7 @@ export class BNode {
                 this.expand(nodes, pool);
 
             } else if (f instanceof And) {
-                for (let sub of [f.left, f.right]) {
+                for (const sub of [f.left, f.right]) {
                     if (!has(this.Old, sub)) {
                         this.Current.add(sub);
                     }
@@ -184,20 +184,20 @@ export class BNode {
 
             } else if (f instanceof Or || f instanceof Until || f instanceof Release) {
                 this.Next.addAll(next1(f));
-                for (let sub of curr1(f)) {
+                for (const sub of curr1(f)) {
                     if (!has(this.Old, sub)) {
                         this.Current.add(sub);
                     }
                 }
                 this.expand(nodes, pool);
 
-                let newNode = new BNode(pool(), this.AcceptingConds);
+                const newNode = new BNode(pool(), this.AcceptingConds);
                 newNode.Incoming.addAll(this.Incoming);
                 newNode.Current.addAll(this.Current);
                 newNode.Old.addAll(this.Old);
                 newNode.Next.addAll(this.Next);
                 newNode.Accepting.or(this.Accepting);
-                for (let sub of curr2(f)) {
+                for (const sub of curr2(f)) {
                     if (!has(this.Old, sub)) {
                         newNode.Current.add(sub);
                     }
@@ -229,7 +229,7 @@ export class BNode {
 
         let current: BNode | null = this;
         while (current != null) {
-            for (let node of current.Incoming) {
+            for (const node of current.Incoming) {
                 let state = automata[node.Id];
                 if (state == null) state = automata[node.Id] = new State();
                 state.Transitions.push(new Transition(this.EquivalenceId, this.Accepting, this.AcceptingConds));

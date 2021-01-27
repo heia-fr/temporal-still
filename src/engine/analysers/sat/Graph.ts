@@ -13,7 +13,7 @@ export class Graph {
 
     public deleteNode(n: GNode): void {
         this.Nodes.delete(n);
-        if (this.Init == n) {
+        if (this.Init === n) {
             if (this.Nodes.size > 0) {
                 this.Init = this.Nodes.first();
             } else {
@@ -34,8 +34,8 @@ export class GNode {
     }
 
     public delete(): void {
-        for (let e of this.OutgoingEdges) e.delete();
-        for (let e of this.IncomingEdges) e.delete();
+        for (const e of this.OutgoingEdges) e.delete();
+        for (const e of this.IncomingEdges) e.delete();
         this.Graph.deleteNode(this);
     }
 }

@@ -14,7 +14,10 @@ import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { HowToComponent } from './howto/howto.component';
 
+import { NvD3Component } from './components/nvd3.component';
+
 import { TemporalEntityFormatterPipe } from './pipes/temporal-entity-formatter.pipe';
+import { SortByPipe } from './pipes/sort-by.pipe';
 
 import { TemporalEntityValidatorDirective } from './directives/temporal-entity.validator';
 import { EditableTemporalEntityValidatorDirective } from './directives/editable-temporal-entity.validator';
@@ -30,8 +33,10 @@ import { OnEscapeDirective } from './directives/on-escape.directive';
 		AboutComponent,
 		HomeComponent,
 		HowToComponent,
+        NvD3Component,
 		// Pipes
 		TemporalEntityFormatterPipe,
+        SortByPipe,
 		// Validators
 		TemporalEntityValidatorDirective,
 		EditableTemporalEntityValidatorDirective,

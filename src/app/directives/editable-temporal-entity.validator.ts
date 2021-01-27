@@ -1,8 +1,7 @@
 import { Directive, Input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
-import Symbols from 'src/engine/helpers/Symbols';
-import Lexer from 'src/engine/analysers/Lexer';
-import { TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
+import { Symbols } from 'src/engine/helpers';
+import { Lexer, TemporalEntitySyntaxDiagram } from 'src/engine/analysers';
 import { SignalsService } from '../services/signals.service';
 import { TemporalEntityValidatorDirective } from './temporal-entity.validator';
 
@@ -17,7 +16,7 @@ import { TemporalEntityValidatorDirective } from './temporal-entity.validator';
 })
 export class EditableTemporalEntityValidatorDirective extends TemporalEntityValidatorDirective {
 
-	@Input('appEditableTemporalEntityValidator') editableEntity!: any;
+	@Input('appEditableTemporalEntityValidator') editableEntity!: { id: string };
 
 	constructor(signalsService: SignalsService) {
 		super(signalsService);
@@ -26,26 +25,26 @@ export class EditableTemporalEntityValidatorDirective extends TemporalEntityVali
 	validate(control: AbstractControl): ValidationErrors | null {
 		if (control.value == null) return null;
 
-		let value = (control.value as string).trim();
+		const value = (control.value as string).trim();
 		if (value.length === 0) return null;
 
 		if (!TemporalEntitySyntaxDiagram.isValid(value)) {
 			return { entity: 'Invalid signal or formula' };
 		}
 
-		let entityInfo = value.split(Symbols.getEqual(), 2);
+		const entityInfo = value.split(Symbols.getEqual(), 2);
 
 		// the ID must not be changed
-		let entityId = entityInfo[0].trim();
+		const entityId = entityInfo[0].trim();
 		if (entityId !== this.editableEntity.id) {
 			return { entity: 'Formula or Signal name must not change' };
 		}
 
 		// Verify that all of the referenced signals exist
 		// in the universe
-		let lexer = new Lexer(entityInfo[1].trim());
+		const lexer = new Lexer(entityInfo[1].trim());
 		while (!lexer.hasNoMoreChars()) {
-			let errs = this.validateIfVariable(entityId, lexer);
+			const errs = this.validateIfVariable(entityId, lexer);
 			if (errs) return errs;
 			lexer.goToNextToken();
 		}

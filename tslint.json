@@ -6,6 +6,7 @@
 	"rules": {
 		"align": {
 			"options": [
+				"parameters",
 				"statements"
 			]
 		},
@@ -69,7 +70,7 @@
 			true,
 			"as-needed"
 		],
-		"prefer-const": false,
+		"prefer-const": true,
 		"quotemark": [
 			true,
 			"single"

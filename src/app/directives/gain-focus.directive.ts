@@ -16,7 +16,7 @@ export class GainFocusDirective implements OnInit, OnChanges {
 
 	ngOnChanges(): void {
 		if (this.isFocused) {
-			let element = this.hostElement.nativeElement;
+			const element = this.hostElement.nativeElement;
 			setTimeout(() => {
 				element.focus();
 			});

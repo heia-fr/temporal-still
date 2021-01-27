@@ -1,27 +1,15 @@
-import Operator from './Operator';
-import TemporalOperator from './TemporalOperator';
+export { Operator } from './Operator';
+export { TemporalOperator } from './TemporalOperator';
 
-import And from './And';
-import Or from './Or';
-import Not from './Not';
+export { And } from './And';
+export { Or } from './Or';
+export { Not } from './Not';
 
-import Always from './Always';
-import Eventually from './Eventually';
-import Implies from './Implies';
-import WeakUntil from './WeakUntil';
+export { Always } from './Always';
+export { Eventually } from './Eventually';
+export { Implies } from './Implies';
+export { WeakUntil } from './WeakUntil';
 
 export { Next } from './Next';
 export { Until } from './Until';
 export { Release } from './Release';
-
-export {
-	Operator,
-	TemporalOperator,
-	And,
-	Or,
-	Not,
-	Always,
-	Eventually,
-	Implies,
-	WeakUntil,
-};
