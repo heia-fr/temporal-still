@@ -253,18 +253,19 @@ export class Universe {
      * @param s is the boolean signal used to recalculate
      * the lengths of the universe
      */
-    calculateMaxLength(s: TemporalEntity): void {
+    calculateMaxLength(s: TemporalEntity): [number, number] {
         if (s instanceof TemporalFormula) {
             s = s.getAssociatedSignal();
         }
         if (!(s instanceof BooleanSignal)) {
-            return;
+            return this.length;
         }
         if (s.getFixedPartLength() > this.length[0]) {
             this.length[0] = s.getFixedPartLength();
         }
         this.length[1] = s.getPeriodicPartLength()
             * (this.length[1] / gcd(s.getPeriodicPartLength(), this.length[1]));
+        return this.length;
     }
 
     /**

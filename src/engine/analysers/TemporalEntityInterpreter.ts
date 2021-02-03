@@ -10,6 +10,7 @@ import {
 interface Universe {
     getLength(): [number, number];
     getEntity(entityId: string): TemporalEntity | undefined;
+    calculateMaxLength(s: TemporalEntity): [number, number];
 }
 interface Context {
     entityId: string;
@@ -145,6 +146,8 @@ function parseAtom(lexer: Lexer, state: Context): TemporalEntity {
 
         if (lexer.isZero() || lexer.isOne()) {
             bs = parseSignal(lexer, state);
+            const length = state.universe.calculateMaxLength(bs);
+            Operator.setUniverseLength(length);
         } else {
             bs = parseFormula(lexer, state);
         }
